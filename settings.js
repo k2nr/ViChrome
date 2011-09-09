@@ -91,9 +91,12 @@ var SettingManager = {
     },
 
     isValidKeySeqAvailable : function(keySeq) {
-        regexp = new RegExp( "^" + keySeq );
+        // since escaping meta character for regexp is so complex that
+        // using regexp to compare should cause bugs, using slice & comparison
+        // with '==' may be a better & simple way.
         for (var i=0; i < this.availableKeySeq.length; i++) {
-            if( regexp.test( this.availableKeySeq[i] ) >= 0 ) {
+            cmpStr = this.availableKeySeq[i].slice( 0, keySeq.length );
+            if( keySeq == cmpStr ) {
                 return true;
             }
         }
