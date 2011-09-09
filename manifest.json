@@ -19,7 +19,7 @@
       "js": [
              "keys.js",
              "utils.js",
-             "content_script.js"
+             "eventhandlers.js"
             ],
       "run_at": "document_start",
       "all_frames": true
