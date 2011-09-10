@@ -11,7 +11,7 @@
     left: 3px;
     bottom:3px;
     height: auto;
-    width: 400px;
+    width: 45%;
     z-index: 100000;
 }
 
@@ -30,4 +30,14 @@
 
 #vichromecandbox {
 
+}
+
+.highlight {
+    background-color: LightYellow;
+    color: black;
+}
+
+.highlightFocus {
+    background-color: orange !important;
+    color: black !important;
 }

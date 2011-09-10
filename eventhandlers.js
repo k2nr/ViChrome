@@ -5,25 +5,29 @@ var modeSearch;
 var modeCommand;
 var modeF;
 var settings = [];
+var currentSearchCnt = 0;
 
 var reqListeners = {
-     scrollUp      : reqScrollUp
-    ,scrollDown    : reqScrollDown
-    ,scrollLeft    : reqScrollLeft
-    ,scrollRight   : reqScrollRight
-    ,pageHalfUp    : reqPageHalfUp
-    ,pageHalfDown  : reqPageHalfDown
-    ,pageUp        : reqPageUp
-    ,pageDown      : reqPageDown
-    ,goTop         : reqGoTop
-    ,goBottom      : reqGoBottom
-    ,reloadTab     : reqReloadTab
-    ,backHist      : reqBackHist
-    ,forwardHist   : reqForwardHist
-    ,goCommandMode : reqGoCommandMode
-    ,goSearchMode  : reqGoSearchMode
-    ,goFMode       : reqGoFMode
-    ,blur          : reqBlur
+     scrollUp             : reqScrollUp
+    ,scrollDown           : reqScrollDown
+    ,scrollLeft           : reqScrollLeft
+    ,scrollRight          : reqScrollRight
+    ,pageHalfUp           : reqPageHalfUp
+    ,pageHalfDown         : reqPageHalfDown
+    ,pageUp               : reqPageUp
+    ,pageDown             : reqPageDown
+    ,goTop                : reqGoTop
+    ,goBottom             : reqGoBottom
+    ,reloadTab            : reqReloadTab
+    ,backHist             : reqBackHist
+    ,forwardHist          : reqForwardHist
+    ,goCommandMode        : reqGoCommandMode
+    ,goSearchModeForward  : reqGoSearchModeForward
+    ,goSearchModeBackward : reqGoSearchModeBackward
+    ,goFMode              : reqGoFMode
+    ,nextSearch           : reqNextSearch
+    ,prevSearch           : reqPrevSearch
+    ,blur                 : reqBlur
 }
 
 function reqScrollDown () {
@@ -87,10 +91,22 @@ function reqGoCommandMode () {
     }
 }
 
-function reqGoSearchMode () {
-    modeSearch = true;
-    View.showCommandBox("/");
-    View.focusCommandBox();
+function reqGoSearchModeForward () {
+    if( !modeSearch ) {
+        currentSearchCnt = 0;
+        modeSearch = true;
+        View.showCommandBox("/");
+        View.focusCommandBox();
+    }
+}
+
+function reqGoSearchModeBackward () {
+    if( !modeSearch ) {
+        currentSearchCnt = 0;
+        modeSearch = true;
+        View.showCommandBox("/");
+        View.focusCommandBox();
+    }
 }
 
 function reqGoFMode () {
@@ -99,6 +115,14 @@ function reqGoFMode () {
 
 function reqReloadTab() {
     window.location.reload();
+}
+
+function reqNextSearch() {
+    found = goNextSearchResult( {wrap : true, backward : false} );
+}
+
+function reqPrevSearch() {
+    found = goNextSearchResult( {wrap : true, backward : true} );
 }
 
 function onBlur (e) {
@@ -117,9 +141,29 @@ function onKeyDown (e) {
 
 function onKeyPress (e) {
     Logger.d( "onKeyPress", e );
-
     if( preHandleKeyEvent(e) ) {
         postKeyMessage(e);
+    }
+}
+
+function onKeyUp (e) {
+    Logger.d( "onKeyUp", e );
+    if(!isInSearchMode()) {
+        return;
+    }
+
+    var str = View.getCommandBoxValue();
+    // the first character is always "/" so the char to search starts from 1
+    var search = str.slice( 1, str.length );
+    if(search.length > 0) {
+        currentSearchCnt = 0;
+        View.searchAndHighlight( search );
+        if( View.getSearchResultCnt() == 0 )
+            return;
+
+        View.moveToSearchResult( currentSearchCnt );
+    } else {
+        View.removeHighlight();
     }
 }
 
@@ -144,6 +188,40 @@ function isOnlyModifier (e) {
     }
 }
 
+function goNextSearchResult (options) {
+    var wrap     = options.wrap;
+    var backward = options.backward;
+    if( wrap == undefined ) {
+        wrap = false;
+    }
+    if( backward == undefined ) {
+        backward = false;
+    }
+
+    var total = View.getSearchResultCnt();
+    if( backward )
+        currentSearchCnt--;
+    else
+        currentSearchCnt++;
+
+    if( !backward && currentSearchCnt >= total) {
+        if( wrap ) {
+            currentSearchCnt = 0;
+        } else {
+            return false;
+        }
+    } else if( backward && currentSearchCnt < 0 ) {
+        if( wrap ) {
+            currentSearchCnt = total - 1;
+        } else {
+            return false;
+        }
+    }
+
+    View.moveToSearchResult( currentSearchCnt );
+    return true;
+}
+
 // decide whether to post the key event and do some pre-post process
 // return true if the key event can be posted.
 function preHandleKeyEvent (e) {
@@ -157,14 +235,31 @@ function preHandleKeyEvent (e) {
 
     if( isInSearchMode() || isInCommandMode() ) {
         // TODO:
-        if( View.getCommandBoxValue() == "" &&
+        if( View.getCommandBoxValue().length == 1 &&
                 e.keyCode == keyCodes.BS) {
                 enterNormalMode();
+                event.stopPropagation();
         }
     }
 
     // TODO:commandmode
-    if(isInInsertMode() || isInCommandMode()){
+    if( isInSearchMode() ) {
+        if(e.type == "keydown") {
+            if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
+                View.removeHighlight();
+                return true;
+            } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
+                return true;
+            } else if( e.ctrlKey ) {
+                return true;
+            }
+        } else if(e.type == "keypress" && e.keyCode == keyCodes.CR) {
+            enterNormalMode();
+            return false;
+        } else {
+            return false;
+        }
+    } else if(isInInsertMode() || isInCommandMode()){
         if(e.type == "keydown") {
             if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                 return true;
@@ -303,6 +398,7 @@ function addWindowListeners() {
     window.addEventListener("keypress"   , onKeyPress   , true);
     window.addEventListener("focus"      , onFocus      , true);
     window.addEventListener("blur"       , onBlur       , true);
+    window.addEventListener("keyup"      , onKeyUp      , true);
 }
 
 function addRequestListener() {
