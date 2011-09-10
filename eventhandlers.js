@@ -2,21 +2,28 @@ var keyPort;
 var settingPort;
 var modeInsert;
 var modeSearch;
+var modeCommand;
+var modeF;
 var settings = [];
 
 var reqListeners = {
-     scrollUp    : reqScrollUp
-    ,scrollDown  : reqScrollDown
-    ,scrollLeft  : reqScrollLeft
-    ,scrollRight : reqScrollRight
-    ,pageUp      : reqPageUp
-    ,pageDown    : reqPageDown
-    ,goTop       : reqGoTop
-    ,goBottom    : reqGoBottom
-    ,reloadTab   : reqReloadTab
-    ,backHist    : reqBackHist
-    ,forwardHist : reqForwardHist
-    ,blur        : reqBlur
+     scrollUp      : reqScrollUp
+    ,scrollDown    : reqScrollDown
+    ,scrollLeft    : reqScrollLeft
+    ,scrollRight   : reqScrollRight
+    ,pageHalfUp    : reqPageHalfUp
+    ,pageHalfDown  : reqPageHalfDown
+    ,pageUp        : reqPageUp
+    ,pageDown      : reqPageDown
+    ,goTop         : reqGoTop
+    ,goBottom      : reqGoBottom
+    ,reloadTab     : reqReloadTab
+    ,backHist      : reqBackHist
+    ,forwardHist   : reqForwardHist
+    ,goCommandMode : reqGoCommandMode
+    ,goSearchMode  : reqGoSearchMode
+    ,goFMode       : reqGoFMode
+    ,blur          : reqBlur
 }
 
 function reqScrollDown () {
@@ -35,12 +42,20 @@ function reqScrollRight () {
     window.scrollBy( settings["scrollPixelCount"], 0 );
 }
 
-function reqPageDown () {
+function reqPageHalfDown () {
     window.scrollBy( 0, window.innerHeight / 2 );
 }
 
-function reqPageUp () {
+function reqPageHalfUp () {
     window.scrollBy( 0, -window.innerHeight / 2 );
+}
+
+function reqPageDown () {
+    window.scrollBy( 0, window.innerHeight );
+}
+
+function reqPageUp () {
+    window.scrollBy( 0, -window.innerHeight );
 }
 
 function reqGoTop () {
@@ -61,6 +76,25 @@ function reqForwardHist () {
 
 function reqBlur () {
     document.activeElement.blur();
+    enterNormalMode();
+}
+
+function reqGoCommandMode () {
+    if( !modeCommand ) {
+        modeCommand = true;
+        View.showCommandBox(":");
+        View.focusCommandBox();
+    }
+}
+
+function reqGoSearchMode () {
+    modeSearch = true;
+    View.showCommandBox("/");
+    View.focusCommandBox();
+}
+
+function reqGoFMode () {
+    // TODO
 }
 
 function reqReloadTab() {
@@ -69,7 +103,7 @@ function reqReloadTab() {
 
 function onBlur (e) {
     Logger.d("onBlur");
-    exitInsertMode();
+    modeInsert = false;
 }
 
 
@@ -121,9 +155,16 @@ function preHandleKeyEvent (e) {
         return false;
     }
 
-    // TODO:search mode
+    if( isInSearchMode() || isInCommandMode() ) {
+        // TODO:
+        if( View.getCommandBoxValue() == "" &&
+                e.keyCode == keyCodes.BS) {
+                enterNormalMode();
+        }
+    }
 
-    if(isInInsertMode()){
+    // TODO:commandmode
+    if(isInInsertMode() || isInCommandMode()){
         if(e.type == "keydown") {
             if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                 return true;
@@ -185,20 +226,26 @@ function preHandleKeyEvent (e) {
 
 
 function onFocus (e) {
+    Logger.d("onFocus", e.target.id );
+    if(isInCommandMode() || isInSearchMode())
+        return;
     if( isEditable(e.target) ) {
         enterInsertMode();
     } else {
-        exitInsertMode();
+        enterNormalMode();
     }
-    Logger.d("onFocus:insertMode=" + isInInsertMode() );
 }
 
 function enterInsertMode () {
     modeInsert = true;
 }
 
-function exitInsertMode () {
+function enterNormalMode () {
     modeInsert = false;
+    modeCommand = false;
+    modeSearch = false;
+
+    View.hideCommandBox();
 }
 
 function isInInsertMode () {
@@ -207,6 +254,14 @@ function isInInsertMode () {
 
 function isInSearchMode () {
     return modeSearch;
+}
+
+function isInCommandMode () {
+    return modeCommand;
+}
+
+function isInFMode () {
+    return modeF;
 }
 
 function isEditable (target) {
@@ -237,9 +292,10 @@ function onSettingUpdated (msg) {
 function setupPorts() {
     keyPort     = chrome.extension.connect({ name : "key" });
 
-    settingPort = chrome.extension.connect({ name : "reqSettings" });
+    settingPort = chrome.extension.connect({ name : "settings" });
     settingPort.onMessage.addListener( onSettingUpdated );
-    settingPort.postMessage({ name : "all" });
+    settingPort.postMessage({ type : "get",
+                              name : "all" });
 }
 
 function addWindowListeners() {
@@ -251,8 +307,11 @@ function addWindowListeners() {
 
 function addRequestListener() {
     chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
+        Logger.d("request received:", req)
         if(reqListeners[req.command]) {
             reqListeners[req.command]();
+        } else {
+            Logger.e("INVALID REQUEST received!:", req)
         }
 
         sendResponse();
@@ -275,7 +334,7 @@ function init () {
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-    // DELTEME: onEnable should be triggered from background page.
+    // TODO: onEnable should be triggered from background page.
     onEnabled();
 });
 

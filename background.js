@@ -1,6 +1,7 @@
+var ports = {};
 var portListeners = {
      key         : onKeyDown
-    ,reqSettings : reqGetSettings
+    ,settings    : reqSettings
 }
 
 function onKeyDown (msg) {
@@ -12,10 +13,19 @@ function onKeyDown (msg) {
     }
 }
 
-function reqGetSettings (msg, port) {
-    sendMsg = {name : msg.name};
+function reqSettings (msg, port) {
+    if( msg.type == "get" ) {
+        getSettings( msg, port );
+    } else if( msg.type == "set" ) {
+        setSettings( msg, port );
+    }
+}
 
-    if(msg.name == "all") {
+function getSettings (msg, port) {
+    var sendMsg = {};
+    sendMsg["name"] = msg.name;
+
+    if( msg.name == "all" ) {
         sendMsg["value"] = SettingManager.getAll();
     } else {
         sendMsg["value"] = SettingManager.get(msg.name);
@@ -24,9 +34,21 @@ function reqGetSettings (msg, port) {
     port.postMessage( sendMsg );
 }
 
+function setSettings (msg, port) {
+    SettingManager.set( msg.name, msg.value );
+}
+
+function notifySettingUpdated(name, value) {
+    var sendMsg = { name : name, value : value };
+    ports["settings"].postMessage( sendMsg );
+}
+
 function init () {
     chrome.extension.onConnect.addListener(function(port) {
         port.onMessage.addListener( portListeners[port.name] );
+        ports[port.name] = port;
     });
+
+    SettingManager.setCb = notifySettingUpdated;
 }
 

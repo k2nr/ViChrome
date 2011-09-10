@@ -9,12 +9,17 @@ var commandTable = {
     ,scrollDown      : sendRequestToSelectedTab
     ,scrollLeft      : sendRequestToSelectedTab
     ,scrollRight     : sendRequestToSelectedTab
+    ,pageHalfUp      : sendRequestToSelectedTab
+    ,pageHalfDown    : sendRequestToSelectedTab
     ,pageUp          : sendRequestToSelectedTab
     ,pageDown        : sendRequestToSelectedTab
     ,goTop           : sendRequestToSelectedTab
     ,goBottom        : sendRequestToSelectedTab
     ,backHist        : sendRequestToSelectedTab
     ,forwardHist     : sendRequestToSelectedTab
+    ,goCommandMode   : sendRequestToSelectedTab
+    ,goSearchMode    : sendRequestToSelectedTab
+    ,goFMode         : sendRequestToSelectedTab
     ,escape          : escape
 }
 
@@ -87,18 +92,17 @@ function executeCommand (com) {
 
 function sendRequestToSelectedTab (com) {
     chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.sendRequest(tab.id, {command:com}, null);
+        chrome.tabs.sendRequest(tab.id, {command:com}, function(){});
     });
 }
 
 function openNewTab () {
-    chrome.tabs.create({}, function(tab){ });
+    chrome.tabs.create({}, function(tab){});
 }
 
 function closeCurTab () {
     chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.remove(tab.id, function(){
-        });
+        chrome.tabs.remove(tab.id, function(){});
     });
 }
 
