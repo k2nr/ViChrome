@@ -1,0 +1,33 @@
+#vichromebox {
+    background-color: rgba(64, 64, 64, 0.6);
+    color: #fff;
+    border-radius: 0px;
+    display: none;
+    overflow: auto;
+    position: fixed;
+    text-align: left;
+    padding: 0px 0px;
+    margin: 0;
+    left: 3px;
+    bottom:3px;
+    height: auto;
+    width: 400px;
+    z-index: 100000;
+}
+
+#vichromeinput {
+    outline: none;
+    border: none;
+    background: none;
+    -webkit-box-shadow: none;
+    width: 97%;
+    height: auto;
+    padding: 0;
+    margin: 0px 5px;
+    font-size: 18px;
+    color: #fff;
+}
+
+#vichromecandbox {
+
+}
