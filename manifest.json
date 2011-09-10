@@ -25,7 +25,8 @@
           "lib/jquery.highlight-3.js",
           "keys.js",
           "view.js",
-          "eventhandlers.js"
+          "eventhandlers.js",
+          "vichrome.js"
       ],
       "run_at": "document_start",
       "all_frames": false

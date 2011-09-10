@@ -1,11 +1,5 @@
 var keyPort;
 var settingPort;
-var modeInsert;
-var modeSearch;
-var modeCommand;
-var modeF;
-var settings = [];
-var currentSearchCnt = 0;
 
 var reqListeners = {
      scrollUp             : reqScrollUp
@@ -31,19 +25,19 @@ var reqListeners = {
 }
 
 function reqScrollDown () {
-    window.scrollBy( 0, settings["scrollPixelCount"] );
+    window.scrollBy( 0, Vichrome.settings["scrollPixelCount"] );
 }
 
 function reqScrollUp () {
-    window.scrollBy( 0, -settings["scrollPixelCount"] );
+    window.scrollBy( 0, -Vichrome.settings["scrollPixelCount"] );
 }
 
 function reqScrollLeft () {
-    window.scrollBy( -settings["scrollPixelCount"], 0 );
+    window.scrollBy( -Vichrome.settings["scrollPixelCount"], 0 );
 }
 
 function reqScrollRight () {
-    window.scrollBy( settings["scrollPixelCount"], 0 );
+    window.scrollBy( Vichrome.settings["scrollPixelCount"], 0 );
 }
 
 function reqPageHalfDown () {
@@ -80,31 +74,31 @@ function reqForwardHist () {
 
 function reqBlur () {
     document.activeElement.blur();
-    enterNormalMode();
+    Vichrome.enterNormalMode();
 }
 
 function reqGoCommandMode () {
-    if( !modeCommand ) {
-        modeCommand = true;
+    if( !Vichrome.isInCommandMode() ) {
+        Vichrome.enterCommandMode();
         View.showCommandBox(":");
         View.focusCommandBox();
     }
 }
 
 function reqGoSearchModeForward () {
-    if( !modeSearch ) {
-        currentSearchCnt = 0;
-        modeSearch = true;
+    if( !Vichrome.isInSearchMode() ) {
+        Vichrome.currentSearchCnt = 0;
+        Vichrome.enterSearchMode();
         View.showCommandBox("/");
         View.focusCommandBox();
     }
 }
 
 function reqGoSearchModeBackward () {
-    if( !modeSearch ) {
-        currentSearchCnt = 0;
-        modeSearch = true;
-        View.showCommandBox("/");
+    if( !Vichrome.isInSearchMode() ) {
+        Vichrome.currentSearchCnt = 0;
+        Vichrome.enterSearchMode();
+        View.showCommandBox("?");
         View.focusCommandBox();
     }
 }
@@ -118,16 +112,16 @@ function reqReloadTab() {
 }
 
 function reqNextSearch() {
-    found = goNextSearchResult( {wrap : true, backward : false} );
+    var found = Vichrome.goNextSearchResult( {wrap : true, backward : false} );
 }
 
 function reqPrevSearch() {
-    found = goNextSearchResult( {wrap : true, backward : true} );
+    var found = Vichrome.goNextSearchResult( {wrap : true, backward : true} );
 }
 
 function onBlur (e) {
     Logger.d("onBlur");
-    modeInsert = false;
+    Vichrome.modeInsert = false;
 }
 
 
@@ -148,7 +142,7 @@ function onKeyPress (e) {
 
 function onKeyUp (e) {
     Logger.d( "onKeyUp", e );
-    if(!isInSearchMode()) {
+    if(!Vichrome.isInSearchMode()) {
         return;
     }
 
@@ -156,7 +150,6 @@ function onKeyUp (e) {
     // the first character is always "/" so the char to search starts from 1
     var search = str.slice( 1, str.length );
     if(search.length > 0) {
-        currentSearchCnt = 0;
         View.searchAndHighlight( search );
         if( View.getSearchResultCnt() == 0 )
             return;
@@ -188,40 +181,6 @@ function isOnlyModifier (e) {
     }
 }
 
-function goNextSearchResult (options) {
-    var wrap     = options.wrap;
-    var backward = options.backward;
-    if( wrap == undefined ) {
-        wrap = false;
-    }
-    if( backward == undefined ) {
-        backward = false;
-    }
-
-    var total = View.getSearchResultCnt();
-    if( backward )
-        currentSearchCnt--;
-    else
-        currentSearchCnt++;
-
-    if( !backward && currentSearchCnt >= total) {
-        if( wrap ) {
-            currentSearchCnt = 0;
-        } else {
-            return false;
-        }
-    } else if( backward && currentSearchCnt < 0 ) {
-        if( wrap ) {
-            currentSearchCnt = total - 1;
-        } else {
-            return false;
-        }
-    }
-
-    View.moveToSearchResult( currentSearchCnt );
-    return true;
-}
-
 // decide whether to post the key event and do some pre-post process
 // return true if the key event can be posted.
 function preHandleKeyEvent (e) {
@@ -233,17 +192,17 @@ function preHandleKeyEvent (e) {
         return false;
     }
 
-    if( isInSearchMode() || isInCommandMode() ) {
+    if( Vichrome.isInSearchMode() || Vichrome.isInCommandMode() ) {
         // TODO:
         if( View.getCommandBoxValue().length == 1 &&
                 e.keyCode == keyCodes.BS) {
-                enterNormalMode();
+                Vichrome.enterNormalMode();
                 event.stopPropagation();
         }
     }
 
     // TODO:commandmode
-    if( isInSearchMode() ) {
+    if( Vichrome.isInSearchMode() ) {
         if(e.type == "keydown") {
             if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                 View.removeHighlight();
@@ -254,13 +213,13 @@ function preHandleKeyEvent (e) {
                 return true;
             }
         } else if(e.type == "keypress" && e.keyCode == keyCodes.CR) {
-            enterNormalMode();
+            Vichrome.enterNormalMode();
             return false;
         } else {
             return false;
         }
-    } else if(isInInsertMode() || isInCommandMode()){
-        if(e.type == "keydown") {
+    } else if( Vichrome.isInInsertMode() || Vichrome.isInCommandMode() ){
+        if( e.type == "keydown" ) {
             if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                 return true;
             } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
@@ -319,68 +278,26 @@ function preHandleKeyEvent (e) {
     }
 }
 
-
 function onFocus (e) {
     Logger.d("onFocus", e.target.id );
-    if(isInCommandMode() || isInSearchMode())
+    if(Vichrome.isInCommandMode() || Vichrome.isInSearchMode())
         return;
-    if( isEditable(e.target) ) {
-        enterInsertMode();
+    if( Vichrome.isEditable(e.target) ) {
+        Vichrome.enterInsertMode();
     } else {
-        enterNormalMode();
+        Vichrome.enterNormalMode();
     }
 }
 
-function enterInsertMode () {
-    modeInsert = true;
-}
-
-function enterNormalMode () {
-    modeInsert = false;
-    modeCommand = false;
-    modeSearch = false;
-
-    View.hideCommandBox();
-}
-
-function isInInsertMode () {
-    return modeInsert;
-}
-
-function isInSearchMode () {
-    return modeSearch;
-}
-
-function isInCommandMode () {
-    return modeCommand;
-}
-
-function isInFMode () {
-    return modeF;
-}
-
-function isEditable (target) {
-    if (target.isContentEditable) {
-        return true;
-    }
-
-    if(target.nodeName=="INPUT" && target.type == "text") {
-        return true;
-    }
-
-    ignoreList = ["TEXTAREA"];
-    if(ignoreList.indexOf(target.nodeName) >= 0){
-        return true;
-    }
-
-    return false;
+function onEnabled() {
+    Vichrome.init();
 }
 
 function onSettingUpdated (msg) {
     if(msg.name == "all") {
-        settings = msg.value;
+        Vichrome.settings = msg.value;
     } else {
-        settings[msg.name] = msg.value;
+        Vichrome.settings[msg.name] = msg.value;
     }
 }
 
@@ -413,24 +330,4 @@ function addRequestListener() {
         sendResponse();
     });
 }
-
-function onEnabled() {
-    init();
-}
-
-function init () {
-    setupPorts();
-    addRequestListener();
-    addWindowListeners();
-
-    // should evaluate focused element on initialization.
-    if( isEditable( document.activeElement ) ) {
-        enterInsertMode();
-    }
-}
-
-window.addEventListener("DOMContentLoaded", function() {
-    // TODO: onEnable should be triggered from background page.
-    onEnabled();
-});
 
