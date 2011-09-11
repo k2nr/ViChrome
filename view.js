@@ -70,7 +70,7 @@ var View = {
 
         this.sortedResults.sort(function(a, b){
             if( a.offset.top == b.offset.top ) {
-                return a.offset.left -b.offset.left;
+                return a.offset.left - b.offset.left;
             } else {
                 return a.offset.top - b.offset.top;
             }
