@@ -5,6 +5,7 @@ function Vichrome()  {
     var modeF = false;
     var currentSearchCnt = 0;
     var backwardSearch = false;
+    var search = null;
     this.settings = [];
 
     this.init = function() {
@@ -44,6 +45,9 @@ function Vichrome()  {
             reutrn;
         }
 
+        if(!search)
+            search = new Search();
+
         modeSearch = true;
         backwardSearch = backward;
         if( backward )
@@ -54,29 +58,43 @@ function Vichrome()  {
         View.focusCommandBox();
     };
 
+    this.cancelSearch = function() {
+        this.cancelSearchHighlight();
+        this.enterNormalMode();
+    };
+
+    this.cancelSearchHighlight = function() {
+        View.setStatusLineText("");
+        search.removeHighlight();
+    };
+
+    this.setSearchInput = function() {
+        this.enterNormalMode();
+    };
+
     this.updateSearchInput = function() {
         var str = View.getCommandBoxValue();
         // the first character is always "/" so the char to search starts from 1
-        var search = str.slice( 1, str.length );
-        if(search.length > 0) {
-            View.searchAndHighlight( search );
-            var total = View.getSearchResultCnt();
+        var searchStr = str.slice( 1, str.length );
+        if(searchStr.length > 0) {
+            search.searchAndHighlight( searchStr );
+            var total = search.getSearchResultCnt();
             if( total == 0 ) {
                 View.setStatusLineText("no matches");
                 return;
             }
 
-            currentSearchCnt = View.getFirstInnerSearchResultIndex( backwardSearch );
+            currentSearchCnt = search.getFirstInnerSearchResultIndex( backwardSearch );
             if( currentSearchCnt < 0 ){
                 if( backwardSearch )
                     currentSearchCnt = total - 1;
                 else
                     currentSearchCnt = 0;
             }
-            View.moveToSearchResult( currentSearchCnt );
+            search.moveToSearchResult( currentSearchCnt );
         } else {
             View.setStatusLineText("");
-            View.removeHighlight();
+            search.removeHighlight();
         }
     };
 
@@ -107,7 +125,7 @@ function Vichrome()  {
     this.goNextSearchResult = function (reverse) {
         //TODO:wrap should be read from localStorage
         var wrap = true;
-        var total = View.getSearchResultCnt();
+        var total = search.getSearchResultCnt();
         var forward = backwardSearch == reverse;
         if( forward )
             currentSearchCnt++;
@@ -128,7 +146,7 @@ function Vichrome()  {
             }
         }
 
-        View.moveToSearchResult( currentSearchCnt );
+        search.moveToSearchResult( currentSearchCnt );
         return true;
     };
 

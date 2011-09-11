@@ -76,9 +76,11 @@ function EventHandler() {
 
     function reqBlur () {
         document.activeElement.blur();
-        View.setStatusLineText("");
-        View.removeHighlight();
-        vichrome.enterNormalMode();
+        if( vichrome.isInSearchMode() ) {
+            vichrome.cancelSearch();
+        } else {
+            vichrome.cancelSearchHighlight();
+        }
     };
 
     function reqGoCommandMode () {
@@ -187,8 +189,7 @@ function EventHandler() {
             // TODO:
             if( View.getCommandBoxValue().length == 1 &&
             e.keyCode == keyCodes.BS) {
-                View.setStatusLineText("");
-                vichrome.enterNormalMode();
+                vichrome.cancelSearch();
             }
 
             switch(e.keyCode) {
@@ -212,7 +213,7 @@ function EventHandler() {
         if( vichrome.isInSearchMode() ) {
             if(e.type == "keydown") {
                 if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
-                    View.removeHighlight();
+                    vichrome.cancelSearch();
                     return true;
                 } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
                     return true;

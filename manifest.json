@@ -25,6 +25,7 @@
           "lib/jquery.highlight-3.js",
           "keys.js",
           "view.js",
+          "search.js",
           "eventhandlers.js",
           "vichrome.js"
       ],
