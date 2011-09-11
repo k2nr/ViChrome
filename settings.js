@@ -27,6 +27,7 @@ var SettingManager = {
            ,"/"       : "goSearchModeForward"
            ,"?"       : "goSearchModeBackward"
            ,"f"       : "goFMode"
+           ,"i"       : "focusOnFirstInput"
            ,"<ESC>"   : "escape"
         },
     },
@@ -63,6 +64,7 @@ var SettingManager = {
      ,"/"
      ,"?"
      ,"f"
+     ,"i"
      ,"<ESC>"
     ],
 

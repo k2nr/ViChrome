@@ -1,5 +1,7 @@
 var keyPort;
 var settingPort;
+var backupPosForSearch;
+var backwardSearch;
 
 var reqListeners = {
      scrollUp             : reqScrollUp
@@ -21,6 +23,7 @@ var reqListeners = {
     ,goFMode              : reqGoFMode
     ,nextSearch           : reqNextSearch
     ,prevSearch           : reqPrevSearch
+    ,focusOnFirstInput    : reqFocusOnFirstInput
     ,blur                 : reqBlur
 }
 
@@ -74,33 +77,43 @@ function reqForwardHist () {
 
 function reqBlur () {
     document.activeElement.blur();
+    View.setStatusLineText("");
+    View.removeHighlight();
     Vichrome.enterNormalMode();
 }
 
 function reqGoCommandMode () {
-    if( !Vichrome.isInCommandMode() ) {
-        Vichrome.enterCommandMode();
-        View.showCommandBox(":");
-        View.focusCommandBox();
+    if( Vichrome.isInCommandMode() ) {
+        return;
     }
+
+    Vichrome.enterCommandMode();
+    View.showCommandBox(":");
+    View.focusCommandBox();
 }
 
 function reqGoSearchModeForward () {
-    if( !Vichrome.isInSearchMode() ) {
-        Vichrome.currentSearchCnt = 0;
-        Vichrome.enterSearchMode();
-        View.showCommandBox("/");
-        View.focusCommandBox();
+    if( Vichrome.isInSearchMode() ) {
+        reutrn;
     }
+
+    Vichrome.currentSearchCnt = 0;
+    backwardSearch = false;
+    Vichrome.enterSearchMode();
+    View.showCommandBox("/");
+    View.focusCommandBox();
 }
 
 function reqGoSearchModeBackward () {
-    if( !Vichrome.isInSearchMode() ) {
-        Vichrome.currentSearchCnt = 0;
-        Vichrome.enterSearchMode();
-        View.showCommandBox("?");
-        View.focusCommandBox();
+    if( Vichrome.isInSearchMode() ) {
+        return;
     }
+
+    Vichrome.currentSearchCnt = 0;
+    backwardSearch = true;
+    Vichrome.enterSearchMode();
+    View.showCommandBox("?");
+    View.focusCommandBox();
 }
 
 function reqGoFMode () {
@@ -112,11 +125,17 @@ function reqReloadTab() {
 }
 
 function reqNextSearch() {
-    var found = Vichrome.goNextSearchResult( {wrap : true, backward : false} );
+    var found = Vichrome.goNextSearchResult( {wrap     : true,
+                                              backward : backwardSearch} );
 }
 
 function reqPrevSearch() {
-    var found = Vichrome.goNextSearchResult( {wrap : true, backward : true} );
+    var found = Vichrome.goNextSearchResult( {wrap     : true,
+                                              backward : !backwardSearch} );
+}
+
+function reqFocusOnFirstInput() {
+    View.focusInput( 0 );
 }
 
 function onBlur (e) {
@@ -151,11 +170,23 @@ function onKeyUp (e) {
     var search = str.slice( 1, str.length );
     if(search.length > 0) {
         View.searchAndHighlight( search );
-        if( View.getSearchResultCnt() == 0 )
+        var total = View.getSearchResultCnt();
+        if( total == 0 ) {
+            View.setStatusLineText("no matches");
             return;
+        }
 
+        Vichrome.currentSearchCnt =
+            View.getFirstInnerSearchResultIndex(backwardSearch);
+        if( Vichrome.currentSearchCnt < 0 ){
+            if( backwardSearch )
+                Vichrome.currentSearchCnt = total - 1;
+            else
+                Vichrome.currentSearchCnt = 0;
+        }
         View.moveToSearchResult( Vichrome.currentSearchCnt );
     } else {
+        View.setStatusLineText("");
         View.removeHighlight();
     }
 }
@@ -191,13 +222,32 @@ function preHandleKeyEvent (e) {
     if( isOnlyModifier(e) ) {
         return false;
     }
+    if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
+        e.keyCode = keyCodes.ESC;
+    }
 
     if( Vichrome.isInSearchMode() || Vichrome.isInCommandMode() ) {
         // TODO:
         if( View.getCommandBoxValue().length == 1 &&
-                e.keyCode == keyCodes.BS) {
-                Vichrome.enterNormalMode();
+            e.keyCode == keyCodes.BS) {
+            View.setStatusLineText("");
+            Vichrome.enterNormalMode();
+        }
+
+        switch(e.keyCode) {
+            case keyCodes.Tab   :
+            case keyCodes.BS    :
+            case keyCodes.DEL   :
+            case keyCodes.Left  :
+            case keyCodes.Up    :
+            case keyCodes.Right :
+            case keyCodes.Down  :
+            case keyCodes.ESC   :
+            case keyCodes.CR    :
                 event.stopPropagation();
+                break;
+            default:
+                break;
         }
     }
 
@@ -246,9 +296,6 @@ function preHandleKeyEvent (e) {
                 // TODO:some keys cannot be recognized with keyCode e.g. C-@
                 return true;
             }
-            if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
-                return true;
-            }
             // keydown only catch key codes that are not passed to keypress
             switch(e.keyCode) {
                 case keyCodes.Tab   :
@@ -270,6 +317,7 @@ function preHandleKeyEvent (e) {
                 case keyCodes.F10   :
                 case keyCodes.F11   :
                 case keyCodes.F12   :
+                case keyCodes.ESC   :
                     return true;
                 default:
                     return false;

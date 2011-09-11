@@ -99,27 +99,59 @@ var View = {
     },
 
     adjustScreenToSearchResult : function(pos) {
-        var newX = window.pageXOffset;
-        var newY = window.pageYOffset;
-        // +100 is just for padding, which if pos is on the edge of the screen
-        // it'a little bit difficult to see the result word.
         // TODO:try to dicide more meaningful value for the padding
-        if( pos.left + 100 > window.pageXOffset + window.innerWidth ||
-            pos.left < window.pageXOffset ) {
-            newX = pos.left - window.innerWidth / 2;
+        if( !this.isWithinScreen( pos.left, pos.top, 10 ) ) {
+            var newX = pos.left - window.innerWidth / 2;
+            var newY = pos.top - window.innerHeight / 2;
+
+            if( newX > document.body.scrollLeft - window.innerWidth ) {
+                newX = document.body.scrollLeft - window.innerWidth;
+            }
+            if( newY > document.body.scrollHeight - window.innerHeight ) {
+                newX = document.body.scrollHeight - window.innerHeight;
+            }
+
+            window.scrollTo( newX, newY );
         }
-        if( pos.top + 100 > window.pageYOffset + window.innerHeight ||
-            pos.top < window.pageYOffset ) {
-            newY = pos.top - window.innerHeight / 2;
-        }
-        if( newX > document.body.scrollLeft - window.innerWidth ) {
-            newX = document.body.scrollLeft - window.innerWidth;
-        }
-        if( newY > document.body.scrollHeight - window.innerHeight ) {
-            newX = document.body.scrollHeight - window.innerHeight;
+    },
+
+    isWithinScreen : function(x, y, padding) {
+        // padding is for visiblity, which if pos is on the edge of the screen
+        // it's a little bit difficult to see the result word.
+        if( x + padding > window.pageXOffset + window.innerWidth ||
+            x - padding < window.pageXOffset ) {
+            return false;
         }
 
-        window.scrollTo( newX, newY );
+        if( y + padding > window.pageYOffset + window.innerHeight ||
+            y - padding < window.pageYOffset ) {
+            return false;
+        }
+
+        return true;
+    },
+
+    getFirstInnerSearchResultIndex : function(backward) {
+        var total = this.getSearchResultCnt();
+        for (var i=0; i < total; i++) {
+            if(backward) {
+                var offset = this.getSearchResultSpan( total - 1 - i ).offset();
+                if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
+                    return total - 1 - i;
+                }
+            } else {
+                var offset = this.getSearchResultSpan(i).offset();
+                if( offset.top - 10 > window.pageYOffset ) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    },
+
+    focusInput : function( idx ) {
+        $('form input:text').get(0).focus();
     },
 }
 

@@ -23,6 +23,7 @@ var commandTable = {
     ,goSearchModeForward   : sendRequestToSelectedTab
     ,goSearchModeBackward  : sendRequestToSelectedTab
     ,goFMode               : sendRequestToSelectedTab
+    ,focusOnFirstInput     : sendRequestToSelectedTab
     ,escape                : escape
 }
 
