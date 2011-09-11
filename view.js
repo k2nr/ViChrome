@@ -4,7 +4,7 @@ var View = {
     init : function() {
         View.$commandBox   = $('<div id="vichromebox" />');
         View.$commandField = $('<input type="text" id="vichromeinput" value="" />');
-        View.$statusLine = $('<div id="vichromestatusline"></div>')
+        View.$statusLine = $('<div id="vichromestatusline" />')
                             .addClass('statuslineinactive');
 
         View.$commandBox
@@ -16,8 +16,10 @@ var View = {
 
     showCommandBox : function(input) {
         this.$commandField.attr("value", input);
-        this.$commandField.show();
         this.$statusLine.removeClass('statuslineinactive');
+        this.$commandBox.show();
+        this.$commandField.show();
+        this.$statusLine.show();
     },
 
     hideCommandBox : function() {
