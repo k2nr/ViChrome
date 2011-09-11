@@ -1,25 +1,44 @@
 var View = {
-    searchResultCnt : 0,
-    curretResultPos : 0,
+    sortedResults : null,
+
+    init : function() {
+        View.$commandBox   = $('<div id="vichromebox" />');
+        View.$commandField = $('<input type="text" id="vichromeinput" value="" />');
+        View.$statusLine = $('<div id="vichromestatusline"></div>')
+                            .addClass('statuslineinactive');
+
+        View.$commandBox
+            .append(View.$commandField)
+            .append(View.$statusLine);
+
+        $(document.body).append(View.$commandBox);
+    },
+
     showCommandBox : function(input) {
         this.$commandField.attr("value", input);
-        this.$commandBox.fadeIn(100, null);
+        this.$commandField.show();
+        this.$statusLine.removeClass('statuslineinactive');
     },
 
     hideCommandBox : function() {
-        this.$commandBox.fadeOut(100, null);
+        this.$commandField.hide();
+        this.$statusLine.addClass('statuslineinactive');
     },
 
     focusCommandBox : function() {
         this.$commandField.get(0).focus();
     },
 
-    isCommandBoxVisible : function() {
-        return this.$commandBox.css('display') != 'none';
+    isCommandBoxActive : function() {
+        return this.$commandField.css('display') != 'none';
     },
 
     getCommandBoxValue : function() {
         return this.$commandField.val();
+    },
+
+    setStatusLineText : function(text) {
+        this.$statusLine.html(text);
     },
 
     highlight : function(word) {
@@ -34,30 +53,48 @@ var View = {
         this.removeHighlight();
         this.highlight(word);
 
-        this.searchResultCnt = $('span.highlight:visible').length;
+        this.buildSortedResults();
+    },
+
+    buildSortedResults : function() {
+        this.sortedResults = [];
+        sortedResults = this.sortedResults;
+        $('span.highlight:visible').each(function(i) {
+            sortedResults[i] = new Object();
+            var filter = ':eq('+i+')';
+            sortedResults[i].offset   = $(this).offset();
+            sortedResults[i].value = $(this);
+        });
+
+        this.sortedResults.sort(function(a, b){
+            if( a.offset.top == b.offset.top ) {
+                return a.offset.left -b.offset.left;
+            } else {
+                return a.offset.top - b.offset.top;
+            }
+        });
     },
 
     getSearchResultCnt : function() {
-        return this.searchResultCnt;
+        return this.sortedResults.length;
     },
 
     getSearchResultSpan : function(cnt) {
-        var selector = 'span.highlight:visible:eq('+cnt+')';
-        var span = $(selector);
-        return span;
+        return this.sortedResults[cnt].value;
     },
 
     moveToSearchResult : function(pos) {
-        if( this.searchResultCnt > pos ) {
+        var total = this.getSearchResultCnt();
+        if( total > pos ) {
             var span = this.getSearchResultSpan( pos );
             if( span ) {
                 $('span').removeClass('highlightFocus');
                 span.addClass('highlightFocus');
                 this.adjustScreenToSearchResult( span.offset() );
-                this.curretResultPos = pos;
+                View.$statusLine.html( pos+1 + " / " + total );
             }
         } else {
-            Logger.e("out of bounds of searchResultCnt", pos);
+            Logger.e("out of bounds of searchResults length", pos);
         }
     },
 
@@ -86,11 +123,3 @@ var View = {
     },
 }
 
-$(document).ready(function() {
-        View.$commandBox = $("<div id=\"vichromebox\" style='display:none'></div>");
-        View.$commandField = $('<input type=\"text\" id=\"vichromeinput\" value=\"\" />');
-
-        View.$commandBox.append(View.$commandField)
-
-        $(document.body).append(View.$commandBox);
-});

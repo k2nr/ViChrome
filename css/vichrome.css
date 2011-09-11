@@ -1,39 +1,57 @@
 #vichromebox {
-    background-color: rgba(64, 64, 64, 0.7);
-    color: #fff;
-    border-radius: 0px;
-    display: none;
+    background : none;
     overflow: auto;
     position: fixed;
     text-align: left;
     padding: 0px 0px;
     margin: 0;
-    left: 3px;
-    bottom:3px;
+    left: 0px;
+    bottom:0px;
     height: auto;
-    width: 45%;
+    width: 40%;
     z-index: 100000;
 }
 
 #vichromeinput {
+    background-color: rgba(64, 64, 64, 0.7);
+    display: none;
+    color: #fff;
     outline: none;
     border: none;
-    background: none;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    text-align: left;
+    width: 97%;
+    height: 28px;
+    padding: 0px 5px;
+    margin: 0px 0px;
+    font-size: 18px;
+}
+
+#vichromestatusline {
+    background-color: rgba(64, 64, 64, 0.7);
+    color: #fff;
+    outline: none;
+    border: none;
     -webkit-box-shadow: none;
     width: 97%;
-    height: auto;
-    padding: 0;
-    margin: 0px 5px;
-    font-size: 18px;
-    color: #fff;
+    height: 16px;
+    padding: 0px 5px;
+    margin:  0px 0px;
+    font-size: 14px;
 }
 
 #vichromecandbox {
 
 }
 
+.statuslineinactive {
+    background-color: rgba(64, 64, 64, 0.4) !important;
+    width : 50% !important;
+}
+
 .highlight {
-    background-color: LightYellow;
+    background-color: Khaki;
     color: black;
 }
 

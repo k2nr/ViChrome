@@ -154,7 +154,7 @@ function onKeyUp (e) {
         if( View.getSearchResultCnt() == 0 )
             return;
 
-        View.moveToSearchResult( currentSearchCnt );
+        View.moveToSearchResult( Vichrome.currentSearchCnt );
     } else {
         View.removeHighlight();
     }

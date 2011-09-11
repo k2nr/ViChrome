@@ -11,6 +11,8 @@ var Vichrome = {
         addRequestListener();
         addWindowListeners();
 
+        View.init();
+
         // should evaluate focused element on initialization.
         if( this.isEditable( document.activeElement ) ) {
             this.enterInsertMode();
