@@ -4,29 +4,29 @@ function Search() {
     function buildSortedResults() {
         sortedResults = [];
         $('span.highlight:visible').each(function(i) {
-            sortedResults[i] = new Object();
+            sortedResults[i] = {};
             sortedResults[i].offset = $(this).offset();
             sortedResults[i].value  = $(this);
         });
 
         sortedResults.sort(function(a, b){
-            if( a.offset.top == b.offset.top ) {
+            if( a.offset.top === b.offset.top ) {
                 return a.offset.left - b.offset.left;
             } else {
                 return a.offset.top - b.offset.top;
             }
         });
-    };
+    }
 
     function getSearchResultSpan(cnt) {
         return sortedResults[cnt].value;
-    };
+    }
 
     function adjustScreenToSearchResult(pos) {
         // TODO:try to dicide more meaningful value for the padding
         if( !isWithinScreen( pos.left, pos.top, 10 ) ) {
-            var newX = pos.left - window.innerWidth / 2;
-            var newY = pos.top - window.innerHeight / 2;
+            var newX = pos.left - window.innerWidth / 2,
+                newY = pos.top - window.innerHeight / 2;
 
             if( newX > document.body.scrollLeft - window.innerWidth ) {
                 newX = document.body.scrollLeft - window.innerWidth;
@@ -37,7 +37,7 @@ function Search() {
 
             window.scrollTo( newX, newY );
         }
-    };
+    }
 
     function isWithinScreen(x, y, padding) {
         // padding is for visiblity, which if pos is on the edge of the screen
@@ -53,7 +53,7 @@ function Search() {
         }
 
         return true;
-    };
+    }
 
     this.highlight = function(word) {
         $(document.body).highlight(word);
@@ -75,9 +75,11 @@ function Search() {
     };
 
     this.moveToSearchResult = function(pos) {
-        var total = this.getSearchResultCnt();
+        var total = this.getSearchResultCnt(),
+            span  = null;
+
         if( total > pos ) {
-            var span = getSearchResultSpan( pos );
+            span = getSearchResultSpan( pos );
             if( span ) {
                 $('span').removeClass('highlightFocus');
                 span.addClass('highlightFocus');
@@ -91,15 +93,16 @@ function Search() {
 
 
     this.getFirstInnerSearchResultIndex = function(backward) {
-        var total = this.getSearchResultCnt();
-        for (var i=0; i < total; i++) {
+        var total = this.getSearchResultCnt(),
+            i, offset;
+        for (i=0; i < total; i++) {
             if(backward) {
-                var offset = getSearchResultSpan( total - 1 - i ).offset();
+                offset = getSearchResultSpan( total - 1 - i ).offset();
                 if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
                     return total - 1 - i;
                 }
             } else {
-                var offset = getSearchResultSpan(i).offset();
+                offset = getSearchResultSpan(i).offset();
                 if( offset.top - 10 > window.pageYOffset ) {
                     return i;
                 }

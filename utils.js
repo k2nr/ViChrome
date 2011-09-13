@@ -7,30 +7,35 @@ var Logger = {
     NONE    : 5,
 
     __log : function(a, o) {
-        if(o)
+        if(o) {
             console.log( "vichrome:" + a + " :%o", o );
-        else
+        } else {
             console.log( "vichrome:" + a );
+        }
     },
 
     d : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.DEBUG)
+        if(VICHROME_LOG_LEVEL >= Logger.DEBUG) {
             this.__log(a, o);
+        }
     },
 
     w : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.WARNING)
+        if(VICHROME_LOG_LEVEL >= Logger.WARNING) {
             this.__log(a, o);
+        }
     },
 
     e : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.ERROR)
+        if(VICHROME_LOG_LEVEL >= Logger.ERROR) {
             this.__log(a, o);
+        }
     },
 
     f : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.FATAL)
+        if(VICHROME_LOG_LEVEL >= Logger.FATAL) {
             this.__log(a, o);
+        }
     }
 
 };

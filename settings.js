@@ -4,68 +4,68 @@ var SettingManager = {
         "searchEngine"            : "http://www.google.com/",
         "commandWaitTimeOut"      : 2000,
         "keyMappings"      : {
-            "j"       : "scrollDown"
-           ,"k"       : "scrollUp"
-           ,"h"       : "scrollLeft"
-           ,"l"       : "scrollRight"
-           ,"<C-f>"   : "pageDown"
-           ,"<C-b>"   : "pageUp"
-           ,"<C-d>"   : "pageHalfDown"
-           ,"<C-u>"   : "pageHalfUp"
-           ,"gg"      : "goTop"
-           ,"G"       : "goBottom"
-           ,"t"       : "openNewTab"
-           ,"x"       : "closeCurTab"
-           ,"n"       : "nextSearch"
-           ,"N"       : "prevSearch"
-           ,">"       : "moveNextTab"
-           ,"<"       : "movePrevTab"
-           ,"r"       : "reloadTab"
-           ,"H"       : "backHist"
-           ,"L"       : "forwardHist"
-           ,":"       : "goCommandMode"
-           ,"/"       : "goSearchModeForward"
-           ,"?"       : "goSearchModeBackward"
-           ,"f"       : "goFMode"
-           ,"i"       : "focusOnFirstInput"
-           ,"<ESC>"   : "escape"
-        },
+           "j"       : "scrollDown",
+           "k"       : "scrollUp",
+           "h"       : "scrollLeft",
+           "l"       : "scrollRight",
+           "<C-f>"   : "pageDown",
+           "<C-b>"   : "pageUp",
+           "<C-d>"   : "pageHalfDown",
+           "<C-u>"   : "pageHalfUp",
+           "gg"      : "goTop",
+           "G"       : "goBottom",
+           "t"       : "openNewTab",
+           "x"       : "closeCurTab",
+           "n"       : "nextSearch",
+           "N"       : "prevSearch",
+           ">"       : "moveNextTab",
+           "<"       : "movePrevTab",
+           "r"       : "reloadTab",
+           "H"       : "backHist",
+           "L"       : "forwardHist",
+           ":"       : "goCommandMode",
+           "/"       : "goSearchModeForward",
+           "?"       : "goSearchModeBackward",
+           "f"       : "goFMode",
+           "i"       : "focusOnFirstInput",
+           "<ESC>"   : "escape"
+        }
     },
 
     settingNames : [
         "scrollPixelCount",
         "searchEngine",
         "commandWaitTimeOut",
-        "keyMappings",
+        "keyMappings"
     ],
 
     availableKeySeq : [
-      "j"
-     ,"k"
-     ,"h"
-     ,"l"
-     ,"<C-f>"
-     ,"<C-b>"
-     ,"<C-d>"
-     ,"<C-u>"
-     ,"gg"
-     ,"G"
-     ,"k"
-     ,"t"
-     ,"x"
-     ,"n"
-     ,"N"
-     ,">"
-     ,"<"
-     ,"r"
-     ,"H"
-     ,"L"
-     ,":"
-     ,"/"
-     ,"?"
-     ,"f"
-     ,"i"
-     ,"<ESC>"
+        "j",
+        "k",
+        "h",
+        "l",
+        "<C-f>",
+        "<C-b>",
+        "<C-d>",
+        "<C-u>",
+        "gg",
+        "G",
+        "k",
+        "t",
+        "x",
+        "n",
+        "N",
+        ">",
+        "<",
+        "r",
+        "H",
+        "L",
+        ":",
+        "/",
+        "?",
+        "f",
+        "i",
+        "<ESC>"
     ],
 
     associateKeyMap : {},
@@ -78,7 +78,7 @@ var SettingManager = {
             } else {
                 settings[this.settingNames[i]] = this.defaultSettings[this.settingNames[i]];
             }
-        };
+        }
 
         return settings;
     },
@@ -94,8 +94,9 @@ var SettingManager = {
     set   : function(name, value) {
         localStorage[name] = value;
 
-        if(this.setCb)
+        if(this.setCb) {
             this.setCb(name, value);
+        }
     },
 
     setCb : null,
@@ -114,11 +115,11 @@ var SettingManager = {
         // with '==' may be a better & simple way.
         for (var i=0; i < this.availableKeySeq.length; i++) {
             cmpStr = this.availableKeySeq[i].slice( 0, keySeq.length );
-            if( keySeq == cmpStr ) {
+            if( keySeq === cmpStr ) {
                 return true;
             }
         }
 
         return false;
-    },
+    }
 };

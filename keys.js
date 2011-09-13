@@ -1,8 +1,37 @@
+var keyCodes = {
+    ESC       : 27,
+    Tab       : 9,
+    Shift     : 16,
+    BS        : 8,
+    Alt       : 18,
+    Ctrl      : 17,
+    Meta      : 91,
+    DEL       : 46,
+    CR        : 13,
+    SP        : 32,
+    Left      : 37,
+    Up        : 38,
+    Right     : 39,
+    Down      : 40,
+    F1        : 112,
+    F2        : 113,
+    F3        : 114,
+    F4        : 115,
+    F5        : 116,
+    F6        : 117,
+    F7        : 118,
+    F8        : 119,
+    F9        : 120,
+    F10       : 121,
+    F11       : 122,
+    F12       : 123
+};
+
 var KeyManager = {
     isESC : function (keyCode, ctrl) {
-        if( keyCode == keyCodes.ESC ) {
+        if( keyCode === keyCodes.ESC ) {
             return true;
-        } else if( ctrl && keyCode == '[' ) {
+        } else if( ctrl && keyCode === '[' ) {
             return true;
         } else {
             return false;
@@ -54,34 +83,5 @@ var KeyManager = {
             return "<ESC>";
         }
     }
-};
-
-var keyCodes = {
-     ESC       : 27
-    ,Tab       : 9
-    ,Shift     : 16
-    ,BS        : 8
-    ,Alt       : 18
-    ,Ctrl      : 17
-    ,Meta      : 91
-    ,DEL       : 46
-    ,CR        : 13
-    ,SP        : 32
-    ,Left      : 37
-    ,Up        : 38
-    ,Right     : 39
-    ,Down      : 40
-    ,F1        : 112
-    ,F2        : 113
-    ,F3        : 114
-    ,F4        : 115
-    ,F5        : 116
-    ,F6        : 117
-    ,F7        : 118
-    ,F8        : 119
-    ,F9        : 120
-    ,F10       : 121
-    ,F11       : 122
-    ,F12       : 123
 };
 

@@ -30,7 +30,7 @@ var View = {
     },
 
     isCommandBoxActive : function() {
-        return this.$commandField.css('display') != 'none';
+        return this.$commandField.css('display') !== 'none';
     },
 
     getCommandBoxValue : function() {
@@ -43,6 +43,6 @@ var View = {
 
     focusInput : function( idx ) {
         $('form input:text').get(0).focus();
-    },
-}
+    }
+};
 

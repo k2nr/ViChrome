@@ -1,78 +1,54 @@
 function EventHandler() {
-    var keyPort = null;
-    var settingPort = null;
-
-    var reqListeners = {
-         scrollUp             : reqScrollUp
-        ,scrollDown           : reqScrollDown
-        ,scrollLeft           : reqScrollLeft
-        ,scrollRight          : reqScrollRight
-        ,pageHalfUp           : reqPageHalfUp
-        ,pageHalfDown         : reqPageHalfDown
-        ,pageUp               : reqPageUp
-        ,pageDown             : reqPageDown
-        ,goTop                : reqGoTop
-        ,goBottom             : reqGoBottom
-        ,reloadTab            : reqReloadTab
-        ,backHist             : reqBackHist
-        ,forwardHist          : reqForwardHist
-        ,goCommandMode        : reqGoCommandMode
-        ,goSearchModeForward  : reqGoSearchModeForward
-        ,goSearchModeBackward : reqGoSearchModeBackward
-        ,goFMode              : reqGoFMode
-        ,nextSearch           : reqNextSearch
-        ,prevSearch           : reqPrevSearch
-        ,focusOnFirstInput    : reqFocusOnFirstInput
-        ,blur                 : reqBlur
-    };
+    var keyPort = null,
+        settingPort = null;
 
     function reqScrollDown () {
         window.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
-    };
+    }
 
     function reqScrollUp () {
         window.scrollBy( 0, -vichrome.getSetting("scrollPixelCount") );
-    };
+    }
 
     function reqScrollLeft () {
         window.scrollBy( -vichrome.getSetting("scrollPixelCount"), 0 );
-    };
+    }
 
     function reqScrollRight () {
         window.scrollBy( vichrome.getSetting("scrollPixelCount"), 0 );
-    };
+    }
 
     function reqPageHalfDown () {
         window.scrollBy( 0, window.innerHeight / 2 );
-    };
+    }
 
     function reqPageHalfUp () {
         window.scrollBy( 0, -window.innerHeight / 2 );
-    };
+    }
 
     function reqPageDown () {
         window.scrollBy( 0, window.innerHeight );
-    };
+    }
 
     function reqPageUp () {
         window.scrollBy( 0, -window.innerHeight );
-    };
+    }
 
     function reqGoTop () {
         window.scrollTo( window.pageXOffset, 0 );
-    };
+    }
 
     function reqGoBottom () {
         window.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
-    };
+    }
 
     function reqBackHist () {
         window.history.back();
-    };
+    }
 
     function reqForwardHist () {
         window.history.forward();
-    };
+    }
 
     function reqBlur () {
         document.activeElement.blur();
@@ -81,7 +57,7 @@ function EventHandler() {
         } else {
             vichrome.cancelSearchHighlight();
         }
-    };
+    }
 
     function reqGoCommandMode () {
         if( vichrome.isInCommandMode() ) {
@@ -91,40 +67,40 @@ function EventHandler() {
         vichrome.enterCommandMode();
         View.showCommandBox(":");
         View.focusCommandBox();
-    };
+    }
 
     function reqGoSearchModeForward () {
         vichrome.enterSearchMode( false );
-    };
+    }
 
     function reqGoSearchModeBackward () {
         vichrome.enterSearchMode( true );
-    };
+    }
 
     function reqGoFMode () {
         // TODO
-    };
+    }
 
     function reqReloadTab() {
         window.location.reload();
-    };
+    }
 
     function reqNextSearch() {
         var found = vichrome.goNextSearchResult( false );
-    };
+    }
 
     function reqPrevSearch() {
         var found = vichrome.goNextSearchResult( true );
-    };
+    }
 
     function reqFocusOnFirstInput() {
         View.focusInput( 0 );
-    };
+    }
 
     function onBlur (e) {
         Logger.d("onBlur");
         vichrome.enterNormalMode();
-    };
+    }
 
     function onKeyDown (e) {
         Logger.d("onKeyDown", e);
@@ -132,14 +108,14 @@ function EventHandler() {
         if( prePostKeyEvent(e) ) {
             postKeyMessage(e);
         }
-    };
+    }
 
     function onKeyPress (e) {
         Logger.d( "onKeyPress", e );
         if( prePostKeyEvent(e) ) {
             postKeyMessage(e);
         }
-    };
+    }
 
     function onKeyUp (e) {
         Logger.d( "onKeyUp", e );
@@ -148,7 +124,7 @@ function EventHandler() {
         }
 
         vichrome.updateSearchInput();
-    };
+    }
 
     function postKeyMessage (e) {
         keyPort.postMessage({keyCode  : e.keyCode,
@@ -157,7 +133,7 @@ function EventHandler() {
                              alt      : e.altKey,
                              ctrl     : e.ctrlKey,
                              shift    : e.shiftKey});
-    };
+    }
 
     function isOnlyModifier (e) {
         switch(e.keyCode) {
@@ -169,7 +145,7 @@ function EventHandler() {
             default:
                 return false;
         }
-    };
+    }
 
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
@@ -187,8 +163,8 @@ function EventHandler() {
 
         if( vichrome.isInSearchMode() || vichrome.isInCommandMode() ) {
             // TODO:
-            if( View.getCommandBoxValue().length == 1 &&
-            e.keyCode == keyCodes.BS) {
+            if( View.getCommandBoxValue().length === 1 &&
+            e.keyCode === keyCodes.BS) {
                 vichrome.cancelSearch();
             }
 
@@ -211,7 +187,7 @@ function EventHandler() {
 
         // TODO:commandmode
         if( vichrome.isInSearchMode() ) {
-            if(e.type == "keydown") {
+            if(e.type === "keydown") {
                 if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                     vichrome.cancelSearch();
                     return true;
@@ -220,14 +196,14 @@ function EventHandler() {
                 } else if( e.ctrlKey ) {
                     return true;
                 }
-            } else if(e.type == "keypress" && e.keyCode == keyCodes.CR) {
+            } else if(e.type === "keypress" && e.keyCode === keyCodes.CR) {
                 vichrome.enterNormalMode();
                 return false;
             } else {
                 return false;
             }
         } else if( vichrome.isInInsertMode() || vichrome.isInCommandMode() ){
-            if( e.type == "keydown" ) {
+            if( e.type === "keydown" ) {
                 if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
                     return true;
                 } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
@@ -240,11 +216,11 @@ function EventHandler() {
                 return false;
             }
         } else {
-            if(e.type == "keypress") {
+            if(e.type === "keypress") {
                 event.preventDefault();
                 event.stopPropagation();
                 return true;
-            } else if(e.type == "keydown") {
+            } else if(e.type === "keydown") {
                 // some web sites set their own key bind(google instant search etc).
                 // to prevent messing up vichrome's key bind from them,
                 // we have to stop event propagation here.
@@ -282,26 +258,27 @@ function EventHandler() {
                 }
             }
         }
-    };
+    }
 
     function onFocus (e) {
         Logger.d("onFocus", e.target.id );
-        if(vichrome.isInCommandMode() || vichrome.isInSearchMode())
+        if(vichrome.isInCommandMode() || vichrome.isInSearchMode()) {
             return;
+        }
         if( vichrome.isEditable(e.target) ) {
             vichrome.enterInsertMode();
         } else {
             vichrome.enterNormalMode();
         }
-    };
+    }
 
     function onSettingUpdated (msg) {
-        if(msg.name == "all") {
+        if(msg.name === "all") {
             vichrome.settings = msg.value;
         } else {
             vichrome.settings[msg.name] = msg.value;
         }
-    };
+    }
 
     function setupPorts() {
         keyPort     = chrome.extension.connect({ name : "key" });
@@ -310,7 +287,7 @@ function EventHandler() {
         settingPort.onMessage.addListener( onSettingUpdated );
         settingPort.postMessage({ type : "get",
             name : "all" });
-    };
+    }
 
     function addWindowListeners() {
         window.addEventListener("keydown"    , onKeyDown    , true);
@@ -318,20 +295,44 @@ function EventHandler() {
         window.addEventListener("focus"      , onFocus      , true);
         window.addEventListener("blur"       , onBlur       , true);
         window.addEventListener("keyup"      , onKeyUp      , true);
-    };
+    }
 
     function addRequestListener() {
+        var reqListeners = {
+            scrollUp             : reqScrollUp,
+            scrollDown           : reqScrollDown,
+            scrollLeft           : reqScrollLeft,
+            scrollRight          : reqScrollRight,
+            pageHalfUp           : reqPageHalfUp,
+            pageHalfDown         : reqPageHalfDown,
+            pageUp               : reqPageUp,
+            pageDown             : reqPageDown,
+            goTop                : reqGoTop,
+            goBottom             : reqGoBottom,
+            reloadTab            : reqReloadTab,
+            backHist             : reqBackHist,
+            forwardHist          : reqForwardHist,
+            goCommandMode        : reqGoCommandMode,
+            goSearchModeForward  : reqGoSearchModeForward,
+            goSearchModeBackward : reqGoSearchModeBackward,
+            goFMode              : reqGoFMode,
+            nextSearch           : reqNextSearch,
+            prevSearch           : reqPrevSearch,
+            focusOnFirstInput    : reqFocusOnFirstInput,
+            blur                 : reqBlur
+        };
+
         chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
-            Logger.d("request received:", req)
+            Logger.d("request received:", req);
             if(reqListeners[req.command]) {
                 reqListeners[req.command]();
             } else {
-                Logger.e("INVALID REQUEST received!:", req)
+                Logger.e("INVALID REQUEST received!:", req);
             }
 
             sendResponse();
         });
-    };
+    }
 
     this.init = function() {
         setupPorts();

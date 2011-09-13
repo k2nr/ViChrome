@@ -1,32 +1,3 @@
-
-var commandTable = {
-     openNewTab            : openNewTab
-    ,closeCurTab           : closeCurTab
-    ,moveNextTab           : moveNextTab
-    ,movePrevTab           : movePrevTab
-    ,reloadTab             : sendRequestToSelectedTab
-    ,scrollUp              : sendRequestToSelectedTab
-    ,scrollDown            : sendRequestToSelectedTab
-    ,scrollLeft            : sendRequestToSelectedTab
-    ,scrollRight           : sendRequestToSelectedTab
-    ,pageHalfUp            : sendRequestToSelectedTab
-    ,pageHalfDown          : sendRequestToSelectedTab
-    ,pageUp                : sendRequestToSelectedTab
-    ,pageDown              : sendRequestToSelectedTab
-    ,goTop                 : sendRequestToSelectedTab
-    ,goBottom              : sendRequestToSelectedTab
-    ,nextSearch            : sendRequestToSelectedTab
-    ,prevSearch            : sendRequestToSelectedTab
-    ,backHist              : sendRequestToSelectedTab
-    ,forwardHist           : sendRequestToSelectedTab
-    ,goCommandMode         : sendRequestToSelectedTab
-    ,goSearchModeForward   : sendRequestToSelectedTab
-    ,goSearchModeBackward  : sendRequestToSelectedTab
-    ,goFMode               : sendRequestToSelectedTab
-    ,focusOnFirstInput     : sendRequestToSelectedTab
-    ,escape                : escape
-}
-
 var KeyQueue = function(){
     this.a = "";
     this.timerId = 0;
@@ -35,12 +6,12 @@ var KeyQueue = function(){
     this.queue = function(s) {
         this.a += s;
         return this;
-    }
+    };
 
     this.reset = function() {
         this.a = "";
         this.stopTimer();
-    }
+    };
 
     this.stopTimer = function() {
         if( this.isWaiting ) {
@@ -48,7 +19,7 @@ var KeyQueue = function(){
             clearTimeout( this.timerId );
             this.isWaiting = false;
         }
-    }
+    };
 
     this.startTimer = function( callback, ms ) {
         if( this.isWaiting ) {
@@ -58,7 +29,7 @@ var KeyQueue = function(){
             this.isWaiting = true;
             setTimeout( callback, ms );
         }
-    }
+    };
 
     // returns right key sequence.if right key sequence isn't built up, return null
     this.getNextKeySequence = function() {
@@ -85,14 +56,9 @@ var KeyQueue = function(){
             }
             return null;
         }
-    }
+    };
 };
-
 var keyQueue = new KeyQueue ();
-
-function executeCommand (com) {
-    commandTable[com](com);
-}
 
 function sendRequestToSelectedTab (com) {
     chrome.tabs.getSelected(null, function(tab) {
@@ -108,14 +74,6 @@ function closeCurTab () {
     chrome.tabs.getSelected(null, function(tab) {
         chrome.tabs.remove(tab.id, function(){});
     });
-}
-
-function moveNextTab () {
-    moveTab( 1 );
-}
-
-function movePrevTab () {
-    moveTab( -1 );
 }
 
 function escape () {
@@ -138,16 +96,62 @@ function moveTab ( offset ) {
     });
 }
 
+function moveNextTab () {
+    moveTab( 1 );
+}
+
+function movePrevTab () {
+    moveTab( -1 );
+}
+
+
+
+var commandTable = {
+    openNewTab            : openNewTab,
+    closeCurTab           : closeCurTab,
+    moveNextTab           : moveNextTab,
+    movePrevTab           : movePrevTab,
+    reloadTab             : sendRequestToSelectedTab,
+    scrollUp              : sendRequestToSelectedTab,
+    scrollDown            : sendRequestToSelectedTab,
+    scrollLeft            : sendRequestToSelectedTab,
+    scrollRight           : sendRequestToSelectedTab,
+    pageHalfUp            : sendRequestToSelectedTab,
+    pageHalfDown          : sendRequestToSelectedTab,
+    pageUp                : sendRequestToSelectedTab,
+    pageDown              : sendRequestToSelectedTab,
+    goTop                 : sendRequestToSelectedTab,
+    goBottom              : sendRequestToSelectedTab,
+    nextSearch            : sendRequestToSelectedTab,
+    prevSearch            : sendRequestToSelectedTab,
+    backHist              : sendRequestToSelectedTab,
+    forwardHist           : sendRequestToSelectedTab,
+    goCommandMode         : sendRequestToSelectedTab,
+    goSearchModeForward   : sendRequestToSelectedTab,
+    goSearchModeBackward  : sendRequestToSelectedTab,
+    goFMode               : sendRequestToSelectedTab,
+    focusOnFirstInput     : sendRequestToSelectedTab,
+    escape                : escape
+};
+
 function getCommand (s) {
-    if( s == "<ESC>" ) {
+    var keySeq,
+        keyMap = SettingManager.get("keyMappings");
+
+    if( s === "<ESC>" ) {
         keyQueue.reset();
-        var keySeq = s;
+        keySeq = s;
     } else {
         keyQueue.queue(s);
-        var keySeq = keyQueue.getNextKeySequence();
+        keySeq = keyQueue.getNextKeySequence();
     }
 
-    var keyMap = SettingManager.get("keyMappings");
-    if( keyMap && keySeq )
+    if( keyMap && keySeq ) {
         return keyMap[keySeq];
+    }
 }
+
+function executeCommand (com) {
+    commandTable[com](com);
+}
+

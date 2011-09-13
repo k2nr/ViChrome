@@ -1,11 +1,12 @@
 function Vichrome()  {
-    var modeInsert = false;
-    var modeSearch = false;
-    var modeCommand = false;
-    var modeF = false;
-    var currentSearchCnt = 0;
-    var backwardSearch = false;
-    var search = null;
+    var modeInsert = false,
+        modeSearch = false,
+        modeCommand = false,
+        modeF = false,
+        currentSearchCnt = 0,
+        backwardSearch = false,
+        search = null;
+
     this.settings = [];
 
     this.init = function() {
@@ -16,15 +17,16 @@ function Vichrome()  {
     };
 
     this.isEditable = function (target) {
+        var ignoreList = ["TEXTAREA"];
+
         if (target.isContentEditable) {
             return true;
         }
 
-        if(target.nodeName=="INPUT" && target.type == "text") {
+        if(target.nodeName === "INPUT" && target.type === "text") {
             return true;
         }
 
-        var ignoreList = ["TEXTAREA"];
         if(ignoreList.indexOf(target.nodeName) >= 0){
             return true;
         }
@@ -42,18 +44,20 @@ function Vichrome()  {
 
     this.enterSearchMode = function (backward) {
         if( this.isInSearchMode() ) {
-            reutrn;
+            return;
         }
 
-        if(!search)
+        if(!search) {
             search = new Search();
+        }
 
         modeSearch = true;
         backwardSearch = backward;
-        if( backward )
+        if( backward ) {
             View.showCommandBox("?");
-        else
+        } else {
             View.showCommandBox("/");
+        }
 
         View.focusCommandBox();
     };
@@ -73,23 +77,25 @@ function Vichrome()  {
     };
 
     this.updateSearchInput = function() {
-        var str = View.getCommandBoxValue();
-        // the first character is always "/" so the char to search starts from 1
-        var searchStr = str.slice( 1, str.length );
+        var str = View.getCommandBoxValue(),
+            // the first character is always "/" so the char to search starts from 1
+            searchStr = str.slice( 1, str.length ),
+            total;
         if(searchStr.length > 0) {
             search.searchAndHighlight( searchStr );
-            var total = search.getSearchResultCnt();
-            if( total == 0 ) {
+            total = search.getSearchResultCnt();
+            if( total === 0 ) {
                 View.setStatusLineText("no matches");
                 return;
             }
 
             currentSearchCnt = search.getFirstInnerSearchResultIndex( backwardSearch );
             if( currentSearchCnt < 0 ){
-                if( backwardSearch )
+                if( backwardSearch ) {
                     currentSearchCnt = total - 1;
-                else
+                } else {
                     currentSearchCnt = 0;
+                }
             }
             search.moveToSearchResult( currentSearchCnt );
         } else {
@@ -124,13 +130,15 @@ function Vichrome()  {
 
     this.goNextSearchResult = function (reverse) {
         //TODO:wrap should be read from localStorage
-        var wrap = true;
-        var total = search.getSearchResultCnt();
-        var forward = backwardSearch == reverse;
-        if( forward )
+        var wrap = true,
+            total = search.getSearchResultCnt(),
+            forward = (backwardSearch === reverse);
+
+        if( forward ) {
             currentSearchCnt++;
-        else
+        } else {
             currentSearchCnt--;
+        }
 
         if( forward && currentSearchCnt >= total) {
             if( wrap ) {
