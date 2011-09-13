@@ -1,15 +1,25 @@
-function Search() {
-    var sortedResults = null;
+function Search(wrap, backward) {
+    var _sortedResults = null,
+        _wrap          = wrap,
+        _backward      = backward,
+        _curIndex      = 0;
+
+    if( backward ) {
+        View.showCommandBox("?");
+    } else {
+        View.showCommandBox("/");
+    }
+    View.focusCommandBox();
 
     function buildSortedResults() {
-        sortedResults = [];
+        _sortedResults = [];
         $('span.highlight:visible').each(function(i) {
-            sortedResults[i] = {};
-            sortedResults[i].offset = $(this).offset();
-            sortedResults[i].value  = $(this);
+            _sortedResults[i] = {};
+            _sortedResults[i].offset = $(this).offset();
+            _sortedResults[i].value  = $(this);
         });
 
-        sortedResults.sort(function(a, b){
+        _sortedResults.sort(function(a, b){
             if( a.offset.top === b.offset.top ) {
                 return a.offset.left - b.offset.left;
             } else {
@@ -19,7 +29,7 @@ function Search() {
     }
 
     function getSearchResultSpan(cnt) {
-        return sortedResults[cnt].value;
+        return _sortedResults[cnt].value;
     }
 
     function adjustScreenToSearchResult(pos) {
@@ -55,6 +65,46 @@ function Search() {
         return true;
     }
 
+    function moveTo(pos) {
+        var span  = null;
+
+        if( getResultCnt() > pos ) {
+            span = getSearchResultSpan( pos );
+            if( span ) {
+                $('span').removeClass('highlightFocus');
+                span.addClass('highlightFocus');
+                adjustScreenToSearchResult( span.offset() );
+                View.$statusLine.html( (pos+1) + " / " + getResultCnt() );
+            }
+        } else {
+            Logger.e("out of bounds of searchResults length", pos);
+        }
+    }
+
+    function getResultCnt() {
+        return _sortedResults.length;
+    }
+
+    function getFirstInnerSearchResultIndex() {
+        var total = getResultCnt(),
+            i, offset;
+        for (i=0; i < total; i++) {
+            if( _backward ) {
+                offset = getSearchResultSpan( total - 1 - i ).offset();
+                if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
+                    return total - 1 - i;
+                }
+            } else {
+                offset = getSearchResultSpan(i).offset();
+                if( offset.top - 10 > window.pageYOffset ) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
     this.highlight = function(word) {
         $(document.body).highlight(word);
     };
@@ -70,45 +120,54 @@ function Search() {
         buildSortedResults();
     };
 
-    this.getSearchResultCnt = function() {
-        return sortedResults.length;
-    };
 
-    this.moveToSearchResult = function(pos) {
-        var total = this.getSearchResultCnt(),
-            span  = null;
-
-        if( total > pos ) {
-            span = getSearchResultSpan( pos );
-            if( span ) {
-                $('span').removeClass('highlightFocus');
-                span.addClass('highlightFocus');
-                adjustScreenToSearchResult( span.offset() );
-                View.$statusLine.html( (pos+1) + " / " + total );
+    this.updateInput = function(word) {
+        if(word.length > 0) {
+            this.searchAndHighlight( word );
+            if( getResultCnt() === 0 ) {
+                View.setStatusLineText("no matches");
+                return;
             }
+
+            _curIndex = getFirstInnerSearchResultIndex();
+            if( _curIndex < 0 ){
+                if( _backward ) {
+                    _curIndex = getResultCnt() - 1;
+                } else {
+                    _curIndex = 0;
+                }
+            }
+            moveTo( _curIndex );
         } else {
-            Logger.e("out of bounds of searchResults length", pos);
+            View.setStatusLineText("");
+            this.removeHighlight();
         }
     };
 
+    this.goNext = function (reverse) {
+        var forward = (_backward === reverse);
 
-    this.getFirstInnerSearchResultIndex = function(backward) {
-        var total = this.getSearchResultCnt(),
-            i, offset;
-        for (i=0; i < total; i++) {
-            if(backward) {
-                offset = getSearchResultSpan( total - 1 - i ).offset();
-                if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
-                    return total - 1 - i;
-                }
+        if( forward ) {
+            _curIndex++;
+        } else {
+            _curIndex--;
+        }
+
+        if( forward && _curIndex >= getResultCnt() ) {
+            if( _wrap ) {
+                _curIndex = 0;
             } else {
-                offset = getSearchResultSpan(i).offset();
-                if( offset.top - 10 > window.pageYOffset ) {
-                    return i;
-                }
+                return false;
+            }
+        } else if( !forward && _curIndex < 0 ) {
+            if( _wrap ) {
+                _curIndex = getResultCnt() - 1;
+            } else {
+                return false;
             }
         }
 
-        return - 1;
+        moveTo( _curIndex );
+        return true;
     };
 }

@@ -1,11 +1,6 @@
 function Vichrome()  {
-    var modeInsert = false,
-        modeSearch = false,
-        modeCommand = false,
-        modeF = false,
-        currentSearchCnt = 0,
-        backwardSearch = false,
-        search = null;
+    var search = null,
+        mode   = null;
 
     this.settings = [];
 
@@ -13,53 +8,55 @@ function Vichrome()  {
         // should evaluate focused element on initialization.
         if( this.isEditable( document.activeElement ) ) {
             this.enterInsertMode();
+        } else {
+            this.enterNormalMode();
         }
     };
 
-    this.isEditable = function (target) {
+    this.isEditable = function(target) {
         var ignoreList = ["TEXTAREA"];
 
-        if (target.isContentEditable) {
+        if ( target.isContentEditable ) {
             return true;
         }
 
-        if(target.nodeName === "INPUT" && target.type === "text") {
+        if( target.nodeName === "INPUT" && target.type === "text" ) {
             return true;
         }
 
-        if(ignoreList.indexOf(target.nodeName) >= 0){
+        if( ignoreList.indexOf(target.nodeName) >= 0 ){
             return true;
         }
 
         return false;
     };
 
-    this.enterInsertMode = function () {
-        modeInsert = true;
+    this.enterNormalMode = function() {
+        mode = new NormalMode();
+        mode.enter();
     };
 
-    this.enterCommandMode = function () {
-        modeCommand = true;
+    this.enterInsertMode = function() {
+        mode = new InsertMode();
+        mode.enter();
     };
 
-    this.enterSearchMode = function (backward) {
-        if( this.isInSearchMode() ) {
-            return;
-        }
+    this.enterCommandMode = function() {
+        mode = new CommandMode();
+        mode.enter();
+    };
 
-        if(!search) {
-            search = new Search();
-        }
+    this.enterSearchMode = function(backward) {
+        mode = new SearchMode();
+        mode.enter();
 
-        modeSearch = true;
-        backwardSearch = backward;
-        if( backward ) {
-            View.showCommandBox("?");
-        } else {
-            View.showCommandBox("/");
-        }
+        //TODO:wrap should be read from localStorage
+        search = new Search( true, backward );
+    };
 
-        View.focusCommandBox();
+    this.enterFMode = function(backward) {
+        mode = new FMode();
+        mode.enter();
     };
 
     this.cancelSearch = function() {
@@ -77,89 +74,43 @@ function Vichrome()  {
     };
 
     this.updateSearchInput = function() {
-        var str = View.getCommandBoxValue(),
-            // the first character is always "/" so the char to search starts from 1
-            searchStr = str.slice( 1, str.length ),
-            total;
-        if(searchStr.length > 0) {
-            search.searchAndHighlight( searchStr );
-            total = search.getSearchResultCnt();
-            if( total === 0 ) {
-                View.setStatusLineText("no matches");
-                return;
-            }
+        var str = View.getCommandBoxValue();
 
-            currentSearchCnt = search.getFirstInnerSearchResultIndex( backwardSearch );
-            if( currentSearchCnt < 0 ){
-                if( backwardSearch ) {
-                    currentSearchCnt = total - 1;
-                } else {
-                    currentSearchCnt = 0;
-                }
-            }
-            search.moveToSearchResult( currentSearchCnt );
-        } else {
-            View.setStatusLineText("");
-            search.removeHighlight();
-        }
+        // the first char is always "/" so the char to search starts from 1
+        search.updateInput( str.slice( 1, str.length ) );
     };
 
-    this.enterNormalMode = function () {
-        modeInsert  = false;
-        modeCommand = false;
-        modeSearch  = false;
 
-        View.hideCommandBox();
+    this.isInInsertMode = function() {
+        return (mode instanceof InsertMode);
     };
 
-    this.isInInsertMode = function () {
-        return modeInsert;
+    this.isInSearchMode = function() {
+        return (mode instanceof SearchMode);
     };
 
-    this.isInSearchMode = function () {
-        return modeSearch;
+    this.isInCommandMode = function() {
+        return (mode instanceof CommandMode);
     };
 
-    this.isInCommandMode = function () {
-        return modeCommand;
+    this.isInFMode = function() {
+        return (mode instanceof FMode);
     };
 
-    this.isInFMode = function () {
-        return modeF;
-    };
-
-    this.goNextSearchResult = function (reverse) {
-        //TODO:wrap should be read from localStorage
-        var wrap = true,
-            total = search.getSearchResultCnt(),
-            forward = (backwardSearch === reverse);
-
-        if( forward ) {
-            currentSearchCnt++;
-        } else {
-            currentSearchCnt--;
-        }
-
-        if( forward && currentSearchCnt >= total) {
-            if( wrap ) {
-                currentSearchCnt = 0;
-            } else {
-                return false;
-            }
-        } else if( !forward && currentSearchCnt < 0 ) {
-            if( wrap ) {
-                currentSearchCnt = total - 1;
-            } else {
-                return false;
-            }
-        }
-
-        search.moveToSearchResult( currentSearchCnt );
-        return true;
+    this.goNextSearchResult = function(reverse) {
+        return search.goNext( reverse );
     };
 
     this.getSetting = function(name) {
         return this.settings[name];
+    };
+
+    this.blur = function() {
+        mode.blur();
+    };
+
+    this.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        return mode.prePostKeyEvent(key, ctrl, alt, meta);
     };
 }
 

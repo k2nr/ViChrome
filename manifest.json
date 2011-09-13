@@ -26,6 +26,7 @@
           "keys.js",
           "view.js",
           "search.js",
+          "modes.js",
           "eventhandlers.js",
           "vichrome.js"
       ],

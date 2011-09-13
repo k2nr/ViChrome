@@ -52,11 +52,7 @@ function EventHandler() {
 
     function reqBlur () {
         document.activeElement.blur();
-        if( vichrome.isInSearchMode() ) {
-            vichrome.cancelSearch();
-        } else {
-            vichrome.cancelSearchHighlight();
-        }
+        vichrome.blur();
     }
 
     function reqGoCommandMode () {
@@ -135,129 +131,90 @@ function EventHandler() {
                              shift    : e.shiftKey});
     }
 
-    function isOnlyModifier (e) {
-        switch(e.keyCode) {
-            case keyCodes.Shift:
-            case keyCodes.Ctrl:
-            case keyCodes.Meta:
-            case keyCodes.Alt:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
     function prePostKeyEvent (e) {
+        var key;
+
         // vichrome doesn't handle meta and alt key for now
         if( e.metaKey || e.altKey ) {
             return false;
         }
-        if( isOnlyModifier(e) ) {
-            return false;
-        }
-        if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
-            e.keyCode = keyCodes.ESC;
-        }
 
-        if( vichrome.isInSearchMode() || vichrome.isInCommandMode() ) {
-            // TODO:
-            if( View.getCommandBoxValue().length === 1 &&
-            e.keyCode === keyCodes.BS) {
-                vichrome.cancelSearch();
+        if( e.type === "keydown" ) {
+            key = e.keyCode;
+            if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
+                key = keyCodes.ESC;
             }
+            // some web sites set their own key bind(google instant search etc).
+            // to prevent messing up vichrome's key bind from them,
+            // we have to stop event propagation here.
+            // TODO:we should only stop when a valid(handlable) key event come.
+            event.stopPropagation();
 
-            switch(e.keyCode) {
+            // keydown only catch key codes that are not passed to keypress
+            switch( key ) {
                 case keyCodes.Tab   :
                 case keyCodes.BS    :
                 case keyCodes.DEL   :
-                case keyCodes.Left  :
-                case keyCodes.Up    :
-                case keyCodes.Right :
-                case keyCodes.Down  :
                 case keyCodes.ESC   :
-                case keyCodes.CR    :
-                    event.stopPropagation();
+                    break;
+                case 37 :
+                    key = keyCodes.Left;
+                    break;
+                case 38 :
+                    key = keyCodes.Up;
+                    break;
+                case 39 :
+                    key = keyCodes.Right;
+                    break;
+                case 40 :
+                    key = keyCodes.Down;
+                    break;
+                case 112  :
+                    key = keyCodes.F1;
+                    break;
+                case 113  :
+                    key = keyCodes.F2;
+                    break;
+                case 114  :
+                    key = keyCodes.F3;
+                    break;
+                case 115  :
+                    key = keyCodes.F4;
+                    break;
+                case 116  :
+                    key = keyCodes.F5;
+                    break;
+                case 117  :
+                    key = keyCodes.F6;
+                    break;
+                case 118  :
+                    key = keyCodes.F7;
+                    break;
+                case 119  :
+                    key = keyCodes.F8;
+                    break;
+                case 120  :
+                    key = keyCodes.F9;
+                    break;
+                case 121  :
+                    key = keyCodes.F10;
+                    break;
+                case 122  :
+                    key = keyCodes.F11;
+                    break;
+                case 123  :
+                    key = keyCodes.F12;
                     break;
                 default:
-                    break;
+                    return false;
             }
+        } else if( e.type === "keypress" ) {
+            key = e.charCode;
         }
 
-        // TODO:commandmode
-        if( vichrome.isInSearchMode() ) {
-            if(e.type === "keydown") {
-                if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
-                    vichrome.cancelSearch();
-                    return true;
-                } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
-                    return true;
-                } else if( e.ctrlKey ) {
-                    return true;
-                }
-            } else if(e.type === "keypress" && e.keyCode === keyCodes.CR) {
-                vichrome.enterNormalMode();
-                return false;
-            } else {
-                return false;
-            }
-        } else if( vichrome.isInInsertMode() || vichrome.isInCommandMode() ){
-            if( e.type === "keydown" ) {
-                if( KeyManager.isESC(e.keyCode, e.ctrlKey) ) {
-                    return true;
-                } else if(keyCodes.F1 <= e.keyCode && e.keyCode <= keyCodes.F12){
-                    return true;
-                } else if( e.ctrlKey ) {
-                    return true;
-                }
-            } else {
-                // character key do not need to be handled in insert mode
-                return false;
-            }
-        } else {
-            if(e.type === "keypress") {
-                event.preventDefault();
-                event.stopPropagation();
-                return true;
-            } else if(e.type === "keydown") {
-                // some web sites set their own key bind(google instant search etc).
-                // to prevent messing up vichrome's key bind from them,
-                // we have to stop event propagation here.
-                // TODO:we should only stop when a valid(handlable) key event come.
-                event.stopPropagation();
-                if( e.ctrlKey ) {
-                    // TODO:some keys cannot be recognized with keyCode e.g. C-@
-                    return true;
-                }
-                // keydown only catch key codes that are not passed to keypress
-                switch(e.keyCode) {
-                    case keyCodes.Tab   :
-                    case keyCodes.BS    :
-                    case keyCodes.DEL   :
-                    case keyCodes.Left  :
-                    case keyCodes.Up    :
-                    case keyCodes.Right :
-                    case keyCodes.Down  :
-                    case keyCodes.F1    :
-                    case keyCodes.F2    :
-                    case keyCodes.F3    :
-                    case keyCodes.F4    :
-                    case keyCodes.F5    :
-                    case keyCodes.F6    :
-                    case keyCodes.F7    :
-                    case keyCodes.F8    :
-                    case keyCodes.F9    :
-                    case keyCodes.F10   :
-                    case keyCodes.F11   :
-                    case keyCodes.F12   :
-                    case keyCodes.ESC   :
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        }
+        return vichrome.prePostKeyEvent( key, e.ctrlKey, e.altKey, e.metaKey );
     }
 
     function onFocus (e) {
@@ -341,9 +298,9 @@ function EventHandler() {
     };
 
     this.onEnabled = function() {
+        View.init();
         this.init();
         vichrome.init();
-        View.init();
     };
 }
 
