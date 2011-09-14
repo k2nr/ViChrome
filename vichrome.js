@@ -66,7 +66,7 @@ function Vichrome()  {
     };
 
     this.cancelSearchHighlight = function() {
-        View.setStatusLineText("");
+        view.setStatusLineText("");
         this.search.removeHighlight();
     };
 
@@ -75,10 +75,10 @@ function Vichrome()  {
     };
 
     this.updateSearchInput = function() {
-        var str = View.getCommandBoxValue();
+        var str = view.getCommandBoxValue();
 
         // the first char is always "/" so the char to search starts from 1
-        this.search.updateInput( str.slice( 1, str.length ) );
+        this.search.updateInput( str );
     };
 
 

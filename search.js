@@ -5,11 +5,11 @@ function Search(wrap, backward) {
         _curIndex      = 0;
 
     if( backward ) {
-        View.showCommandBox("?");
+        view.showCommandBox("?", "");
     } else {
-        View.showCommandBox("/");
+        view.showCommandBox("/", "");
     }
-    View.focusCommandBox();
+    view.focusCommandBox();
 
     function buildSortedResults() {
         _sortedResults = [];
@@ -74,7 +74,7 @@ function Search(wrap, backward) {
                 $('span').removeClass('highlightFocus');
                 span.addClass('highlightFocus');
                 adjustScreenToSearchResult( span.offset() );
-                View.$statusLine.html( (pos+1) + " / " + getResultCnt() );
+                view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
             }
         } else {
             Logger.e("out of bounds of searchResults length", pos);
@@ -125,7 +125,7 @@ function Search(wrap, backward) {
         if(word.length > 0) {
             this.searchAndHighlight( word );
             if( getResultCnt() === 0 ) {
-                View.setStatusLineText("no matches");
+                view.setStatusLineText("no matches");
                 return;
             }
 
@@ -139,7 +139,7 @@ function Search(wrap, backward) {
             }
             moveTo( _curIndex );
         } else {
-            View.setStatusLineText("");
+            view.setStatusLineText("");
             this.removeHighlight();
         }
     };

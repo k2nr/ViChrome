@@ -167,32 +167,6 @@ function EventHandler() {
     }
 
     function addRequestListener() {
-    /*
-        var reqListeners = {
-            scrollUp             : reqScrollUp,
-            scrollDown           : reqScrollDown,
-            scrollLeft           : reqScrollLeft,
-            scrollRight          : reqScrollRight,
-            pageHalfUp           : reqPageHalfUp,
-            pageHalfDown         : reqPageHalfDown,
-            pageUp               : reqPageUp,
-            pageDown             : reqPageDown,
-            goTop                : reqGoTop,
-            goBottom             : reqGoBottom,
-            reloadTab            : reqReloadTab,
-            backHist             : reqBackHist,
-            forwardHist          : reqForwardHist,
-            goCommandMode        : reqGoCommandMode,
-            goSearchModeForward  : reqGoSearchModeForward,
-            goSearchModeBackward : reqGoSearchModeBackward,
-            goFMode              : reqGoFMode,
-            nextSearch           : reqNextSearch,
-            prevSearch           : reqPrevSearch,
-            focusOnFirstInput    : reqFocusOnFirstInput,
-            blur                 : reqBlur
-        };
-    */
-
         chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
             Logger.d("request received:", req);
             if(vichrome.mode["req"+req.command]) {
@@ -212,7 +186,7 @@ function EventHandler() {
     };
 
     this.onEnabled = function() {
-        View.init();
+        view.init();
         this.init();
         vichrome.init();
     };

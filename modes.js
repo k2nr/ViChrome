@@ -2,55 +2,55 @@ function Mode() {
 }
 
 Mode.prototype.reqScrollDown = function() {
-    window.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
+    view.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
 };
 
 Mode.prototype.reqScrollUp = function() {
-    window.scrollBy( 0, -vichrome.getSetting("scrollPixelCount") );
+    view.scrollBy( 0, -vichrome.getSetting("scrollPixelCount") );
 };
 
 Mode.prototype.reqScrollLeft = function() {
-    window.scrollBy( -vichrome.getSetting("scrollPixelCount"), 0 );
+    view.scrollBy( -vichrome.getSetting("scrollPixelCount"), 0 );
 };
 
 Mode.prototype.reqScrollRight = function() {
-    window.scrollBy( vichrome.getSetting("scrollPixelCount"), 0 );
+    view.scrollBy( vichrome.getSetting("scrollPixelCount"), 0 );
 };
 
 Mode.prototype.reqPageHalfDown = function() {
-    window.scrollBy( 0, window.innerHeight / 2 );
+    view.scrollBy( 0, window.innerHeight / 2 );
 };
 
 Mode.prototype.reqPageHalfUp = function() {
-    window.scrollBy( 0, -window.innerHeight / 2 );
+    view.scrollBy( 0, -window.innerHeight / 2 );
 };
 
 Mode.prototype.reqPageDown = function() {
-    window.scrollBy( 0, window.innerHeight );
+    view.scrollBy( 0, window.innerHeight );
 };
 
 Mode.prototype.reqPageUp = function() {
-    window.scrollBy( 0, -window.innerHeight );
+    view.scrollBy( 0, -window.innerHeight );
 };
 
 Mode.prototype.reqGoTop = function() {
-    window.scrollTo( window.pageXOffset, 0 );
+    view.scrollTo( window.pageXOffset, 0 );
 };
 
 Mode.prototype.reqGoBottom = function() {
-    window.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
+    view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
 };
 
 Mode.prototype.reqBackHist = function() {
-    window.history.back();
+    view.backHist();
 };
 
 Mode.prototype.reqForwardHist = function() {
-    window.history.forward();
+    view.forwardHist();
 };
 
 Mode.prototype.reqReloadTab = function() {
-    window.location.reload();
+    view.reload();
 };
 
 Mode.prototype.reqGoSearchModeForward = function() {
@@ -62,7 +62,7 @@ Mode.prototype.reqGoSearchModeBackward = function() {
 };
 
 Mode.prototype.reqBlur = function() {
-    document.activeElement.blur();
+    view.blurActiveElement();
 
     if( this.blur ) {
         this.blur();
@@ -75,8 +75,8 @@ Mode.prototype.reqGoFMode = function() {
 
 Mode.prototype.reqGoCommandMode = function() {
     vichrome.changeMode( new CommandMode() );
-    View.showCommandBox(":");
-    View.focusCommandBox();
+    view.showCommandBox(":");
+    view.focusCommandBox();
 };
 
 function NormalMode() {
@@ -93,11 +93,11 @@ NormalMode.prototype.blur = function() {
 };
 
 NormalMode.prototype.enter = function() {
-    View.hideCommandBox();
+    view.hideCommandBox();
 };
 
 NormalMode.prototype.reqFocusOnFirstInput = function() {
-    View.focusInput( 0 );
+    view.focusInput( 0 );
 };
 
 NormalMode.prototype.reqNextSearch = function() {
@@ -137,7 +137,7 @@ function SearchMode() {
 }
 SearchMode.prototype = new Mode();
 SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    if( View.getCommandBoxValue().length === 1 &&
+    if( view.getCommandBoxValue().length === 0 &&
         key === keyCodes.BS) {
         setTimeout( function() {
             vichrome.cancelSearch();
@@ -184,7 +184,7 @@ SearchMode.prototype.blur = function() {
 };
 
 SearchMode.prototype.enter = function() {
-    View.focusCommandBox();
+    view.focusCommandBox();
 };
 
 SearchMode.prototype.reqNextSearch = function() {

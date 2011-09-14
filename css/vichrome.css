@@ -2,7 +2,6 @@
     background : none;
     position: fixed;
     text-align: left;
-    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
     padding: 0;
     margin:  0;
     left:  0px;
@@ -12,10 +11,9 @@
     z-index: 100000;
 }
 
-#vichromeinput {
+#vichromefield {
     background-color: rgba(64, 64, 64, 0.7);
     display: none;
-    color: #fff;
     outline: none;
     border: none;
     border-radius: 0px;
@@ -23,6 +21,33 @@
     width: 100%;
     height: 24px;
     padding: 0px 3px;
+    margin: 0px 0px;
+}
+
+#vichromeinput {
+    background : none;
+    color: #fff;
+    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    outline: none;
+    border: none;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    width: auto;
+    height: 24px;
+    padding: 0px 0px;
+    margin: 0px 0px;
+    font-size: 20px;
+}
+
+#vichromemodechar {
+    background : none;
+    color: #fff;
+    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    width: 10px;
+    height: 24px;
+    outline: none;
+    border: none;
+    padding: 0px 0px;
     margin: 0px 0px;
     font-size: 20px;
 }
@@ -35,7 +60,7 @@
     -webkit-box-shadow: none;
     width: 100%%;
     height: 18px;
-    padding: 0px 3px;
+    padding: 1px 3px;
     margin:  0px 0px;
     font-size: 14px;
 }

@@ -1,48 +1,89 @@
-var View = {
-    init : function() {
-        View.$commandBox   = $('<div id="vichromebox" />');
-        View.$commandField = $('<input type="text" id="vichromeinput" value="" />');
-        View.$statusLine = $('<div id="vichromestatusline" />')
+function View() {
+    var $commandBox, $commandField, $commandInput, $modeChar, $statusLine;
+
+    this.init = function() {
+        $commandBox   = $('<div id="vichromebox" />');
+        $commandInput = $('<input type="text" id="vichromeinput" value="" />');
+        $modeChar  = $('<div id="vichromemodechar" />');
+        $commandField = $('<table />')
+                            .append( $('<tr />')
+                                .append( $('<td id="vichromemodechar" />')
+                                    .append( $modeChar )
+                                )
+                                .append( $('<td id="vichromeinput" />')
+                                    .append( $commandInput )
+                                )
+                            );
+
+        $commandField = $('<div id="vichromefield" />').append( $commandField );
+        $statusLine = $('<div id="vichromestatusline" />')
                             .addClass('statuslineinactive');
 
-        View.$commandBox
-            .append(View.$commandField)
-            .append(View.$statusLine);
+        $commandBox
+            .append( $commandField )
+            .append( $statusLine );
 
-        $(document.body).append(View.$commandBox);
-    },
 
-    showCommandBox : function(input) {
-        this.$commandField.attr("value", input);
-        this.$statusLine.removeClass('statuslineinactive');
-        this.$commandBox.show();
-        this.$commandField.show();
-        this.$statusLine.show();
-    },
+        $(document.body).append( $commandBox );
+    };
 
-    hideCommandBox : function() {
-        this.$commandField.hide();
-        this.$statusLine.addClass('statuslineinactive');
-    },
+    this.showCommandBox = function(modeChar, input) {
+        $commandInput.attr("value", input);
+        $modeChar.html( modeChar );
+        $statusLine.removeClass('statuslineinactive');
+        $commandBox.show();
+        $commandField.show();
+        $statusLine.show();
+    };
 
-    focusCommandBox : function() {
-        this.$commandField.get(0).focus();
-    },
+    this.hideCommandBox = function() {
+        $commandField.hide();
+        $statusLine.addClass('statuslineinactive');
+    };
 
-    isCommandBoxActive : function() {
-        return this.$commandField.css('display') !== 'none';
-    },
+    this.focusCommandBox = function() {
+        $commandInput.get(0).focus();
+    };
 
-    getCommandBoxValue : function() {
-        return this.$commandField.val();
-    },
+    this.isCommandBoxActive = function() {
+        return $commandField.css('display') !== 'none';
+    };
 
-    setStatusLineText : function(text) {
-        this.$statusLine.html(text);
-    },
+    this.getCommandBoxValue = function() {
+        return $commandInput.val();
+    };
 
-    focusInput : function( idx ) {
+    this.setStatusLineText = function(text) {
+        $statusLine.html(text);
+    };
+
+    this.focusInput = function( idx ) {
         $('form input:text:visible').get(0).focus();
-    }
-};
+    };
+
+    this.scrollBy = function( x, y ) {
+        window.scrollBy( x, y );
+    };
+
+    this.scrollTo = function( x, y ) {
+        window.scrollTo( x, y );
+    };
+
+    this.backHist = function() {
+        window.history.back();
+    };
+
+    this.forwardHist = function() {
+        window.history.forward();
+    };
+
+    this.reload = function() {
+        window.location.reload();
+    };
+
+    this.blurActiveElement = function() {
+        document.activeElement.blur();
+    };
+}
+view = new View();
 
