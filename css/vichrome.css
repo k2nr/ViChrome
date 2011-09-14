@@ -1,7 +1,6 @@
 #vichromebox {
     background : none;
     position: fixed;
-    text-align: left;
     padding: 0;
     margin:  0;
     left:  0px;
@@ -28,6 +27,7 @@
     background : none;
     color: #fff;
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    text-align: left;
     outline: none;
     border: none;
     border-radius: 0px;
@@ -43,6 +43,7 @@
     background : none;
     color: #fff;
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    text-align: left;
     width: 10px;
     height: 24px;
     outline: none;
@@ -54,13 +55,28 @@
 
 #vichromestatusline {
     background-color: rgba(64, 64, 64, 0.7);
+    text-align: left;
     color: #fff;
     outline: none;
     border: none;
     -webkit-box-shadow: none;
-    width: 100%%;
+    width: 100%;
     height: 18px;
     padding: 1px 3px;
+    margin:  0px 0px;
+    font-size: 14px;
+}
+
+#vichromehint {
+    background-color: rgba(255, 255, 64, 1.0);
+    position: absolute;
+    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    text-align: center;
+    color: #000;
+    -webkit-box-shadow: none;
+    width: 20px;
+    height: 16px;
+    padding: 0px 0px;
     margin:  0px 0px;
     font-size: 14px;
 }
@@ -82,4 +98,8 @@
 .highlightFocus {
     background-color: orange !important;
     color: black !important;
+}
+
+.hintcandidate {
+    background-color: rgba(255, 180, 64, 1.0);
 }

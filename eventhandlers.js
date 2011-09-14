@@ -1,9 +1,10 @@
 function EventHandler() {
-    var keyPort = null,
+    var keyPort     = null,
         settingPort = null;
 
     function onBlur (e) {
         Logger.d("onBlur");
+        vichrome.blur();
         vichrome.enterNormalMode();
     }
 

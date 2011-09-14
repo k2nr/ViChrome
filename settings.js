@@ -3,6 +3,7 @@ var SettingManager = {
         "scrollPixelCount"        : 40,
         "searchEngine"            : "http://www.google.com/",
         "commandWaitTimeOut"      : 2000,
+        "fModeAvailableKeys"      : "fdsaghjklwertyuiovn",
         "keyMappings"      : {
            "j"       : "ScrollDown",
            "k"       : "ScrollUp",
@@ -36,6 +37,7 @@ var SettingManager = {
         "scrollPixelCount",
         "searchEngine",
         "commandWaitTimeOut",
+        "fModeAvailableKeys",
         "keyMappings"
     ],
 

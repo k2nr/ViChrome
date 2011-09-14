@@ -1,6 +1,12 @@
 function Mode() {
 }
 
+Mode.prototype.exit = function() {
+};
+
+Mode.prototype.enter = function() {
+};
+
 Mode.prototype.reqScrollDown = function() {
     view.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
 };
@@ -70,7 +76,7 @@ Mode.prototype.reqBlur = function() {
 };
 
 Mode.prototype.reqGoFMode = function() {
-    // TODO
+    vichrome.changeMode(new FMode(false));
 };
 
 Mode.prototype.reqGoCommandMode = function() {
@@ -209,28 +215,84 @@ CommandMode.prototype.blur = function() {
 CommandMode.prototype.enter = function() {
 };
 
-function FMode() {
-    this.prePostKeyEvent = function(key, ctrl, alt, meta) {
-
-    };
-
-    this.blur = function() {
-
-    };
-
-    this.enter = function() {
-
-    };
+function FMode( newWindow ) {
+    this.currentInput = "";
+    this.hints        = [];
+    this.keys         = "";
+    this.keyLength    = 2;
+    this.newWindow    = newWindow;
 }
 FMode.prototype = new Mode();
+
 FMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    // TODO:
-    return true;
+    if( key === keyCodes.ESC ) {
+        return true;
+    } else if(keyCodes.F1 <= key && key <= keyCodes.F12){
+        return true;
+    } else if( ctrl ) {
+        return true;
+    } else {
+        var str = String.fromCharCode( key );
+        if( str.length <= 0 ) {
+            return false;
+        }
+        if( this.keys.indexOf( str ) >= 0 ) {
+            this.currentInput += str;
+            var total = this.hints.length;
+            for( var i=0; i < total; i++ ) {
+                if( this.currentInput === this.hints[i].key ) {
+                    break;
+                }
+            }
+            if( i < total ) {
+                if( this.hints[i].target.is('a') ) {
+                    if( this.newWindow ) {
+                        window.open( this.hints[i].target.attr('href'), "_blank" );
+                    } else {
+                        window.open( this.hints[i].target.attr('href'), "_self" );
+                    }
+                } else {
+                    this.hints[i].target.focus();
+                }
+                event.preventDefault();
+            }
+            if( this.currentInput >= this.keyLength ) {
+                $('div#vichromehint').remove();
+                vichrome.enterNormalMode();
+            }
+        }
+        return false;
+    }
 };
 
 FMode.prototype.blur = function() {
+    vichrome.enterNormalMode();
 };
 
 FMode.prototype.enter = function() {
+    var that = this, div, total;
+    this.keys = vichrome.getSetting("fModeAvailableKeys");
+    $('a:visible,*:input:visible').each( function(i) {
+        var j, k;
+        j = i / that.keys.length;
+        k = i % that.keys.length;
+        that.hints[i] = {};
+        that.hints[i].offset = $(this).offset();
+        that.hints[i].key    = that.keys.charAt(j) + that.keys.charAt(k);
+        that.hints[i].target = $(this);
+    });
+
+    total = this.hints.length;
+    for( i=0; i < total; i++) {
+        div = $('<div id="vichromehint" />')
+                .css("top",  this.hints[i].offset.top - 10)
+                .css("left", this.hints[i].offset.left - 10)
+                .html(this.hints[i].key);
+        $(document.body).append(div);
+    }
+};
+
+FMode.prototype.exit = function() {
+    $('div#vichromehint').remove();
 };
 

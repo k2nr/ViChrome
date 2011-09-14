@@ -13,10 +13,12 @@ function Vichrome()  {
     };
 
     this.changeMode = function(newMode) {
-        var that = this;
         Logger.d("mode changed", newMode);
-        that.mode = newMode;
-        that.mode.enter();
+        if( this.mode ) {
+            this.mode.exit();
+        }
+        this.mode = newMode;
+        this.mode.enter();
     };
 
     this.isEditable = function(target) {
