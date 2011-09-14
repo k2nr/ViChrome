@@ -2,97 +2,6 @@ function EventHandler() {
     var keyPort = null,
         settingPort = null;
 
-    function reqScrollDown () {
-        window.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
-    }
-
-    function reqScrollUp () {
-        window.scrollBy( 0, -vichrome.getSetting("scrollPixelCount") );
-    }
-
-    function reqScrollLeft () {
-        window.scrollBy( -vichrome.getSetting("scrollPixelCount"), 0 );
-    }
-
-    function reqScrollRight () {
-        window.scrollBy( vichrome.getSetting("scrollPixelCount"), 0 );
-    }
-
-    function reqPageHalfDown () {
-        window.scrollBy( 0, window.innerHeight / 2 );
-    }
-
-    function reqPageHalfUp () {
-        window.scrollBy( 0, -window.innerHeight / 2 );
-    }
-
-    function reqPageDown () {
-        window.scrollBy( 0, window.innerHeight );
-    }
-
-    function reqPageUp () {
-        window.scrollBy( 0, -window.innerHeight );
-    }
-
-    function reqGoTop () {
-        window.scrollTo( window.pageXOffset, 0 );
-    }
-
-    function reqGoBottom () {
-        window.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
-    }
-
-    function reqBackHist () {
-        window.history.back();
-    }
-
-    function reqForwardHist () {
-        window.history.forward();
-    }
-
-    function reqBlur () {
-        document.activeElement.blur();
-        vichrome.blur();
-    }
-
-    function reqGoCommandMode () {
-        if( vichrome.isInCommandMode() ) {
-            return;
-        }
-
-        vichrome.enterCommandMode();
-        View.showCommandBox(":");
-        View.focusCommandBox();
-    }
-
-    function reqGoSearchModeForward () {
-        vichrome.enterSearchMode( false );
-    }
-
-    function reqGoSearchModeBackward () {
-        vichrome.enterSearchMode( true );
-    }
-
-    function reqGoFMode () {
-        // TODO
-    }
-
-    function reqReloadTab() {
-        window.location.reload();
-    }
-
-    function reqNextSearch() {
-        var found = vichrome.goNextSearchResult( false );
-    }
-
-    function reqPrevSearch() {
-        var found = vichrome.goNextSearchResult( true );
-    }
-
-    function reqFocusOnFirstInput() {
-        View.focusInput( 0 );
-    }
-
     function onBlur (e) {
         Logger.d("onBlur");
         vichrome.enterNormalMode();
@@ -208,7 +117,10 @@ function EventHandler() {
                     key = keyCodes.F12;
                     break;
                 default:
-                    return false;
+                    if( !e.ctrlKey ) {
+                        return false;
+                    }
+                    break;
             }
         } else if( e.type === "keypress" ) {
             key = e.charCode;
@@ -255,6 +167,7 @@ function EventHandler() {
     }
 
     function addRequestListener() {
+    /*
         var reqListeners = {
             scrollUp             : reqScrollUp,
             scrollDown           : reqScrollDown,
@@ -278,11 +191,12 @@ function EventHandler() {
             focusOnFirstInput    : reqFocusOnFirstInput,
             blur                 : reqBlur
         };
+    */
 
         chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
             Logger.d("request received:", req);
-            if(reqListeners[req.command]) {
-                reqListeners[req.command]();
+            if(vichrome.mode["req"+req.command]) {
+                vichrome.mode["req"+req.command]();
             } else {
                 Logger.e("INVALID REQUEST received!:", req);
             }

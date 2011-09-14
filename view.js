@@ -42,7 +42,7 @@ var View = {
     },
 
     focusInput : function( idx ) {
-        $('form input:text').get(0).focus();
+        $('form input:text:visible').get(0).focus();
     }
 };
 

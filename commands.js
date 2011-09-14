@@ -78,7 +78,7 @@ function closeCurTab () {
 
 function escape () {
     keyQueue.reset();
-    sendRequestToSelectedTab( "blur" );
+    sendRequestToSelectedTab( "Blur" );
 }
 
 function moveTab ( offset ) {
@@ -107,31 +107,31 @@ function movePrevTab () {
 
 
 var commandTable = {
-    openNewTab            : openNewTab,
-    closeCurTab           : closeCurTab,
-    moveNextTab           : moveNextTab,
-    movePrevTab           : movePrevTab,
-    reloadTab             : sendRequestToSelectedTab,
-    scrollUp              : sendRequestToSelectedTab,
-    scrollDown            : sendRequestToSelectedTab,
-    scrollLeft            : sendRequestToSelectedTab,
-    scrollRight           : sendRequestToSelectedTab,
-    pageHalfUp            : sendRequestToSelectedTab,
-    pageHalfDown          : sendRequestToSelectedTab,
-    pageUp                : sendRequestToSelectedTab,
-    pageDown              : sendRequestToSelectedTab,
-    goTop                 : sendRequestToSelectedTab,
-    goBottom              : sendRequestToSelectedTab,
-    nextSearch            : sendRequestToSelectedTab,
-    prevSearch            : sendRequestToSelectedTab,
-    backHist              : sendRequestToSelectedTab,
-    forwardHist           : sendRequestToSelectedTab,
-    goCommandMode         : sendRequestToSelectedTab,
-    goSearchModeForward   : sendRequestToSelectedTab,
-    goSearchModeBackward  : sendRequestToSelectedTab,
-    goFMode               : sendRequestToSelectedTab,
-    focusOnFirstInput     : sendRequestToSelectedTab,
-    escape                : escape
+    OpenNewTab            : openNewTab,
+    CloseCurTab           : closeCurTab,
+    MoveNextTab           : moveNextTab,
+    MovePrevTab           : movePrevTab,
+    ReloadTab             : sendRequestToSelectedTab,
+    ScrollUp              : sendRequestToSelectedTab,
+    ScrollDown            : sendRequestToSelectedTab,
+    ScrollLeft            : sendRequestToSelectedTab,
+    ScrollRight           : sendRequestToSelectedTab,
+    PageHalfUp            : sendRequestToSelectedTab,
+    PageHalfDown          : sendRequestToSelectedTab,
+    PageUp                : sendRequestToSelectedTab,
+    PageDown              : sendRequestToSelectedTab,
+    GoTop                 : sendRequestToSelectedTab,
+    GoBottom              : sendRequestToSelectedTab,
+    NextSearch            : sendRequestToSelectedTab,
+    PrevSearch            : sendRequestToSelectedTab,
+    BackHist              : sendRequestToSelectedTab,
+    ForwardHist           : sendRequestToSelectedTab,
+    GoCommandMode         : sendRequestToSelectedTab,
+    GoSearchModeForward   : sendRequestToSelectedTab,
+    GoSearchModeBackward  : sendRequestToSelectedTab,
+    GoFMode               : sendRequestToSelectedTab,
+    FocusOnFirstInput     : sendRequestToSelectedTab,
+    Escape                : escape
 };
 
 function getCommand (s) {
