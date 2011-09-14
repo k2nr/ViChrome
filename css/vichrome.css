@@ -68,17 +68,19 @@
 }
 
 #vichromehint {
-    background-color: rgba(255, 255, 64, 1.0);
+    background-color: rgba(255, 255, 64, 0.8);
+    border-radius: 3px;
+    border: solid 1px #777;
     position: absolute;
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
     text-align: center;
     color: #000;
     -webkit-box-shadow: none;
-    width: 20px;
-    height: 16px;
+    height: 18px;
     padding: 0px 0px;
     margin:  0px 0px;
     font-size: 14px;
+    z-index: 99999;
 }
 
 #vichromecandbox {

@@ -302,24 +302,38 @@ FMode.prototype.blur = function() {
     vichrome.enterNormalMode();
 };
 
+FMode.prototype.getKeyLength = function(candiNum) {
+    return Math.floor( Math.log( candiNum ) / Math.log( this.keys.length ) ) + 1;
+};
+
 FMode.prototype.enter = function() {
-    var that = this, div, total;
+    var that = this, div, links, total, x, y;
     this.keys = vichrome.getSetting("fModeAvailableKeys");
-    $('a:visible,*:input:visible').each( function(i) {
-        var j, k;
-        j = i / that.keys.length;
-        k = i % that.keys.length;
+    links = $('a:visible,*:input:visible');
+    this.keyLength = this.getKeyLength( links.length );
+    links.each( function(i) {
+        var key='', j, k;
+        k = i;
+        for( j=0; j < that.keyLength; j++ ) {
+            key += that.keys.charAt( k % that.keys.length );
+            k /= that.keys.length;
+        }
         that.hints[i] = {};
         that.hints[i].offset = $(this).offset();
-        that.hints[i].key    = that.keys.charAt(j) + that.keys.charAt(k);
+        that.hints[i].key    = key;
         that.hints[i].target = $(this);
     });
 
     total = this.hints.length;
     for( i=0; i < total; i++) {
-        div = $('<div id="vichromehint" />')
-                .css("top",  this.hints[i].offset.top - 10)
-                .css("left", this.hints[i].offset.left - 10)
+        x = this.hints[i].offset.left - 10;
+        y = this.hints[i].offset.top  - 10;
+        if( x < 0 ) { x = 0; }
+        if( y < 0 ) { y = 0; }
+        div = $( '<div id="vichromehint" />' )
+                .css( "top",  y )
+                .css( "left", x )
+                .css( "width", this.keyLength * 10 )
                 .html(this.hints[i].key);
         $(document.body).append(div);
     }
