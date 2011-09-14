@@ -224,6 +224,65 @@ function FMode( newWindow ) {
 }
 FMode.prototype = new Mode();
 
+FMode.prototype.hit = function(i) {
+    if( this.hints[i].target.is('a') ) {
+        if( this.newWindow ) {
+            window.open( this.hints[i].target.attr('href'), "_blank" );
+        } else {
+            window.open( this.hints[i].target.attr('href'), "_self" );
+        }
+    } else {
+        this.hints[i].target.focus();
+    }
+    event.preventDefault();
+};
+
+FMode.prototype.isValidKey = function(key) {
+    var str = String.fromCharCode( key );
+    if( str.length === 0 ) {
+        return false;
+    }
+    if( this.keys.indexOf( str ) < 0 ) {
+        return false;
+    } else {
+        return true;
+    }
+};
+
+FMode.prototype.searchTarget = function() {
+    var total = this.hints.length, i;
+    for( i=0; i < total; i++ ) {
+        if( this.currentInput === this.hints[i].key ) {
+            return i;
+        }
+    }
+
+    return -1;
+};
+
+FMode.prototype.highlightCandidate = function() {
+};
+
+FMode.prototype.putValidChar = function(key) {
+    var str = String.fromCharCode( key ), idx;
+
+    this.currentInput += str;
+    view.setStatusLineText( 'HIT-A-HINT : ' + this.currentInput );
+
+    if( this.currentInput.length < this.keyLength ) {
+        this.highlightCandidate();
+        return;
+    } else {
+        idx = this.searchTarget();
+        if( idx < 0 ) {
+            $('div#vichromehint').remove();
+            vichrome.enterNormalMode();
+        } else {
+            this.hit( idx );
+        }
+    }
+};
+
 FMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
     if( key === keyCodes.ESC ) {
         return true;
@@ -232,34 +291,8 @@ FMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
     } else if( ctrl ) {
         return true;
     } else {
-        var str = String.fromCharCode( key );
-        if( str.length <= 0 ) {
-            return false;
-        }
-        if( this.keys.indexOf( str ) >= 0 ) {
-            this.currentInput += str;
-            var total = this.hints.length;
-            for( var i=0; i < total; i++ ) {
-                if( this.currentInput === this.hints[i].key ) {
-                    break;
-                }
-            }
-            if( i < total ) {
-                if( this.hints[i].target.is('a') ) {
-                    if( this.newWindow ) {
-                        window.open( this.hints[i].target.attr('href'), "_blank" );
-                    } else {
-                        window.open( this.hints[i].target.attr('href'), "_self" );
-                    }
-                } else {
-                    this.hints[i].target.focus();
-                }
-                event.preventDefault();
-            }
-            if( this.currentInput >= this.keyLength ) {
-                $('div#vichromehint').remove();
-                vichrome.enterNormalMode();
-            }
+        if( this.isValidKey( key ) ) {
+            this.putValidChar( key );
         }
         return false;
     }
@@ -290,9 +323,12 @@ FMode.prototype.enter = function() {
                 .html(this.hints[i].key);
         $(document.body).append(div);
     }
+
+    view.setStatusLineText('HIT-A-HINT : ');
 };
 
 FMode.prototype.exit = function() {
     $('div#vichromehint').remove();
+    view.setStatusLineText('');
 };
 

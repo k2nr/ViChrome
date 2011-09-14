@@ -31,6 +31,7 @@ function View() {
         $commandInput.attr("value", input);
         $modeChar.html( modeChar );
         $statusLine.removeClass('statuslineinactive');
+
         $commandBox.show();
         $commandField.show();
         $statusLine.show();
@@ -38,6 +39,10 @@ function View() {
 
     this.hideCommandBox = function() {
         $commandField.hide();
+
+        if( $statusLine.html() === '' ) {
+            $statusLine.hide();
+        }
         $statusLine.addClass('statuslineinactive');
     };
 
@@ -55,6 +60,11 @@ function View() {
 
     this.setStatusLineText = function(text) {
         $statusLine.html(text);
+        if( !this.isCommandBoxActive() && (text === '' || !text) ) {
+            $statusLine.hide();
+        } else {
+            $statusLine.show();
+        }
     };
 
     this.focusInput = function( idx ) {
