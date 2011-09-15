@@ -1,7 +1,8 @@
 function Vichrome()  {
     this.search = null;
     this.mode   = null;
-    this.settings = [];
+    this.settings = {};
+    this.pmRegister = null;
 
     this.init = function() {
         // should evaluate focused element on initialization.
@@ -10,7 +11,21 @@ function Vichrome()  {
         } else {
             this.enterNormalMode();
         }
+        this.pmRegister = new PageMarkRegister();
     };
+
+    this.setPageMark = function(key) {
+        var mark = {};
+        mark.top = window.pageYOffset;
+        mark.left = window.pageXOffset;
+
+        this.pmRegister.set( mark, key );
+    };
+
+    this.goPageMark = function(key) {
+        var offset = this.pmRegister.get( key );
+        view.scrollTo( offset.left, offset.top );
+    }
 
     this.changeMode = function(newMode) {
         Logger.d("mode changed", newMode);
@@ -52,10 +67,11 @@ function Vichrome()  {
     };
 
     this.enterSearchMode = function(backward) {
-        this.changeMode( new SearchMode() );
-
         //TODO:wrap should be read from localStorage
         this.search = new Search( true, backward );
+
+        this.changeMode( new SearchMode() );
+        this.setPageMark();
     };
 
     this.enterFMode = function(backward) {
@@ -64,6 +80,7 @@ function Vichrome()  {
 
     this.cancelSearch = function() {
         this.cancelSearchHighlight();
+        this.goPageMark();
         this.enterNormalMode();
     };
 
@@ -101,6 +118,7 @@ function Vichrome()  {
     };
 
     this.goNextSearchResult = function(reverse) {
+        this.setPageMark();
         return this.search.goNext( reverse );
     };
 

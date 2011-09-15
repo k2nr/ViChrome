@@ -69,15 +69,18 @@
 
 #vichromehint {
     background-color: rgba(255, 255, 64, 0.8);
-    border-radius: 3px;
+    border-radius: 2px;
     border: solid 1px #777;
     position: absolute;
-    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    font-family: "Lucida Console", BatangChe, monospace;
     text-align: center;
+    line-height: 18px;
+    letter-spacing: 1px;
     color: #000;
     -webkit-box-shadow: none;
+    width : auto;
     height: 18px;
-    padding: 0px 0px;
+    padding: 0px 2px;
     margin:  0px 0px;
     font-size: 14px;
     z-index: 99999;

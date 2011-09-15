@@ -40,10 +40,12 @@ Mode.prototype.reqPageUp = function() {
 };
 
 Mode.prototype.reqGoTop = function() {
+    vichrome.setPageMark();
     view.scrollTo( window.pageXOffset, 0 );
 };
 
 Mode.prototype.reqGoBottom = function() {
+    vichrome.setPageMark();
     view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
 };
 
@@ -67,6 +69,11 @@ Mode.prototype.reqGoSearchModeBackward = function() {
     vichrome.enterSearchMode( true );
 };
 
+Mode.prototype.reqBackToPageMark = function() {
+    // TODO:enable to go any pagemark, not only unnamed.
+    vichrome.goPageMark();
+}
+
 Mode.prototype.reqBlur = function() {
     view.blurActiveElement();
 
@@ -76,7 +83,11 @@ Mode.prototype.reqBlur = function() {
 };
 
 Mode.prototype.reqGoFMode = function() {
-    vichrome.changeMode(new FMode(false));
+    vichrome.changeMode( new FMode(false) );
+};
+
+Mode.prototype.reqGoFModeWithNewTab = function() {
+    vichrome.changeMode( new FMode(true) );
 };
 
 Mode.prototype.reqGoCommandMode = function() {
@@ -103,6 +114,7 @@ NormalMode.prototype.enter = function() {
 };
 
 NormalMode.prototype.reqFocusOnFirstInput = function() {
+    vichrome.setPageMark();
     view.focusInput( 0 );
 };
 
@@ -275,7 +287,7 @@ FMode.prototype.putValidChar = function(key) {
     } else {
         idx = this.searchTarget();
         if( idx < 0 ) {
-            $('div#vichromehint').remove();
+            $('span#vichromehint').remove();
             vichrome.enterNormalMode();
         } else {
             this.hit( idx );
@@ -286,16 +298,18 @@ FMode.prototype.putValidChar = function(key) {
 FMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
     if( key === keyCodes.ESC ) {
         return true;
-    } else if(keyCodes.F1 <= key && key <= keyCodes.F12){
-        return true;
-    } else if( ctrl ) {
-        return true;
-    } else {
-        if( this.isValidKey( key ) ) {
-            this.putValidChar( key );
-        }
-        return false;
     }
+    if(keyCodes.F1 <= key && key <= keyCodes.F12){
+        return true;
+    }
+    if( ctrl ) {
+        return true;
+    }
+
+    if( this.isValidKey( key ) ) {
+        this.putValidChar( key );
+    }
+    return false;
 };
 
 FMode.prototype.blur = function() {
@@ -330,10 +344,10 @@ FMode.prototype.enter = function() {
         y = this.hints[i].offset.top  - 10;
         if( x < 0 ) { x = 0; }
         if( y < 0 ) { y = 0; }
-        div = $( '<div id="vichromehint" />' )
+        div = $( '<span id="vichromehint" />' )
                 .css( "top",  y )
                 .css( "left", x )
-                .css( "width", this.keyLength * 10 )
+//                .css( "width", this.keyLength * 10 )
                 .html(this.hints[i].key);
         $(document.body).append(div);
     }
@@ -342,7 +356,7 @@ FMode.prototype.enter = function() {
 };
 
 FMode.prototype.exit = function() {
-    $('div#vichromehint').remove();
+    $('span#vichromehint').remove();
     view.setStatusLineText('');
 };
 

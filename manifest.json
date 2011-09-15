@@ -24,6 +24,7 @@
           "lib/jquery.js",
           "lib/jquery.highlight-3.js",
           "keys.js",
+          "register.js",
           "view.js",
           "search.js",
           "modes.js",

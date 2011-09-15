@@ -130,7 +130,9 @@ var commandTable = {
     GoSearchModeForward   : sendRequestToSelectedTab,
     GoSearchModeBackward  : sendRequestToSelectedTab,
     GoFMode               : sendRequestToSelectedTab,
+    GoFModeWithNewTab     : sendRequestToSelectedTab,
     FocusOnFirstInput     : sendRequestToSelectedTab,
+    BackToPageMark        : sendRequestToSelectedTab,
     Escape                : escape
 };
 
