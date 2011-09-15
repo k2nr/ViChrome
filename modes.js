@@ -237,15 +237,10 @@ function FMode( newWindow ) {
 FMode.prototype = new Mode();
 
 FMode.prototype.hit = function(i) {
-    if( this.hints[i].target.is('a') ) {
-        if( this.newWindow ) {
-            window.open( this.hints[i].target.attr('href'), "_blank" );
-        } else {
-            window.open( this.hints[i].target.attr('href'), "_self" );
-        }
-    } else {
-        this.hints[i].target.focus();
-    }
+    this.hints[i].target.focus();
+    var e = document.createEvent("MouseEvents");
+    e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    this.hints[i].target.get(0).dispatchEvent(e);
     event.preventDefault();
 };
 
@@ -286,12 +281,11 @@ FMode.prototype.putValidChar = function(key) {
         return;
     } else {
         idx = this.searchTarget();
-        if( idx < 0 ) {
-            $('span#vichromehint').remove();
-            vichrome.enterNormalMode();
-        } else {
+        if( idx >= 0 ) {
             this.hit( idx );
         }
+        $('span#vichromehint').remove();
+        vichrome.enterNormalMode();
     }
 };
 
@@ -320,10 +314,18 @@ FMode.prototype.getKeyLength = function(candiNum) {
     return Math.floor( Math.log( candiNum ) / Math.log( this.keys.length ) ) + 1;
 };
 
+$.extend($.expr[':'], {
+    _visible: function(elem){
+        if($.expr[':'].hidden(elem)) return false;
+        if($.curCSS(elem, 'visibility') == 'hidden') return false;
+        return true;
+    }
+});
+
 FMode.prototype.enter = function() {
     var that = this, div, links, total, x, y;
     this.keys = vichrome.getSetting("fModeAvailableKeys");
-    links = $('a:visible,*:input:visible');
+    links = $('a:_visible,*:input:_visible');
     this.keyLength = this.getKeyLength( links.length );
     links.each( function(i) {
         var key='', j, k;
@@ -336,6 +338,8 @@ FMode.prototype.enter = function() {
         that.hints[i].offset = $(this).offset();
         that.hints[i].key    = key;
         that.hints[i].target = $(this);
+
+        $(this).addClass('fModeTarget');
     });
 
     total = this.hints.length;
@@ -347,7 +351,6 @@ FMode.prototype.enter = function() {
         div = $( '<span id="vichromehint" />' )
                 .css( "top",  y )
                 .css( "left", x )
-//                .css( "width", this.keyLength * 10 )
                 .html(this.hints[i].key);
         $(document.body).append(div);
     }
@@ -357,6 +360,7 @@ FMode.prototype.enter = function() {
 
 FMode.prototype.exit = function() {
     $('span#vichromehint').remove();
+    $('.fModeTarget').removeClass('fModeTarget');
     view.setStatusLineText('');
 };
 

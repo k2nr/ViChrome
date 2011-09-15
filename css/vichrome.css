@@ -69,7 +69,7 @@
 
 #vichromehint {
     background-color: rgba(255, 255, 64, 0.8);
-    border-radius: 2px;
+    border-radius: 3px;
     border: solid 1px #777;
     position: absolute;
     font-family: "Lucida Console", BatangChe, monospace;
@@ -107,4 +107,8 @@
 
 .fModeHighlight {
     background-color: rgba(255, 180, 64, 1.0);
+}
+
+.fModeTarget {
+    background-color: rgba(255, 255, 150, 0.6);
 }
