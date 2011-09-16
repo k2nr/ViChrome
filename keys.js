@@ -41,12 +41,12 @@ var KeyManager = {
     convertKeyCodeToStr : function (msg) {
         key = "";
         if(65 <= msg.keyCode && msg.keyCode <= 90){
-            if(msg.shift) {
+            if(msg.shiftKey) {
                 key = String.fromCharCode(msg.keyCode);
             } else {
                 key = String.fromCharCode(msg.keyCode + 32);
             }
-            if(msg.ctrl) {
+            if(msg.ctrlKey) {
                 key = "<C-" + key + ">";
             }
 
@@ -79,7 +79,7 @@ var KeyManager = {
             case keyCodes.F12   : return "<F12>";
         }
 
-        if(KeyManager.isESC(msg.keyCode, msg.ctrl)) {
+        if(KeyManager.isESC(msg.keyCode, msg.ctrlKey)) {
             return "<ESC>";
         }
     }

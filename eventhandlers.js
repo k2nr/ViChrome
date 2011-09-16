@@ -1,6 +1,5 @@
 function EventHandler() {
-    var keyPort     = null,
-        settingPort = null;
+    var settingPort = null;
 
     function onBlur (e) {
         Logger.d("onBlur");
@@ -12,14 +11,14 @@ function EventHandler() {
         Logger.d("onKeyDown", e);
 
         if( prePostKeyEvent(e) ) {
-            postKeyMessage(e);
+            commandManager.handleKey(e);
         }
     }
 
     function onKeyPress (e) {
         Logger.d( "onKeyPress", e );
         if( prePostKeyEvent(e) ) {
-            postKeyMessage(e);
+            commandManager.handleKey(e);
         }
     }
 
@@ -32,14 +31,6 @@ function EventHandler() {
         vichrome.updateSearchInput();
     }
 
-    function postKeyMessage (e) {
-        keyPort.postMessage({keyCode  : e.keyCode,
-                             charCode : e.charCode,
-                             meta     : e.metaKey,
-                             alt      : e.altKey,
-                             ctrl     : e.ctrlKey,
-                             shift    : e.shiftKey});
-    }
 
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
@@ -56,11 +47,6 @@ function EventHandler() {
             if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
                 key = keyCodes.ESC;
             }
-            // some web sites set their own key bind(google instant search etc).
-            // to prevent messing up vichrome's key bind from them,
-            // we have to stop event propagation here.
-            // TODO:we should only stop when a valid(handlable) key event come.
-            event.stopPropagation();
 
             // keydown only catch key codes that are not passed to keypress
             switch( key ) {
@@ -151,8 +137,6 @@ function EventHandler() {
     }
 
     function setupPorts() {
-        keyPort     = chrome.extension.connect({ name : "key" });
-
         settingPort = chrome.extension.connect({ name : "settings" });
         settingPort.onMessage.addListener( onSettingUpdated );
         settingPort.postMessage({ type : "get",
@@ -169,13 +153,6 @@ function EventHandler() {
 
     function addRequestListener() {
         chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
-            Logger.d("request received:", req);
-            if(vichrome.mode["req"+req.command]) {
-                vichrome.mode["req"+req.command]();
-            } else {
-                Logger.e("INVALID REQUEST received!:", req);
-            }
-
             sendResponse();
         });
     }

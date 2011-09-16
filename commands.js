@@ -60,100 +60,102 @@ var KeyQueue = function(){
 };
 var keyQueue = new KeyQueue ();
 
-function sendRequestToSelectedTab (com) {
-    chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.sendRequest(tab.id, {command:com}, function(){});
-    });
-}
-
-function openNewTab () {
-    chrome.tabs.create({}, function(tab){});
-}
-
-function closeCurTab () {
-    chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.remove(tab.id, function(){});
-    });
-}
-
-function escape () {
-    keyQueue.reset();
-    sendRequestToSelectedTab( "Blur" );
-}
-
-function moveTab ( offset ) {
-    chrome.tabs.getAllInWindow( null, function( tabs ) {
-        var nTabs = tabs.length;
-        chrome.tabs.getSelected(null, function( tab ) {
-            var idx = tab.index + offset;
-            if( idx < 0 ) {
-                idx = nTabs - 1;
-            } else if( idx >= nTabs ) {
-                idx = 0;
-            }
-            chrome.tabs.update( tabs[idx].id, { selected:true }, function(){ });
-        });
-    });
-}
-
-function moveNextTab () {
-    moveTab( 1 );
-}
-
-function movePrevTab () {
-    moveTab( -1 );
-}
 
 
+function CommandManager() {
+    var keyQueue = new KeyQueue();
 
-var commandTable = {
-    OpenNewTab            : openNewTab,
-    CloseCurTab           : closeCurTab,
-    MoveNextTab           : moveNextTab,
-    MovePrevTab           : movePrevTab,
-    ReloadTab             : sendRequestToSelectedTab,
-    ScrollUp              : sendRequestToSelectedTab,
-    ScrollDown            : sendRequestToSelectedTab,
-    ScrollLeft            : sendRequestToSelectedTab,
-    ScrollRight           : sendRequestToSelectedTab,
-    PageHalfUp            : sendRequestToSelectedTab,
-    PageHalfDown          : sendRequestToSelectedTab,
-    PageUp                : sendRequestToSelectedTab,
-    PageDown              : sendRequestToSelectedTab,
-    GoTop                 : sendRequestToSelectedTab,
-    GoBottom              : sendRequestToSelectedTab,
-    NextSearch            : sendRequestToSelectedTab,
-    PrevSearch            : sendRequestToSelectedTab,
-    BackHist              : sendRequestToSelectedTab,
-    ForwardHist           : sendRequestToSelectedTab,
-    GoCommandMode         : sendRequestToSelectedTab,
-    GoSearchModeForward   : sendRequestToSelectedTab,
-    GoSearchModeBackward  : sendRequestToSelectedTab,
-    GoFMode               : sendRequestToSelectedTab,
-    GoFModeWithNewTab     : sendRequestToSelectedTab,
-    FocusOnFirstInput     : sendRequestToSelectedTab,
-    BackToPageMark        : sendRequestToSelectedTab,
-    Escape                : escape
-};
+    function getCommand (s) {
+        var keySeq,
+        keyMap = vichrome.getSetting("keyMappings");
 
-function getCommand (s) {
-    var keySeq,
-        keyMap = SettingManager.get("keyMappings");
+        if( s === "<ESC>" ) {
+            keyQueue.reset();
+            keySeq = s;
+        } else {
+            keyQueue.queue(s);
+            keySeq = keyQueue.getNextKeySequence();
+        }
 
-    if( s === "<ESC>" ) {
+        if( keyMap && keySeq ) {
+            return keyMap[keySeq];
+        }
+    }
+
+    function executeCommand (com) {
+        var commandTable = {
+            OpenNewTab            : sendToBackground,
+            CloseCurTab           : sendToBackground,
+            MoveNextTab           : sendToBackground,
+            MovePrevTab           : sendToBackground,
+            ReloadTab             : triggerInsideContent,
+            ScrollUp              : triggerInsideContent,
+            ScrollDown            : triggerInsideContent,
+            ScrollLeft            : triggerInsideContent,
+            ScrollRight           : triggerInsideContent,
+            PageHalfUp            : triggerInsideContent,
+            PageHalfDown          : triggerInsideContent,
+            PageUp                : triggerInsideContent,
+            PageDown              : triggerInsideContent,
+            GoTop                 : triggerInsideContent,
+            GoBottom              : triggerInsideContent,
+            NextSearch            : triggerInsideContent,
+            PrevSearch            : triggerInsideContent,
+            BackHist              : triggerInsideContent,
+            ForwardHist           : triggerInsideContent,
+            GoCommandMode         : triggerInsideContent,
+            GoSearchModeForward   : triggerInsideContent,
+            GoSearchModeBackward  : triggerInsideContent,
+            GoFMode               : triggerInsideContent,
+            GoFModeWithNewTab     : triggerInsideContent,
+            FocusOnFirstInput     : triggerInsideContent,
+            BackToPageMark        : triggerInsideContent,
+            Escape                : escape
+        };
+
+        setTimeout( function() {
+            commandTable[com](com);
+        }, 0);
+    }
+
+    function escape(com) {
         keyQueue.reset();
-        keySeq = s;
-    } else {
-        keyQueue.queue(s);
-        keySeq = keyQueue.getNextKeySequence();
+        triggerInsideContent("Blur");
     }
 
-    if( keyMap && keySeq ) {
-        return keyMap[keySeq];
+    function sendToBackground (com) {
+        chrome.extension.sendRequest({command : com});
     }
-}
 
-function executeCommand (com) {
-    commandTable[com](com);
+    function triggerInsideContent(com) {
+        if(vichrome.mode["req"+com]) {
+            vichrome.mode["req"+com]();
+        } else {
+            Logger.e("INVALID command!:", com);
+        }
+    }
+
+    this.isWaitingNextKey = function() {
+        return keyQueue.isWaiting;
+    };
+
+    this.handleKey = function(e){
+        var s = KeyManager.convertKeyCodeToStr(e),
+        com = getCommand( s );
+
+        if( com ) {
+            // some web sites set their own key bind(google instant search etc).
+            // to prevent messing up vichrome's key bind from them,
+            // we have to stop event propagation here.
+            event.stopPropagation();
+            event.preventDefault();
+
+            executeCommand( com );
+        } else if( this.isWaitingNextKey() ) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    };
 }
+var commandManager = new CommandManager();
 

@@ -28,6 +28,8 @@
           "view.js",
           "search.js",
           "modes.js",
+          "settings.js",
+          "commands.js",
           "eventhandlers.js",
           "vichrome.js"
       ],

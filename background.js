@@ -31,19 +31,41 @@ function notifySettingUpdated(name, value) {
     ports.settings.postMessage( sendMsg );
 }
 
-function onKeyDown (msg) {
-    var s = KeyManager.convertKeyCodeToStr(msg),
-        com = getCommand( s );
+function reqOpenNewTab () {
+    chrome.tabs.create({}, function(tab){});
+}
 
-    Logger.d( "onKeyDown: " + s + " : " + com );
-    if( com ) {
-        executeCommand( com );
-    }
+function reqCloseCurTab () {
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.remove(tab.id, function(){});
+    });
+}
+
+function moveTab ( offset ) {
+    chrome.tabs.getAllInWindow( null, function( tabs ) {
+        var nTabs = tabs.length;
+        chrome.tabs.getSelected(null, function( tab ) {
+            var idx = tab.index + offset;
+            if( idx < 0 ) {
+                idx = nTabs - 1;
+            } else if( idx >= nTabs ) {
+                idx = 0;
+            }
+            chrome.tabs.update( tabs[idx].id, { selected:true }, function(){ });
+        });
+    });
+}
+
+function reqMoveNextTab () {
+    moveTab( 1 );
+}
+
+function reqMovePrevTab () {
+    moveTab( -1 );
 }
 
 function init () {
     var portListeners = {
-        key         : onKeyDown,
         settings    : reqSettings
     };
 
@@ -51,6 +73,18 @@ function init () {
         port.onMessage.addListener( portListeners[port.name] );
         ports[port.name] = port;
     });
+
+    chrome.extension.onRequest.addListener(
+        function( req, sender, sendResponse ) {
+            if(this["req"+req.command]) {
+                this["req"+req.command]();
+            } else {
+                Logger.e("INVALID command!:", req.command);
+            }
+
+            sendResponse();
+        }
+    );
 
     SettingManager.setCb = notifySettingUpdated;
 }
