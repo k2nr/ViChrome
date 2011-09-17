@@ -11,14 +11,14 @@ function EventHandler() {
         Logger.d("onKeyDown", e);
 
         if( prePostKeyEvent(e) ) {
-            commandManager.handleKey(e);
+            vichrome.commandManager.handleKey(e);
         }
     }
 
     function onKeyPress (e) {
         Logger.d( "onKeyPress", e );
         if( prePostKeyEvent(e) ) {
-            commandManager.handleKey(e);
+            vichrome.commandManager.handleKey(e);
         }
     }
 
@@ -46,6 +46,12 @@ function EventHandler() {
             key = e.keyCode;
             if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
                 key = keyCodes.ESC;
+            }
+
+            // TODO: should detect exact keycode
+            if( vichrome.isInNormalMode() &&
+                e.keyCode >= 48 && !e.ctrlKey && !e.altKey && !e.metaKey ) {
+                event.stopPropagation();
             }
 
             // keydown only catch key codes that are not passed to keypress
@@ -139,8 +145,7 @@ function EventHandler() {
     function setupPorts() {
         settingPort = chrome.extension.connect({ name : "settings" });
         settingPort.onMessage.addListener( onSettingUpdated );
-        settingPort.postMessage({ type : "get",
-            name : "all" });
+        settingPort.postMessage({ type : "get", name : "all" });
     }
 
     function addWindowListeners() {
@@ -170,4 +175,3 @@ function EventHandler() {
     };
 }
 
-eventHandler = new EventHandler();

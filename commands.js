@@ -35,13 +35,13 @@ var KeyQueue = function(){
     this.getNextKeySequence = function() {
         this.stopTimer();
 
-        if( SettingManager.isValidKeySeq(this.a) ) {
+        if( vichrome.isValidKeySeq(this.a) ) {
             // keySeq has corresponding command
             ret = this.a;
             this.a = "";
             return ret;
         } else {
-            if( !SettingManager.isValidKeySeqAvailable(this.a) ) {
+            if( !vichrome.isValidKeySeqAvailable(this.a) ) {
                 Logger.d("invalid key sequence:" + this.a);
                 this.a = "";
             } else {
@@ -52,7 +52,7 @@ var KeyQueue = function(){
                     Logger.d("command wait timeout.reset key queue:" + thisObj.a);
                     thisObj.a = "";
                     thisObj.isWaiting = false;
-                }, SettingManager.get("commandWaitTimeOut") );
+                }, vichrome.getSetting("commandWaitTimeOut") );
             }
             return null;
         }
@@ -157,5 +157,4 @@ function CommandManager() {
         }
     };
 }
-var commandManager = new CommandManager();
 

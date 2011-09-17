@@ -37,14 +37,29 @@ function Vichrome()  {
     };
 
     this.isEditable = function(target) {
-        var ignoreList = ["TEXTAREA"];
+        var ignoreList = ["TEXTAREA"],
+            editableList =["TEXT",
+                           "PASSWORD",
+                           "NUMBER",
+                           "SEARCH",
+                           "TEL",
+                           "URL",
+                           "EMAIL",
+                           "TIME",
+                           "DATETIME",
+                           "DATETIME-LOCAL",
+                           "DEATE",
+                           "WEEK",
+                           "COLOR"];
 
         if ( target.isContentEditable ) {
             return true;
         }
 
-        if( target.nodeName === "INPUT" && target.type === "text" ) {
-            return true;
+        if( target.nodeName.toUpperCase() === "INPUT" ) {
+            if( editableList.indexOf( target.type.toUpperCase() ) >= 0 ) {
+                return true;
+            }
         }
 
         if( ignoreList.indexOf(target.nodeName) >= 0 ){
@@ -100,6 +115,9 @@ function Vichrome()  {
         this.search.updateInput( str );
     };
 
+    this.isInNormalMode = function() {
+        return (this.mode instanceof NormalMode);
+    };
 
     this.isInInsertMode = function() {
         return (this.mode instanceof InsertMode);
@@ -133,12 +151,43 @@ function Vichrome()  {
     this.prePostKeyEvent = function(key, ctrl, alt, meta) {
         return this.mode.prePostKeyEvent(key, ctrl, alt, meta);
     };
+
+    this.isValidKeySeq = function(keySeq) {
+        if( this.getSetting("keyMappings")[keySeq] ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    this.isValidKeySeqAvailable = function(keySeq) {
+        // since escaping meta character for regexp is so complex that
+        // using regexp to compare should cause bugs, using slice & comparison
+        // with '==' may be a better & simple way.
+        var keyMapping = this.getSetting("keyMappings"),
+            length = keySeq.length,
+            hasOwnPrp = Object.prototype.hasOwnProperty,
+            cmpStr, i;
+
+        for ( i in keyMapping ) {
+            if( hasOwnPrp.call(keyMapping, i )) {
+                cmpStr = i.slice( 0, length );
+                if( keySeq === cmpStr ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    };
 }
 
 vichrome = new Vichrome();
+vichrome.eventHandler = new EventHandler();
+vichrome.commandManager = new CommandManager();
 
 window.addEventListener("DOMContentLoaded", function() {
     // TODO: onEnable should be triggered from background page.
-    eventHandler.onEnabled();
+    vichrome.eventHandler.onEnabled();
 });
 

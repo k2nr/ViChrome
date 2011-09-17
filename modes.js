@@ -102,6 +102,7 @@ NormalMode.prototype = new Mode();
 
 NormalMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
     // TODO:some keys cannot be recognized with keyCode e.g. C-@
+
     return true;
 };
 

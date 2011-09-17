@@ -32,6 +32,9 @@ var SettingManager = {
            "i"       : "FocusOnFirstInput",
            "''"      : "BackToPageMark",
            "<ESC>"   : "Escape"
+        },
+        "keyMappingInsert" : {
+
         }
     },
 
@@ -41,37 +44,6 @@ var SettingManager = {
         "commandWaitTimeOut",
         "fModeAvailableKeys",
         "keyMappings"
-    ],
-
-    availableKeySeq : [
-        "j",
-        "k",
-        "h",
-        "l",
-        "<C-f>",
-        "<C-b>",
-        "<C-d>",
-        "<C-u>",
-        "gg",
-        "G",
-        "k",
-        "t",
-        "x",
-        "n",
-        "N",
-        ">",
-        "<",
-        "r",
-        "H",
-        "L",
-        ":",
-        "/",
-        "?",
-        "f",
-        "F",
-        "i",
-        "''",
-        "<ESC>"
     ],
 
     associateKeyMap : {},
@@ -105,27 +77,5 @@ var SettingManager = {
         }
     },
 
-    setCb : null,
-
-    isValidKeySeq : function(keySeq) {
-        if( this.availableKeySeq.indexOf( keySeq ) >= 0 ) {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
-    isValidKeySeqAvailable : function(keySeq) {
-        // since escaping meta character for regexp is so complex that
-        // using regexp to compare should cause bugs, using slice & comparison
-        // with '==' may be a better & simple way.
-        for (var i=0; i < this.availableKeySeq.length; i++) {
-            cmpStr = this.availableKeySeq[i].slice( 0, keySeq.length );
-            if( keySeq === cmpStr ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    setCb : null
 };
