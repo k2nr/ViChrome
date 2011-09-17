@@ -192,8 +192,8 @@ vichrome.Model = function() {
         return false;
     };
 
-    this.handleKey = function(e) {
-        return commandManager.handleKey(e);
+    this.handleKey = function(msg) {
+        return commandManager.handleKey(msg);
     };
 };
 

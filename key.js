@@ -46,22 +46,8 @@ vichrome.key.KeyManager = (function(){
 
         getKeyCodeStr : function (msg) {
             var result = "";
-            if(65 <= msg.keyCode && msg.keyCode <= 90){
-                if(msg.shiftKey) {
-                    result = String.fromCharCode(msg.keyCode);
-                } else {
-                    result = String.fromCharCode(msg.keyCode + 32);
-                }
-                if(msg.ctrlKey) {
-                    result = "<C-" + result + ">";
-                }
 
-                return result;
-            } else if(31 <= msg.keyCode && msg.keyCode <= 126){
-                return String.fromCharCode(msg.keyCode);
-            }
-
-            switch(msg.keyCode) {
+            switch( msg.code ) {
                 case keyCodes.Tab   : return "<TAB>";
                 case keyCodes.BS    : return "<BS>";
                 case keyCodes.DEL   : return "<DEL>";
@@ -85,6 +71,15 @@ vichrome.key.KeyManager = (function(){
                 case keyCodes.F12   : return "<F12>";
                 case keyCodes.ESC   : return "<ESC>";
             }
+
+            result = String.fromCharCode(msg.code);
+            if( !result ) { return; }
+
+            if( msg.ctrl ) {
+                result = "<C-" + result + ">";
+            }
+
+            return result;
         },
 
         getLocalKeyCode : function(code) {

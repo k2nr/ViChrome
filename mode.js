@@ -96,7 +96,7 @@ vichrome.mode.Mode = function() { };
 
     o.reqGoCommandMode = function() {
         vichrome.model.enterCommandMode();
-        vichrome.view.showCommandBox(":");
+        vichrome.view.showCommandBox(":", "");
         vichrome.view.focusCommandBox();
     };
 

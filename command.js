@@ -149,8 +149,8 @@ vichrome.command.CommandManager = function() {
         return keyQueue.isWaiting();
     };
 
-    this.handleKey = function(e){
-        var s   = KeyManager.getKeyCodeStr(e),
+    this.handleKey = function(msg){
+        var s   = KeyManager.getKeyCodeStr(msg),
             com = getCommand( s );
 
         if( com ) {
