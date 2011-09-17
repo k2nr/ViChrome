@@ -1,4 +1,6 @@
-function View() {
+vichrome.views = {};
+
+vichrome.views.Surface = function() {
     var $commandBox, $commandField, $commandInput, $modeChar, $statusLine;
 
     this.init = function() {
@@ -94,6 +96,5 @@ function View() {
     this.blurActiveElement = function() {
         document.activeElement.blur();
     };
-}
-view = new View();
+};
 

@@ -1,319 +1,387 @@
-function Mode() {
-}
 
-Mode.prototype.exit = function() {
-};
+vichrome.mode = {};
 
-Mode.prototype.enter = function() {
-};
+vichrome.mode.Mode = function() { };
 
-Mode.prototype.reqScrollDown = function() {
-    view.scrollBy( 0, vichrome.getSetting("scrollPixelCount") );
-};
+// Mode Class prototype definition
+(function(o) {
+    o.exit = function() {
+    };
 
-Mode.prototype.reqScrollUp = function() {
-    view.scrollBy( 0, -vichrome.getSetting("scrollPixelCount") );
-};
+    o.enter = function() {
+    };
 
-Mode.prototype.reqScrollLeft = function() {
-    view.scrollBy( -vichrome.getSetting("scrollPixelCount"), 0 );
-};
+    o.reqScrollDown = function() {
+        vichrome.view.scrollBy( 0, vichrome.model.getSetting("scrollPixelCount") );
+    };
 
-Mode.prototype.reqScrollRight = function() {
-    view.scrollBy( vichrome.getSetting("scrollPixelCount"), 0 );
-};
+    o.reqScrollUp = function() {
+        vichrome.view.scrollBy( 0, -vichrome.model.getSetting("scrollPixelCount") );
+    };
 
-Mode.prototype.reqPageHalfDown = function() {
-    view.scrollBy( 0, window.innerHeight / 2 );
-};
+    o.reqScrollLeft = function() {
+        vichrome.view.scrollBy( -vichrome.model.getSetting("scrollPixelCount"), 0 );
+    };
 
-Mode.prototype.reqPageHalfUp = function() {
-    view.scrollBy( 0, -window.innerHeight / 2 );
-};
+    o.reqScrollRight = function() {
+        vichrome.view.scrollBy( vichrome.model.getSetting("scrollPixelCount"), 0 );
+    };
 
-Mode.prototype.reqPageDown = function() {
-    view.scrollBy( 0, window.innerHeight );
-};
+    o.reqPageHalfDown = function() {
+        vichrome.view.scrollBy( 0, window.innerHeight / 2 );
+    };
 
-Mode.prototype.reqPageUp = function() {
-    view.scrollBy( 0, -window.innerHeight );
-};
+    o.reqPageHalfUp = function() {
+        vichrome.view.scrollBy( 0, -window.innerHeight / 2 );
+    };
 
-Mode.prototype.reqGoTop = function() {
-    vichrome.setPageMark();
-    view.scrollTo( window.pageXOffset, 0 );
-};
+    o.reqPageDown = function() {
+        vichrome.view.scrollBy( 0, window.innerHeight );
+    };
 
-Mode.prototype.reqGoBottom = function() {
-    vichrome.setPageMark();
-    view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
-};
+    o.reqPageUp = function() {
+        vichrome.view.scrollBy( 0, -window.innerHeight );
+    };
 
-Mode.prototype.reqBackHist = function() {
-    view.backHist();
-};
+    o.reqGoTop = function() {
+        vichrome.model.setPageMark();
+        vichrome.view.scrollTo( window.pageXOffset, 0 );
+    };
 
-Mode.prototype.reqForwardHist = function() {
-    view.forwardHist();
-};
+    o.reqGoBottom = function() {
+        vichrome.model.setPageMark();
+        vichrome.view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
+    };
 
-Mode.prototype.reqReloadTab = function() {
-    view.reload();
-};
+    o.reqBackHist = function() {
+        vichrome.view.backHist();
+    };
 
-Mode.prototype.reqGoSearchModeForward = function() {
-    vichrome.enterSearchMode( false );
-};
+    o.reqForwardHist = function() {
+        vichrome.view.forwardHist();
+    };
 
-Mode.prototype.reqGoSearchModeBackward = function() {
-    vichrome.enterSearchMode( true );
-};
+    o.reqReloadTab = function() {
+        vichrome.view.reload();
+    };
 
-Mode.prototype.reqBackToPageMark = function() {
-    // TODO:enable to go any pagemark, not only unnamed.
-    vichrome.goPageMark();
-}
+    o.reqGoSearchModeForward = function() {
+        vichrome.model.enterSearchMode( false );
+    };
 
-Mode.prototype.reqBlur = function() {
-    view.blurActiveElement();
+    o.reqGoSearchModeBackward = function() {
+        vichrome.model.enterSearchMode( true );
+    };
 
-    if( this.blur ) {
-        this.blur();
-    }
-};
-
-Mode.prototype.reqGoFMode = function() {
-    vichrome.changeMode( new FMode(false) );
-};
-
-Mode.prototype.reqGoFModeWithNewTab = function() {
-    vichrome.changeMode( new FMode(true) );
-};
-
-Mode.prototype.reqGoCommandMode = function() {
-    vichrome.changeMode( new CommandMode() );
-    view.showCommandBox(":");
-    view.focusCommandBox();
-};
-
-function NormalMode() {
-}
-NormalMode.prototype = new Mode();
-
-NormalMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    // TODO:some keys cannot be recognized with keyCode e.g. C-@
-
-    return true;
-};
-
-NormalMode.prototype.blur = function() {
-    vichrome.cancelSearchHighlight();
-};
-
-NormalMode.prototype.enter = function() {
-    view.hideCommandBox();
-};
-
-NormalMode.prototype.reqFocusOnFirstInput = function() {
-    vichrome.setPageMark();
-    view.focusInput( 0 );
-};
-
-NormalMode.prototype.reqNextSearch = function() {
-    var found = vichrome.goNextSearchResult( false );
-};
-
-NormalMode.prototype.reqPrevSearch = function() {
-    var found = vichrome.goNextSearchResult( true );
-};
-
-function InsertMode() {
-}
-
-InsertMode.prototype = new Mode();
-
-InsertMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    if( key === keyCodes.ESC ) {
-        return true;
-    } else if(keyCodes.F1 <= key && key <= keyCodes.F12){
-        return true;
-    } else if( ctrl ) {
-        return true;
-    } else {
-        // character key do not need to be handled in insert mode
-        return false;
-    }
-};
-
-InsertMode.prototype.blur = function() {
-};
-
-InsertMode.prototype.enter = function() {
-};
-
-
-function SearchMode() {
-}
-SearchMode.prototype = new Mode();
-SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    if( view.getCommandBoxValue().length === 0 &&
-        key === keyCodes.BS) {
-        setTimeout( function() {
-            vichrome.cancelSearch();
-        }, 0);
+    o.reqBackToPageMark = function() {
+        // TODO:enable to go any pagemark, not only unnamed.
+        vichrome.model.goPageMark();
     }
 
-    switch(key) {
-        case keyCodes.Tab   :
-        case keyCodes.BS    :
-        case keyCodes.DEL   :
-        case keyCodes.Left  :
-        case keyCodes.Up    :
-        case keyCodes.Right :
-        case keyCodes.Down  :
-        case keyCodes.ESC   :
-        case keyCodes.CR    :
-            event.stopPropagation();
-            break;
-        default:
-            break;
-    }
+    o.reqBlur = function() {
+        vichrome.view.blurActiveElement();
 
-    if( key === keyCodes.ESC ) {
-        setTimeout( function() {
-            vichrome.cancelSearch();
-        }, 0);
-        return true;
-    } else if(keyCodes.F1 <= key && key <= keyCodes.F12){
-        return true;
-    } else if( ctrl ) {
-        return true;
-    } else if( key === keyCodes.CR ) {
-        setTimeout( function(){
-            vichrome.enterNormalMode();
-        }, 0);
-        return false;
-    } else {
-        return false;
-    }
-};
-
-SearchMode.prototype.blur = function() {
-    vichrome.cancelSearch();
-};
-
-SearchMode.prototype.enter = function() {
-    view.focusCommandBox();
-};
-
-SearchMode.prototype.reqNextSearch = function() {
-    var found = vichrome.goNextSearchResult( false );
-};
-
-SearchMode.prototype.reqPrevSearch = function() {
-    var found = vichrome.goNextSearchResult( true );
-};
-
-function CommandMode() {
-}
-CommandMode.prototype = new Mode();
-CommandMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    // TODO:
-    return true;
-};
-
-CommandMode.prototype.blur = function() {
-};
-
-CommandMode.prototype.enter = function() {
-};
-
-function FMode( newWindow ) {
-    this.currentInput = "";
-    this.hints        = [];
-    this.keys         = "";
-    this.keyLength    = 2;
-    this.newWindow    = newWindow;
-}
-FMode.prototype = new Mode();
-
-FMode.prototype.hit = function(i) {
-    this.hints[i].target.focus();
-    var e = document.createEvent("MouseEvents");
-    e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-    this.hints[i].target.get(0).dispatchEvent(e);
-    event.preventDefault();
-};
-
-FMode.prototype.isValidKey = function(key) {
-    var str = String.fromCharCode( key );
-    if( str.length === 0 ) {
-        return false;
-    }
-    if( this.keys.indexOf( str ) < 0 ) {
-        return false;
-    } else {
-        return true;
-    }
-};
-
-FMode.prototype.searchTarget = function() {
-    var total = this.hints.length, i;
-    for( i=0; i < total; i++ ) {
-        if( this.currentInput === this.hints[i].key ) {
-            return i;
+        if( this.blur ) {
+            this.blur();
         }
-    }
+    };
 
-    return -1;
+    o.reqGoFMode = function() {
+        vichrome.model.enterFMode();
+    };
+
+    o.reqGoFModeWithNewTab = function() {
+        vichrome.model.enterFMode();
+    };
+
+    o.reqGoCommandMode = function() {
+        vichrome.model.enterCommandMode();
+        vichrome.view.showCommandBox(":");
+        vichrome.view.focusCommandBox();
+    };
+
+}(vichrome.mode.Mode.prototype));
+
+
+vichrome.mode.NormalMode = function() {
 };
 
-FMode.prototype.highlightCandidate = function() {
+vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
+(function(o) {
+    o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        // TODO:some keys cannot be recognized with keyCode e.g. C-@
+
+        return true;
+    };
+
+    o.blur = function() {
+        vichrome.model.cancelSearchHighlight();
+    };
+
+    o.enter = function() {
+        vichrome.view.hideCommandBox();
+    };
+
+    o.reqFocusOnFirstInput = function() {
+        vichrome.model.setPageMark();
+        vichrome.view.focusInput( 0 );
+    };
+
+    o.reqNextSearch = function() {
+        var found = vichrome.model.goNextSearchResult( false );
+    };
+
+    o.reqPrevSearch = function() {
+        var found = vichrome.model.goNextSearchResult( true );
+    };
+}(vichrome.mode.NormalMode.prototype));
+
+
+vichrome.mode.InsertMode = function() {
 };
 
-FMode.prototype.putValidChar = function(key) {
-    var str = String.fromCharCode( key ), idx;
-
-    this.currentInput += str;
-    view.setStatusLineText( 'HIT-A-HINT : ' + this.currentInput );
-
-    if( this.currentInput.length < this.keyLength ) {
-        this.highlightCandidate();
-        return;
-    } else {
-        idx = this.searchTarget();
-        if( idx >= 0 ) {
-            this.hit( idx );
+vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
+(function(o) {
+    o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        if( key === vichrome.key.keyCodes.ESC ) {
+            return true;
+        } else if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
+            return true;
+        } else if( ctrl ) {
+            return true;
+        } else {
+            // character key do not need to be handled in insert mode
+            return false;
         }
+    };
+
+    o.blur = function() {
+    };
+
+    o.enter = function() {
+    };
+}(vichrome.mode.InsertMode.prototype));
+
+vichrome.mode.SearchMode = function() {
+};
+
+vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
+(function(o) {
+    o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        if( vichrome.view.getCommandBoxValue().length === 0 &&
+        key === vichrome.key.keyCodes.BS) {
+            setTimeout( function() {
+                vichrome.model.cancelSearch();
+            }, 0);
+        }
+
+        switch(key) {
+            case vichrome.key.keyCodes.Tab   :
+            case vichrome.key.keyCodes.BS    :
+            case vichrome.key.keyCodes.DEL   :
+            case vichrome.key.keyCodes.Left  :
+            case vichrome.key.keyCodes.Up    :
+            case vichrome.key.keyCodes.Right :
+            case vichrome.key.keyCodes.Down  :
+            case vichrome.key.keyCodes.ESC   :
+            case vichrome.key.keyCodes.CR    :
+                event.stopPropagation();
+                break;
+            default:
+                break;
+        }
+
+        if( key === vichrome.key.keyCodes.ESC ) {
+            setTimeout( function() {
+                vichrome.model.cancelSearch();
+            }, 0);
+            return true;
+        } else if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
+            return true;
+        } else if( ctrl ) {
+            return true;
+        } else if( key === vichrome.key.keyCodes.CR ) {
+            setTimeout( function(){
+                vichrome.model.enterNormalMode();
+            }, 0);
+            return false;
+        } else {
+            return false;
+        }
+    };
+
+    o.blur = function() {
+        vichrome.model.cancelSearch();
+    };
+
+    o.enter = function() {
+        vichrome.view.focusCommandBox();
+    };
+
+    o.reqNextSearch = function() {
+        var found = vichrome.model.goNextSearchResult( false );
+    };
+
+    o.reqPrevSearch = function() {
+        var found = vichrome.model.goNextSearchResult( true );
+    };
+}(vichrome.mode.SearchMode.prototype));
+
+vichrome.mode.CommandMode = function() {
+};
+vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
+(function(o) {
+    o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        // TODO:
+        return true;
+    };
+
+    o.blur = function() {
+    };
+
+    o.enter = function() {
+    };
+}(vichrome.mode.CommandMode.prototype));
+
+vichrome.mode.FMode = function( newWindow ) {
+};
+
+
+vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
+(function(o) {
+    var currentInput = "",
+        hints        = [],
+        keys         = "",
+        keyLength    = 2,
+        newWindow    = newWindow;
+
+    o.hit = function(i) {
+        var e = document.createEvent("MouseEvents");
+
+        hints[i].target.focus();
+        e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+        hints[i].target.get(0).dispatchEvent(e);
+        event.preventDefault();
+    };
+
+    o.isValidKey = function(key) {
+        var str = String.fromCharCode( key );
+        if( str.length === 0 ) {
+            return false;
+        }
+        if( keys.indexOf( str ) < 0 ) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    o.searchTarget = function() {
+        var total = hints.length, i;
+        for( i=0; i < total; i++ ) {
+            if( currentInput === hints[i].key ) {
+                return i;
+            }
+        }
+
+        return -1;
+    };
+
+    o.highlightCandidate = function() {
+    };
+
+    o.putValidChar = function(key) {
+        var str = String.fromCharCode( key ), idx;
+
+        currentInput += str;
+        vichrome.view.setStatusLineText( 'HIT-A-HINT : ' + currentInput );
+
+        if( currentInput.length < keyLength ) {
+            this.highlightCandidate();
+            return;
+        } else {
+            idx = this.searchTarget();
+            if( idx >= 0 ) {
+                this.hit( idx );
+            }
+            $('span#vichromehint').remove();
+            vichrome.model.enterNormalMode();
+        }
+    };
+
+    o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        if( key === vichrome.key.keyCodes.ESC ) {
+            return true;
+        }
+        if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
+            return true;
+        }
+        if( ctrl ) {
+            return true;
+        }
+
+        if( this.isValidKey( key ) ) {
+            this.putValidChar( key );
+        }
+        return false;
+    };
+
+    o.blur = function() {
+        vichrome.model.enterNormalMode();
+    };
+
+    o.getKeyLength = function(candiNum) {
+        return Math.floor( Math.log( candiNum ) / Math.log( keys.length ) ) + 1;
+    };
+
+    o.enter = function() {
+        var div, links, total, x, y;
+        currentInput = "";
+        hints        = [];
+        keys         = "";
+        keyLength    = 2;
+        newWindow    = newWindow;
+
+        keys = vichrome.model.getSetting("fModeAvailableKeys");
+        links = $('a:_visible,*:input:_visible');
+        keyLength = this.getKeyLength( links.length );
+        links.each( function(i) {
+            var key='', j, k;
+            k = i;
+            for( j=0; j < keyLength; j++ ) {
+                key += keys.charAt( k % keys.length );
+                k /= keys.length;
+            }
+            hints[i]        = {};
+            hints[i].offset = $(this).offset();
+            hints[i].key    = key;
+            hints[i].target = $(this);
+
+            $(this).addClass('fModeTarget');
+        });
+
+        total = hints.length;
+        for( i=0; i < total; i++) {
+            x = hints[i].offset.left - 10;
+            y = hints[i].offset.top  - 10;
+            if( x < 0 ) { x = 0; }
+            if( y < 0 ) { y = 0; }
+            div = $( '<span id="vichromehint" />' )
+            .css( "top",  y )
+            .css( "left", x )
+            .html(hints[i].key);
+            $(document.body).append(div);
+        }
+
+        vichrome.view.setStatusLineText('HIT-A-HINT : ');
+    };
+
+    o.exit = function() {
         $('span#vichromehint').remove();
-        vichrome.enterNormalMode();
-    }
-};
-
-FMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-    if( key === keyCodes.ESC ) {
-        return true;
-    }
-    if(keyCodes.F1 <= key && key <= keyCodes.F12){
-        return true;
-    }
-    if( ctrl ) {
-        return true;
-    }
-
-    if( this.isValidKey( key ) ) {
-        this.putValidChar( key );
-    }
-    return false;
-};
-
-FMode.prototype.blur = function() {
-    vichrome.enterNormalMode();
-};
-
-FMode.prototype.getKeyLength = function(candiNum) {
-    return Math.floor( Math.log( candiNum ) / Math.log( this.keys.length ) ) + 1;
-};
+        $('.fModeTarget').removeClass('fModeTarget');
+        vichrome.view.setStatusLineText('');
+    };
+}(vichrome.mode.FMode.prototype));
 
 $.extend($.expr[':'], {
     _visible: function(elem){
@@ -322,46 +390,4 @@ $.extend($.expr[':'], {
         return true;
     }
 });
-
-FMode.prototype.enter = function() {
-    var that = this, div, links, total, x, y;
-    this.keys = vichrome.getSetting("fModeAvailableKeys");
-    links = $('a:_visible,*:input:_visible');
-    this.keyLength = this.getKeyLength( links.length );
-    links.each( function(i) {
-        var key='', j, k;
-        k = i;
-        for( j=0; j < that.keyLength; j++ ) {
-            key += that.keys.charAt( k % that.keys.length );
-            k /= that.keys.length;
-        }
-        that.hints[i] = {};
-        that.hints[i].offset = $(this).offset();
-        that.hints[i].key    = key;
-        that.hints[i].target = $(this);
-
-        $(this).addClass('fModeTarget');
-    });
-
-    total = this.hints.length;
-    for( i=0; i < total; i++) {
-        x = this.hints[i].offset.left - 10;
-        y = this.hints[i].offset.top  - 10;
-        if( x < 0 ) { x = 0; }
-        if( y < 0 ) { y = 0; }
-        div = $( '<span id="vichromehint" />' )
-                .css( "top",  y )
-                .css( "left", x )
-                .html(this.hints[i].key);
-        $(document.body).append(div);
-    }
-
-    view.setStatusLineText('HIT-A-HINT : ');
-};
-
-FMode.prototype.exit = function() {
-    $('span#vichromehint').remove();
-    $('.fModeTarget').removeClass('fModeTarget');
-    view.setStatusLineText('');
-};
 

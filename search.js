@@ -1,15 +1,17 @@
-function Search(wrap, backward) {
+vichrome.search = {};
+
+vichrome.search.NormalSearcher = function(wrap, backward) {
     var _sortedResults = null,
         _wrap          = wrap,
         _backward      = backward,
         _curIndex      = 0;
 
     if( backward ) {
-        view.showCommandBox("?", "");
+        vichrome.view.showCommandBox("?", "");
     } else {
-        view.showCommandBox("/", "");
+        vichrome.view.showCommandBox("/", "");
     }
-    view.focusCommandBox();
+    vichrome.view.focusCommandBox();
 
     function buildSortedResults() {
         _sortedResults = [];
@@ -74,7 +76,7 @@ function Search(wrap, backward) {
                 $('span').removeClass('highlightFocus');
                 span.addClass('highlightFocus');
                 adjustScreenToSearchResult( span.offset() );
-                view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
+                vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
             }
         } else {
             Logger.e("out of bounds of searchResults length", pos);
@@ -125,7 +127,7 @@ function Search(wrap, backward) {
         if(word.length > 0) {
             this.searchAndHighlight( word );
             if( getResultCnt() === 0 ) {
-                view.setStatusLineText("no matches");
+                vichrome.view.setStatusLineText("no matches");
                 return;
             }
 
@@ -139,7 +141,7 @@ function Search(wrap, backward) {
             }
             moveTo( _curIndex );
         } else {
-            view.setStatusLineText("");
+            vichrome.view.setStatusLineText("");
             this.removeHighlight();
         }
     };
@@ -170,4 +172,4 @@ function Search(wrap, backward) {
         moveTo( _curIndex );
         return true;
     };
-}
+};

@@ -20,6 +20,7 @@
           "css/vichrome.css"
       ],
       "js": [
+          "vichrome.js",
           "utils.js",
           "lib/jquery.js",
           "lib/jquery.highlight-3.js",
@@ -30,8 +31,8 @@
           "modes.js",
           "settings.js",
           "commands.js",
-          "eventhandlers.js",
-          "vichrome.js"
+          "eventhandler.js",
+          "model.js"
       ],
       "run_at": "document_start",
       "all_frames": false

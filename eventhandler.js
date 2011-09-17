@@ -1,10 +1,16 @@
-function EventHandler() {
-    var settingPort = null;
+vichrome.event = {};
+
+vichrome.event.EventHandler =  function() {
+    // dependencies
+    var keyCodes         = vichrome.key.keyCodes,
+        KeyManager       = vichrome.key.KeyManager,
+    // private variables
+        settingPort = null;
 
     function onBlur (e) {
         Logger.d("onBlur");
-        vichrome.blur();
-        vichrome.enterNormalMode();
+        vichrome.model.blur();
+        vichrome.model.enterNormalMode();
     }
 
     function onKeyDown (e) {
@@ -24,11 +30,11 @@ function EventHandler() {
 
     function onKeyUp (e) {
         Logger.d( "onKeyUp", e );
-        if(!vichrome.isInSearchMode()) {
+        if(!vichrome.model.isInSearchMode()) {
             return;
         }
 
-        vichrome.updateSearchInput();
+        vichrome.model.updateSearchInput();
     }
 
 
@@ -49,7 +55,7 @@ function EventHandler() {
             }
 
             // TODO: should detect exact keycode
-            if( vichrome.isInNormalMode() &&
+            if( vichrome.model.isInNormalMode() &&
                 e.keyCode >= 48 && !e.ctrlKey && !e.altKey && !e.metaKey ) {
                 event.stopPropagation();
             }
@@ -119,26 +125,26 @@ function EventHandler() {
             key = e.charCode;
         }
 
-        return vichrome.prePostKeyEvent( key, e.ctrlKey, e.altKey, e.metaKey );
+        return vichrome.model.prePostKeyEvent( key, e.ctrlKey, e.altKey, e.metaKey );
     }
 
     function onFocus (e) {
         Logger.d("onFocus", e.target.id );
-        if(vichrome.isInCommandMode() || vichrome.isInSearchMode()) {
+        if(vichrome.model.isInCommandMode() || vichrome.model.isInSearchMode()) {
             return;
         }
-        if( vichrome.isEditable(e.target) ) {
-            vichrome.enterInsertMode();
+        if( vichrome.model.isEditable(e.target) ) {
+            vichrome.model.enterInsertMode();
         } else {
-            vichrome.enterNormalMode();
+            vichrome.model.enterNormalMode();
         }
     }
 
     function onSettingUpdated (msg) {
         if(msg.name === "all") {
-            vichrome.settings = msg.value;
+            vichrome.model.settings = msg.value;
         } else {
-            vichrome.settings[msg.name] = msg.value;
+            vichrome.model.settings[msg.name] = msg.value;
         }
     }
 
@@ -162,6 +168,7 @@ function EventHandler() {
         });
     }
 
+    // public APIs
     this.init = function() {
         setupPorts();
         addRequestListener();
@@ -169,9 +176,9 @@ function EventHandler() {
     };
 
     this.onEnabled = function() {
-        view.init();
+        vichrome.view.init();
         this.init();
-        vichrome.init();
+        vichrome.model.init();
     };
-}
+};
 
