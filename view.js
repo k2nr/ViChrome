@@ -1,7 +1,22 @@
 vichrome.views = {};
 
 vichrome.views.Surface = function() {
-    var $commandBox, $commandField, $commandInput, $modeChar, $statusLine;
+    var $commandBox, $commandField, $commandInput, $modeChar, $statusLine,
+        inputUpdateListener;
+
+    this.addInputUpdateListener = function(fn) {
+        inputUpdateListener = fn;
+    };
+
+    this.removeInputUpdteListener = function(fn) {
+        inputUpdateListener = null;
+    };
+
+    this.notifyInputUpdated = function() {
+        if( this.isCommandBoxActive() && inputUpdateListener ) {
+            inputUpdateListener( this.getCommandBoxValue() );
+        }
+    };
 
     this.init = function() {
         $commandBox   = $('<div id="vichromebox" />');

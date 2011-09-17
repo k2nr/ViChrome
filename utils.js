@@ -1,4 +1,5 @@
-vichrome.log = {};
+vichrome.log  = {};
+vichrome.util = {};
 
 vichrome.log.level = {
         DEBUG   : 1,
@@ -49,4 +50,39 @@ vichrome.log.logger = (function(){
         }
     };
 }());
+
+
+
+vichrome.util.isEditable = function(target) {
+    var ignoreList = ["TEXTAREA"],
+        editableList = ["TEXT",
+                        "PASSWORD",
+                        "NUMBER",
+                        "SEARCH",
+                        "TEL",
+                        "URL",
+                        "EMAIL",
+                        "TIME",
+                        "DATETIME",
+                        "DATETIME-LOCAL",
+                        "DEATE",
+                        "WEEK",
+                        "COLOR"];
+
+    if ( target.isContentEditable ) {
+        return true;
+    }
+
+    if( target.nodeName && target.nodeName.toUpperCase() === "INPUT" ) {
+        if( editableList.indexOf( target.type.toUpperCase() ) >= 0 ) {
+            return true;
+        }
+    }
+
+    if( ignoreList.indexOf(target.nodeName) >= 0 ){
+        return true;
+    }
+
+    return false;
+};
 

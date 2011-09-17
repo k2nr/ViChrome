@@ -4,44 +4,41 @@ vichrome.event.EventHandler =  function(m, v) {
     // dependencies
     var keyCodes         = vichrome.key.keyCodes,
         KeyManager       = vichrome.key.KeyManager,
+        util             = vichrome.util,
+        logger           = vichrome.log.logger,
+
     // private variables
         model = m,
         view = v,
         settingPort = null;
 
     function onBlur (e) {
-        vichrome.log.logger.d("onBlur");
+        logger.d("onBlur");
         model.blur();
-        model.enterNormalMode();
     }
 
     function onKeyDown (e) {
-        var msg;
-        vichrome.log.logger.d("onKeyDown", e);
+        logger.d("onKeyDown", e);
 
-        msg = getHandlableKey( e );
+        var msg = getHandlableKey( e );
         if( msg ) {
             model.handleKey(msg);
         }
     }
 
     function onKeyPress (e) {
-        var msg;
-        vichrome.log.logger.d( "onKeyPress", e );
+        logger.d( "onKeyPress", e );
 
-        msg = getHandlableKey( e );
+        var msg = getHandlableKey( e );
         if( msg ) {
             model.handleKey(msg);
         }
     }
 
     function onKeyUp (e) {
-        vichrome.log.logger.d( "onKeyUp", e );
-        if(!model.isInSearchMode()) {
-            return;
-        }
+        logger.d( "onKeyUp", e );
 
-        model.updateSearchInput();
+        view.notifyInputUpdated();
     }
 
 
@@ -86,23 +83,12 @@ vichrome.event.EventHandler =  function(m, v) {
     }
 
     function onFocus (e) {
-        vichrome.log.logger.d("onFocus", e.target.id );
-        if(model.isInCommandMode() || model.isInSearchMode()) {
-            return;
-        }
-        if( model.isEditable(e.target) ) {
-            model.enterInsertMode();
-        } else {
-            model.enterNormalMode();
-        }
+        logger.d("onFocus", e.target.id );
+        model.onFocus( e.target );
     }
 
     function onSettingUpdated (msg) {
-        if(msg.name === "all") {
-            model.settings = msg.value;
-        } else {
-            model.settings[msg.name] = msg.value;
-        }
+        model.onSettingUpdated( msg );
     }
 
     function setupPorts() {

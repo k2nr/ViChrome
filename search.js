@@ -4,14 +4,8 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
     var _sortedResults = null,
         _wrap          = wrap,
         _backward      = backward,
-        _curIndex      = 0;
-
-    if( backward ) {
-        vichrome.view.showCommandBox("?", "");
-    } else {
-        vichrome.view.showCommandBox("/", "");
-    }
-    vichrome.view.focusCommandBox();
+        _curIndex      = 0,
+        view           = vichrome.view;
 
     function buildSortedResults() {
         _sortedResults = [];
@@ -107,25 +101,9 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
         return -1;
     }
 
-    this.highlight = function(word) {
-        $(document.body).highlight(word);
-    };
-
-    this.removeHighlight = function() {
-        $(document.body).removeHighlight();
-    };
-
-    this.searchAndHighlight = function(word) {
-        this.removeHighlight();
-        this.highlight(word);
-
-        buildSortedResults();
-    };
-
-
-    this.updateInput = function(word) {
+    function updateInput(thisObj, word) {
         if(word.length > 0) {
-            this.searchAndHighlight( word );
+            thisObj.searchAndHighlight( word );
             if( getResultCnt() === 0 ) {
                 vichrome.view.setStatusLineText("no matches");
                 return;
@@ -142,9 +120,40 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
             moveTo( _curIndex );
         } else {
             vichrome.view.setStatusLineText("");
-            this.removeHighlight();
+            thisObj.removeHighlight();
         }
+    }
+
+    if( backward ) {
+        view.showCommandBox("?", "");
+    } else {
+        view.showCommandBox("/", "");
+    }
+    view.focusCommandBox();
+
+    (function(obj) {
+        view.addInputUpdateListener( function(word) {
+            updateInput( obj, word );
+        });
+    }(this));
+
+
+
+    this.highlight = function(word) {
+        $(document.body).highlight(word);
     };
+
+    this.removeHighlight = function() {
+        $(document.body).removeHighlight();
+    };
+
+    this.searchAndHighlight = function(word) {
+        this.removeHighlight();
+        this.highlight(word);
+
+        buildSortedResults();
+    };
+
 
     this.goNext = function (reverse) {
         var forward = (_backward === reverse);

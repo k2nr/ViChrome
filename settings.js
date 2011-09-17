@@ -4,6 +4,8 @@ var SettingManager = {
         "searchEngine"            : "http://www.google.com/",
         "commandWaitTimeOut"      : 2000,
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
+        "wrapSearch"              : true,
+        "incSearch"               : true,
         "keyMappings"             : {
            "j"       : "ScrollDown",
            "k"       : "ScrollUp",
@@ -43,6 +45,8 @@ var SettingManager = {
         "searchEngine",
         "commandWaitTimeOut",
         "fModeAvailableKeys",
+        "wrapSearch",
+        "incSearch",
         "keyMappings"
     ],
 

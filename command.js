@@ -69,11 +69,12 @@ vichrome.command.KeyQueue = function(){
 };
 
 
-vichrome.command.CommandManager = function() {
+vichrome.command.CommandManager = function(m) {
     // dependencies
     var KeyQueue     = vichrome.command.KeyQueue,
         KeyManager   = vichrome.key.KeyManager,
         keyQueue     = new KeyQueue(),
+        model        = m,
         commandTable = {
             OpenNewTab            : sendToBackground,
             CloseCurTab           : sendToBackground,
@@ -106,7 +107,7 @@ vichrome.command.CommandManager = function() {
 
     function getCommand (s) {
         var keySeq,
-            keyMap = vichrome.model.getSetting("keyMappings");
+            keyMap = model.getSetting("keyMappings");
 
         if( s === "<ESC>" ) {
             keyQueue.reset();
@@ -122,7 +123,6 @@ vichrome.command.CommandManager = function() {
     }
 
     function executeCommand (com) {
-
         setTimeout( function() {
             commandTable[com](com);
         }, 0);
@@ -138,11 +138,7 @@ vichrome.command.CommandManager = function() {
     }
 
     function triggerInsideContent(com) {
-        if(vichrome.model.curMode["req"+com]) {
-            vichrome.model.curMode["req"+com]();
-        } else {
-            vichrome.log.logger.e("INVALID command!:", com);
-        }
+        model.triggerCommand( "req" + com );
     }
 
     this.isWaitingNextKey = function() {

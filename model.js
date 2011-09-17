@@ -5,22 +5,34 @@ vichrome.Model = function() {
         SearchMode     = vichrome.mode.SearchMode,
         CommandMode    = vichrome.mode.CommandMode,
         FMode          = vichrome.mode.FMode,
+        util           = vichrome.util,
+        logger         = vichrome.log.logger,
+
         // private variables
         searcher       = null,
         pmRegister     = null,
-        commandManager = null;
+        commandManager = null,
+        curMode        = null,
+        settings       = null;
 
-    this.curMode    = null;
-    this.settings   = {};
+    function changeMode(newMode) {
+        logger.d("mode changed", newMode);
+        if( curMode ) {
+            curMode.exit();
+        }
+        curMode = newMode;
+        curMode.enter();
+    }
+
     this.init = function() {
         // should evaluate focused element on initialization.
-        if( this.isEditable( document.activeElement ) ) {
+        if( util.isEditable( document.activeElement ) ) {
             this.enterInsertMode();
         } else {
             this.enterNormalMode();
         }
         pmRegister     = new vichrome.register.PageMarkRegister();
-        commandManager = new vichrome.command.CommandManager();
+        commandManager = new vichrome.command.CommandManager(this);
     };
 
     this.setPageMark = function(key) {
@@ -36,70 +48,28 @@ vichrome.Model = function() {
         vichrome.view.scrollTo( offset.left, offset.top );
     };
 
-    this.changeMode = function(newMode) {
-        vichrome.log.logger.d("mode changed", newMode);
-        if( this.curMode ) {
-            this.curMode.exit();
-        }
-        this.curMode = newMode;
-        this.curMode.enter();
-    };
-
-    this.isEditable = function(target) {
-        var ignoreList = ["TEXTAREA"],
-            editableList = ["TEXT",
-                            "PASSWORD",
-                            "NUMBER",
-                            "SEARCH",
-                            "TEL",
-                            "URL",
-                            "EMAIL",
-                            "TIME",
-                            "DATETIME",
-                            "DATETIME-LOCAL",
-                            "DEATE",
-                            "WEEK",
-                            "COLOR"];
-
-        if ( target.isContentEditable ) {
-            return true;
-        }
-
-        if( target.nodeName && target.nodeName.toUpperCase() === "INPUT" ) {
-            if( editableList.indexOf( target.type.toUpperCase() ) >= 0 ) {
-                return true;
-            }
-        }
-
-        if( ignoreList.indexOf(target.nodeName) >= 0 ){
-            return true;
-        }
-
-        return false;
-    };
-
     this.enterNormalMode = function() {
-        this.changeMode( new NormalMode() );
+        changeMode( new NormalMode() );
     };
 
     this.enterInsertMode = function() {
-        this.changeMode( new InsertMode() );
+        changeMode( new InsertMode() );
     };
 
     this.enterCommandMode = function() {
-        this.changeMode( new CommandMode() );
+        changeMode( new CommandMode() );
     };
 
     this.enterSearchMode = function(backward) {
-        //TODO:wrap should be read from localStorage
-        searcher = new vichrome.search.NormalSearcher( true, backward );
+        var wrap = this.getSetting("wrapSearch");
+        searcher = new vichrome.search.NormalSearcher( wrap, backward );
 
-        this.changeMode( new SearchMode() );
+        changeMode( new SearchMode() );
         this.setPageMark();
     };
 
     this.enterFMode = function() {
-        this.changeMode( new FMode() );
+        changeMode( new FMode() );
     };
 
     this.cancelSearch = function() {
@@ -119,31 +89,24 @@ vichrome.Model = function() {
         this.enterNormalMode();
     };
 
-    this.updateSearchInput = function() {
-        var str = vichrome.view.getCommandBoxValue();
-
-        // the first char is always "/" so the char to search starts from 1
-        searcher.updateInput( str );
-    };
-
     this.isInNormalMode = function() {
-        return (this.curMode instanceof vichrome.mode.NormalMode);
+        return (curMode instanceof vichrome.mode.NormalMode);
     };
 
     this.isInInsertMode = function() {
-        return (this.curMode instanceof vichrome.mode.InsertMode);
+        return (curMode instanceof vichrome.mode.InsertMode);
     };
 
     this.isInSearchMode = function() {
-        return (this.curMode instanceof vichrome.mode.SearchMode);
+        return (curMode instanceof vichrome.mode.SearchMode);
     };
 
     this.isInCommandMode = function() {
-        return (this.curMode instanceof vichrome.mode.CommandMode);
+        return (curMode instanceof vichrome.mode.CommandMode);
     };
 
     this.isInFMode = function() {
-        return (this.curMode instanceof vichrome.mode.FMode);
+        return (curMode instanceof vichrome.mode.FMode);
     };
 
     this.goNextSearchResult = function(reverse) {
@@ -152,15 +115,16 @@ vichrome.Model = function() {
     };
 
     this.getSetting = function(name) {
-        return this.settings[name];
+        return settings[name];
     };
 
     this.blur = function() {
-        this.curMode.blur();
+        curMode.blur();
+        this.enterNormalMode();
     };
 
     this.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        return this.curMode.prePostKeyEvent(key, ctrl, alt, meta);
+        return curMode.prePostKeyEvent(key, ctrl, alt, meta);
     };
 
     this.isValidKeySeq = function(keySeq) {
@@ -176,12 +140,12 @@ vichrome.Model = function() {
         // using regexp to compare should cause bugs, using slice & comparison
         // with '==' may be a better & simple way.
         var keyMapping = this.getSetting("keyMappings"),
-        length = keySeq.length,
-        hasOwnPrp = Object.prototype.hasOwnProperty,
-        cmpStr, i;
+            length     = keySeq.length,
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            cmpStr, i;
 
         for ( i in keyMapping ) {
-            if( hasOwnPrp.call(keyMapping, i )) {
+            if( hasOwnPrp.call( keyMapping, i ) ) {
                 cmpStr = i.slice( 0, length );
                 if( keySeq === cmpStr ) {
                     return true;
@@ -194,6 +158,34 @@ vichrome.Model = function() {
 
     this.handleKey = function(msg) {
         return commandManager.handleKey(msg);
+    };
+
+    this.triggerCommand = function(method) {
+        if( curMode[method] ) {
+            curMode[method]();
+        } else {
+            logger.e("INVALID command!:", method);
+        }
+    };
+
+    this.onSettingUpdated = function(msg) {
+        if(msg.name === "all") {
+            settings = msg.value;
+        } else {
+            settings[msg.name] = msg.value;
+        }
+    };
+
+    this.onFocus = function(target) {
+        if(this.isInCommandMode() || this.isInSearchMode()) {
+            return;
+        }
+
+        if( util.isEditable( target ) ) {
+            this.enterInsertMode();
+        } else {
+            this.enterNormalMode();
+        }
     };
 };
 
