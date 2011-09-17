@@ -79,7 +79,7 @@ function init () {
             if(this["req"+req.command]) {
                 this["req"+req.command]();
             } else {
-                Logger.e("INVALID command!:", req.command);
+                vichrome.log.logger.e("INVALID command!:", req.command);
             }
 
             sendResponse();

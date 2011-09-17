@@ -8,28 +8,28 @@ vichrome.event.EventHandler =  function() {
         settingPort = null;
 
     function onBlur (e) {
-        Logger.d("onBlur");
+        vichrome.log.logger.d("onBlur");
         vichrome.model.blur();
         vichrome.model.enterNormalMode();
     }
 
     function onKeyDown (e) {
-        Logger.d("onKeyDown", e);
+        vichrome.log.logger.d("onKeyDown", e);
 
         if( prePostKeyEvent(e) ) {
-            vichrome.commandManager.handleKey(e);
+            vichrome.model.handleKey(e);
         }
     }
 
     function onKeyPress (e) {
-        Logger.d( "onKeyPress", e );
+        vichrome.log.logger.d( "onKeyPress", e );
         if( prePostKeyEvent(e) ) {
-            vichrome.commandManager.handleKey(e);
+            vichrome.model.handleKey(e);
         }
     }
 
     function onKeyUp (e) {
-        Logger.d( "onKeyUp", e );
+        vichrome.log.logger.d( "onKeyUp", e );
         if(!vichrome.model.isInSearchMode()) {
             return;
         }
@@ -61,65 +61,10 @@ vichrome.event.EventHandler =  function() {
             }
 
             // keydown only catch key codes that are not passed to keypress
-            switch( key ) {
-                case keyCodes.Tab   :
-                case keyCodes.BS    :
-                case keyCodes.DEL   :
-                case keyCodes.ESC   :
-                    break;
-                case 37 :
-                    key = keyCodes.Left;
-                    break;
-                case 38 :
-                    key = keyCodes.Up;
-                    break;
-                case 39 :
-                    key = keyCodes.Right;
-                    break;
-                case 40 :
-                    key = keyCodes.Down;
-                    break;
-                case 112  :
-                    key = keyCodes.F1;
-                    break;
-                case 113  :
-                    key = keyCodes.F2;
-                    break;
-                case 114  :
-                    key = keyCodes.F3;
-                    break;
-                case 115  :
-                    key = keyCodes.F4;
-                    break;
-                case 116  :
-                    key = keyCodes.F5;
-                    break;
-                case 117  :
-                    key = keyCodes.F6;
-                    break;
-                case 118  :
-                    key = keyCodes.F7;
-                    break;
-                case 119  :
-                    key = keyCodes.F8;
-                    break;
-                case 120  :
-                    key = keyCodes.F9;
-                    break;
-                case 121  :
-                    key = keyCodes.F10;
-                    break;
-                case 122  :
-                    key = keyCodes.F11;
-                    break;
-                case 123  :
-                    key = keyCodes.F12;
-                    break;
-                default:
-                    if( !e.ctrlKey ) {
-                        return false;
-                    }
-                    break;
+            if( KeyManager.getLocalKeyCode(key) === keyCodes.ASCII ) {
+                if( e.ctrlKey ) { return false; }
+            } else {
+                key = KeyManager.getLocalKeyCode(key);
             }
         } else if( e.type === "keypress" ) {
             key = e.charCode;
@@ -129,7 +74,7 @@ vichrome.event.EventHandler =  function() {
     }
 
     function onFocus (e) {
-        Logger.d("onFocus", e.target.id );
+        vichrome.log.logger.d("onFocus", e.target.id );
         if(vichrome.model.isInCommandMode() || vichrome.model.isInSearchMode()) {
             return;
         }
@@ -168,16 +113,16 @@ vichrome.event.EventHandler =  function() {
         });
     }
 
-    // public APIs
-    this.init = function() {
+    function init() {
         setupPorts();
         addRequestListener();
         addWindowListeners();
-    };
+    }
 
+    // public APIs
     this.onEnabled = function() {
+        init();
         vichrome.view.init();
-        this.init();
         vichrome.model.init();
     };
 };

@@ -79,7 +79,7 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
                 vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
             }
         } else {
-            Logger.e("out of bounds of searchResults length", pos);
+            vichrome.log.logger.e("out of bounds of searchResults length", pos);
         }
     }
 

@@ -26,7 +26,8 @@ vichrome.key.keyCodes = {
     F9        : 140,
     F10       : 141,
     F11       : 142,
-    F12       : 143
+    F12       : 143,
+    ASCII     : -1
 };
 
 vichrome.key.KeyManager = (function(){
@@ -43,19 +44,19 @@ vichrome.key.KeyManager = (function(){
             }
         },
 
-        convertKeyCodeToStr : function (msg) {
-            key = "";
+        getKeyCodeStr : function (msg) {
+            var result = "";
             if(65 <= msg.keyCode && msg.keyCode <= 90){
                 if(msg.shiftKey) {
-                    key = String.fromCharCode(msg.keyCode);
+                    result = String.fromCharCode(msg.keyCode);
                 } else {
-                    key = String.fromCharCode(msg.keyCode + 32);
+                    result = String.fromCharCode(msg.keyCode + 32);
                 }
                 if(msg.ctrlKey) {
-                    key = "<C-" + key + ">";
+                    result = "<C-" + result + ">";
                 }
 
-                return key;
+                return result;
             } else if(31 <= msg.keyCode && msg.keyCode <= 126){
                 return String.fromCharCode(msg.keyCode);
             }
@@ -82,10 +83,34 @@ vichrome.key.KeyManager = (function(){
                 case keyCodes.F10   : return "<F10>";
                 case keyCodes.F11   : return "<F11>";
                 case keyCodes.F12   : return "<F12>";
+                case keyCodes.ESC   : return "<ESC>";
             }
+        },
 
-            if(this.isESC(msg.keyCode, msg.ctrlKey)) {
-                return "<ESC>";
+        getLocalKeyCode : function(code) {
+            switch( code ) {
+                case keyCodes.Tab   :
+                case keyCodes.BS    :
+                case keyCodes.DEL   :
+                case keyCodes.ESC   :
+                    return code;
+                case  37 : return keyCodes.Left;
+                case  38 : return keyCodes.Up;
+                case  39 : return keyCodes.Right;
+                case  40 : return keyCodes.Down;
+                case 112 : return keyCodes.F1;
+                case 113 : return keyCodes.F2;
+                case 114 : return keyCodes.F3;
+                case 115 : return keyCodes.F4;
+                case 116 : return keyCodes.F5;
+                case 117 : return keyCodes.F6;
+                case 118 : return keyCodes.F7;
+                case 119 : return keyCodes.F8;
+                case 120 : return keyCodes.F9;
+                case 121 : return keyCodes.F10;
+                case 122 : return keyCodes.F11;
+                case 123 : return keyCodes.F12;
+                default  : return keyCodes.ASCII;
             }
         }
     };

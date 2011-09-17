@@ -1,44 +1,52 @@
+vichrome.log = {};
 
-var Logger = {
-    DEBUG   : 1,
-    WARNING : 2,
-    ERROR   : 3,
-    FATAL   : 4,
-    NONE    : 5,
+vichrome.log.level = {
+        DEBUG   : 1,
+        WARNING : 2,
+        ERROR   : 3,
+        FATAL   : 4,
+        NONE    : 5
+};
 
-    __log : function(a, o) {
+// TODO:change to ERROR for release version!
+vichrome.log.VICHROME_LOG_LEVEL = vichrome.log.level.DEBUG;
+
+vichrome.log.logger = (function(){
+    var log   = vichrome.log,
+        level = vichrome.log.level;
+
+    function _log(a, o) {
         if(o) {
             console.log( "vichrome:" + a + " :%o", o );
         } else {
             console.log( "vichrome:" + a );
         }
-    },
-
-    d : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.DEBUG) {
-            this.__log(a, o);
-        }
-    },
-
-    w : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.WARNING) {
-            this.__log(a, o);
-        }
-    },
-
-    e : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.ERROR) {
-            this.__log(a, o);
-        }
-    },
-
-    f : function(a, o) {
-        if(VICHROME_LOG_LEVEL >= Logger.FATAL) {
-            this.__log(a, o);
-        }
     }
 
-};
+    return {
+        d : function(a, o) {
+            if(log.VICHROME_LOG_LEVEL >= level.DEBUG) {
+                _log(a, o);
+            }
+        },
 
-VICHROME_LOG_LEVEL = Logger.DEBUG;
+        w : function(a, o) {
+            if(log.VICHROME_LOG_LEVEL >= level.WARNING) {
+                _log(a, o);
+            }
+        },
+
+        e : function(a, o) {
+            if(log.VICHROME_LOG_LEVEL >= level.ERROR) {
+                _log(a, o);
+            }
+        },
+
+        f : function(a, o) {
+            if(log.VICHROME_LOG_LEVEL >= level.FATAL) {
+                _log(a, o);
+            }
+        }
+    };
+}());
 

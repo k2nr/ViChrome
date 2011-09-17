@@ -7,7 +7,7 @@ vichrome.command.KeyQueue = function(){
 
     function stopTimer() {
         if( waiting ) {
-            Logger.d("stop timeout");
+            vichrome.log.logger.d("stop timeout");
             clearTimeout( timerId );
             waiting = false;
         }
@@ -15,9 +15,9 @@ vichrome.command.KeyQueue = function(){
 
     function startTimer( callback, ms ) {
         if( waiting ) {
-            Logger.e("startTimer:timer already running");
+            vichrome.log.logger.e("startTimer:timer already running");
         } else {
-            Logger.d("commandTimer set");
+            vichrome.log.logger.d("commandTimer set");
             waiting = true;
             setTimeout( callback, ms );
         }
@@ -53,12 +53,12 @@ vichrome.command.KeyQueue = function(){
             return ret;
         } else {
             if( !vichrome.model.isValidKeySeqAvailable(a) ) {
-                Logger.d("invalid key sequence:" + a);
+                vichrome.log.logger.d("invalid key sequence:" + a);
                 a = "";
             } else {
                 // possible key sequences are available.wait next key.
                 startTimer( function() {
-                    Logger.d("command wait timeout.reset key queue:" + a);
+                    vichrome.log.logger.d("command wait timeout.reset key queue:" + a);
                     a = "";
                     waiting = false;
                 }, vichrome.model.getSetting("commandWaitTimeOut") );
@@ -69,31 +69,12 @@ vichrome.command.KeyQueue = function(){
 };
 
 
-vichrome.commandManager = (function() {
+vichrome.command.CommandManager = function() {
     // dependencies
-    var KeyQueue   = vichrome.command.KeyQueue,
-        KeyManager = vichrome.key.KeyManager,
-        keyQueue = new KeyQueue();
-
-    function getCommand (s) {
-        var keySeq,
-        keyMap = vichrome.model.getSetting("keyMappings");
-
-        if( s === "<ESC>" ) {
-            keyQueue.reset();
-            keySeq = s;
-        } else {
-            keyQueue.queue(s);
-            keySeq = keyQueue.getNextKeySequence();
-        }
-
-        if( keyMap && keySeq ) {
-            return keyMap[keySeq];
-        }
-    }
-
-    function executeCommand (com) {
-        var commandTable = {
+    var KeyQueue     = vichrome.command.KeyQueue,
+        KeyManager   = vichrome.key.KeyManager,
+        keyQueue     = new KeyQueue(),
+        commandTable = {
             OpenNewTab            : sendToBackground,
             CloseCurTab           : sendToBackground,
             MoveNextTab           : sendToBackground,
@@ -123,6 +104,25 @@ vichrome.commandManager = (function() {
             Escape                : escape
         };
 
+    function getCommand (s) {
+        var keySeq,
+            keyMap = vichrome.model.getSetting("keyMappings");
+
+        if( s === "<ESC>" ) {
+            keyQueue.reset();
+            keySeq = s;
+        } else {
+            keyQueue.queue(s);
+            keySeq = keyQueue.getNextKeySequence();
+        }
+
+        if( keyMap && keySeq ) {
+            return keyMap[keySeq];
+        }
+    }
+
+    function executeCommand (com) {
+
         setTimeout( function() {
             commandTable[com](com);
         }, 0);
@@ -141,32 +141,30 @@ vichrome.commandManager = (function() {
         if(vichrome.model.curMode["req"+com]) {
             vichrome.model.curMode["req"+com]();
         } else {
-            Logger.e("INVALID command!:", com);
+            vichrome.log.logger.e("INVALID command!:", com);
         }
     }
 
-    return {
-        isWaitingNextKey : function() {
-            return keyQueue.isWaiting();
-        },
+    this.isWaitingNextKey = function() {
+        return keyQueue.isWaiting();
+    };
 
-        handleKey : function(e){
-            var s = KeyManager.convertKeyCodeToStr(e),
+    this.handleKey = function(e){
+        var s   = KeyManager.getKeyCodeStr(e),
             com = getCommand( s );
 
-            if( com ) {
-                // some web sites set their own key bind(google instant search etc).
-                // to prevent messing up vichrome's key bind from them,
-                // we have to stop event propagation here.
-                event.stopPropagation();
-                event.preventDefault();
+        if( com ) {
+            // some web sites set their own key bind(google instant search etc).
+            // to prevent messing up vichrome's key bind from them,
+            // we have to stop event propagation here.
+            event.stopPropagation();
+            event.preventDefault();
 
-                executeCommand( com );
-            } else if( this.isWaitingNextKey() ) {
-                event.stopPropagation();
-                event.preventDefault();
-            }
+            executeCommand( com );
+        } else if( this.isWaitingNextKey() ) {
+            event.stopPropagation();
+            event.preventDefault();
         }
     };
-}());
+};
 

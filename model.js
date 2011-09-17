@@ -1,16 +1,17 @@
 vichrome.Model = function() {
-    // dependencies
-    var NormalMode  = vichrome.mode.NormalMode,
-        InsertMode  = vichrome.mode.InsertMode,
-        SearchMode  = vichrome.mode.SearchMode,
-        CommandMode = vichrome.mode.CommandMode,
-        FMode       = vichrome.mode.FMode;
+        // dependencies
+    var NormalMode     = vichrome.mode.NormalMode,
+        InsertMode     = vichrome.mode.InsertMode,
+        SearchMode     = vichrome.mode.SearchMode,
+        CommandMode    = vichrome.mode.CommandMode,
+        FMode          = vichrome.mode.FMode,
+        // private variables
+        searcher       = null,
+        pmRegister     = null,
+        commandManager = null;
 
-    this.searcher = null;
     this.curMode    = null;
     this.settings   = {};
-    this.pmRegister = null;
-
     this.init = function() {
         // should evaluate focused element on initialization.
         if( this.isEditable( document.activeElement ) ) {
@@ -18,7 +19,8 @@ vichrome.Model = function() {
         } else {
             this.enterNormalMode();
         }
-        this.pmRegister = new vichrome.register.PageMarkRegister();
+        pmRegister     = new vichrome.register.PageMarkRegister();
+        commandManager = new vichrome.command.CommandManager();
     };
 
     this.setPageMark = function(key) {
@@ -26,16 +28,16 @@ vichrome.Model = function() {
         mark.top = window.pageYOffset;
         mark.left = window.pageXOffset;
 
-        this.pmRegister.set( mark, key );
+        pmRegister.set( mark, key );
     };
 
     this.goPageMark = function(key) {
-        var offset = this.pmRegister.get( key );
+        var offset = pmRegister.get( key );
         vichrome.view.scrollTo( offset.left, offset.top );
     };
 
     this.changeMode = function(newMode) {
-        Logger.d("mode changed", newMode);
+        vichrome.log.logger.d("mode changed", newMode);
         if( this.curMode ) {
             this.curMode.exit();
         }
@@ -45,19 +47,19 @@ vichrome.Model = function() {
 
     this.isEditable = function(target) {
         var ignoreList = ["TEXTAREA"],
-        editableList = ["TEXT",
-            "PASSWORD",
-            "NUMBER",
-            "SEARCH",
-            "TEL",
-            "URL",
-            "EMAIL",
-            "TIME",
-            "DATETIME",
-            "DATETIME-LOCAL",
-            "DEATE",
-            "WEEK",
-        "COLOR"];
+            editableList = ["TEXT",
+                            "PASSWORD",
+                            "NUMBER",
+                            "SEARCH",
+                            "TEL",
+                            "URL",
+                            "EMAIL",
+                            "TIME",
+                            "DATETIME",
+                            "DATETIME-LOCAL",
+                            "DEATE",
+                            "WEEK",
+                            "COLOR"];
 
         if ( target.isContentEditable ) {
             return true;
@@ -77,27 +79,27 @@ vichrome.Model = function() {
     };
 
     this.enterNormalMode = function() {
-        this.changeMode( new vichrome.mode.NormalMode() );
+        this.changeMode( new NormalMode() );
     };
 
     this.enterInsertMode = function() {
-        this.changeMode( new vichrome.mode.InsertMode() );
+        this.changeMode( new InsertMode() );
     };
 
     this.enterCommandMode = function() {
-        this.changeMode( new vichrome.mode.CommandMode() );
+        this.changeMode( new CommandMode() );
     };
 
     this.enterSearchMode = function(backward) {
         //TODO:wrap should be read from localStorage
-        this.searcher = new vichrome.search.NormalSearcher( true, backward );
+        searcher = new vichrome.search.NormalSearcher( true, backward );
 
-        this.changeMode( new vichrome.mode.SearchMode() );
+        this.changeMode( new SearchMode() );
         this.setPageMark();
     };
 
     this.enterFMode = function() {
-        this.changeMode( new vichrome.mode.FMode() );
+        this.changeMode( new FMode() );
     };
 
     this.cancelSearch = function() {
@@ -108,8 +110,8 @@ vichrome.Model = function() {
 
     this.cancelSearchHighlight = function() {
         vichrome.view.setStatusLineText("");
-        if( this.searcher ) {
-            this.searcher.removeHighlight();
+        if( searcher ) {
+            searcher.removeHighlight();
         }
     };
 
@@ -121,7 +123,7 @@ vichrome.Model = function() {
         var str = vichrome.view.getCommandBoxValue();
 
         // the first char is always "/" so the char to search starts from 1
-        this.searcher.updateInput( str );
+        searcher.updateInput( str );
     };
 
     this.isInNormalMode = function() {
@@ -146,7 +148,7 @@ vichrome.Model = function() {
 
     this.goNextSearchResult = function(reverse) {
         this.setPageMark();
-        return this.searcher.goNext( reverse );
+        return searcher.goNext( reverse );
     };
 
     this.getSetting = function(name) {
@@ -188,6 +190,10 @@ vichrome.Model = function() {
         }
 
         return false;
+    };
+
+    this.handleKey = function(e) {
+        return commandManager.handleKey(e);
     };
 };
 
