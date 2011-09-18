@@ -142,14 +142,19 @@ vichrome.Model = function() {
         var keyMapping = this.getKeyMapping(),
             length     = keySeq.length,
             hasOwnPrp  = Object.prototype.hasOwnProperty,
-            cmpStr, i;
+            cmpStr, i, pos;
 
-        for ( i in keyMapping ) {
-            if( hasOwnPrp.call( keyMapping, i ) ) {
-                cmpStr = i.slice( 0, length );
-                if( keySeq === cmpStr ) {
-                    return true;
+        for ( i in keyMapping ) if( hasOwnPrp.call( keyMapping, i ) ) {
+            cmpStr = i.slice( 0, length );
+            pos = cmpStr.indexOf("<", 0);
+            if( pos >= 0 ) {
+                pos = i.indexOf( ">", pos );
+                if( pos >= 0 ) {
+                    cmpStr = i.slice( 0, pos+1 );
                 }
+            }
+            if( keySeq === cmpStr ) {
+                return true;
             }
         }
 

@@ -40,26 +40,17 @@ var SettingManager = {
         }
     },
 
-    settingNames : [
-        "scrollPixelCount",
-        "searchEngine",
-        "commandWaitTimeOut",
-        "fModeAvailableKeys",
-        "wrapSearch",
-        "incSearch",
-        "keyMappingNormal",
-        "keyMappingInsert"
-    ],
-
     associateKeyMap : {},
 
     getAll : function() {
-        settings = {};
-        for (var i=0; i < this.settingNames.length; i++) {
-            if ( localStorage[this.settingNames[i]] ) {
-                settings[this.settingNames[i]] = localStorage[this.settingNames[i]];
+        var settings = {}, i,
+            hasOwnPrp  = Object.prototype.hasOwnProperty;
+
+        for ( i in this.defaultSettings ) if( hasOwnPrp.call( this.defaultSettings, i ) ) {
+            if ( localStorage[i] ) {
+                settings[i] = localStorage[i];
             } else {
-                settings[this.settingNames[i]] = this.defaultSettings[this.settingNames[i]];
+                settings[i] = this.defaultSettings[i];
             }
         }
 
