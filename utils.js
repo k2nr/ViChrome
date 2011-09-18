@@ -26,25 +26,25 @@ vichrome.log.logger = (function(){
 
     return {
         d : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL >= level.DEBUG) {
+            if(log.VICHROME_LOG_LEVEL <= level.DEBUG) {
                 _log(a, o);
             }
         },
 
         w : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL >= level.WARNING) {
+            if(log.VICHROME_LOG_LEVEL <= level.WARNING) {
                 _log(a, o);
             }
         },
 
         e : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL >= level.ERROR) {
+            if(log.VICHROME_LOG_LEVEL <= level.ERROR) {
                 _log(a, o);
             }
         },
 
         f : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL >= level.FATAL) {
+            if(log.VICHROME_LOG_LEVEL <= level.FATAL) {
                 _log(a, o);
             }
         }

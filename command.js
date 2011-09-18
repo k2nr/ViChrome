@@ -107,7 +107,7 @@ vichrome.command.CommandManager = function(m) {
 
     function getCommand (s) {
         var keySeq,
-            keyMap = model.getSetting("keyMappings");
+            keyMap = model.getKeyMapping();
 
         if( s === "<ESC>" ) {
             keyQueue.reset();

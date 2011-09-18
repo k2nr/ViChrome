@@ -10,7 +10,7 @@ vichrome.key.keyCodes = {
     Meta      : 91,
     DEL       : 46,
     CR        : 13,
-    SP        : 32,
+    Space     : 32,
     Left      : 128,
     Up        : 129,
     Right     : 130,
@@ -26,14 +26,131 @@ vichrome.key.keyCodes = {
     F9        : 140,
     F10       : 141,
     F11       : 142,
-    F12       : 143,
-    ASCII     : -1
+    F12       : 143
+};
+
+vichrome.key.keyIdentifier = {
+    "U+0031"    : "1",
+    "U+0032"    : "2",
+    "U+0033"    : "3",
+    "U+0034"    : "4",
+    "U+0035"    : "5",
+    "U+0036"    : "6",
+    "U+0037"    : "7",
+    "U+0038"    : "8",
+    "U+0039"    : "9",
+    "U+0030"    : "0",
+    "U+0021"    : "!",
+    "U+0022"    : '"',
+    "U+0023"    : "#",
+    "U+0024"    : "$",
+    "U+0025"    : "%",
+    "U+0026"    : "&",
+    "U+0027"    : "'",
+    "U+0028"    : "(",
+    "U+0029"    : ")",
+    "U+002D"    : "-",
+    "U+003D"    : "=",
+    "U+005E"    : "^",
+    "U+007E"    : "~",
+    "U+00A5"    : "\\",
+    "U+007C"    : "|",
+    "U+0041"    : "a",
+    "U+0042"    : "b",
+    "U+0043"    : "c",
+    "U+0044"    : "d",
+    "U+0045"    : "e",
+    "U+0046"    : "f",
+    "U+0047"    : "g",
+    "U+0048"    : "h",
+    "U+0049"    : "i",
+    "U+004A"    : "j",
+    "U+004B"    : "k",
+    "U+004C"    : "l",
+    "U+004D"    : "m",
+    "U+004E"    : "n",
+    "U+004F"    : "o",
+    "U+0050"    : "p",
+    "U+0051"    : "q",
+    "U+0052"    : "r",
+    "U+0053"    : "s",
+    "U+0054"    : "t",
+    "U+0055"    : "u",
+    "U+0056"    : "v",
+    "U+0057"    : "w",
+    "U+0058"    : "x",
+    "U+0059"    : "y",
+    "U+005A"    : "z",
+    "U+0040"    : "@",
+    "U+0060"    : "`",
+    "U+005B"    : "[",
+    "U+007B"    : "{",
+    "U+003B"    : ";",
+    "U+002B"    : "+",
+    "U+003A"    : ":",
+    "U+002A"    : "*",
+    "U+005D"    : "]",
+    "U+007D"    : "}",
+    "U+002C"    : ",",
+    "U+003C"    : "<",
+    "U+002E"    : ".",
+    "U+003E"    : ">",
+    "U+002F"    : "/",
+    "U+003F"    : "?",
+    "U+005F"    : "_",
+    "U+0020"    : "Space",
+    "Left"      : "Left",
+    "Down"      : "Down",
+    "Up"        : "Up",
+    "Right"     : "Right",
+    "Enter"     : "Enter",
+    "U+0008"    : "BS",
+    "U+007F"    : "Del",
+    "U+0009"    : "Tab",
+    "F1"        : "F1",
+    "F2"        : "F2",
+    "F3"        : "F3",
+    "F4"        : "F4",
+    "F5"        : "F5",
+    "F6"        : "F6",
+    "F7"        : "F7",
+    "F8"        : "F8",
+    "F9"        : "F9",
+    "F10"       : "F10",
+    "F11"       : "F11",
+    "F12"       : "F12",
+    "U+001B"    : "ESC",
+    "Home"      : "Home",
+    "End"       : "End",
+    "Control"   : "Ctrl",
+    "Shift"     : "Shift",
+    "Alt"       : "Alt",
+    "Meta"      : "Meta",
+    "PageDown"  : "PageDown",
+    "PageUp"    : "PageUp",
+    "CapsLock"  : "CapsLock"
 };
 
 vichrome.key.KeyManager = (function(){
-    var keyCodes = vichrome.key.keyCodes;
+    var keyCodes      = vichrome.key.keyCodes,
+        keyIdentifier = vichrome.key.keyIdentifier;
+
 
     return {
+        isAlphabet : function( str ) {
+            if( str.length !== 1 ) { return false; }
+
+            var c = str.charCodeAt( 0 );
+            return ( 65 <= c && c <=  90 ) || ( 97 <= c && c <= 122 );
+        },
+
+        isNumber : function( str ) {
+            if( str.length !== 1 ) { return false; }
+
+            var c = str.charCodeAt( 0 );
+            return ( 48 <= c && c <=  57 );
+        },
+
         isESC : function (keyCode, ctrl) {
             if( keyCode === keyCodes.ESC ) {
                 return true;
@@ -44,69 +161,39 @@ vichrome.key.KeyManager = (function(){
             }
         },
 
-        getKeyCodeStr : function (msg) {
-            var result = "";
-
-            switch( msg.code ) {
-                case keyCodes.Tab   : return "<TAB>";
-                case keyCodes.BS    : return "<BS>";
-                case keyCodes.DEL   : return "<DEL>";
-                case keyCodes.CR    : return "<CR>";
-                case keyCodes.SP    : return "<SP>";
-                case keyCodes.Left  : return "<Left>";
-                case keyCodes.Up    : return "<Up>";
-                case keyCodes.Right : return "<Right>";
-                case keyCodes.Down  : return "<Down>";
-                case keyCodes.F1    : return "<F1>";
-                case keyCodes.F2    : return "<F2>";
-                case keyCodes.F3    : return "<F3>";
-                case keyCodes.F4    : return "<F4>";
-                case keyCodes.F5    : return "<F5>";
-                case keyCodes.F6    : return "<F6>";
-                case keyCodes.F7    : return "<F7>";
-                case keyCodes.F8    : return "<F8>";
-                case keyCodes.F9    : return "<F9>";
-                case keyCodes.F10   : return "<F10>";
-                case keyCodes.F11   : return "<F11>";
-                case keyCodes.F12   : return "<F12>";
-                case keyCodes.ESC   : return "<ESC>";
+        isOnlyModifier : function(code, ctrl, shift, alt, meta) {
+            switch( this.getLocalKeyCode(code, ctrl, shift, alt, meta) ) {
+                case keyCodes.Ctrl:
+                case keyCodes.Shift:
+                case keyCodes.Meta:
+                case keyCodes.Alt:
+                    return true;
+                default:
+                    return false;
             }
+        },
 
-            result = String.fromCharCode(msg.code);
-            if( !result ) { return; }
+        getKeyCodeStr : function (msg) {
+            var result = msg.code;
 
             if( msg.ctrl ) {
-                result = "<C-" + result + ">";
+                result = "C-" + result;
+            }
+
+            if( msg.ctrl || keyCodes[msg.code] ) {
+                result = "<" + result + ">";
             }
 
             return result;
         },
 
-        getLocalKeyCode : function(code) {
-            switch( code ) {
-                case keyCodes.Tab   :
-                case keyCodes.BS    :
-                case keyCodes.DEL   :
-                case keyCodes.ESC   :
-                    return code;
-                case  37 : return keyCodes.Left;
-                case  38 : return keyCodes.Up;
-                case  39 : return keyCodes.Right;
-                case  40 : return keyCodes.Down;
-                case 112 : return keyCodes.F1;
-                case 113 : return keyCodes.F2;
-                case 114 : return keyCodes.F3;
-                case 115 : return keyCodes.F4;
-                case 116 : return keyCodes.F5;
-                case 117 : return keyCodes.F6;
-                case 118 : return keyCodes.F7;
-                case 119 : return keyCodes.F8;
-                case 120 : return keyCodes.F9;
-                case 121 : return keyCodes.F10;
-                case 122 : return keyCodes.F11;
-                case 123 : return keyCodes.F12;
-                default  : return keyCodes.ASCII;
+        getLocalKeyCode : function(code, ctrl, shift, alt, meta) {
+            var result = keyIdentifier[code];
+            if( this.isAlphabet( result ) ) {
+                if( shift ) { result = result.toUpperCase(); }
+                else        { result = result.toLowerCase(); }
             }
+            return result;
         }
     };
 }());

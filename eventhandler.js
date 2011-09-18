@@ -28,11 +28,6 @@ vichrome.event.EventHandler =  function(m, v) {
 
     function onKeyPress (e) {
         logger.d( "onKeyPress", e );
-
-        var msg = getHandlableKey( e );
-        if( msg ) {
-            model.handleKey(msg);
-        }
     }
 
     function onKeyUp (e) {
@@ -45,37 +40,21 @@ vichrome.event.EventHandler =  function(m, v) {
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
     function getHandlableKey (e) {
-        var key;
-
         // vichrome doesn't handle meta and alt key for now
         if( e.metaKey || e.altKey ) {
             return undefined;
         }
 
-        if( e.type === "keydown" ) {
-            key = e.keyCode;
-            if( KeyManager.isESC( e.keyCode, e.ctrlKey ) ) {
-                key = keyCodes.ESC;
-            }
-
-            // TODO: should detect exact keycode
-            if( model.isInNormalMode() &&
-                e.keyCode >= 48 && !e.ctrlKey && !e.altKey && !e.metaKey ) {
-                event.stopPropagation();
-            }
-
-            // keydown only catch key codes that are not passed to keypress
-            if( KeyManager.getLocalKeyCode(key) === keyCodes.ASCII ) {
-                if( !e.ctrlKey ) { return undefined; }
-            } else {
-                key = KeyManager.getLocalKeyCode(key);
-            }
-        } else if( e.type === "keypress" ) {
-            key = e.charCode;
+        if( KeyManager.isOnlyModifier( e.keyIdentifier, e.ctrlKey,
+                                       e.shiftKey, e.altKey, e.metaKey ) ) {
+            return undefined;
         }
 
-        if( model.prePostKeyEvent( key, e.ctrlKey, e.altKey, e.metaKey ) ) {
-            return { code : key,
+        var code = KeyManager.getLocalKeyCode( e.keyIdentifier, e.ctrlKey,
+                                       e.shiftKey, e.altKey, e.metaKey );
+
+        if( model.prePostKeyEvent( code, e.ctrlKey, e.altKey, e.metaKey ) ) {
+            return { code : code,
                      ctrl : e.ctrlKey,
                      alt  : e.altKey,
                      meta : e.metaKey };

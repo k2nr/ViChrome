@@ -128,7 +128,7 @@ vichrome.Model = function() {
     };
 
     this.isValidKeySeq = function(keySeq) {
-        if( this.getSetting("keyMappings")[keySeq] ) {
+        if( this.getKeyMapping()[keySeq] ) {
             return true;
         } else {
             return false;
@@ -139,7 +139,7 @@ vichrome.Model = function() {
         // since escaping meta character for regexp is so complex that
         // using regexp to compare should cause bugs, using slice & comparison
         // with '==' may be a better & simple way.
-        var keyMapping = this.getSetting("keyMappings"),
+        var keyMapping = this.getKeyMapping(),
             length     = keySeq.length,
             hasOwnPrp  = Object.prototype.hasOwnProperty,
             cmpStr, i;
@@ -186,6 +186,10 @@ vichrome.Model = function() {
         } else {
             this.enterNormalMode();
         }
+    };
+
+    this.getKeyMapping = function() {
+        return curMode.getKeyMapping();
     };
 };
 

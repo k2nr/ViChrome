@@ -100,6 +100,10 @@ vichrome.mode.Mode = function() { };
         vichrome.view.focusCommandBox();
     };
 
+    o.getKeyMapping = function() {
+        return vichrome.model.getSetting("keyMappingNormal");
+    };
+
 }(vichrome.mode.Mode.prototype));
 
 
@@ -143,22 +147,17 @@ vichrome.mode.InsertMode = function() {
 vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        if( key === vichrome.key.keyCodes.ESC ) {
-            return true;
-        } else if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
-            return true;
-        } else if( ctrl ) {
-            return true;
-        } else {
-            // character key do not need to be handled in insert mode
-            return false;
-        }
+        return true;
     };
 
     o.blur = function() {
     };
 
     o.enter = function() {
+    };
+
+    o.getKeyMapping = function() {
+        return vichrome.model.getSetting("keyMappingInsert");
     };
 }(vichrome.mode.InsertMode.prototype));
 
@@ -169,38 +168,18 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         if( vichrome.view.getCommandBoxValue().length === 0 &&
-        key === vichrome.key.keyCodes.BS) {
+            key === "BS" ) {
             setTimeout( function() {
                 vichrome.model.cancelSearch();
             }, 0);
         }
 
-        switch(key) {
-            case vichrome.key.keyCodes.Tab   :
-            case vichrome.key.keyCodes.BS    :
-            case vichrome.key.keyCodes.DEL   :
-            case vichrome.key.keyCodes.Left  :
-            case vichrome.key.keyCodes.Up    :
-            case vichrome.key.keyCodes.Right :
-            case vichrome.key.keyCodes.Down  :
-            case vichrome.key.keyCodes.ESC   :
-            case vichrome.key.keyCodes.CR    :
-                event.stopPropagation();
-                break;
-            default:
-                break;
-        }
-
-        if( key === vichrome.key.keyCodes.ESC ) {
+        if( key === "ESC" ) {
             setTimeout( function() {
                 vichrome.model.cancelSearch();
             }, 0);
             return true;
-        } else if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
-            return true;
-        } else if( ctrl ) {
-            return true;
-        } else if( key === vichrome.key.keyCodes.CR ) {
+        } else if( key === "Enter" ) {
             setTimeout( function(){
                 vichrome.model.enterNormalMode();
             }, 0);
@@ -265,11 +244,10 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.isValidKey = function(key) {
-        var str = String.fromCharCode( key );
-        if( str.length === 0 ) {
+        if( key.length !== 1 ) {
             return false;
         }
-        if( keys.indexOf( str ) < 0 ) {
+        if( keys.indexOf( key ) < 0 ) {
             return false;
         } else {
             return true;
@@ -291,9 +269,9 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.putValidChar = function(key) {
-        var str = String.fromCharCode( key ), idx;
+        var idx;
 
-        currentInput += str;
+        currentInput += key;
         vichrome.view.setStatusLineText( 'HIT-A-HINT : ' + currentInput );
 
         if( currentInput.length < keyLength ) {
@@ -310,13 +288,10 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        if( key === vichrome.key.keyCodes.ESC ) {
+        if( key === "ESC" ) {
             return true;
         }
-        if(vichrome.key.keyCodes.F1 <= key && key <= vichrome.key.keyCodes.F12){
-            return true;
-        }
-        if( ctrl ) {
+        if( ctrl || alt || meta ) {
             return true;
         }
 

@@ -6,7 +6,7 @@ var SettingManager = {
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
         "wrapSearch"              : true,
         "incSearch"               : true,
-        "keyMappings"             : {
+        "keyMappingNormal"        : {
            "j"       : "ScrollDown",
            "k"       : "ScrollUp",
            "h"       : "ScrollLeft",
@@ -36,7 +36,7 @@ var SettingManager = {
            "<ESC>"   : "Escape"
         },
         "keyMappingInsert" : {
-
+           "<ESC>"   : "Escape"
         }
     },
 
@@ -47,7 +47,8 @@ var SettingManager = {
         "fModeAvailableKeys",
         "wrapSearch",
         "incSearch",
-        "keyMappings"
+        "keyMappingNormal",
+        "keyMappingInsert"
     ],
 
     associateKeyMap : {},
