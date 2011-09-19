@@ -9,8 +9,7 @@ vichrome.event.EventHandler =  function(m, v) {
 
     // private variables
         model = m,
-        view = v,
-        settingPort = null;
+        view = v;
 
     function onBlur (e) {
         logger.d("onBlur");
@@ -66,34 +65,24 @@ vichrome.event.EventHandler =  function(m, v) {
         model.onFocus( e.target );
     }
 
-    function onSettingUpdated (msg) {
-        model.onSettingUpdated( msg );
-    }
-
-    function setupPorts() {
-        settingPort = chrome.extension.connect({ name : "settings" });
-        settingPort.onMessage.addListener( onSettingUpdated );
-        settingPort.postMessage({ type : "get", name : "all" });
+    function onSettings (msg) {
+        model.onSettings( msg );
     }
 
     function addWindowListeners() {
         window.addEventListener("keydown"    , onKeyDown    , true);
         window.addEventListener("keypress"   , onKeyPress   , true);
+        window.addEventListener("keyup"      , onKeyUp      , true);
         window.addEventListener("focus"      , onFocus      , true);
         window.addEventListener("blur"       , onBlur       , true);
-        window.addEventListener("keyup"      , onKeyUp      , true);
-    }
-
-    function addRequestListener() {
-        chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
-            sendResponse();
-        });
     }
 
     function init() {
-        setupPorts();
-        addRequestListener();
         addWindowListeners();
+        chrome.extension.sendRequest( { command : "Settings",
+                                        type    : "get",
+                                        name    : "all" },
+                                        onSettings );
     }
 
     // public APIs

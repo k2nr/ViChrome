@@ -1,6 +1,4 @@
-var ports = {};
-
-function getSettings (msg, port) {
+function getSettings (msg, response) {
     var sendMsg = {};
 
     sendMsg.name = msg.name;
@@ -11,24 +9,25 @@ function getSettings (msg, port) {
         sendMsg.value = SettingManager.get(msg.name);
     }
 
-    port.postMessage( sendMsg );
+    response( sendMsg );
 }
 
-function setSettings (msg, port) {
+function setSettings (msg, response) {
     SettingManager.set( msg.name, msg.value );
+    response();
 }
 
-function reqSettings (msg, port) {
+function reqSettings (msg, response) {
     if( msg.type === "get" ) {
-        getSettings( msg, port );
+        getSettings( msg, response );
     } else if( msg.type === "set" ) {
-        setSettings( msg, port );
+        setSettings( msg, response );
     }
+
+    return true;
 }
 
 function notifySettingUpdated(name, value) {
-    var sendMsg = { name : name, value : value };
-    ports.settings.postMessage( sendMsg );
 }
 
 function reqOpenNewTab () {
@@ -65,9 +64,7 @@ function reqMovePrevTab () {
 }
 
 function init () {
-    var portListeners = {
-        settings    : reqSettings
-    };
+    var that = this;
 
     chrome.extension.onConnect.addListener(function(port) {
         port.onMessage.addListener( portListeners[port.name] );
@@ -76,16 +73,16 @@ function init () {
 
     chrome.extension.onRequest.addListener(
         function( req, sender, sendResponse ) {
-            if(this["req"+req.command]) {
-                this["req"+req.command]();
+            if(that["req"+req.command]) {
+                if( !that["req"+req.command]( req, sendResponse ) ) {
+                    sendResponse();
+                }
             } else {
                 vichrome.log.logger.e("INVALID command!:", req.command);
             }
-
-            sendResponse();
         }
     );
 
-    SettingManager.setCb = notifySettingUpdated;
+    //SettingManager.setCb = notifySettingUpdated;
 }
 

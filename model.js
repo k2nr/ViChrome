@@ -173,7 +173,7 @@ vichrome.Model = function() {
         }
     };
 
-    this.onSettingUpdated = function(msg) {
+    this.onSettings = function(msg) {
         if(msg.name === "all") {
             settings = msg.value;
         } else {

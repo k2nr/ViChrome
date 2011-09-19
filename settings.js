@@ -6,34 +6,39 @@ var SettingManager = {
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
         "wrapSearch"              : true,
         "incSearch"               : true,
+        "ignoreCase"              : true,
+        "ignoredUrls"             : [
+            "http*://mail.google.com/*",
+            "http*://www.google.com/reader/*"
+        ],
         "keyMappingNormal"        : {
-           "j"       : "ScrollDown",
-           "k"       : "ScrollUp",
-           "h"       : "ScrollLeft",
-           "l"       : "ScrollRight",
-           "<C-f>"   : "PageDown",
-           "<C-b>"   : "PageUp",
-           "<C-d>"   : "PageHalfDown",
-           "<C-u>"   : "PageHalfUp",
-           "gg"      : "GoTop",
-           "G"       : "GoBottom",
-           "t"       : "OpenNewTab",
-           "x"       : "CloseCurTab",
-           "n"       : "NextSearch",
-           "N"       : "PrevSearch",
-           ">"       : "MoveNextTab",
-           "<"       : "MovePrevTab",
-           "r"       : "ReloadTab",
-           "H"       : "BackHist",
-           "L"       : "ForwardHist",
-           ":"       : "GoCommandMode",
-           "/"       : "GoSearchModeForward",
-           "?"       : "GoSearchModeBackward",
-           "f"       : "GoFMode",
-           "F"       : "GoFModeWithNewTab",
-           "i"       : "FocusOnFirstInput",
-           "''"      : "BackToPageMark",
-           "<ESC>"   : "Escape"
+            "j"       : "ScrollDown",
+            "k"       : "ScrollUp",
+            "h"       : "ScrollLeft",
+            "l"       : "ScrollRight",
+            "<C-f>"   : "PageDown",
+            "<C-b>"   : "PageUp",
+            "<C-d>"   : "PageHalfDown",
+            "<C-u>"   : "PageHalfUp",
+            "gg"      : "GoTop",
+            "G"       : "GoBottom",
+            "t"       : "OpenNewTab",
+            "x"       : "CloseCurTab",
+            "n"       : "NextSearch",
+            "N"       : "PrevSearch",
+            ">"       : "MoveNextTab",
+            "<"       : "MovePrevTab",
+            "r"       : "ReloadTab",
+            "H"       : "BackHist",
+            "L"       : "ForwardHist",
+            ":"       : "GoCommandMode",
+            "/"       : "GoSearchModeForward",
+            "?"       : "GoSearchModeBackward",
+            "f"       : "GoFMode",
+            "F"       : "GoFModeWithNewTab",
+            "i"       : "FocusOnFirstInput",
+            "''"      : "BackToPageMark",
+            "<ESC>"   : "Escape"
         },
         "keyMappingInsert" : {
            "<ESC>"   : "Escape"
@@ -48,7 +53,7 @@ var SettingManager = {
 
         for ( i in this.defaultSettings ) if( hasOwnPrp.call( this.defaultSettings, i ) ) {
             if ( localStorage[i] ) {
-                settings[i] = localStorage[i];
+                settings[i] = JSON.parse( localStorage.getItem(i) );
             } else {
                 settings[i] = this.defaultSettings[i];
             }
@@ -59,14 +64,14 @@ var SettingManager = {
 
     get   : function(name) {
         if ( localStorage[name] ) {
-            return localStorage[name];
+            return JSON.parse( localStorage.getItem(name) );
         } else {
             return this.defaultSettings[name];
         }
     },
 
     set   : function(name, value) {
-        localStorage[name] = value;
+        localStorage.setItem(name, JSON.stringify(value));
 
         if(this.setCb) {
             this.setCb(name, value);
