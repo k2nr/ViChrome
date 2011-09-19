@@ -6,7 +6,9 @@ window.addEventListener("DOMContentLoaded", function() {
     vichrome.handler = new vichrome.event.EventHandler(vichrome.model,
                                                        vichrome.view);
 
-    // TODO: onEnable should be triggered from background page.
-    vichrome.handler.onEnabled();
+    chrome.extension.sendRequest( { command : "Settings",
+                                    type    : "get",
+                                    name    : "all" },
+                                    vichrome.handler.onSettings );
 });
 

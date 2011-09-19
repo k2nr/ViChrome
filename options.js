@@ -49,9 +49,9 @@ function onSettings(msg) {
     });
 
     $('[name="ignoredUrls"]')
-    .val( settings.ignoredUrls.join("\n") )
-    .change( function() {
-        setSetting("ignoredUrls", $(this).val().split("\n"));
+    .val( settings.ignoredUrls.join('\n') );
+    $('[name="ignoredUrlsButton"]').click( function() {
+        setSetting("ignoredUrls", $('[name="ignoredUrls"]').val().split('\n'));
     });
 }
 

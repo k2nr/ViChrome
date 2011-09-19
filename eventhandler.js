@@ -65,10 +65,6 @@ vichrome.event.EventHandler =  function(m, v) {
         model.onFocus( e.target );
     }
 
-    function onSettings (msg) {
-        model.onSettings( msg );
-    }
-
     function addWindowListeners() {
         window.addEventListener("keydown"    , onKeyDown    , true);
         window.addEventListener("keypress"   , onKeyPress   , true);
@@ -79,17 +75,33 @@ vichrome.event.EventHandler =  function(m, v) {
 
     function init() {
         addWindowListeners();
-        chrome.extension.sendRequest( { command : "Settings",
-                                        type    : "get",
-                                        name    : "all" },
-                                        onSettings );
+        view.init();
+        model.init();
+    }
+
+    function isEnabledUrl(ignoredUrls) {
+        var i, str, regexp, length = ignoredUrls.length;
+
+        for(i=0; i<length; i++) {
+            str = ignoredUrls[i].replace(/\*/g, ".*" );
+            str = str.replace(/\//g, "\\/");
+
+            regexp = new RegExp(str, "m");
+            if( regexp.test(window.location.href) ) {
+                logger.d("match ignored page:"+ignoredUrls[i]);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // public APIs
-    this.onEnabled = function() {
-        init();
-        view.init();
-        model.init();
-    };
+    this.onSettings = function (msg) {
+        if( isEnabledUrl( msg.value.ignoredUrls ) ) {
+            init(msg.value);
+            model.onSettings( msg );
+        }
+    }
 };
 
