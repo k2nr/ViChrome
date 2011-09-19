@@ -1,0 +1,145 @@
+<html>
+<head>
+    <title>ViCrome Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/options.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="options.js"></script>
+</head>
+<body>
+    <div id="navbar-container">
+        <h1 id="navbar-content-title">ViChrome</h1>
+        <ul class="navbar" role="tablist">
+            <li class="navbar-item" role="tab"><a href="#basics">General</a></li>
+            <li class="navbar-item" role="tab"><a href="#appearance">Appearance</a></li>
+            <li class="navbar-item" role="tab"><a href="#keymapping">Key Mapping</a></li>
+            <li class='navbar-item navbar-item-separator'></li>
+            <li class="navbar-item" role="tab"><a href="#about">About</a></li>
+        </ul>
+    </div>
+    <div id="page-container">
+        <div id="basics" class='page'>
+            <h2>General</h2>
+            <section>
+            <h3>Basics</h3>
+            <div>
+                <div>
+                    <label>
+                        <span class="option">
+                            Scroll Step Size
+                        </span>
+                        <input name="scrollPixelCount" type="number" size="7" />
+                        <span class="option">
+                            px
+                        </span>
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        <span class="option">
+                            Command Hold Timeout Interval
+                        </span>
+                        <input name="commandWaitTimeOut" type="number" size="7" />
+                        <span class="option">
+                            ms
+                        </span>
+                    </label>
+                </div>
+            </div>
+            </section>
+            <section>
+            <h3>Search</h3>
+            <div>
+                <div>
+                    <label>
+                        <input name="wrapSearch" type="checkbox" />
+                        <span class="option">
+                            Wrap Search
+                        </span>
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        <input name="incSearch" type="checkbox" />
+                        <span class="option">
+                            Incremental Search
+                        </span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input name="ignoreCase" type="checkbox" />
+                        <span class="option">
+                            Ignore Case
+                        </span>
+                    </label>
+                </div>
+            </div>
+            </section>
+            <section>
+            <h3>f Mode (Hit Hints)</h3>
+            <div>
+                <div>
+                    <span class="option">
+                        f Mode Keys
+                    </span>
+                    <input name="fModeAvailableKeys" type="text" size="30"/>
+                    <input name="updatefModeKeys" value="Update fMode Keys" type="button">
+                </div>
+            </div>
+            </section>
+            <section>
+            <h3>Ignored URLs (under construction...)</h3>
+            <div>
+                <div>
+                    <span class="option">
+                        <textarea name="ignoredUrls" rows="6" cols="80"></textarea>
+                    </span>
+                </div>
+                <div align="right">
+                    <input name="ignoredUrlsButton" value="Update Ignored URLs" type="button">
+                </div>
+            </div>
+            </section>
+        </div>
+        <div id="appearance" class='page'>
+            <h2>Appearance (under construction...)</h2>
+            <section>
+            <h3>Basics</h3>
+            <div>
+                <div>
+                    <label>
+                        <input name="alwaysDisplayStatusLine" type="checkbox" />
+                        <span class="option">
+                            Always display status line
+                        </span>
+                    </label>
+                </div>
+            </div>
+            </section>
+            <section>
+            <h3>Theme</h3>
+            <div>
+            </div>
+            </section>
+        </div>
+        <div id="keymapping" class='page'>
+            <h2>Key Mapping (under construction...)</h2>
+            <section>
+            <div>
+                <textarea name="keyMapping" rows="30" cols="80"></textarea>
+            </div>
+            </section>
+        </div>
+        <div id="about" class='page'>
+            <h2>About</h2>
+            <section>
+            <div>
+            </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
