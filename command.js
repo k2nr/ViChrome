@@ -102,6 +102,7 @@ vichrome.command.CommandManager = function(m) {
             GoFModeWithNewTab     : triggerInsideContent,
             FocusOnFirstInput     : triggerInsideContent,
             BackToPageMark        : triggerInsideContent,
+            RestoreTab            : sendToBackground,
             Escape                : escape
         };
 

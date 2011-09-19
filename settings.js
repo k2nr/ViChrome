@@ -37,6 +37,7 @@ var SettingManager = {
             "f"       : "GoFMode",
             "F"       : "GoFModeWithNewTab",
             "i"       : "FocusOnFirstInput",
+            "u"       : "RestoreTab",
             "''"      : "BackToPageMark",
             "<ESC>"   : "Escape",
             "<C-[>"   : "Escape"
