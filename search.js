@@ -1,9 +1,8 @@
 vichrome.search = {};
 
-vichrome.search.NormalSearcher = function(wrap, backward) {
+vichrome.search.NormalSearcher = function(opt) {
     var _sortedResults = null,
-        _wrap          = wrap,
-        _backward      = backward,
+        _opt           = opt,
         _curIndex      = 0,
         view           = vichrome.view;
 
@@ -85,7 +84,7 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
         var total = getResultCnt(),
             i, offset;
         for (i=0; i < total; i++) {
-            if( _backward ) {
+            if( _opt.backward ) {
                 offset = getSearchResultSpan( total - 1 - i ).offset();
                 if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
                     return total - 1 - i;
@@ -111,20 +110,22 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
 
             _curIndex = getFirstInnerSearchResultIndex();
             if( _curIndex < 0 ){
-                if( _backward ) {
+                if( _opt.backward ) {
                     _curIndex = getResultCnt() - 1;
                 } else {
                     _curIndex = 0;
                 }
             }
-            moveTo( _curIndex );
+            if( _opt.incSearch ) {
+                moveTo( _curIndex );
+            }
         } else {
             vichrome.view.setStatusLineText("");
             thisObj.removeHighlight();
         }
     }
 
-    if( backward ) {
+    if( _opt.backward ) {
         view.showCommandBox("?", "");
     } else {
         view.showCommandBox("/", "");
@@ -140,7 +141,7 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
 
 
     this.highlight = function(word) {
-        $(document.body).highlight(word);
+        $(document.body).highlight( word, {ignoreCase : _opt.ignoreCase} );
     };
 
     this.removeHighlight = function() {
@@ -156,7 +157,7 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
 
 
     this.goNext = function (reverse) {
-        var forward = (_backward === reverse);
+        var forward = (_opt.backward === reverse);
 
         if( forward ) {
             _curIndex++;
@@ -165,13 +166,13 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
         }
 
         if( forward && _curIndex >= getResultCnt() ) {
-            if( _wrap ) {
+            if( _opt.wrap ) {
                 _curIndex = 0;
             } else {
                 return false;
             }
         } else if( !forward && _curIndex < 0 ) {
-            if( _wrap ) {
+            if( _opt.wrap ) {
                 _curIndex = getResultCnt() - 1;
             } else {
                 return false;
@@ -180,5 +181,11 @@ vichrome.search.NormalSearcher = function(wrap, backward) {
 
         moveTo( _curIndex );
         return true;
+    };
+
+    this.finalize = function() {
+        _sortedResults = undefined;
+        _opt = undefined;
+        view.removeInputUpdateListener();
     };
 };

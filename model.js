@@ -7,6 +7,7 @@ vichrome.Model = function() {
         FMode          = vichrome.mode.FMode,
         util           = vichrome.util,
         logger         = vichrome.log.logger,
+        NormalSearcher = vichrome.search.NormalSearcher,
 
         // private variables
         searcher       = null,
@@ -57,12 +58,18 @@ vichrome.Model = function() {
     };
 
     this.enterCommandMode = function() {
+        this.cancelSearchHighlight();
         changeMode( new CommandMode() );
     };
 
     this.enterSearchMode = function(backward) {
-        var wrap = this.getSetting("wrapSearch");
-        searcher = new vichrome.search.NormalSearcher( wrap, backward );
+        var wrap  = this.getSetting("wrapSearch"),
+            iCase = this.getSetting("ignoreCase");
+            inc   = this.getSetting("incSearch");
+        searcher = new NormalSearcher( { wrap       : wrap,
+                                         backward   : backward,
+                                         ignoreCase : iCase,
+                                         incSearch  : inc   });
 
         changeMode( new SearchMode() );
         this.setPageMark();
@@ -82,6 +89,8 @@ vichrome.Model = function() {
         vichrome.view.setStatusLineText("");
         if( searcher ) {
             searcher.removeHighlight();
+            searcher.finalize();
+            searcher = null;
         }
     };
 
@@ -165,9 +174,9 @@ vichrome.Model = function() {
         return commandManager.handleKey(msg);
     };
 
-    this.triggerCommand = function(method) {
+    this.triggerCommand = function(method, args) {
         if( curMode[method] ) {
-            curMode[method]();
+            curMode[method]( args );
         } else {
             logger.e("INVALID command!:", method);
         }
@@ -195,6 +204,10 @@ vichrome.Model = function() {
 
     this.getKeyMapping = function() {
         return curMode.getKeyMapping();
+    };
+
+    this.executeCommand = function(com) {
+        commandManager.executeCommand( com );
     };
 };
 

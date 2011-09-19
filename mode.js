@@ -168,25 +168,17 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         if( vichrome.view.getCommandBoxValue().length === 0 &&
-            key === "BS" ) {
-            setTimeout( function() {
-                vichrome.model.cancelSearch();
-            }, 0);
+            (key === "BS" || key === "DEL") ) {
+            vichrome.model.cancelSearch();
+            return false;
         }
 
-        if( key === "ESC" ) {
-            setTimeout( function() {
-                vichrome.model.cancelSearch();
-            }, 0);
-            return true;
-        } else if( key === "Enter" ) {
-            setTimeout( function(){
-                vichrome.model.enterNormalMode();
-            }, 0);
-            return false;
-        } else {
+        if( key === "CR" ) {
+            vichrome.model.enterNormalMode();
             return false;
         }
+
+        return true;
     };
 
     o.blur = function() {
@@ -204,6 +196,11 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
     o.reqPrevSearch = function() {
         var found = vichrome.model.goNextSearchResult( true );
     };
+
+    o.getKeyMapping = function() {
+        // TODO: should return search mode specialized map ?
+        return vichrome.model.getSetting("keyMappingInsert");
+    };
 }(vichrome.mode.SearchMode.prototype));
 
 vichrome.mode.CommandMode = function() {
@@ -211,14 +208,40 @@ vichrome.mode.CommandMode = function() {
 vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        // TODO:
+        var args;
+        if( vichrome.view.getCommandBoxValue().length === 0 &&
+            (key === "BS" || key === "DEL") ) {
+            vichrome.model.enterNormalMode();
+            return false;
+        }
+
+        if( key === "CR" ) {
+            args = vichrome.view.getCommandBoxValue().split(/ +/);
+            if( args[args.length-1].length === 0 ) {
+                args.pop();
+            }
+            if( args[0].length === 0 ) {
+                args.shift();
+            }
+            vichrome.model.executeCommand( args );
+            vichrome.model.enterNormalMode();
+            return false;
+        }
+
         return true;
     };
 
     o.blur = function() {
+        vichrome.model.enterNormalMode();
     };
 
     o.enter = function() {
+        vichrome.view.focusCommandBox();
+    };
+
+    o.getKeyMapping = function() {
+        // TODO: should return command mode specialized map ?
+        return vichrome.model.getSetting("keyMappingInsert");
     };
 }(vichrome.mode.CommandMode.prototype));
 
@@ -231,7 +254,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     var currentInput = "",
         hints        = [],
         keys         = "",
-        keyLength    = 2,
+        keyLength    = 0,
         newWindow    = newWindow;
 
     o.hit = function(i) {
@@ -296,6 +319,8 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         }
 
         if( this.isValidKey( key ) ) {
+            event.stopPropagation();
+            event.preventDefault();
             this.putValidChar( key );
         }
         return false;
@@ -314,7 +339,6 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         currentInput = "";
         hints        = [];
         keys         = "";
-        keyLength    = 2;
         newWindow    = newWindow;
 
         keys = vichrome.model.getSetting("fModeAvailableKeys");

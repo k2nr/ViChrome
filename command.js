@@ -42,7 +42,7 @@ vichrome.command.KeyQueue = function(){
         return waiting;
     };
 
-    // returns right key sequence.if right key sequence isn't built up, return null
+    // returns valid key sequence.if valid key sequence isn't built up, return null
     this.getNextKeySequence = function() {
         stopTimer();
 
@@ -122,27 +122,41 @@ vichrome.command.CommandManager = function(m) {
         }
     }
 
-    function executeCommand (com) {
-        setTimeout( function() {
-            commandTable[com](com);
-        }, 0);
-    }
-
     function escape(com) {
         keyQueue.reset();
         triggerInsideContent("Blur");
     }
 
-    function sendToBackground (com) {
-        chrome.extension.sendRequest({command : com});
+    function sendToBackground (com, args) {
+        chrome.extension.sendRequest({command : com, args : args});
     }
 
-    function triggerInsideContent(com) {
-        model.triggerCommand( "req" + com );
+    function triggerInsideContent(com, args) {
+        model.triggerCommand( "req" + com, args );
     }
 
     this.isWaitingNextKey = function() {
         return keyQueue.isWaiting();
+    };
+
+    this.executeCommand = function(args) {
+        var com;
+        if( args instanceof Array ) {
+            com = args.shift();
+        } else {
+            com = args;
+            args = null;
+        }
+
+        if( commandTable[com] ) {
+            setTimeout( function() {
+                commandTable[com](com, args);
+            }, 0);
+
+            return true;
+        }
+
+        return false;
     };
 
     this.handleKey = function(msg){
@@ -156,7 +170,7 @@ vichrome.command.CommandManager = function(m) {
             event.stopPropagation();
             event.preventDefault();
 
-            executeCommand( com );
+            this.executeCommand( com );
         } else if( this.isWaitingNextKey() ) {
             event.stopPropagation();
             event.preventDefault();

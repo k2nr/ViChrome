@@ -98,15 +98,15 @@ vichrome.key.keyIdentifier = {
     "U+002F"    : "/",
     "U+003F"    : "?",
     "U+005F"    : "_",
-    "U+0020"    : "Space",
-    "Left"      : "Left",
-    "Down"      : "Down",
-    "Up"        : "Up",
-    "Right"     : "Right",
-    "Enter"     : "Enter",
+    "U+0020"    : "SPACE",
+    "Left"      : "LEFT",
+    "Down"      : "DOWN",
+    "Up"        : "UP",
+    "Right"     : "RIGHT",
+    "Enter"     : "CR",
     "U+0008"    : "BS",
-    "U+007F"    : "Del",
-    "U+0009"    : "Tab",
+    "U+007F"    : "DEL",
+    "U+0009"    : "TAB",
     "F1"        : "F1",
     "F2"        : "F2",
     "F3"        : "F3",
@@ -120,15 +120,15 @@ vichrome.key.keyIdentifier = {
     "F11"       : "F11",
     "F12"       : "F12",
     "U+001B"    : "ESC",
-    "Home"      : "Home",
-    "End"       : "End",
-    "Control"   : "Ctrl",
-    "Shift"     : "Shift",
-    "Alt"       : "Alt",
-    "Meta"      : "Meta",
-    "PageDown"  : "PageDown",
-    "PageUp"    : "PageUp",
-    "CapsLock"  : "CapsLock"
+    "Home"      : "HOME",
+    "End"       : "END",
+    "Control"   : "CTRL",
+    "Shift"     : "SHIFT",
+    "Alt"       : "ALT",
+    "Meta"      : "META",
+    "PageDown"  : "PAGEDOWN",
+    "PageUp"    : "PAGEUP",
+    "CapsLock"  : "CAPSLOCK"
 };
 
 vichrome.key.KeyManager = (function(){
@@ -149,16 +149,6 @@ vichrome.key.KeyManager = (function(){
 
             var c = str.charCodeAt( 0 );
             return ( 48 <= c && c <=  57 );
-        },
-
-        isESC : function (keyCode, ctrl) {
-            if( keyCode === keyCodes.ESC ) {
-                return true;
-            } else if( ctrl && keyCode === '[' ) {
-                return true;
-            } else {
-                return false;
-            }
         },
 
         isOnlyModifier : function(code, ctrl, shift, alt, meta) {

@@ -8,7 +8,7 @@ vichrome.views.Surface = function() {
         inputUpdateListener = fn;
     };
 
-    this.removeInputUpdteListener = function(fn) {
+    this.removeInputUpdateListener = function() {
         inputUpdateListener = null;
     };
 
@@ -77,7 +77,7 @@ vichrome.views.Surface = function() {
 
     this.setStatusLineText = function(text) {
         $statusLine.html(text);
-        if( !this.isCommandBoxActive() && (text === '' || !text) ) {
+        if( !this.isCommandBoxActive() && !text ) {
             $statusLine.hide();
         } else {
             $statusLine.show();

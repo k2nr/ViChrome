@@ -38,10 +38,12 @@ var SettingManager = {
             "F"       : "GoFModeWithNewTab",
             "i"       : "FocusOnFirstInput",
             "''"      : "BackToPageMark",
-            "<ESC>"   : "Escape"
+            "<ESC>"   : "Escape",
+            "<C-[>"   : "Escape"
         },
         "keyMappingInsert" : {
-           "<ESC>"   : "Escape"
+           "<ESC>"   : "Escape",
+           "<C-[>"   : "Escape"
         }
     },
 
