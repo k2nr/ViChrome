@@ -35,8 +35,13 @@ function reqSettings (msg, response) {
 function notifySettingUpdated(name, value) {
 }
 
-function reqOpenNewTab () {
-    chrome.tabs.create({}, function(tab){});
+function reqOpenNewTab (req) {
+    var url;
+    if( req.args[0] ) {
+        url = req.args[0];
+    }
+
+    chrome.tabs.create( {url : url} );
 }
 
 function reqCloseCurTab () {
@@ -78,17 +83,56 @@ function initTabHist(winId) {
             openTabs[win.id] = {};
             for(j=0; j < tabLen; j++) {
                 tab = win.tabs[j];
-                openTabs[win.id][tab.id] = tab;
+                addOpenTabItem( tab );
             }
         }
     });
 }
 
 function reqRestoreTab(req, sendResponse) {
-    var tab = closeHistStack.pop();
-    if( tab ) {
-        chrome.windows.update( tab.windowId, { focused : true } );
-        chrome.tabs.create({windowId : tab.windowId, url : tab.url});
+    var item = closeHistStack.pop();
+    if( item ) {
+        chrome.windows.update( item.tab.windowId, { focused : true } );
+        chrome.tabs.create({ windowId : item.tab.windowId,
+                             url : item.tab.url },
+                           function(tab) {
+            item.history.pop();
+            chrome.tabs.sendRequest( tab.id, {command : "UpdateHistoryState",
+                                              args    : item.history} );
+        });
+    }
+}
+
+function findOpenTabItem( tabId ) {
+    var i, hasOwnPrp  = Object.prototype.hasOwnProperty;
+
+    for ( i in openTabs ) if( hasOwnPrp.call( openTabs, i ) ) {
+        if( openTabs[i][tabId] ) {
+            return openTabs[i][tabId];
+        }
+    }
+}
+
+function popOpenTabItem( tabId ) {
+    var i, result, hasOwnPrp  = Object.prototype.hasOwnProperty;
+
+    for ( i in openTabs ) if( hasOwnPrp.call( openTabs, i ) ) {
+        if( openTabs[i][tabId] ) {
+            result = openTabs[i][tabId];
+            openTabs[i][tabId] = undefined;
+            return result;
+        }
+    }
+}
+
+function addOpenTabItem( tab, history ) {
+    openTabs[tab.windowId][tab.id] = {};
+    openTabs[tab.windowId][tab.id].tab = tab;
+    if( history ) {
+        openTabs[tab.windowId][tab.id].history = history;
+    } else {
+        openTabs[tab.windowId][tab.id].history = [];
+        openTabs[tab.windowId][tab.id].history.push( tab.url );
     }
 }
 
@@ -122,43 +166,42 @@ function init () {
             return;
         }
 
-        var i, hasOwnPrp  = Object.prototype.hasOwnProperty;
+        var item = popOpenTabItem( tabId );
 
-        for ( i in openTabs ) if( hasOwnPrp.call( openTabs, i ) ) { if( openTabs[i][tabId] ) {
-                closeHistStack.push( openTabs[i][tabId] );
-                if( closeHistStack.length > 10 ) {
-                    closeHistStack.shift();
-                }
-                delete openTabs[i][tabId];
-                return;
+        if( item ) {
+            closeHistStack.push( item );
+            if( closeHistStack.length > 10 ) {
+                closeHistStack.shift();
             }
+            return;
         }
     });
     chrome.tabs.onCreated.addListener( function (tab) {
         logger.d("tab created id:" + tab.id);
-        openTabs[tab.windowId][tab.id] = tab;
+        addOpenTabItem( tab );
     });
     chrome.tabs.onAttached.addListener( function (tabId, aInfo) {
         logger.d("tab attached tab:" + tabId + " -> win:" + aInfo.newWindowId);
         chrome.tabs.get( tabId, function(tab) {
-            openTabs[aInfo.newWindowId][tabId] = tab;
+            addOpenTabItem( tab );
         });
     });
     chrome.tabs.onDetached.addListener( function (tabId, dInfo) {
         logger.d("tab detached tab:" + tabId + " <- win:" + dInfo.oldWindowId);
-        delete openTabs[dInfo.oldWindowId][tabId];
+        popOpenTabItem( tabId );
+        //delete openTabs[dInfo.oldWindowId][tabId];
     });
 
     chrome.tabs.onUpdated.addListener( function(tabId, info, tab) {
         var target = openTabs[tab.windowId][tabId];
         if( info.url ) {
-            target.url = info.url;
+            target.tab.url = info.url;
+            target.history.push( info.url );
         }
         if( info.pinned ) {
-            target.pinned = info.pinned;
+            target.tab.pinned = info.pinned;
         }
     });
-
 
     chrome.windows.onCreated.addListener( function (win) {
         logger.d("win created id:" + win.id);

@@ -17,8 +17,6 @@ vichrome.event.EventHandler =  function(m, v) {
     }
 
     function onKeyDown (e) {
-        logger.d("onKeyDown", e);
-
         var msg = getHandlableKey( e );
         if( msg ) {
             model.handleKey(msg);
@@ -26,12 +24,9 @@ vichrome.event.EventHandler =  function(m, v) {
     }
 
     function onKeyPress (e) {
-        logger.d( "onKeyPress", e );
     }
 
     function onKeyUp (e) {
-        logger.d( "onKeyUp", e );
-
         view.notifyInputUpdated();
     }
 
@@ -61,7 +56,7 @@ vichrome.event.EventHandler =  function(m, v) {
     }
 
     function onFocus (e) {
-        logger.d("onFocus", e.target.id );
+        logger.d("onFocus", e.target );
         model.onFocus( e.target );
     }
 
@@ -99,8 +94,8 @@ vichrome.event.EventHandler =  function(m, v) {
     // public APIs
     this.onSettings = function (msg) {
         if( isEnabledUrl( msg.value.ignoredUrls ) ) {
-            init(msg.value);
             model.onSettings( msg );
+            init(msg.value);
         }
     }
 };

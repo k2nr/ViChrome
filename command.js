@@ -68,6 +68,91 @@ vichrome.command.KeyQueue = function(){
     };
 };
 
+vichrome.command.CommandExecuter = function() {
+};
+
+(function(o) {
+    function sendToBackground (com, args) {
+        chrome.extension.sendRequest({command : com, args : args});
+    }
+
+    function triggerInsideContent(com, args) {
+        vichrome.model.triggerCommand( "req" + com, args );
+    }
+
+    function escape(com) {
+        triggerInsideContent("Blur");
+    }
+
+    o.commandTable = {
+        Open                  : triggerInsideContent,
+        OpenNewTab            : sendToBackground,
+        CloseCurTab           : sendToBackground,
+        MoveNextTab           : sendToBackground,
+        MovePrevTab           : sendToBackground,
+        ReloadTab             : triggerInsideContent,
+        ScrollUp              : triggerInsideContent,
+        ScrollDown            : triggerInsideContent,
+        ScrollLeft            : triggerInsideContent,
+        ScrollRight           : triggerInsideContent,
+        PageHalfUp            : triggerInsideContent,
+        PageHalfDown          : triggerInsideContent,
+        PageUp                : triggerInsideContent,
+        PageDown              : triggerInsideContent,
+        GoTop                 : triggerInsideContent,
+        GoBottom              : triggerInsideContent,
+        NextSearch            : triggerInsideContent,
+        PrevSearch            : triggerInsideContent,
+        BackHist              : triggerInsideContent,
+        ForwardHist           : triggerInsideContent,
+        GoCommandMode         : triggerInsideContent,
+        GoSearchModeForward   : triggerInsideContent,
+        GoSearchModeBackward  : triggerInsideContent,
+        GoFMode               : triggerInsideContent,
+        GoFModeWithNewTab     : triggerInsideContent,
+        FocusOnFirstInput     : triggerInsideContent,
+        BackToPageMark        : triggerInsideContent,
+        RestoreTab            : sendToBackground,
+        Escape                : escape
+    };
+
+    o.set = function(command) {
+        this.command = command;
+
+        return this;
+    };
+
+    o.parse = function() {
+        this.args = this.command.split(/ +/);
+        if( !this.args || this.args.length === 0 ) {
+            return undefined;
+        }
+
+        if( this.args[this.args.length-1].length === 0 ) {
+            this.args.pop();
+        }
+        if( this.args[0].length === 0 ) {
+            this.args.shift();
+        }
+
+        if( this.commandTable[ this.args[0] ] ) {
+            return this;
+        } else {
+            return undefined;
+        }
+    };
+
+    o.execute = function() {
+        var com, args, commandTable = this.commandTable;
+
+        args = this.args.slice(1);
+        com = this.args[0];
+
+        setTimeout( function() {
+            commandTable[com](com, args);
+        }, 0);
+    };
+}(vichrome.command.CommandExecuter.prototype));
 
 vichrome.command.CommandManager = function(m) {
     // dependencies
@@ -75,38 +160,9 @@ vichrome.command.CommandManager = function(m) {
         KeyManager   = vichrome.key.KeyManager,
         keyQueue     = new KeyQueue(),
         model        = m,
-        commandTable = {
-            OpenNewTab            : sendToBackground,
-            CloseCurTab           : sendToBackground,
-            MoveNextTab           : sendToBackground,
-            MovePrevTab           : sendToBackground,
-            ReloadTab             : triggerInsideContent,
-            ScrollUp              : triggerInsideContent,
-            ScrollDown            : triggerInsideContent,
-            ScrollLeft            : triggerInsideContent,
-            ScrollRight           : triggerInsideContent,
-            PageHalfUp            : triggerInsideContent,
-            PageHalfDown          : triggerInsideContent,
-            PageUp                : triggerInsideContent,
-            PageDown              : triggerInsideContent,
-            GoTop                 : triggerInsideContent,
-            GoBottom              : triggerInsideContent,
-            NextSearch            : triggerInsideContent,
-            PrevSearch            : triggerInsideContent,
-            BackHist              : triggerInsideContent,
-            ForwardHist           : triggerInsideContent,
-            GoCommandMode         : triggerInsideContent,
-            GoSearchModeForward   : triggerInsideContent,
-            GoSearchModeBackward  : triggerInsideContent,
-            GoFMode               : triggerInsideContent,
-            GoFModeWithNewTab     : triggerInsideContent,
-            FocusOnFirstInput     : triggerInsideContent,
-            BackToPageMark        : triggerInsideContent,
-            RestoreTab            : sendToBackground,
-            Escape                : escape
-        };
+        CommandExecuter = vichrome.command.CommandExecuter;
 
-    function getCommand (s) {
+    function getCommandFromKeySeq (s) {
         var keySeq,
             keyMap = model.getKeyMapping();
 
@@ -123,55 +179,28 @@ vichrome.command.CommandManager = function(m) {
         }
     }
 
-    function escape(com) {
+    this.reset = function() {
         keyQueue.reset();
-        triggerInsideContent("Blur");
-    }
-
-    function sendToBackground (com, args) {
-        chrome.extension.sendRequest({command : com, args : args});
-    }
-
-    function triggerInsideContent(com, args) {
-        model.triggerCommand( "req" + com, args );
-    }
+    };
 
     this.isWaitingNextKey = function() {
         return keyQueue.isWaiting();
     };
 
-    this.executeCommand = function(args) {
-        var com;
-        if( args instanceof Array ) {
-            com = args.shift();
-        } else {
-            com = args;
-            args = null;
-        }
-
-        if( commandTable[com] ) {
-            setTimeout( function() {
-                commandTable[com](com, args);
-            }, 0);
-
-            return true;
-        }
-
-        return false;
-    };
-
     this.handleKey = function(msg){
         var s   = KeyManager.getKeyCodeStr(msg),
-            com = getCommand( s );
+            com = getCommandFromKeySeq( s ),
+            executer;
 
         if( com ) {
+            executer = new CommandExecuter();
+            executer.set(com).parse().execute();
+
             // some web sites set their own key bind(google instant search etc).
             // to prevent messing up vichrome's key bind from them,
             // we have to stop event propagation here.
             event.stopPropagation();
             event.preventDefault();
-
-            this.executeCommand( com );
         } else if( this.isWaitingNextKey() ) {
             event.stopPropagation();
             event.preventDefault();

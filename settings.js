@@ -4,6 +4,7 @@ var SettingManager = {
         "searchEngine"            : "http://www.google.com/",
         "commandWaitTimeOut"      : 2000,
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
+        "disableAutoFocus"        : false,
         "wrapSearch"              : true,
         "incSearch"               : true,
         "ignoreCase"              : true,

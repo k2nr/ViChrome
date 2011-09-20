@@ -86,3 +86,22 @@ vichrome.util.isEditable = function(target) {
     return false;
 };
 
+vichrome.util.dispatchKeyEvent = function(target, identifier, primary, shift, alt) {
+    var e = document.createEvent("KeyboardEvent"),
+        modifier ="";
+
+    if( primary ) {
+        modifier += "Meta ";
+    }
+    if( shift ) {
+        modifier += "Shift ";
+    }
+    if( alt ) {
+        modifier += "Alt";
+    }
+
+    e.initKeyboardEvent("keydown", true, true, window, identifier, 0x00, modifier, true );
+
+    target.dispatchEvent(e);
+};
+

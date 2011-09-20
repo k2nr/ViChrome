@@ -26,12 +26,16 @@ vichrome.Model = function() {
     }
 
     this.init = function() {
-        // should evaluate focused element on initialization.
-        if( util.isEditable( document.activeElement ) ) {
+        var thisObj = this;
+
+        if( util.isEditable( document.activeElement ) &&
+            !this.getSetting("disableAutoFocus") ) {
             this.enterInsertMode();
         } else {
+            vichrome.view.blurActiveElement();
             this.enterNormalMode();
         }
+
         pmRegister     = new vichrome.register.PageMarkRegister();
         commandManager = new vichrome.command.CommandManager(this);
     };
@@ -129,7 +133,10 @@ vichrome.Model = function() {
 
     this.blur = function() {
         curMode.blur();
-        this.enterNormalMode();
+        commandManager.reset();
+        if( !this.isInNormalMode() ) {
+            this.enterNormalMode();
+        }
     };
 
     this.prePostKeyEvent = function(key, ctrl, alt, meta) {
@@ -204,10 +211,6 @@ vichrome.Model = function() {
 
     this.getKeyMapping = function() {
         return curMode.getKeyMapping();
-    };
-
-    this.executeCommand = function(com) {
-        commandManager.executeCommand( com );
     };
 };
 

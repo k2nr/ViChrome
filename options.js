@@ -24,6 +24,12 @@ function onSettings(msg) {
         setSetting("commandWaitTimeOut", $(this).val());
     });
 
+    $('[name="disableAutoFocus"]')
+    .attr( 'checked', settings.disableAutoFocus )
+    .change( function() {
+        setSetting("disableAutoFocus", $(this).is(':checked'));
+    });
+
     $('[name="wrapSearch"]')
     .attr( 'checked', settings.wrapSearch )
     .change( function() {

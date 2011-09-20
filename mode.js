@@ -11,6 +11,12 @@ vichrome.mode.Mode = function() { };
     o.enter = function() {
     };
 
+    o.reqOpen = function(args) {
+        if( args && args[0] ) {
+            window.open(args[0], "_self");
+        }
+    };
+
     o.reqScrollDown = function() {
         vichrome.view.scrollBy( 0, vichrome.model.getSetting("scrollPixelCount") );
     };
@@ -80,10 +86,7 @@ vichrome.mode.Mode = function() { };
 
     o.reqBlur = function() {
         vichrome.view.blurActiveElement();
-
-        if( this.blur ) {
-            this.blur();
-        }
+        vichrome.model.blur();
     };
 
     o.reqGoFMode = function() {
@@ -208,7 +211,8 @@ vichrome.mode.CommandMode = function() {
 vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        var args;
+        var executer = new vichrome.command.CommandExecuter();
+
         if( vichrome.view.getCommandBoxValue().length === 0 &&
             (key === "BS" || key === "DEL") ) {
             vichrome.model.enterNormalMode();
@@ -216,14 +220,10 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
         }
 
         if( key === "CR" ) {
-            args = vichrome.view.getCommandBoxValue().split(/ +/);
-            if( args[args.length-1].length === 0 ) {
-                args.pop();
-            }
-            if( args[0].length === 0 ) {
-                args.shift();
-            }
-            vichrome.model.executeCommand( args );
+            executer.set( vichrome.view.getCommandBoxValue() )
+            .parse()
+            .execute();
+
             vichrome.model.enterNormalMode();
             return false;
         }
