@@ -105,3 +105,15 @@ vichrome.util.dispatchKeyEvent = function(target, identifier, primary, shift, al
     target.dispatchEvent(e);
 };
 
+vichrome.util.benchmark = function(cb, text) {
+    function getCurrentTime() {
+        return new Date().getTime();
+    }
+
+    if( text == undefined ) text="";
+
+    var start = getCurrentTime();
+    cb();
+    vichrome.log.logger.d(text+"::benchmark result:" + (getCurrentTime() - start) + "ms" );
+};
+

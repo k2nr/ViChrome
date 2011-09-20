@@ -101,7 +101,9 @@ vichrome.search.NormalSearcher = function(opt) {
     }
 
     function updateInput(thisObj, word) {
-        if(word.length > 0) {
+        // because search for string the length of which is 1 may be slow,
+        // search starts with string whose length is over 2.
+        if(word.length >= 2) {
             thisObj.searchAndHighlight( word );
             if( getResultCnt() === 0 ) {
                 vichrome.view.setStatusLineText("no matches");
