@@ -73,7 +73,8 @@ vichrome.command.CommandExecuter = function() {
 
 (function(o) {
     function sendToBackground (com, args) {
-        chrome.extension.sendRequest({command : com, args : args});
+        chrome.extension.sendRequest({command : com, args : args},
+            vichrome.handler.onCommandResponse );
     }
 
     function triggerInsideContent(com, args) {
@@ -90,6 +91,8 @@ vichrome.command.CommandExecuter = function() {
         CloseCurTab           : sendToBackground,
         MoveNextTab           : sendToBackground,
         MovePrevTab           : sendToBackground,
+        NMap                  : sendToBackground,
+        IMap                  : sendToBackground,
         ReloadTab             : triggerInsideContent,
         ScrollUp              : triggerInsideContent,
         ScrollDown            : triggerInsideContent,
@@ -116,29 +119,38 @@ vichrome.command.CommandExecuter = function() {
         Escape                : escape
     };
 
+    o.get = function() {
+        return this.command;
+    };
+
     o.set = function(command) {
-        this.command = command;
+        if( !command ) {
+            throw "invalid command";
+        }
+        this.command = command
+                       .replace(/^[\t ]*/, "")
+                       .replace(/[\t ]*$/, "");
 
         return this;
     };
 
     o.parse = function() {
+        var aliases = vichrome.model.getSetting("aliases");
+
         this.args = this.command.split(/ +/);
         if( !this.args || this.args.length === 0 ) {
-            return undefined;
+            throw "invalid command";
         }
 
-        if( this.args[this.args.length-1].length === 0 ) {
-            this.args.pop();
+        if( aliases[ this.args[0] ] ) {
+            this.args = aliases[ this.args[0] ]
+                        .split(' ')
+                        .concat( this.args.slice(1) );
         }
-        if( this.args[0].length === 0 ) {
-            this.args.shift();
-        }
-
         if( this.commandTable[ this.args[0] ] ) {
             return this;
         } else {
-            return undefined;
+            throw "invalid command";
         }
     };
 
@@ -146,7 +158,7 @@ vichrome.command.CommandExecuter = function() {
         var com, args, commandTable = this.commandTable;
 
         args = this.args.slice(1);
-        com = this.args[0];
+        com  = this.args[0];
 
         setTimeout( function() {
             commandTable[com](com, args);

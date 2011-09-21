@@ -74,15 +74,15 @@
     position: absolute;
     font-family: "Lucida Console", BatangChe, monospace;
     text-align: center;
-    line-height: 18px;
     letter-spacing: 1px;
     color: #000;
     -webkit-box-shadow: none;
     width : auto;
-    height: 18px;
+    line-height: 14px;
+    height: 14px;
     padding: 0px 2px;
     margin:  0px 0px;
-    font-size: 14px;
+    font-size: 10px;
     z-index: 99999;
 }
 

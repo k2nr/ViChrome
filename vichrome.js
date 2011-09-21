@@ -9,6 +9,6 @@ window.addEventListener("DOMContentLoaded", function() {
     chrome.extension.sendRequest( { command : "Settings",
                                     type    : "get",
                                     name    : "all" },
-                                    vichrome.handler.onSettings );
+                                    vichrome.handler.onInitEnabled );
 });
 

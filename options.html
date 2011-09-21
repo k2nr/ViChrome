@@ -28,7 +28,7 @@
                         <span class="option">
                             Scroll Step Size
                         </span>
-                        <input name="scrollPixelCount" type="number" size="7" />
+                        <input id="scrollPixelCount" type="number" size="7" />
                         <span class="option">
                             px
                         </span>
@@ -40,7 +40,7 @@
                         <span class="option">
                             Command Hold Timeout Interval
                         </span>
-                        <input name="commandWaitTimeOut" type="number" size="7" />
+                        <input id="commandWaitTimeOut" type="number" size="7" />
                         <span class="option">
                             ms
                         </span>
@@ -48,7 +48,7 @@
                 </div>
                 <div>
                     <label>
-                        <input name="disableAutoFocus" type="checkbox" />
+                        <input id="disableAutoFocus" type="checkbox" />
                         <span class="option">
                             Disable auto focus when opening new page
                         </span>
@@ -61,16 +61,16 @@
             <div>
                 <div>
                     <label>
-                        <input name="wrapSearch" type="checkbox" />
+                        <input id="wrapSearch" type="checkbox" />
                         <span class="option">
-                            Wrap Search
+                            Wrap Scan
                         </span>
                     </label>
                 </div>
 
                 <div>
                     <label>
-                        <input name="incSearch" type="checkbox" />
+                        <input id="incSearch" type="checkbox" />
                         <span class="option">
                             Incremental Search
                         </span>
@@ -78,7 +78,7 @@
                 </div>
                 <div>
                     <label>
-                        <input name="ignoreCase" type="checkbox" />
+                        <input id="ignoreCase" type="checkbox" />
                         <span class="option">
                             Ignore Case
                         </span>
@@ -93,8 +93,8 @@
                     <span class="option">
                         f Mode Keys
                     </span>
-                    <input name="fModeAvailableKeys" type="text" size="30"/>
-                    <input name="updatefModeKeys" value="Update fMode Keys" type="button">
+                    <input id="fModeAvailableKeys" type="text" size="30"/>
+                    <input id="updatefModeKeys" value="Update fMode Keys" type="button">
                 </div>
             </div>
             </section>
@@ -103,11 +103,11 @@
             <div>
                 <div>
                     <span class="option">
-                        <textarea name="ignoredUrls" rows="6" cols="80"></textarea>
+                        <textarea id="ignoredUrls" rows="6" cols="80"></textarea>
                     </span>
                 </div>
                 <div align="right">
-                    <input name="ignoredUrlsButton" value="Update Ignored URLs" type="button">
+                    <input id="ignoredUrlsButton" value="Update Ignored URLs" type="button">
                 </div>
             </div>
             </section>
@@ -119,7 +119,7 @@
             <div>
                 <div>
                     <label>
-                        <input name="alwaysDisplayStatusLine" type="checkbox" />
+                        <input id="alwaysDisplayStatusLine" type="checkbox" />
                         <span class="option">
                             Always display status line
                         </span>
@@ -134,10 +134,15 @@
             </section>
         </div>
         <div id="keymapping" class='page'>
-            <h2>Key Mapping (under construction...)</h2>
+            <h2>Key Mapping / Command Aliases</h2>
             <section>
             <div>
-                <textarea name="keyMapping" rows="30" cols="80"></textarea>
+                <div>
+                    <textarea id="keyMapping" spellcheck="false" rows="30" cols="80"></textarea>
+                </div>
+                <div align="right">
+                    <input id="keyMappingButton" value="Update Key Mapping" type="button">
+                </div>
             </div>
             </section>
         </div>

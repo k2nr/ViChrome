@@ -93,10 +93,22 @@ vichrome.event.EventHandler =  function(m, v) {
 
     // public APIs
     this.onSettings = function (msg) {
+        model.onSettings( msg );
+    };
+
+    this.onInitEnabled = function(msg) {
         if( isEnabledUrl( msg.value.ignoredUrls ) ) {
             model.onSettings( msg );
             init(msg.value);
         }
-    }
+    };
+
+    this.onCommandResponse = function (msg) {
+        if( !msg ) { return; }
+        // TODO
+        if( msg.command === "Settings" ) {
+            model.onSettings( msg );
+        }
+    };
 };
 

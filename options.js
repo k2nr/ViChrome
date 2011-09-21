@@ -12,52 +12,59 @@ function onSettings(msg) {
         settings = msg.value;
     }
 
-    $('[name="scrollPixelCount"]')
+    $('#scrollPixelCount')
     .val( settings.scrollPixelCount )
     .change( function() {
         setSetting("scrollPixelCount", $(this).val());
     });
 
-    $('[name="commandWaitTimeOut"]')
+    $('#commandWaitTimeOut')
     .val( settings.commandWaitTimeOut )
     .change( function() {
         setSetting("commandWaitTimeOut", $(this).val());
     });
 
-    $('[name="disableAutoFocus"]')
+    $('#disableAutoFocus')
     .attr( 'checked', settings.disableAutoFocus )
     .change( function() {
         setSetting("disableAutoFocus", $(this).is(':checked'));
     });
 
-    $('[name="wrapSearch"]')
+    $('#wrapSearch')
     .attr( 'checked', settings.wrapSearch )
     .change( function() {
         setSetting("wrapSearch", $(this).is(':checked'));
     });
 
-    $('[name="incSearch"]')
+    $('#incSearch')
     .attr( 'checked', settings.incSearch )
     .change( function() {
         setSetting("incSearch", $(this).is(':checked'));
     });
 
-    $('[name="ignoreCase"]')
+    $('#ignoreCase')
     .attr( 'checked', settings.ignoreCase )
     .change( function() {
         setSetting("ignoreCase", $(this).is(':checked'));
     });
 
-    $('[name="fModeAvailableKeys"]')
+    $('#fModeAvailableKeys')
     .val( settings.fModeAvailableKeys )
     .change( function() {
         setSetting("fModeAvailableKeys", $(this).val());
     });
 
-    $('[name="ignoredUrls"]')
+    $('#ignoredUrls')
     .val( settings.ignoredUrls.join('\n') );
-    $('[name="ignoredUrlsButton"]').click( function() {
-        setSetting("ignoredUrls", $('[name="ignoredUrls"]').val().split('\n'));
+    $('#ignoredUrlsButton').click( function() {
+        setSetting("ignoredUrls", $('#ignoredUrls').val().split('\n'));
+    });
+
+
+    $('#keyMapping')
+    .val( settings.keyMappingAndAliases );
+    $('#keyMappingButton').click( function() {
+        setSetting( "keyMappingAndAliases", $('#keyMapping').val() );
     });
 }
 

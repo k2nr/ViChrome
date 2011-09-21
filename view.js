@@ -75,12 +75,18 @@ vichrome.views.Surface = function() {
         return $commandInput.val();
     };
 
-    this.setStatusLineText = function(text) {
-        $statusLine.html(text);
+    this.setStatusLineText = function(text, timeout) {
+        $statusLine.html( text );
         if( !this.isCommandBoxActive() && !text ) {
             $statusLine.hide();
         } else {
             $statusLine.show();
+
+            if( timeout ) {
+                setTimeout( function() {
+                    $statusLine.html("").hide();
+                }, timeout);
+            }
         }
     };
 

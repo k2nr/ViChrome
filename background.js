@@ -73,8 +73,36 @@ function reqMovePrevTab () {
 }
 
 
-function reqRestoreTab(req, sendResponse) {
+function reqRestoreTab(req) {
     tabHistory.restoreLastClosedTab();
+}
+
+function reqNMap(req, sendResponse) {
+    var msg = {}, map;
+
+    if( req.args[0] && req.args[1] ) {
+        map = SettingManager.setNormalKeyMapping( req.args[0], req.args[1] );
+    }
+
+    msg.command = "Settings";
+    msg.name    = "keyMappingNormal";
+    msg.value   = map;
+    sendResponse(msg);
+    return true;
+}
+
+function reqIMap(req, sendResponse) {
+    var msg = {}, map;
+
+    if( req.args[0] && req.args[1] ) {
+        map = SettingManager.setInsertKeyMapping( req.args[0], req.args[1] );
+    }
+
+    msg.command = "Settings";
+    msg.name    = "keyMappingInsert";
+    msg.value   = map;
+    sendResponse(msg);
+    return true;
 }
 
 function init () {
@@ -83,6 +111,8 @@ function init () {
 
     tabHistory = new TabHistory();
     tabHistory.init();
+
+    SettingManager.init();
 
     chrome.extension.onRequest.addListener(
         function( req, sender, sendResponse ) {

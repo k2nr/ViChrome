@@ -1,3 +1,10 @@
+
+function clone(o) {
+    var f = function(){};
+    f.prototype = o;
+    return new f();
+}
+
 var SettingManager = {
     defaultSettings : {
         "scrollPixelCount"        : 40,
@@ -12,6 +19,7 @@ var SettingManager = {
             "http*://mail.google.com/*",
             "http*://www.google.com/reader/*"
         ],
+        "keyMappingAndAliases"    : "",
         "keyMappingNormal"        : {
             "j"       : "ScrollDown",
             "k"       : "ScrollUp",
@@ -44,22 +52,97 @@ var SettingManager = {
             "<C-[>"   : "Escape"
         },
         "keyMappingInsert" : {
-           "<ESC>"   : "Escape",
-           "<C-[>"   : "Escape"
+            "<ESC>"   : "Escape",
+            "<C-[>"   : "Escape"
+        },
+        "aliases"    : {
+            "o"      : "Open",
+            "ot"     : "OpenNewTab",
+            "map"    : "NMap"
         }
     },
 
-    associateKeyMap : {},
+    userKeyMapNormal : {},
+    userKeyMapInsert : {},
+    aliases          : {},
+
+    associateKeyMapNormal : {},
+    associateKeyMapInsert : {},
+
+    parseKeyMappingAndAliases : function() {
+        if( !localStorage.keyMappingAndAliases ) { return; }
+
+        var lines = JSON.parse( localStorage.getItem("keyMappingAndAliases") )
+                      .replace(/^[\t ]*/m, "")
+                      .replace(/[\t ]*$/m, "")
+                      .split('\n'),
+            len = lines.length,
+            i, args;
+
+        for( i=0; i < len; i++ ) {
+            if( lines[i].length === 0 ){ continue; }
+            args = lines[i].split(/[\t ]+/);
+
+            switch( args[0] ) {
+            case "map":
+            case "nmap":
+                if( args[2].charAt(0) === ':' ) {
+                    this.userKeyMapNormal[ args[1] ] = args.slice(2).join(' ').slice(1);
+                } else {
+                    this.userKeyMapNormal[ args[1] ] = this.userKeyMapNormal[ args[2] ];
+                }
+                break;
+            case "imap":
+                if( args[2].charAt(0) === ':' ) {
+                    this.userKeyMapInsert[ args[1] ] = args.slice(2).join(' ').slice(1);
+                } else {
+                    this.userKeyMapInsert[ args[1] ] = this.userKeyMapInsert[ args[2] ];
+                }
+                break;
+            case "alias":
+                this.aliases[ args[1] ] = args.slice(2).join(' ');
+                break;
+            default:
+                break;
+            }
+        }
+    },
+
+    initUserKeyMapAndAliases  : function() {
+        var defaultNormal     = this.defaultSettings.keyMappingNormal,
+            defaultInsert     = this.defaultSettings.keyMappingInsert,
+            defaultAliases    = this.defaultSettings.aliases,
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            i;
+
+        for ( i in defaultNormal ) if( hasOwnPrp.call( defaultNormal, i ) ) {
+            this.userKeyMapNormal[i] = defaultNormal[i];
+        }
+
+        for ( i in defaultInsert ) if( hasOwnPrp.call( defaultInsert, i ) ) {
+            this.userKeyMapInsert[i] = defaultNormal[i];
+        }
+
+        for ( i in defaultAliases ) if( hasOwnPrp.call( defaultAliases, i ) ) {
+            this.aliases[i] = defaultAliases[i];
+        }
+
+        this.parseKeyMappingAndAliases();
+    },
 
     getAll : function() {
         var settings = {}, i,
             hasOwnPrp  = Object.prototype.hasOwnProperty;
 
         for ( i in this.defaultSettings ) if( hasOwnPrp.call( this.defaultSettings, i ) ) {
-            if ( localStorage[i] ) {
-                settings[i] = JSON.parse( localStorage.getItem(i) );
+            if( i === "keyMappingNormal" ) {
+                settings[i] = this.userKeyMapNormal;
+            } else if( i === "keyMappingInsert" ) {
+                settings[i] = this.userKeyMapInsert;
+            } else if( i === "aliases"){
+                settings[i] = this.aliases;
             } else {
-                settings[i] = this.defaultSettings[i];
+                settings[i] = this.get(i);
             }
         }
 
@@ -76,10 +159,35 @@ var SettingManager = {
 
     set   : function(name, value) {
         localStorage.setItem(name, JSON.stringify(value));
+        if( name === "keyMappingAndAliases" ) {
+            this.parseKeyMappingAndAliases();
+        }
 
         if(this.setCb) {
             this.setCb(name, value);
         }
+    },
+
+    setNormalKeyMapping : function( key, assignee ) {
+        if( assignee.charAt(0) === ":" ) {
+            this.userKeyMapNormal[key] = assignee.slice(1);
+            return this.userKeyMapNormal;
+        } else {
+            this.associateKeyMap[key] = assignee;
+        }
+    },
+
+    setInsertKeyMapping : function( key, assignee ) {
+        if( assignee.charAt(0) === ":" ) {
+            this.userKeyMapInsert[key] = assignee.slice(1);
+            return this.userKeyMapInsert;
+        } else {
+            this.associateKeyMap[key] = assignee;
+        }
+    },
+
+    init  : function() {
+        this.initUserKeyMapAndAliases();
     },
 
     setCb : null

@@ -177,6 +177,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
         }
 
         if( key === "CR" ) {
+            event.stopPropagation();
             vichrome.model.enterNormalMode();
             return false;
         }
@@ -220,9 +221,15 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
         }
 
         if( key === "CR" ) {
-            executer.set( vichrome.view.getCommandBoxValue() )
-            .parse()
-            .execute();
+            try {
+                executer.set( vichrome.view.getCommandBoxValue() )
+                .parse()
+                .execute();
+            } catch(e) {
+                vichrome.view.setStatusLineText( "Invalid Command:"+executer.get(),
+                                                 2000 );
+
+            }
 
             vichrome.model.enterNormalMode();
             return false;

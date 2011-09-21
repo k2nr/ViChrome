@@ -10,8 +10,8 @@
   "permissions": [
     "tabs",
     "bookmarks",
-    "http://*/*",
-    "https://*/*"
+    "unlimitedStorage",
+    "<all_urls>"
   ],
   "content_scripts": [
     {
