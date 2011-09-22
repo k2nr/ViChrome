@@ -1,10 +1,35 @@
 var settings = null;
 
-function setSetting(name, val) {
+function setSetting(name, val, response) {
     chrome.extension.sendRequest({ command : "Settings",
                                    type    : "set",
                                    name    : name,
-                                   value   : val});
+                                   value   : val });
+}
+
+function escSpecialChars( str ) {
+    return str.replace("<", "&lt;").replace(">", "&gt;").replace(" ", "&nbsp;");
+}
+
+function updateKeyMappingList() {
+    var $keyMapList = $('#keyMappingList'), i;
+    $keyMapList.append($('<div />').html('<h3>Normal Mode Mapping</h3>'));
+    for( i in settings.keyMappingNormal ) {
+        $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
+                          escSpecialChars( settings.keyMappingNormal[i] ) ) );
+    }
+
+    $keyMapList.append($('<div />').html('<h3>Insert Mode Mapping</h3>'));
+    for( i in settings.keyMappingInsert ) {
+        $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
+                          escSpecialChars( settings.keyMappingInsert[i] ) ) );
+    }
+
+    $keyMapList.append($('<div />').html('<h3>Aliases</h3>'));
+    for( i in settings.aliases ) {
+        $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
+                          escSpecialChars( settings.aliases[i] ) ) );
+    }
 }
 
 function onSettings(msg) {
@@ -60,12 +85,13 @@ function onSettings(msg) {
         setSetting("ignoredUrls", $('#ignoredUrls').val().split('\n'));
     });
 
-
     $('#keyMapping')
     .val( settings.keyMappingAndAliases );
     $('#keyMappingButton').click( function() {
         setSetting( "keyMappingAndAliases", $('#keyMapping').val() );
     });
+
+    updateKeyMappingList();
 }
 
 $(document).ready(function() {

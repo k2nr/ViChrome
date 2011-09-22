@@ -160,7 +160,7 @@ var SettingManager = {
     set   : function(name, value) {
         localStorage.setItem(name, JSON.stringify(value));
         if( name === "keyMappingAndAliases" ) {
-            this.parseKeyMappingAndAliases();
+            this.initUserKeyMapAndAliases();
         }
 
         if(this.setCb) {

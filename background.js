@@ -33,7 +33,6 @@ function getSettings (msg, response) {
 
 function setSettings (msg, response) {
     SettingManager.set( msg.name, msg.value );
-    response();
 }
 
 

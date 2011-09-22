@@ -38,7 +38,7 @@
                 <div>
                     <label>
                         <span class="option">
-                            Command Hold Timeout Interval
+                            Command Wait Timeout Interval
                         </span>
                         <input id="commandWaitTimeOut" type="number" size="7" />
                         <span class="option">
@@ -50,7 +50,7 @@
                     <label>
                         <input id="disableAutoFocus" type="checkbox" />
                         <span class="option">
-                            Disable auto focus when opening new page
+                            Disable auto focus when page is opening
                         </span>
                     </label>
                 </div>
@@ -91,7 +91,7 @@
             <div>
                 <div>
                     <span class="option">
-                        f Mode Keys
+                        f Mode Keys(used for a hint char)
                     </span>
                     <input id="fModeAvailableKeys" type="text" size="30"/>
                     <input id="updatefModeKeys" value="Update fMode Keys" type="button">
@@ -136,6 +136,7 @@
         <div id="keymapping" class='page'>
             <h2>Key Mapping / Command Aliases</h2>
             <section>
+            <h3>Customize</h3>
             <div>
                 <div>
                     <textarea id="keyMapping" spellcheck="false" rows="30" cols="80"></textarea>
@@ -143,6 +144,12 @@
                 <div align="right">
                     <input id="keyMappingButton" value="Update Key Mapping" type="button">
                 </div>
+            </div>
+            </section>
+            <section>
+            <h3>All KeyMappings</h3>
+            <div>
+                <div id="keyMappingList"></div>
             </div>
             </section>
         </div>

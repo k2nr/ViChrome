@@ -3,7 +3,8 @@ vichrome.search = {};
 vichrome.search.NormalSearcher = function(opt) {
     var _sortedResults = null,
         _opt           = opt,
-        _curIndex      = 0,
+        _curIndex      = -1,
+        logger         = vichrome.log.logger;
         view           = vichrome.view;
 
     function buildSortedResults() {
@@ -118,9 +119,8 @@ vichrome.search.NormalSearcher = function(opt) {
                     _curIndex = 0;
                 }
             }
-            if( _opt.incSearch ) {
-                moveTo( _curIndex );
-            }
+
+            moveTo( _curIndex );
         } else {
             vichrome.view.setStatusLineText("");
             thisObj.removeHighlight();
@@ -135,9 +135,11 @@ vichrome.search.NormalSearcher = function(opt) {
     view.focusCommandBox();
 
     (function(obj) {
-        view.addInputUpdateListener( function(word) {
-            updateInput( obj, word );
-        });
+        if( _opt.incSearch ) {
+            view.addInputUpdateListener( function(word) {
+                updateInput( obj, word );
+            });
+        }
     }(this));
 
 
@@ -171,12 +173,14 @@ vichrome.search.NormalSearcher = function(opt) {
             if( _opt.wrap ) {
                 _curIndex = 0;
             } else {
+                _curIndex = getResultCnt() - 1;
                 return false;
             }
         } else if( !forward && _curIndex < 0 ) {
             if( _opt.wrap ) {
                 _curIndex = getResultCnt() - 1;
             } else {
+                _curIndex = 0;
                 return false;
             }
         }
@@ -186,8 +190,11 @@ vichrome.search.NormalSearcher = function(opt) {
     };
 
     this.finalize = function() {
+        logger.d("finalize");
         _sortedResults = undefined;
         _opt = undefined;
         view.removeInputUpdateListener();
+        view.setStatusLineText("");
+        this.removeHighlight();
     };
 };

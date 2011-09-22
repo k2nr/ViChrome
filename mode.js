@@ -164,20 +164,36 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
     };
 }(vichrome.mode.InsertMode.prototype));
 
-vichrome.mode.SearchMode = function() {
+vichrome.mode.SearchMode = function(opt_) {
+    this.opt = opt_;
 };
 
 vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 (function(o) {
+    var NormalSearcher = vichrome.search.NormalSearcher,
+        searcher;
+
+    function cancelSearch() {
+        vichrome.model.goPageMark();
+
+        searcher.finalize();
+        vichrome.model.enterNormalMode();
+    }
+
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        if( vichrome.view.getCommandBoxValue().length === 0 &&
-            (key === "BS" || key === "DEL") ) {
-            vichrome.model.cancelSearch();
+        var word = vichrome.view.getCommandBoxValue();
+        if( word.length === 0 && (key === "BS" || key === "DEL") ) {
+            cancelSearch();
             return false;
         }
 
         if( key === "CR" ) {
             event.stopPropagation();
+
+            if( !this.opt.incSearch ) {
+                searcher.searchAndHighlight( word );
+            }
+            vichrome.model.setSearcher( searcher );
             vichrome.model.enterNormalMode();
             return false;
         }
@@ -186,19 +202,12 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
     };
 
     o.blur = function() {
-        vichrome.model.cancelSearch();
+        cancelSearch();
     };
 
     o.enter = function() {
+        searcher = new NormalSearcher( this.opt );
         vichrome.view.focusCommandBox();
-    };
-
-    o.reqNextSearch = function() {
-        var found = vichrome.model.goNextSearchResult( false );
-    };
-
-    o.reqPrevSearch = function() {
-        var found = vichrome.model.goNextSearchResult( true );
     };
 
     o.getKeyMapping = function() {

@@ -117,7 +117,12 @@ var TabHistory = function() {
 
     this.restoreLastClosedTab = function() {
         var item = closeHistStack.pop(), opt;
+
+        while( item && !openTabs[item.tab.windowId] ) {
+            item = closeHistStack.pop();
+        }
         if( !item ) { return; }
+
         chrome.windows.update( item.tab.windowId, { focused : true } );
 
         opt = { windowId : item.tab.windowId, url : item.tab.url };

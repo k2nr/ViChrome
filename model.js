@@ -53,6 +53,17 @@ vichrome.Model = function() {
         vichrome.view.scrollTo( offset.left, offset.top );
     };
 
+    this.setSearcher = function(searcher_) {
+        searcher = searcher_;
+    };
+
+    this.cancelSearchHighlight = function() {
+        if( searcher ) {
+            searcher.finalize();
+            searcher = null;
+        }
+    };
+
     this.enterNormalMode = function() {
         changeMode( new NormalMode() );
     };
@@ -67,39 +78,17 @@ vichrome.Model = function() {
     };
 
     this.enterSearchMode = function(backward) {
-        var wrap  = this.getSetting("wrapSearch"),
-            iCase = this.getSetting("ignoreCase");
-            inc   = this.getSetting("incSearch");
-        searcher = new NormalSearcher( { wrap       : wrap,
-                                         backward   : backward,
-                                         ignoreCase : iCase,
-                                         incSearch  : inc   });
+        var opt   = { wrap       : vichrome.model.getSetting("wrapSearch"),
+                      ignoreCase : vichrome.model.getSetting("ignoreCase"),
+                      incSearch  : vichrome.model.getSetting("incSearch"),
+                      backward   : backward };
 
-        changeMode( new SearchMode() );
+        changeMode( new SearchMode(opt) );
         this.setPageMark();
     };
 
     this.enterFMode = function() {
         changeMode( new FMode() );
-    };
-
-    this.cancelSearch = function() {
-        this.cancelSearchHighlight();
-        this.goPageMark();
-        this.enterNormalMode();
-    };
-
-    this.cancelSearchHighlight = function() {
-        vichrome.view.setStatusLineText("");
-        if( searcher ) {
-            searcher.removeHighlight();
-            searcher.finalize();
-            searcher = null;
-        }
-    };
-
-    this.setSearchInput = function() {
-        this.enterNormalMode();
     };
 
     this.isInNormalMode = function() {
@@ -123,6 +112,8 @@ vichrome.Model = function() {
     };
 
     this.goNextSearchResult = function(reverse) {
+        if( !searcher ) { return; }
+
         this.setPageMark();
         return searcher.goNext( reverse );
     };
