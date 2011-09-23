@@ -19,7 +19,7 @@ vichrome.command.KeyQueue = function(){
         } else {
             vichrome.log.logger.d("commandTimer set");
             waiting = true;
-            setTimeout( callback, ms );
+            timerId = setTimeout( callback, ms );
         }
     }
 
@@ -89,8 +89,8 @@ vichrome.command.CommandExecuter = function() {
         Open                  : triggerInsideContent,
         OpenNewTab            : sendToBackground,
         CloseCurTab           : sendToBackground,
-        MoveNextTab           : sendToBackground,
-        MovePrevTab           : sendToBackground,
+        MoveToNextTab         : sendToBackground,
+        MoveToPrevTab         : sendToBackground,
         NMap                  : sendToBackground,
         IMap                  : sendToBackground,
         ReloadTab             : triggerInsideContent,

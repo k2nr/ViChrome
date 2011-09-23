@@ -25,7 +25,7 @@ function updateKeyMappingList() {
                           escSpecialChars( settings.keyMappingInsert[i] ) ) );
     }
 
-    $keyMapList.append($('<div />').html('<h3>Aliases</h3>'));
+    $keyMapList.append($('<div />').html('<h3>Command Aliases</h3>'));
     for( i in settings.aliases ) {
         $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
                           escSpecialChars( settings.aliases[i] ) ) );
@@ -53,6 +53,15 @@ function onSettings(msg) {
     .attr( 'checked', settings.disableAutoFocus )
     .change( function() {
         setSetting("disableAutoFocus", $(this).is(':checked'));
+    });
+
+    $('[name="newTabPage"][value="'+settings.defaultNewTab+'"]')
+    .attr( 'checked', true );
+    $('[name="newTabPage"]')
+    .change( function() {
+        if( $(this).is(':checked') ) {
+            setSetting( "defaultNewTab", $(this).val() );
+        }
     });
 
     $('#wrapSearch')

@@ -8,6 +8,7 @@ function clone(o) {
 var SettingManager = {
     defaultSettings : {
         "scrollPixelCount"        : 40,
+        "defaultNewTab"           : "home",
         "searchEngine"            : "http://www.google.com/",
         "commandWaitTimeOut"      : 2000,
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
@@ -35,8 +36,8 @@ var SettingManager = {
             "x"       : "CloseCurTab",
             "n"       : "NextSearch",
             "N"       : "PrevSearch",
-            "<C-l>"   : "MoveNextTab",
-            "<C-h>"   : "MovePrevTab",
+            "<C-l>"   : "MoveToNextTab",
+            "<C-h>"   : "MoveToPrevTab",
             "r"       : "ReloadTab",
             "H"       : "BackHist",
             "L"       : "ForwardHist",

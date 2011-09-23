@@ -2,19 +2,19 @@ vichrome.key = {};
 
 vichrome.key.keyCodes = {
     ESC       : 27,
-    Tab       : 9,
-    Shift     : 16,
+    TAB       : 9,
+    SHIFT     : 16,
     BS        : 8,
-    Alt       : 18,
-    Ctrl      : 17,
-    Meta      : 91,
+    ALT       : 18,
+    CTRL      : 17,
+    META      : 91,
     DEL       : 46,
     CR        : 13,
-    Space     : 32,
-    Left      : 128,
-    Up        : 129,
-    Right     : 130,
-    Down      : 131,
+    SPACE     : 32,
+    LEFT      : 128,
+    UP        : 129,
+    RIGHT     : 130,
+    DOWN      : 131,
     F1        : 132,
     F2        : 133,
     F3        : 134,
@@ -50,7 +50,7 @@ vichrome.key.keyIdentifier = {
     "U+0028"    : "(",
     "U+0029"    : ")",
     "U+002D"    : "-",
-    "U+003D"    : "=",
+   "U+003D"    : "=",
     "U+005E"    : "^",
     "U+007E"    : "~",
     "U+00A5"    : "\\",
@@ -152,11 +152,11 @@ vichrome.key.KeyManager = (function(){
         },
 
         isOnlyModifier : function(code, ctrl, shift, alt, meta) {
-            switch( this.getLocalKeyCode(code, ctrl, shift, alt, meta) ) {
-                case keyCodes.Ctrl:
-                case keyCodes.Shift:
-                case keyCodes.Meta:
-                case keyCodes.Alt:
+            switch( keyCodes[this.getLocalKeyCode(code, ctrl, shift, alt, meta)] ) {
+                case keyCodes.CTRL:
+                case keyCodes.SHIFT:
+                case keyCodes.META:
+                case keyCodes.ALT:
                     return true;
                 default:
                     return false;
@@ -179,7 +179,7 @@ vichrome.key.KeyManager = (function(){
 
         getLocalKeyCode : function(code, ctrl, shift, alt, meta) {
             var result = keyIdentifier[code];
-            if( this.isAlphabet( result ) ) {
+            if( result && this.isAlphabet( result ) ) {
                 if( shift ) { result = result.toUpperCase(); }
                 else        { result = result.toLowerCase(); }
             }

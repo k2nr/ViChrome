@@ -235,7 +235,7 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
                 .parse()
                 .execute();
             } catch(e) {
-                vichrome.view.setStatusLineText( "Invalid Command:"+executer.get(),
+                vichrome.view.setStatusLineText( "Command Not Found : "+executer.get(),
                                                  2000 );
 
             }

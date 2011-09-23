@@ -137,6 +137,13 @@ a:hover {
     display: inline-block;
 }
 
+.description {
+    vertical-align: top;
+    margin-left : 30px;
+    display: inline-block;
+    color: #44D
+}
+
 section {
     display: -webkit-box;
     -webkit-box-orient: horizontal;

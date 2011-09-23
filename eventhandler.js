@@ -46,6 +46,7 @@ vichrome.event.EventHandler =  function(m, v) {
 
         var code = KeyManager.getLocalKeyCode( e.keyIdentifier, e.ctrlKey,
                                        e.shiftKey, e.altKey, e.metaKey );
+        if( !code ){ return undefined; }
 
         if( model.prePostKeyEvent( code, e.ctrlKey, e.altKey, e.metaKey ) ) {
             return { code : code,

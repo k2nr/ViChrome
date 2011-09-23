@@ -20,7 +20,7 @@ vichrome.views.Surface = function() {
 
     this.init = function() {
         $commandBox   = $('<div id="vichromebox" />');
-        $commandInput = $('<input type="text" id="vichromeinput" value="" />');
+        $commandInput = $('<input type="text" id="vichromeinput" spellcheck="false" value="" />');
         $modeChar  = $('<div id="vichromemodechar" />');
         $commandField = $('<table />')
                             .append( $('<tr />')

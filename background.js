@@ -48,10 +48,20 @@ function reqSettings (msg, response) {
     return true;
 }
 
+function getDefaultNewTabPage() {
+    switch( SettingManager.get("defaultNewTab") ) {
+        case "home"   : return undefined;
+        case "newtab" : return "chrome://newtab";
+        case "blank"  : return "about:blank";
+    }
+}
+
 function reqOpenNewTab (req) {
     var url;
     if( req.args[0] ) {
         url = req.args[0];
+    } else {
+        url = getDefaultNewTabPage();
     }
 
     chrome.tabs.create( {url : url} );
@@ -63,11 +73,11 @@ function reqCloseCurTab () {
     });
 }
 
-function reqMoveNextTab () {
+function reqMoveToNextTab () {
     moveTab( 1 );
 }
 
-function reqMovePrevTab () {
+function reqMoveToPrevTab () {
     moveTab( -1 );
 }
 
