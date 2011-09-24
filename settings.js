@@ -60,6 +60,7 @@ var SettingManager = {
         "aliases"    : {
             "o"      : "Open",
             "ot"     : "OpenNewTab",
+            "help"   : "OpenNewTab http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual",
             "map"    : "NMap"
         }
     },

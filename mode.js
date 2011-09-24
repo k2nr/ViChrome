@@ -150,6 +150,13 @@ vichrome.mode.InsertMode = function() {
 vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        if( ctrl || alt || meta ) {
+            return true;
+        }
+        if( vichrome.key.KeyManager.isNumber(key) ||
+            vichrome.key.KeyManager.isAlphabet(key) ) {
+           return false;
+        }
         return true;
     };
 
@@ -230,7 +237,11 @@ vichrome.mode.CommandMode = function() {
 vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        var executer = new vichrome.command.CommandExecuter();
+        var executer;
+
+        if( ctrl || alt || meta ) {
+            return true;
+        }
 
         if( vichrome.view.getCommandBoxValue().length === 0 &&
             (key === "BS" || key === "DEL") ) {
@@ -238,7 +249,13 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
             return false;
         }
 
+        if( vichrome.key.KeyManager.isNumber(key) ||
+            vichrome.key.KeyManager.isAlphabet(key) ) {
+           return false;
+        }
+
         if( key === "CR" ) {
+            executer = new vichrome.command.CommandExecuter();
             try {
                 executer.set( vichrome.view.getCommandBoxValue() )
                 .parse()
