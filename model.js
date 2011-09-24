@@ -78,9 +78,10 @@ vichrome.Model = function() {
     };
 
     this.enterSearchMode = function(backward) {
-        var opt   = { wrap       : vichrome.model.getSetting("wrapSearch"),
-                      ignoreCase : vichrome.model.getSetting("ignoreCase"),
-                      incSearch  : vichrome.model.getSetting("incSearch"),
+        var opt   = { wrap          : vichrome.model.getSetting("wrapSearch"),
+                      ignoreCase    : vichrome.model.getSetting("ignoreCase"),
+                      incSearch     : vichrome.model.getSetting("incSearch"),
+                      minIncSearch  : vichrome.model.getSetting("minIncSearch"),
                       backward   : backward };
 
         changeMode( new SearchMode(opt) );
@@ -156,7 +157,7 @@ vichrome.Model = function() {
             pos = cmpStr.indexOf("<", 0);
             if( pos >= 0 ) {
                 pos = i.indexOf( ">", pos );
-                if( pos >= 0 ) {
+                if( pos >= length ) {
                     cmpStr = i.slice( 0, pos+1 );
                 }
             }

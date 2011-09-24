@@ -181,10 +181,19 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
     }
 
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        if( ctrl || alt || meta ) {
+            return true;
+        }
+
         var word = vichrome.view.getCommandBoxValue();
         if( word.length === 0 && (key === "BS" || key === "DEL") ) {
             cancelSearch();
             return false;
+        }
+
+        if( vichrome.key.KeyManager.isNumber(key) ||
+            vichrome.key.KeyManager.isAlphabet(key) ) {
+           return false;
         }
 
         if( key === "CR" ) {

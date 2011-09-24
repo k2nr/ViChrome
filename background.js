@@ -87,30 +87,43 @@ function reqRestoreTab(req) {
 }
 
 function reqNMap(req, sendResponse) {
-    var msg = {}, map;
-
-    if( req.args[0] && req.args[1] ) {
-        map = SettingManager.setNormalKeyMapping( req.args[0], req.args[1] );
+    if( !req.args[0] || !req.args[1] ) {
+        return;
     }
 
+    var msg = {}, map;
+
+    map = SettingManager.setNormalKeyMapping( req.args[0], req.args[1] );
     msg.command = "Settings";
     msg.name    = "keyMappingNormal";
     msg.value   = map;
     sendResponse(msg);
+
+    chrome.management.getAll(function(infos) {
+        var i;
+        for( i=0; i<infos.length; i++ ) {
+            if( infos[i].isApp ) {
+                vichrome.log.logger.e("app:", infos[i]);
+            }
+        }
+    });
+
     return true;
 }
 
 function reqIMap(req, sendResponse) {
-    var msg = {}, map;
-
-    if( req.args[0] && req.args[1] ) {
-        map = SettingManager.setInsertKeyMapping( req.args[0], req.args[1] );
+    if( !req.args[0] || !req.args[1] ) {
+        return;
     }
 
+    var msg = {}, map;
+
+    map = SettingManager.setInsertKeyMapping( req.args[0], req.args[1] );
     msg.command = "Settings";
     msg.name    = "keyMappingInsert";
     msg.value   = map;
     sendResponse(msg);
+
     return true;
 }
 

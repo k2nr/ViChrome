@@ -16,6 +16,7 @@ var SettingManager = {
         "wrapSearch"              : true,
         "incSearch"               : true,
         "ignoreCase"              : true,
+        "minIncSearch"            : 2,
         "ignoredUrls"             : [
             "http*://mail.google.com/*",
             "http*://www.google.com/reader/*"
@@ -67,21 +68,21 @@ var SettingManager = {
     userKeyMapInsert : {},
     aliases          : {},
 
-    associateKeyMapNormal : {},
-    associateKeyMapInsert : {},
-
     parseKeyMappingAndAliases : function() {
         if( !localStorage.keyMappingAndAliases ) { return; }
 
         var lines = JSON.parse( localStorage.getItem("keyMappingAndAliases") )
                       .replace(/^[\t ]*/m, "")
                       .replace(/[\t ]*$/m, "")
+                      .replace(/<[A-Za-z0-9]+>/g, function(v){
+                        return v.toUpperCase(); })
                       .split('\n'),
             len = lines.length,
             i, args;
 
         for( i=0; i < len; i++ ) {
             if( lines[i].length === 0 ){ continue; }
+            if( lines[i].charAt(0) === '#' ){ continue; }
             args = lines[i].split(/[\t ]+/);
 
             switch( args[0] ) {
@@ -174,8 +175,10 @@ var SettingManager = {
             this.userKeyMapNormal[key] = assignee.slice(1);
             return this.userKeyMapNormal;
         } else {
-            this.associateKeyMap[key] = assignee;
+            this.userKeyMapNormal[key] = this.userKeyMapNormal[assignee];
         }
+
+        return this.userKeyMapNormal;
     },
 
     setInsertKeyMapping : function( key, assignee ) {
@@ -185,6 +188,8 @@ var SettingManager = {
         } else {
             this.associateKeyMap[key] = assignee;
         }
+
+        return this.userKeyMapInsert;
     },
 
     init  : function() {

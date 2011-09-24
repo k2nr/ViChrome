@@ -56,8 +56,10 @@
                             <input name="newTabPage" type="radio" value="newtab" />Chrome New Tab&nbsp;&nbsp;
                             <input name="newTabPage" type="radio" value="blank" />Blank Page&nbsp;&nbsp;
                         </label>
+                    </div>
+                    <div>
                         <span class="description">
-                            Note:Except for Home, ViChrome would be disabled on the new page
+                            Note:Except for Home, ViChrome will be disabled on a new tab page
                         </span>
                     </div>
                 </div>
@@ -99,6 +101,14 @@
                         </span>
                     </label>
                 </div>
+                <div>
+                    <label>
+                        <span class="option">
+                            Minimum Character Count for Incremental Search
+                        </span>
+                        <input id="minIncSearch" type="number" size="7" />
+                    </label>
+                </div>
             </div>
             </section>
             <section>
@@ -117,9 +127,7 @@
             <h3>Ignored URLs</h3>
             <div>
                 <div>
-                    <span class="option">
-                        <textarea id="ignoredUrls" rows="6" cols="80"></textarea>
-                    </span>
+                    <textarea id="ignoredUrls" spellcheck="false" rows="6" cols="80"></textarea>
                 </div>
                 <div align="right">
                     <input id="ignoredUrlsButton" value="Update Ignored URLs" type="button">

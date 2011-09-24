@@ -55,7 +55,10 @@ vichrome.views.Surface = function() {
     };
 
     this.hideCommandBox = function() {
-        $commandField.hide();
+        if(this.isCommandBoxActive()) {
+            $commandField.hide();
+            $commandInput.blur();
+        }
 
         if( $statusLine.html() === '' ) {
             $statusLine.hide();

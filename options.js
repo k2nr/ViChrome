@@ -39,13 +39,13 @@ function onSettings(msg) {
 
     $('#scrollPixelCount')
     .val( settings.scrollPixelCount )
-    .change( function() {
+    .keyup( function() {
         setSetting("scrollPixelCount", $(this).val());
     });
 
     $('#commandWaitTimeOut')
     .val( settings.commandWaitTimeOut )
-    .change( function() {
+    .keyup( function() {
         setSetting("commandWaitTimeOut", $(this).val());
     });
 
@@ -80,6 +80,12 @@ function onSettings(msg) {
     .attr( 'checked', settings.ignoreCase )
     .change( function() {
         setSetting("ignoreCase", $(this).is(':checked'));
+    });
+
+    $('#minIncSearch')
+    .val( settings.minIncSearch )
+    .keyup( function() {
+        setSetting("minIncSearch", $(this).val());
     });
 
     $('#fModeAvailableKeys')
