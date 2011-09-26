@@ -131,6 +131,45 @@ vichrome.key.keyIdentifier = {
     "CapsLock"  : "CAPSLOCK"
 };
 
+vichrome.key.winKeyIdentifier = {
+    "U+00BC":",",
+    "U+00BE":".",
+    "U+00BF":"/",
+    "U+00E2":"\\",
+    "U+00BB":";",
+    "U+00BA":":",
+    "U+00DD":"]",
+    "U+00C0":"@",
+    "U+00DB":"[",
+    "U+00BD":"-",
+    "U+00DE":"^",
+    "U+00DC":"\\"
+};
+
+vichrome.key.shiftWinKeyIdentifier = {
+    "U+00BC":"<",
+    "U+00BE":">",
+    "U+00BF":"?",
+    "U+00E2":"_",
+    "U+00BB":"+",
+    "U+00BA":"*",
+    "U+00DD":"}",
+    "U+00C0":"`",
+    "U+00DB":"{",
+    "U+00BD":"=",
+    "U+00DE":"~",
+    "U+00DC":"|",
+    "U+0031":"!",
+    "U+0032":'"',
+    "U+0033":"#",
+    "U+0034":"$",
+    "U+0035":"%",
+    "U+0036":"&",
+    "U+0037":"'",
+    "U+0038":"(",
+    "U+0039":")"
+};
+
 vichrome.key.KeyManager = (function(){
     var keyCodes      = vichrome.key.keyCodes,
         keyIdentifier = vichrome.key.keyIdentifier;
@@ -186,7 +225,23 @@ vichrome.key.KeyManager = (function(){
         },
 
         getLocalKeyCode : function(code, ctrl, shift, alt, meta) {
-            var result = keyIdentifier[code];
+            var winKeyIdentifier = vichrome.key.winKeyIdentifier,
+                shiftWinKeyIdentifier = vichrome.key.shiftWinKeyIdentifier,
+                result = keyIdentifier[code];
+
+            // bull shit! fuck windows
+            if( vichrome.util.getPlatform() === "Windows" ) {
+                if( shift ) {
+                    if( shiftWinKeyIdentifier[code] ) {
+                        result = shiftWinKeyIdentifier[code];
+                    }
+                } else {
+                    if( winKeyIdentifier[code] ) {
+                        result = winKeyIdentifier[code];
+                    }
+                }
+            }
+
             if( result && this.isAlphabet( result ) ) {
                 if( shift ) { result = result.toUpperCase(); }
                 else        { result = result.toLowerCase(); }
