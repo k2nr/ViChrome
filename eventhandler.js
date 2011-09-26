@@ -13,7 +13,7 @@ vichrome.event.EventHandler =  function(m, v) {
 
     function onBlur (e) {
         logger.d("onBlur");
-        model.blur();
+        model.onBlur();
     }
 
     function onKeyDown (e) {

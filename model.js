@@ -123,12 +123,16 @@ vichrome.Model = function() {
         return settings[name];
     };
 
-    this.blur = function() {
-        curMode.blur();
+    this.escape = function(){
         commandManager.reset();
         if( !this.isInNormalMode() ) {
             this.enterNormalMode();
         }
+
+    };
+
+    this.onBlur = function() {
+        curMode.blur();
     };
 
     this.prePostKeyEvent = function(key, ctrl, alt, meta) {

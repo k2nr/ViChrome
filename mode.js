@@ -84,9 +84,13 @@ vichrome.mode.Mode = function() { };
         vichrome.model.goPageMark();
     }
 
-    o.reqBlur = function() {
+    o.reqEscape = function() {
         vichrome.view.blurActiveElement();
-        vichrome.model.blur();
+        vichrome.model.escape();
+
+        if( this.escape ) {
+            this.escape();
+        }
     };
 
     o.reqGoFMode = function() {
@@ -121,7 +125,7 @@ vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
         return true;
     };
 
-    o.blur = function() {
+    o.escape = function() {
         vichrome.model.cancelSearchHighlight();
     };
 
@@ -217,7 +221,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
         return true;
     };
 
-    o.blur = function() {
+    o.escape = function() {
         cancelSearch();
     };
 
@@ -274,7 +278,6 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
     };
 
     o.blur = function() {
-        vichrome.model.enterNormalMode();
     };
 
     o.enter = function() {
@@ -369,7 +372,6 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.blur = function() {
-        vichrome.model.enterNormalMode();
     };
 
     o.getKeyLength = function(candiNum) {

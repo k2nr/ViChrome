@@ -97,7 +97,7 @@ vichrome.command.CommandExecuter = function() {
     }
 
     function escape(com) {
-        triggerInsideContent("Blur");
+        triggerInsideContent("Escape");
     }
 
     o.commandTable = {
