@@ -127,7 +127,6 @@ vichrome.command.CommandExecuter = function() {
         GoSearchModeForward   : triggerInsideContent,
         GoSearchModeBackward  : triggerInsideContent,
         GoFMode               : triggerInsideContent,
-        GoFModeWithNewTab     : triggerInsideContent,
         FocusOnFirstInput     : triggerInsideContent,
         BackToPageMark        : triggerInsideContent,
         RestoreTab            : sendToBackground,

@@ -19,8 +19,12 @@ var SettingManager = {
         "minIncSearch"            : 2,
         "ignoredUrls"             : [
             "http*://mail.google.com/*",
-            "http*://www.google.com/reader/*"
+            "http*://www.google.com/reader/*",
+            "http*://docs.google.com/*",
+            "http*://www.google.com/calendar/*"
         ],
+        "commandBoxAlign"         : "Right-Bottom",
+        "commandBoxWidth"         : 350,
         "keyMappingAndAliases"    : "",
         "keyMappingNormal"        : {
             "j"       : "ScrollDown",
@@ -46,7 +50,7 @@ var SettingManager = {
             "/"       : "GoSearchModeForward",
             "?"       : "GoSearchModeBackward",
             "f"       : "GoFMode",
-            "F"       : "GoFModeWithNewTab",
+            "F"       : "GoFMode --newtab",
             "i"       : "FocusOnFirstInput",
             "u"       : "RestoreTab",
             "''"      : "BackToPageMark",

@@ -170,7 +170,15 @@ vichrome.key.KeyManager = (function(){
                 result = "C-" + result;
             }
 
-            if( msg.ctrl || keyCodes[msg.code] ) {
+            if( msg.alt ) {
+                result = "A-" + result;
+            }
+
+            if( msg.meta ) {
+                result = "M-" + result;
+            }
+
+            if( msg.ctrl || msg.alt || msg.meta || keyCodes[msg.code] ) {
                 result = "<" + result + ">";
             }
 

@@ -18,11 +18,14 @@ vichrome.views.Surface = function() {
         }
     };
 
-    this.init = function() {
-        $commandBox   = $('<div id="vichromebox" />');
-        $commandInput = $('<input type="text" id="vichromeinput" spellcheck="false" value="" />');
-        $modeChar  = $('<div id="vichromemodechar" />');
-        $commandField = $('<table />')
+    this.init = function(align, w) {
+        var alignClass = "vichromebox" + align;
+        $commandBox   = $( '<div id="vichromebox" />' )
+                        .addClass( alignClass )
+                        .width( w );
+        $commandInput = $( '<input type="text" id="vichromeinput" spellcheck="false" value="" />' );
+        $modeChar  = $( '<div id="vichromemodechar" />' );
+        $commandField = $( '<table />' )
                             .append( $('<tr />')
                                 .append( $('<td id="vichromemodechar" />')
                                     .append( $modeChar )
@@ -32,9 +35,9 @@ vichrome.views.Surface = function() {
                                 )
                             );
 
-        $commandField = $('<div id="vichromefield" />').append( $commandField );
-        $statusLine = $('<div id="vichromestatusline" />')
-                            .addClass('statuslineinactive');
+        $commandField = $( '<div id="vichromefield" />' ).append( $commandField );
+        $statusLine = $( '<div id="vichromestatusline" />' )
+                            .addClass( 'statuslineinactive' );
 
         $commandBox
             .append( $commandField )
@@ -45,9 +48,9 @@ vichrome.views.Surface = function() {
     };
 
     this.showCommandBox = function(modeChar, input) {
-        $commandInput.attr("value", input);
+        $commandInput.attr( "value", input );
         $modeChar.html( modeChar );
-        $statusLine.removeClass('statuslineinactive');
+        $statusLine.removeClass( 'statuslineinactive' );
 
         $commandBox.show();
         $commandField.show();
@@ -63,7 +66,7 @@ vichrome.views.Surface = function() {
         if( $statusLine.html() === '' ) {
             $statusLine.hide();
         }
-        $statusLine.addClass('statuslineinactive');
+        $statusLine.addClass( 'statuslineinactive' );
     };
 
     this.focusCommandBox = function() {
@@ -71,7 +74,7 @@ vichrome.views.Surface = function() {
     };
 
     this.isCommandBoxActive = function() {
-        return $commandField.css('display') !== 'none';
+        return $commandField.css( 'display' ) !== 'none';
     };
 
     this.getCommandBoxValue = function() {

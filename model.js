@@ -28,6 +28,9 @@ vichrome.Model = function() {
     this.init = function() {
         var thisObj = this;
 
+        vichrome.view.init( this.getSetting("commandBoxAlign"),
+                            this.getSetting("commandBoxWidth") );
+
         if( util.isEditable( document.activeElement ) &&
             !this.getSetting("disableAutoFocus") ) {
             this.enterInsertMode();
@@ -88,8 +91,8 @@ vichrome.Model = function() {
         this.setPageMark();
     };
 
-    this.enterFMode = function() {
-        changeMode( new FMode() );
+    this.enterFMode = function(opt) {
+        changeMode( new FMode(opt) );
     };
 
     this.isInNormalMode = function() {

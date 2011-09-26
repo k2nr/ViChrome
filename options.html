@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>ViChrome Options</title>
+    <title>Vichrome Options</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/options.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <script type="text/javascript" src="lib/jquery.js"></script>
@@ -8,9 +8,9 @@
 </head>
 <body>
     <div id="navbar-container">
-        <h1 id="navbar-content-title">ViChrome</h1>
+        <h1 id="navbar-content-title">Vichrome</h1>
         <ul class="navbar" role="tablist">
-            <li class="navbar-item" role="tab"><a href="#basics">General</a></li>
+            <li class="navbar-item" role="tab"><a href="#general">General</a></li>
             <li class="navbar-item" role="tab"><a href="#appearance">Appearance</a></li>
             <li class="navbar-item" role="tab"><a href="#keymapping">Key Mapping</a></li>
             <li class='navbar-item navbar-item-separator'></li>
@@ -18,7 +18,7 @@
         </ul>
     </div>
     <div id="page-container">
-        <div id="basics" class='page'>
+        <div id="general" class='page'>
             <h2>General</h2>
             <section>
             <h3>Basics</h3>
@@ -59,7 +59,7 @@
                     </div>
                     <div>
                         <span class="description">
-                            Note:Except for Home, ViChrome will be disabled on a new tab page
+                            Note:Except for Home, Vichrome will be disabled on a new tab page
                         </span>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <label>
                         <input id="disableAutoFocus" type="checkbox" />
                         <span class="option">
-                            Disable auto focus when page is opening
+                            Disable auto focus when page is opened
                         </span>
                     </label>
                 </div>
@@ -136,30 +136,37 @@
             </section>
         </div>
         <div id="appearance" class='page'>
-            <h2>Appearance (under construction...)</h2>
+            <h2>Appearance</h2>
             <section>
-            <h3>Basics</h3>
+            <h3>Command Box</h3>
             <div>
                 <div>
-                    <label>
-                        <input id="alwaysDisplayStatusLine" type="checkbox" />
-                        <span class="option">
-                            Always display status line
-                        </span>
-                    </label>
+                    <span class="option">
+                        Command Box Alignment
+                    </span>
+                    <select id="commandBoxAlign">
+                        <option>Right-Bottom</option>
+                        <option>Left-Bottom</option>
+                        <option>Right-Top</option>
+                        <option>Left-Top</option>
+                    </select>
                 </div>
-            </div>
-            </section>
-            <section>
-            <h3>Theme</h3>
-            <div>
+                <div>
+                    <span class="option">
+                        Command Box Width
+                    </span>
+                    <input id="commandBoxWidth" type="number" size="7" />
+                    <span class="option">
+                        px
+                    </span>
+                </div>
             </div>
             </section>
         </div>
         <div id="keymapping" class='page'>
             <h2>Key Mapping / Command Aliases</h2>
             <section>
-            <h3>Customize</h3>
+            <h3>Key Mapping / Alias Setting</h3>
             <div>
                 <div>
                     <textarea id="keyMapping" spellcheck="false" rows="30" cols="80"></textarea>

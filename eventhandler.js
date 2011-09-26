@@ -9,7 +9,7 @@ vichrome.event.EventHandler =  function(m, v) {
 
     // private variables
         model = m,
-        view = v;
+        view  = v;
 
     function onBlur (e) {
         logger.d("onBlur");
@@ -34,11 +34,6 @@ vichrome.event.EventHandler =  function(m, v) {
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
     function getHandlableKey (e) {
-        // vichrome doesn't handle meta and alt key for now
-        if( e.metaKey || e.altKey ) {
-            return undefined;
-        }
-
         if( KeyManager.isOnlyModifier( e.keyIdentifier, e.ctrlKey,
                                        e.shiftKey, e.altKey, e.metaKey ) ) {
             return undefined;
@@ -71,7 +66,6 @@ vichrome.event.EventHandler =  function(m, v) {
 
     function init() {
         addWindowListeners();
-        view.init();
         model.init();
     }
 

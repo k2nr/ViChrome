@@ -17,6 +17,9 @@ vichrome.mode.Mode = function() { };
         }
     };
 
+    o.blur = function() {
+    };
+
     o.reqScrollDown = function() {
         vichrome.view.scrollBy( 0, vichrome.model.getSetting("scrollPixelCount") );
     };
@@ -93,12 +96,25 @@ vichrome.mode.Mode = function() { };
         }
     };
 
-    o.reqGoFMode = function() {
-        vichrome.model.enterFMode();
-    };
+    o.reqGoFMode = function(args) {
+        var i, newTab, continuous, opt;
+            len = args.length;
 
-    o.reqGoFModeWithNewTab = function() {
-        vichrome.model.enterFMode();
+        for(i=0; i<len; i++) {
+            switch(args[i]) {
+                case "--newtab":
+                    newTab = true;
+                    break;
+                case "--continuous":
+                    continuous = true;
+                    break;
+            }
+        }
+
+        opt = { newTab     : newTab,
+                continuous : continuous };
+
+        vichrome.model.enterFMode( opt );
     };
 
     o.reqGoCommandMode = function() {
@@ -162,9 +178,6 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
            return false;
         }
         return true;
-    };
-
-    o.blur = function() {
     };
 
     o.enter = function() {
@@ -277,9 +290,6 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
         return true;
     };
 
-    o.blur = function() {
-    };
-
     o.enter = function() {
         vichrome.view.focusCommandBox();
     };
@@ -290,7 +300,8 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
     };
 }(vichrome.mode.CommandMode.prototype));
 
-vichrome.mode.FMode = function( newWindow ) {
+vichrome.mode.FMode = function( opt ) {
+    this.opt = opt;
 };
 
 
@@ -299,15 +310,17 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     var currentInput = "",
         hints        = [],
         keys         = "",
-        keyLength    = 0,
-        newWindow    = newWindow;
+        keyLength    = 0;
 
     o.hit = function(i) {
-        var e = document.createEvent("MouseEvents");
+        var primary = this.opt.newTab;
 
-        hints[i].target.focus();
-        e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-        hints[i].target.get(0).dispatchEvent(e);
+        if( hints[i].target.is('a') ) {
+            vichrome.util.dispatchMouseClickEvent(hints[i].target.get(0),
+                                    primary, false, false );
+        } else {
+            hints[i].target.focus();
+        }
         event.preventDefault();
     };
 
@@ -340,7 +353,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         var idx;
 
         currentInput += key;
-        vichrome.view.setStatusLineText( 'HIT-A-HINT : ' + currentInput );
+        vichrome.view.setStatusLineText( 'f Mode : ' + currentInput );
 
         if( currentInput.length < keyLength ) {
             this.highlightCandidate();
@@ -350,8 +363,11 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
             if( idx >= 0 ) {
                 this.hit( idx );
             }
-            $('span#vichromehint').remove();
-            vichrome.model.enterNormalMode();
+            if( this.opt.continuous ) {
+                currentInput = "";
+            } else {
+                vichrome.model.enterNormalMode();
+            }
         }
     };
 
@@ -371,9 +387,6 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         return false;
     };
 
-    o.blur = function() {
-    };
-
     o.getKeyLength = function(candiNum) {
         return Math.floor( Math.log( candiNum ) / Math.log( keys.length ) ) + 1;
     };
@@ -383,7 +396,6 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         currentInput = "";
         hints        = [];
         keys         = "";
-        newWindow    = newWindow;
 
         keys = vichrome.model.getSetting("fModeAvailableKeys");
         links = $('a:_visible,*:input:_visible');
@@ -416,7 +428,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
             $(document.body).append(div);
         }
 
-        vichrome.view.setStatusLineText('HIT-A-HINT : ');
+        vichrome.view.setStatusLineText('f Mode : ');
     };
 
     o.exit = function() {

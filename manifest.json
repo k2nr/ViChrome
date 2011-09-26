@@ -1,7 +1,7 @@
 {
-  "name": "vichrome",
+  "name": "Vichrome",
   "version": "0.1",
-  "description": "vi like key bind for chrome",
+  "description": "vi like interface for Google Chrome. For every Chrome user who hate using a mouse.",
   "background_page": "background.html",
   "options_page": "options.html",
   "icons":{
@@ -11,7 +11,6 @@
   },
   "permissions": [
     "tabs",
-    "bookmarks",
     "unlimitedStorage",
     "<all_urls>"
   ],

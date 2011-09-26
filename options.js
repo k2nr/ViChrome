@@ -100,6 +100,18 @@ function onSettings(msg) {
         setSetting("ignoredUrls", $('#ignoredUrls').val().split('\n'));
     });
 
+    $('#commandBoxAlign')
+    .val( settings.commandBoxAlign )
+    .change( function() {
+        setSetting( "commandBoxAlign", $(this).val() );
+    });
+
+    $('#commandBoxWidth')
+    .val( settings.commandBoxWidth )
+    .keyup( function() {
+        setSetting("commandBoxWidth", $(this).val());
+    });
+
     $('#keyMapping')
     .val( settings.keyMappingAndAliases );
     $('#keyMappingButton').click( function() {
@@ -119,7 +131,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('ul.navbar li:first').addClass('navbar-item-selected').show();
     $('#page-container > div').hide();
-    $('#basics').show();
+    $('#general').show();
 
     $('ul.navbar li:not(.navbar-item-separator)').click(function() {
         $('ul.navbar li').removeClass('navbar-item-selected');

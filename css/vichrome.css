@@ -3,11 +3,26 @@
     position: fixed;
     padding: 0;
     margin:  0;
+    height: auto;
+    z-index: 100000;
+}
+
+.vichromeboxRight-Bottom {
     left:  0px;
     bottom:0px;
-    height: auto;
-    width: 35%;
-    z-index: 100000;
+}
+
+.vichromeboxLeft-Bottom {
+    right: 0px;
+    bottom:0px;
+}
+.vichromeboxRight-Top {
+    left:  0px;
+    top:   0px;
+}
+.vichromeboxLeft-Top {
+    right: 0px;
+    top:   0px;
 }
 
 #vichromefield {
@@ -92,12 +107,12 @@
 
 .statuslineinactive {
     background-color: rgba(64, 64, 64, 0.6) !important;
-    width : 40% !important;
+    width : 100% !important;
 }
 
 .highlight {
-    background-color: Khaki;
-    color: black;
+    background-color: Khaki !important;
+    color: black !important;
 }
 
 .highlightFocus {
