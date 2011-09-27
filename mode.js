@@ -136,8 +136,6 @@ vichrome.mode.NormalMode = function() {
 vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
 (function(o) {
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        // TODO:some keys cannot be recognized with keyCode e.g. C-@
-
         return true;
     };
 
@@ -149,6 +147,7 @@ vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
         vichrome.view.hideCommandBox();
     };
 
+    // TODO:move to Mode class
     o.reqFocusOnFirstInput = function() {
         vichrome.model.setPageMark();
         vichrome.view.focusInput( 0 );
@@ -319,7 +318,9 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
             vichrome.util.dispatchMouseClickEvent(hints[i].target.get(0),
                                     primary, false, false );
         } else {
-            hints[i].target.focus();
+            setTimeout( function() {
+                hints[i].target.focus();
+            }, 0);
         }
         event.preventDefault();
     };
@@ -347,6 +348,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.highlightCandidate = function() {
+        // TODO:
     };
 
     o.putValidChar = function(key) {
@@ -365,6 +367,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
             }
             if( this.opt.continuous ) {
                 currentInput = "";
+                vichrome.view.setStatusLineText('f Mode : ');
             } else {
                 vichrome.model.enterNormalMode();
             }
@@ -388,7 +391,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
     };
 
     o.getKeyLength = function(candiNum) {
-        return Math.floor( Math.log( candiNum ) / Math.log( keys.length ) ) + 1;
+        return Math.ceil( Math.log( candiNum ) / Math.log( keys.length ) );
     };
 
     o.enter = function() {

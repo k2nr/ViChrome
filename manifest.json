@@ -1,7 +1,7 @@
 {
   "name": "Vichrome",
   "version": "0.1",
-  "description": "vi like interface for Google Chrome. For every Chrome user who hate using a mouse.",
+  "description": "vi like interface for Google Chrome™. For every Google Chrome™ user who hate using a mouse.",
   "background_page": "background.html",
   "options_page": "options.html",
   "icons":{
