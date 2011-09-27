@@ -232,7 +232,6 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
     };
 
     o.enter = function() {
-        searcher = new NormalSearcher( this.opt );
         vichrome.view.focusCommandBox();
     };
 

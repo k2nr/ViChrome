@@ -53,7 +53,9 @@ vichrome.Model = function() {
 
     this.goPageMark = function(key) {
         var offset = pmRegister.get( key );
-        vichrome.view.scrollTo( offset.left, offset.top );
+        if( offset ) {
+            vichrome.view.scrollTo( offset.left, offset.top );
+        }
     };
 
     this.setSearcher = function(searcher_) {
