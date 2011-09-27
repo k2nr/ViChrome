@@ -264,8 +264,10 @@ vichrome.key.KeyManager = (function(){
         },
 
         getLocalKeyCode : function(code, ctrl, shift, alt, meta) {
-            var winKeyIdentifier = vichrome.key.winKeyIdentifier,
-                shiftWinKeyIdentifier = vichrome.key.shiftWinKeyIdentifier,
+            var winKeyIdentifier_ja = vichrome.key.winKeyIdentifier_ja,
+                shiftWinKeyIdentifier_ja = vichrome.key.shiftWinKeyIdentifier_ja,
+                winKeyIdentifier_us = vichrome.key.winKeyIdentifier_us,
+                shiftWinKeyIdentifier_us = vichrome.key.shiftWinKeyIdentifier_us,
                 result = keyIdentifier[code];
 
             // bull shit! fxxk windows and linux
