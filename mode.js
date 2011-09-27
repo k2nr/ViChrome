@@ -123,6 +123,11 @@ vichrome.mode.Mode = function() { };
         vichrome.view.focusCommandBox();
     };
 
+    o.reqFocusOnFirstInput = function() {
+        vichrome.model.setPageMark();
+        vichrome.view.focusInput( 0 );
+    };
+
     o.getKeyMapping = function() {
         return vichrome.model.getSetting("keyMappingNormal");
     };
@@ -145,12 +150,6 @@ vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
 
     o.enter = function() {
         vichrome.view.hideCommandBox();
-    };
-
-    // TODO:move to Mode class
-    o.reqFocusOnFirstInput = function() {
-        vichrome.model.setPageMark();
-        vichrome.view.focusInput( 0 );
     };
 
     o.reqNextSearch = function() {
@@ -187,19 +186,16 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
     };
 }(vichrome.mode.InsertMode.prototype));
 
-vichrome.mode.SearchMode = function(opt_) {
-    this.opt = opt_;
+vichrome.mode.SearchMode = function(searcher_) {
+    this.searcher = searcher_;
 };
 
 vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 (function(o) {
-    var NormalSearcher = vichrome.search.NormalSearcher,
-        searcher;
-
     function cancelSearch() {
         vichrome.model.goPageMark();
 
-        searcher.finalize();
+        this.searcher.finalize();
         vichrome.model.enterNormalMode();
     }
 
@@ -222,10 +218,8 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
         if( key === "CR" ) {
             event.stopPropagation();
 
-            if( !this.opt.incSearch ) {
-                searcher.searchAndHighlight( word );
-            }
-            vichrome.model.setSearcher( searcher );
+            this.searcher.fix(word);
+            vichrome.model.setSearcher( this.searcher );
             vichrome.model.enterNormalMode();
             return false;
         }

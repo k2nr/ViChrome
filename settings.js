@@ -1,10 +1,4 @@
 
-function clone(o) {
-    var f = function(){};
-    f.prototype = o;
-    return new f();
-}
-
 var SettingManager = {
     defaultSettings : {
         "scrollPixelCount"        : 40,
@@ -96,14 +90,22 @@ var SettingManager = {
                 if( args[2].charAt(0) === ':' ) {
                     this.userKeyMapNormal[ args[1] ] = args.slice(2).join(' ').slice(1);
                 } else {
-                    this.userKeyMapNormal[ args[1] ] = this.userKeyMapNormal[ args[2] ];
+                    if( args[2].toUpperCase("<NOP>") ) {
+                        delete this.userKeyMapNormal[ args[1] ];
+                    } else {
+                        this.userKeyMapNormal[ args[1] ] = this.userKeyMapNormal[ args[2] ];
+                    }
                 }
                 break;
             case "imap":
                 if( args[2].charAt(0) === ':' ) {
                     this.userKeyMapInsert[ args[1] ] = args.slice(2).join(' ').slice(1);
                 } else {
-                    this.userKeyMapInsert[ args[1] ] = this.userKeyMapInsert[ args[2] ];
+                    if( args[2].toUpperCase("<NOP>") ) {
+                        delete this.userKeyMapInsert[ args[1] ];
+                    } else {
+                        this.userKeyMapInsert[ args[1] ] = this.userKeyMapInsert[ args[2] ];
+                    }
                 }
                 break;
             case "alias":

@@ -87,15 +87,20 @@ vichrome.util.isEditable = function(target) {
 };
 
 vichrome.util.getPlatform = function() {
+    var platform;
+
     if (navigator.userAgent.indexOf("Mac") !== -1) {
-        return "Mac";
+        platform = "Mac";
     } else if (navigator.userAgent.indexOf("Linux") !== -1) {
-        return "Linux";
+        platform = "Linux";
     } else if (navigator.userAgent.indexOf("Win")){
-        return "Windows";
+        platform = "Windows";
     } else {
-        return "";
+        platform = "";
     }
+
+    vichrome.util.getPlatform = function() { return platform };
+    return platform;
 };
 
 vichrome.util.dispatchKeyEvent = function(target, identifier, primary, shift, alt) {

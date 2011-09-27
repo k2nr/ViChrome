@@ -1,9 +1,10 @@
 vichrome.search = {};
 
-vichrome.search.NormalSearcher = function(opt) {
+vichrome.search.NormalSearcher = function() {
     var _sortedResults = null,
-        _opt           = opt,
+        _opt           = null,
         _curIndex      = -1,
+        _word          = "",
         logger         = vichrome.log.logger;
         view           = vichrome.view;
 
@@ -102,6 +103,8 @@ vichrome.search.NormalSearcher = function(opt) {
     }
 
     function updateInput(thisObj, word) {
+        _word = word;
+
         // because search for string the length of which is 1 may be slow,
         // search starts with string whose length is over 2.
         if( word.length >= _opt.minIncSearch ) {
@@ -127,20 +130,24 @@ vichrome.search.NormalSearcher = function(opt) {
         }
     }
 
-    if( _opt.backward ) {
-        view.showCommandBox("?", "");
-    } else {
-        view.showCommandBox("/", "");
-    }
-    view.focusCommandBox();
+    this.init = function(opt) {
+        _opt = opt;
 
-    (function(obj) {
-        if( _opt.incSearch ) {
-            view.addInputUpdateListener( function(word) {
-                updateInput( obj, word );
-            });
+        if( _opt.backward ) {
+            view.showCommandBox("?", "");
+        } else {
+            view.showCommandBox("/", "");
         }
-    }(this));
+        view.focusCommandBox();
+
+        (function(obj) {
+            if( _opt.incSearch ) {
+                view.addInputUpdateListener( function(word) {
+                    updateInput( obj, word );
+                });
+            }
+        }(this));
+    };
 
 
 
@@ -159,6 +166,13 @@ vichrome.search.NormalSearcher = function(opt) {
         buildSortedResults();
     };
 
+    this.fix = function(word) {
+        if( !_opt.incSearch ) {
+            _word = word;
+            this.searchAndHighlight( _word );
+        }
+        view.removeInputUpdateListener();
+    };
 
     this.goNext = function (reverse) {
         var forward = (_opt.backward === reverse);

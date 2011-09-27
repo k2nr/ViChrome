@@ -230,7 +230,8 @@ vichrome.key.KeyManager = (function(){
                 result = keyIdentifier[code];
 
             // bull shit! fuck windows
-            if( vichrome.util.getPlatform() === "Windows" ) {
+            if( vichrome.util.getPlatform() === "Windows" ||
+                vichrome.util.getPlatform() === "Linux" ) {
                 if( shift ) {
                     if( shiftWinKeyIdentifier[code] ) {
                         result = shiftWinKeyIdentifier[code];

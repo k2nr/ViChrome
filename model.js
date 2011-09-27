@@ -80,14 +80,20 @@ vichrome.Model = function() {
         changeMode( new CommandMode() );
     };
 
-    this.enterSearchMode = function(backward) {
+    this.enterSearchMode = function(backward, searcher_) {
         var opt   = { wrap          : vichrome.model.getSetting("wrapSearch"),
                       ignoreCase    : vichrome.model.getSetting("ignoreCase"),
                       incSearch     : vichrome.model.getSetting("incSearch"),
                       minIncSearch  : vichrome.model.getSetting("minIncSearch"),
-                      backward   : backward };
+                      backward   : backward },
+            searcher = searcher_;
 
-        changeMode( new SearchMode(opt) );
+        if( !searcher ) {
+            searcher = new vichrome.search.NormalSearcher();
+        }
+        searcher.init( opt );
+
+        changeMode( new SearchMode(searcher) );
         this.setPageMark();
     };
 
