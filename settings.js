@@ -90,7 +90,7 @@ var SettingManager = {
                 if( args[2].charAt(0) === ':' ) {
                     this.userKeyMapNormal[ args[1] ] = args.slice(2).join(' ').slice(1);
                 } else {
-                    if( args[2].toUpperCase("<NOP>") ) {
+                    if( args[2].toUpperCase() === "<NOP>" ) {
                         delete this.userKeyMapNormal[ args[1] ];
                     } else {
                         this.userKeyMapNormal[ args[1] ] = this.userKeyMapNormal[ args[2] ];
@@ -101,7 +101,7 @@ var SettingManager = {
                 if( args[2].charAt(0) === ':' ) {
                     this.userKeyMapInsert[ args[1] ] = args.slice(2).join(' ').slice(1);
                 } else {
-                    if( args[2].toUpperCase("<NOP>") ) {
+                    if( args[2].toUpperCase() === "<NOP>" ) {
                         delete this.userKeyMapInsert[ args[1] ];
                     } else {
                         this.userKeyMapInsert[ args[1] ] = this.userKeyMapInsert[ args[2] ];
