@@ -155,6 +155,14 @@ vichrome.util.dispatchMouseClickEvent = function(target, primary, shift, alt){
     return true;
 }
 
+vichrome.util.getLang = function(){
+    var lang;
+    lang = (navigator.userLanguage||navigator.browserLanguage||navigator.language).substr(0,2);
+
+    vichrome.util.getLang = function(){ return lang; };
+    return lang;
+}
+
 vichrome.util.benchmark = function(cb, text) {
     function getCurrentTime() {
         return new Date().getTime();

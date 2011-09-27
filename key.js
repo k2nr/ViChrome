@@ -54,6 +54,7 @@ vichrome.key.keyIdentifier = {
     "U+005E"    : "^",
     "U+007E"    : "~",
     "U+00A5"    : "\\",
+    "U+005C"    : "\\",
     "U+007C"    : "|",
     "U+0041"    : "a",
     "U+0042"    : "b",
@@ -131,7 +132,7 @@ vichrome.key.keyIdentifier = {
     "CapsLock"  : "CAPSLOCK"
 };
 
-vichrome.key.winKeyIdentifier = {
+vichrome.key.winKeyIdentifier_ja = {
     "U+00BC":",",
     "U+00BE":".",
     "U+00BF":"/",
@@ -146,7 +147,7 @@ vichrome.key.winKeyIdentifier = {
     "U+00DC":"\\"
 };
 
-vichrome.key.shiftWinKeyIdentifier = {
+vichrome.key.shiftWinKeyIdentifier_ja = {
     "U+00BC":"<",
     "U+00BE":">",
     "U+00BF":"?",
@@ -168,6 +169,44 @@ vichrome.key.shiftWinKeyIdentifier = {
     "U+0037":"'",
     "U+0038":"(",
     "U+0039":")"
+};
+
+vichrome.key.winKeyIdentifier_us = {
+    "U+00BC":",",
+    "U+00BE":".",
+    "U+00BF":"/",
+    "U+00BB":"=",
+    "U+00BA":";",
+    "U+00DD":"]",
+    "U+00DB":"[",
+    "U+00BD":"-",
+    "U+00DC":"\\",
+    "U+00DE":"'",
+    "U+0060":"`"
+};
+
+vichrome.key.shiftWinKeyIdentifier_us = {
+    "U+00BC":"<",
+    "U+00BE":">",
+    "U+00BF":"?",
+    "U+00BB":"+",
+    "U+00BA":":",
+    "U+00DD":"}",
+    "U+00DB":"{",
+    "U+00BD":"_",
+    "U+0038":"*",
+    "U+00DC":"|",
+    "U+007E":"~",
+    "U+0036":"^",
+    "U+0031":"!",
+    "U+00DE":'"',
+    "U+0032":"@",
+    "U+0033":"#",
+    "U+0034":"$",
+    "U+0035":"%",
+    "U+0037":"&",
+    "U+0039":"(",
+    "U+0030":")"
 };
 
 vichrome.key.KeyManager = (function(){
@@ -229,16 +268,28 @@ vichrome.key.KeyManager = (function(){
                 shiftWinKeyIdentifier = vichrome.key.shiftWinKeyIdentifier,
                 result = keyIdentifier[code];
 
-            // bull shit! fuck windows
+            // bull shit! fxxk windows and linux
             if( vichrome.util.getPlatform() === "Windows" ||
                 vichrome.util.getPlatform() === "Linux" ) {
-                if( shift ) {
-                    if( shiftWinKeyIdentifier[code] ) {
-                        result = shiftWinKeyIdentifier[code];
+                if( vichrome.util.getLang() === "ja" ) {
+                    if( shift ) {
+                        if( shiftWinKeyIdentifier_ja[code] ) {
+                            result = shiftWinKeyIdentifier_ja[code];
+                        }
+                    } else {
+                        if( winKeyIdentifier_ja[code] ) {
+                            result = winKeyIdentifier_ja[code];
+                        }
                     }
                 } else {
-                    if( winKeyIdentifier[code] ) {
-                        result = winKeyIdentifier[code];
+                    if( shift ) {
+                        if( shiftWinKeyIdentifier_us[code] ) {
+                            result = shiftWinKeyIdentifier_us[code];
+                        }
+                    } else {
+                        if( winKeyIdentifier_us[code] ) {
+                            result = winKeyIdentifier_us[code];
+                        }
                     }
                 }
             }
