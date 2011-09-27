@@ -192,7 +192,7 @@ vichrome.mode.SearchMode = function(searcher_) {
 
 vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 (function(o) {
-    function cancelSearch() {
+    o.cancelSearch = function() {
         vichrome.model.goPageMark();
 
         this.searcher.finalize();
@@ -206,7 +206,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 
         var word = vichrome.view.getCommandBoxValue();
         if( word.length === 0 && (key === "BS" || key === "DEL") ) {
-            cancelSearch();
+            this.cancelSearch();
             return false;
         }
 
@@ -228,7 +228,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
     };
 
     o.escape = function() {
-        cancelSearch();
+        this.cancelSearch();
     };
 
     o.enter = function() {
