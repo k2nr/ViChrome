@@ -87,7 +87,7 @@ vichrome.Model = function() {
                       ignoreCase    : vichrome.model.getSetting("ignoreCase"),
                       incSearch     : vichrome.model.getSetting("incSearch"),
                       minIncSearch  : vichrome.model.getSetting("minIncSearch"),
-                      backward   : backward },
+                      backward      : backward },
             searcher = searcher_;
 
         if( !searcher ) {
@@ -129,6 +129,69 @@ vichrome.Model = function() {
         this.setPageMark();
         return searcher.goNext( reverse );
     };
+
+    function getNMapFirst() {
+        var nmap       = vichrome.extend( this.getSetting("keyMappingNormal") ),
+            pageMap    = this.getSetting("pageMap"),
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            i, myMap;
+
+        myMap = nmap;
+        for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
+            if( this.isUrlMatched( window.location.href, i ) ) {
+                vichrome.extend( pageMap[i].nmap, myMap );
+            }
+        }
+
+        this.getNMap = function() {
+            return myMap;
+        };
+
+        return myMap;
+    }
+    this.getNMap = getNMapFirst;
+
+    function getIMapFirst() {
+        var imap       = vichrome.extend( this.getSetting("keyMappingInsert") ),
+            pageMap    = this.getSetting("pageMap"),
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            i, myMap;
+
+        myMap = imap;
+        for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
+            if( this.isUrlMatched( window.location.href, i ) ) {
+                myMap = vichrome.extend( pageMap[i].imap, myMap );
+            }
+        }
+
+        this.getIMap = function() {
+            return myMap;
+        };
+
+        return myMap;
+    }
+    this.getIMap = getIMapFirst;
+
+    function getAliasFirst() {
+        var aliases = vichrome.extend( this.getSetting("aliases") ),
+            pageMap = this.getSetting("pageMap"),
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            i, myAlias;
+
+        myAlias = aliases;
+        for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
+            if( this.isUrlMatched( window.location.href, i ) ) {
+                myAlias = vichrome.extend( pageMap[i].alias, myAlias );
+            }
+        }
+
+        this.getAlias = function() {
+            return myAlias;
+        };
+
+        return myAlias;
+    }
+    this.getAlias = getAliasFirst;
 
     this.getSetting = function(name) {
         return settings[name];
@@ -184,6 +247,39 @@ vichrome.Model = function() {
         return false;
     };
 
+    this.isUrlMatched = function(url, matchPattern) {
+        var str, regexp;
+
+        str = matchPattern.replace(/\*/g, ".*" )
+                          .replace(/\/$/g, "")
+                          .replace(/\//g, "\\/");
+        str = "^" + str + "$";
+        url = url.replace(/\/$/g, "");
+
+        regexp = new RegExp(str, "m");
+        if( regexp.test( url ) ) {
+            logger.d("match pattern:" + url + ":" + matchPattern);
+            return true;
+        }
+
+        return false;
+    };
+
+    this.isEnabled = function() {
+        var urls = this.getSetting( "ignoredUrls" ),
+            len = urls.length,
+            hasOwnPrp  = Object.prototype.hasOwnProperty,
+            i;
+
+        for( i=0; i<len; i++ ) {
+            if( this.isUrlMatched(window.location.href, urls[i]) ) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     this.handleKey = function(msg) {
         return commandManager.handleKey(msg);
     };
@@ -202,6 +298,15 @@ vichrome.Model = function() {
         } else {
             settings[msg.name] = msg.value;
         }
+
+        if( !this.isEnabled() ) {
+            settings.keyMappingNormal = {};
+            settings.keyMappingInsert = {};
+        } else if( msg.name === "keyMappingNormal" ) {
+            this.getNMap = getNMapFirst;
+        } else if( msg.name === "keyMappingInsert" ) {
+            this.getIMap = getIMapFirst;
+        }
     };
 
     this.onFocus = function(target) {
@@ -218,6 +323,10 @@ vichrome.Model = function() {
 
     this.getKeyMapping = function() {
         return curMode.getKeyMapping();
+    };
+
+    this.onInitEnabled = function( msg ) {
+        this.onSettings( msg );
     };
 };
 

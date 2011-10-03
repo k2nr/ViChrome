@@ -1,3 +1,38 @@
+vichrome.object = function(o) {
+    function F(){}
+    F.prototype = o;
+    return new F();
+};
+
+vichrome.extend = function(parent, child) {
+    var i;
+    child = child || {};
+
+    for(i in parent) if( parent.hasOwnProperty(i) ) {
+        child[i] = parent[i];
+    }
+
+    return child;
+};
+
+vichrome.extendDeep = function(parent, child) {
+    var i,
+        toStr = Object.prototype.toString,
+        astr  = "[object Array]"; // type string of Array
+    child = child || {};
+
+    for(i in parent) if( parent.hasOwnProperty(i) ) {
+        if( typeof parent[i] === "object" ) {
+            child[i] = (toStr.call(parent[i]) === astr) ? [] : {};
+            vichrome.extendDeep(parent[i], child[i]);
+        } else {
+            child[i] = parent[i];
+        }
+    }
+
+    return child;
+};
+
 vichrome.log  = {};
 vichrome.util = {};
 

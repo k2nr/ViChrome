@@ -152,7 +152,7 @@ vichrome.command.CommandExecuter = function() {
     };
 
     o.parse = function() {
-        var aliases = vichrome.model.getSetting("aliases");
+        var aliases = vichrome.model.getAlias();
 
         this.args = this.command.split(/ +/);
         if( !this.args || this.args.length === 0 ) {
@@ -219,7 +219,7 @@ vichrome.command.CommandManager = function(m) {
             com = getCommandFromKeySeq( s ),
             executer;
 
-        if( com ) {
+        if( com && com !== "<NOP>" ) {
             executer = new CommandExecuter();
             executer.set( com, times ).parse().execute();
 

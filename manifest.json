@@ -30,7 +30,6 @@
           "view.js",
           "search.js",
           "mode.js",
-          "settings.js",
           "command.js",
           "eventhandler.js",
           "model.js"

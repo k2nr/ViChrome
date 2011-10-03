@@ -129,7 +129,7 @@ vichrome.mode.Mode = function() { };
     };
 
     o.getKeyMapping = function() {
-        return vichrome.model.getSetting("keyMappingNormal");
+        return vichrome.model.getNMap();
     };
 
 }(vichrome.mode.Mode.prototype));
@@ -182,7 +182,7 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
     };
 
     o.getKeyMapping = function() {
-        return vichrome.model.getSetting("keyMappingInsert");
+        return vichrome.model.getIMap();
     };
 }(vichrome.mode.InsertMode.prototype));
 
@@ -237,7 +237,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 
     o.getKeyMapping = function() {
         // TODO: should return search mode specialized map ?
-        return vichrome.model.getSetting("keyMappingInsert");
+        return vichrome.model.getIMap();
     };
 }(vichrome.mode.SearchMode.prototype));
 
@@ -288,7 +288,7 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
 
     o.getKeyMapping = function() {
         // TODO: should return command mode specialized map ?
-        return vichrome.model.getSetting("keyMappingInsert");
+        return vichrome.model.getIMap();
     };
 }(vichrome.mode.CommandMode.prototype));
 

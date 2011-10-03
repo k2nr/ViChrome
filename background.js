@@ -25,7 +25,7 @@ function getSettings (msg, response) {
     if( msg.name === "all" ) {
         sendMsg.value = SettingManager.getAll();
     } else {
-        sendMsg.value = SettingManager.get(msg.name);
+        sendMsg.value = SettingManager.get( msg.name );
     }
 
     response( sendMsg );
@@ -93,20 +93,11 @@ function reqNMap(req, sendResponse) {
 
     var msg = {}, map;
 
-    map = SettingManager.setNormalKeyMapping( req.args[0], req.args[1] );
+    map = SettingManager.setNMap( req.args );
     msg.command = "Settings";
     msg.name    = "keyMappingNormal";
     msg.value   = map;
     sendResponse(msg);
-
-    chrome.management.getAll(function(infos) {
-        var i;
-        for( i=0; i<infos.length; i++ ) {
-            if( infos[i].isApp ) {
-                vichrome.log.logger.e("app:", infos[i]);
-            }
-        }
-    });
 
     return true;
 }
@@ -118,7 +109,7 @@ function reqIMap(req, sendResponse) {
 
     var msg = {}, map;
 
-    map = SettingManager.setInsertKeyMapping( req.args[0], req.args[1] );
+    map = SettingManager.setIMap( req.args );
     msg.command = "Settings";
     msg.name    = "keyMappingInsert";
     msg.value   = map;

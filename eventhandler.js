@@ -69,33 +69,10 @@ vichrome.event.EventHandler =  function(m, v) {
         model.init();
     }
 
-    function isEnabledUrl(ignoredUrls) {
-        var i, str, regexp, length = ignoredUrls.length;
-
-        for(i=0; i<length; i++) {
-            str = ignoredUrls[i].replace(/\*/g, ".*" );
-            str = str.replace(/\//g, "\\/");
-
-            regexp = new RegExp(str, "m");
-            if( regexp.test(window.location.href) ) {
-                logger.d("match ignored page:"+ignoredUrls[i]);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     // public APIs
-    this.onSettings = function (msg) {
-        model.onSettings( msg );
-    };
-
     this.onInitEnabled = function(msg) {
-        if( isEnabledUrl( msg.value.ignoredUrls ) ) {
-            model.onSettings( msg );
-            init(msg.value);
-        }
+        model.onInitEnabled( msg );
+        init();
     };
 
     this.onCommandResponse = function (msg) {

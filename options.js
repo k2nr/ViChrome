@@ -12,7 +12,7 @@ function escSpecialChars( str ) {
 }
 
 function updateKeyMappingList() {
-    var $keyMapList = $('#keyMappingList'), i;
+    var $keyMapList = $('#keyMappingList'), i, j;
     $keyMapList.append($('<div />').html('<h3>Normal Mode Mapping</h3>'));
     for( i in settings.keyMappingNormal ) {
         $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
@@ -30,6 +30,29 @@ function updateKeyMappingList() {
         $keyMapList.append( $('<div />').html( escSpecialChars(i) + " : " +
                           escSpecialChars( settings.aliases[i] ) ) );
     }
+
+    $keyMapList.append($('<div />').html('<h2>PageCmd Mapping</h2>'));
+    for( i in settings.pageMap ) {
+        $keyMapList.append($('<div />').html('<h3>'+i+'</h3>'));
+        $keyMapList.append($('<div />').html('<h3>Normal Mode Mapping</h3>'));
+        for( j in settings.pageMap[i].nmap ) {
+            $keyMapList.append( $('<div />').html( escSpecialChars(j) + " : " +
+                escSpecialChars( settings.pageMap[i].nmap[j] ) ) );
+        }
+
+        $keyMapList.append($('<div />').html('<h3>Insert Mode Mapping</h3>'));
+        for( j in settings.pageMap[i].imap ) {
+            $keyMapList.append( $('<div />').html( escSpecialChars(j) + " : " +
+                escSpecialChars( settings.pageMap[i].imap[j] ) ) );
+        }
+
+        $keyMapList.append($('<div />').html('<h3>Command Aliases</h3>'));
+        for( j in settings.pageMap[i].alias ) {
+            $keyMapList.append( $('<div />').html( escSpecialChars(j) + " : " +
+                escSpecialChars( settings.pageMap[i].alias[j] ) ) );
+        }
+    }
+
 }
 
 function onSettings(msg) {
