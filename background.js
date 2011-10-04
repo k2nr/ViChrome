@@ -118,6 +118,22 @@ function reqIMap(req, sendResponse) {
     return true;
 }
 
+function reqAlias(req, sendResponse) {
+    if( !req.args[0] || !req.args[1] ) {
+        return;
+    }
+
+    var msg = {}, map;
+
+    map = SettingManager.setAlias( req.args );
+    msg.command = "Settings";
+    msg.name    = "aliases";
+    msg.value   = map;
+    sendResponse(msg);
+
+    return true;
+}
+
 function init () {
     var that = this,
         logger = vichrome.log.logger;

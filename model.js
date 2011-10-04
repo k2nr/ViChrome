@@ -302,10 +302,14 @@ vichrome.Model = function() {
         if( !this.isEnabled() ) {
             settings.keyMappingNormal = {};
             settings.keyMappingInsert = {};
-        } else if( msg.name === "keyMappingNormal" ) {
+        }
+
+        if( msg.name === "keyMappingNormal" ) {
             this.getNMap = getNMapFirst;
         } else if( msg.name === "keyMappingInsert" ) {
             this.getIMap = getIMapFirst;
+        } else if( msg.name === "aliases" ) {
+            this.getAlias = getAliasFirst;
         }
     };
 

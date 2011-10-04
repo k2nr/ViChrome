@@ -19,7 +19,7 @@ var SettingManager = {
         "minIncSearch"            : 2,
         "ignoredUrls"             : [
             "http*://mail.google.com/*",
-            "http*://www.google.com/reader/*",
+            "http*://www.google.co*/reader/*",
             "http*://docs.google.com/*",
             "http*://www.google.com/calendar/*"
         ],
@@ -36,7 +36,7 @@ alias option OpenNewTab chrome://settings/browser\n\
 \n\
 # mappings for opening your favorite web page\n\
 nmap <Space>tw :OpenNewTab http://www.twitter.com\n\
-nmap <Space>gr :OpenNewTab http://www.google.co.jp/reader\n\
+nmap <Space>gr :OpenNewTab http://www.google.com/reader\n\
 nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n\
 \n\
 # F for continuous f-Mode\n\
@@ -100,7 +100,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n\
     },
 
     userMap     : null,
-    pageMap     : {},
+    pageMap     : null,
 
     mapApplied : function( args ) {
         if( args[1].charAt(0) === ':' ) {

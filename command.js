@@ -108,6 +108,7 @@ vichrome.command.CommandExecuter = function() {
         MoveToPrevTab         : sendToBackground,
         NMap                  : sendToBackground,
         IMap                  : sendToBackground,
+        Alias                 : sendToBackground,
         ReloadTab             : triggerInsideContent,
         ScrollUp              : triggerInsideContent,
         ScrollDown            : triggerInsideContent,
@@ -214,9 +215,9 @@ vichrome.command.CommandManager = function(m) {
     };
 
     this.handleKey = function(msg){
-        var s   = KeyManager.getKeyCodeStr(msg),
+        var s     = KeyManager.getKeyCodeStr(msg),
             times = keyQueue.getTimes(),
-            com = getCommandFromKeySeq( s ),
+            com   = getCommandFromKeySeq( s ),
             executer;
 
         if( com && com !== "<NOP>" ) {
