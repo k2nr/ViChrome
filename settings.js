@@ -79,6 +79,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n\
             "F"       : "GoFMode --newtab",
             "i"       : "FocusOnFirstInput",
             "u"       : "RestoreTab",
+            "gp"      : "OpenNewWindow --pop",
             "''"      : "BackToPageMark",
             "<ESC>"   : "Escape",
             "<C-[>"   : "Escape"

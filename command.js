@@ -109,6 +109,7 @@ vichrome.command.CommandExecuter = function() {
         NMap                  : sendToBackground,
         IMap                  : sendToBackground,
         Alias                 : sendToBackground,
+        OpenNewWindow         : sendToBackground,
         ReloadTab             : triggerInsideContent,
         ScrollUp              : triggerInsideContent,
         ScrollDown            : triggerInsideContent,

@@ -57,14 +57,71 @@ function getDefaultNewTabPage() {
 }
 
 function reqOpenNewTab (req) {
-    var url;
-    if( req.args[0] ) {
-        url = req.args[0];
-    } else {
-        url = getDefaultNewTabPage();
+    var url, urls = [], i, len = req.args.length, focus = true, pinned = false;
+
+    for(i=0; i < len; i++) {
+        switch( req.args[i] ) {
+            case "-b":
+            case "--background":
+                focus = false;
+                break;
+            case "-p":
+            case "--pinned":
+                pinned = true;
+                break;
+            default:
+                urls.push( req.args[i] );
+                break;
+        }
     }
 
-    chrome.tabs.create( {url : url} );
+    len = urls.length;
+    if( len === 0 ) {
+        url = getDefaultNewTabPage();
+        chrome.tabs.create( {url : url, selected : focus, pinned : pinned} );
+    } else {
+        for(i=0; i < len; i++) {
+            chrome.tabs.create({url : urls[i], selected : focus, pinned :pinned});
+        }
+    }
+}
+
+function reqOpenNewWindow (req) {
+    var urls = [], i, len = req.args.length, focus = true, pop = false;
+
+    for(i=0; i < len; i++) {
+        switch( req.args[i] ) {
+            case "-b":
+            case "--background":
+                focus = false;
+                break;
+            case "-p":
+            case "--pop":
+                pop = true;
+                break;
+            default:
+                if( req.args[0] ) {
+                    urls.push( req.args[0] );
+                }
+                break;
+        }
+    }
+
+    if( pop ) {
+        chrome.tabs.getSelected(null, function(tab) {
+            if( urls.length === 0 ) {
+                chrome.windows.create( {focused : focus, tabId : tab.id} );
+            } else {
+                chrome.windows.create( {url : urls, focused : focus, tabId : tab.id} );
+            }
+        });
+    } else {
+        if( urls.length === 0 ) {
+            urls = getDefaultNewTabPage();
+        }
+
+        chrome.windows.create( {url : urls, focused : focus} );
+    }
 }
 
 function reqCloseCurTab () {
