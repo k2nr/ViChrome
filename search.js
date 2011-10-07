@@ -5,6 +5,7 @@ vichrome.search.NormalSearcher = function() {
         _opt           = null,
         _curIndex      = -1,
         _word          = "",
+        _removed       = false;
         logger         = vichrome.log.logger;
         view           = vichrome.view;
 
@@ -167,7 +168,7 @@ vichrome.search.NormalSearcher = function() {
     };
 
     this.fix = function(word) {
-        if( !_opt.incSearch ) {
+        if( !_opt.incSearch || word.length < _opt.minIncSearch  ) {
             _word = word;
             this.searchAndHighlight( _word );
         }
@@ -176,6 +177,11 @@ vichrome.search.NormalSearcher = function() {
 
     this.goNext = function (reverse) {
         var forward = (_opt.backward === reverse);
+
+        if( _removed ) {
+            this.searchAndHighlight( _word );
+            _removed = false;
+        }
 
         if( forward ) {
             _curIndex++;
@@ -201,6 +207,13 @@ vichrome.search.NormalSearcher = function() {
 
         moveTo( _curIndex );
         return true;
+    };
+
+    this.cancelHighlight = function() {
+        logger.d("cancelHighlight");
+        view.setStatusLineText("");
+        this.removeHighlight();
+        _removed = true;
     };
 
     this.finalize = function() {

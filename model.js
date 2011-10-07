@@ -61,8 +61,7 @@ vichrome.Model = function() {
 
     this.cancelSearchHighlight = function() {
         if( searcher ) {
-            searcher.finalize();
-            searcher = null;
+            searcher.cancelHighlight();
         }
     };
 
