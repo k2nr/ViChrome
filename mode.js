@@ -181,6 +181,10 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
     o.enter = function() {
     };
 
+    o.blur = function() {
+        vichrome.model.enterNormalMode();
+    };
+
     o.getKeyMapping = function() {
         return vichrome.model.getIMap();
     };

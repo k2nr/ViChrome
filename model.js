@@ -10,6 +10,8 @@ vichrome.Model = function() {
         NormalSearcher = vichrome.search.NormalSearcher,
 
         // private variables
+        initEnabled    = false,
+        domReady       = false,
         searcher       = null,
         pmRegister     = null,
         commandManager = null,
@@ -27,20 +29,14 @@ vichrome.Model = function() {
 
     this.init = function() {
         var thisObj = this;
-
-        vichrome.view.init( this.getSetting("commandBoxAlign"),
-                            this.getSetting("commandBoxWidth") );
-
-        if( util.isEditable( document.activeElement ) &&
-            !this.getSetting("disableAutoFocus") ) {
-            this.enterInsertMode();
-        } else {
-            vichrome.view.blurActiveElement();
-            this.enterNormalMode();
-        }
+        this.enterNormalMode();
 
         pmRegister     = new vichrome.register.PageMarkRegister();
         commandManager = new vichrome.command.CommandManager(this);
+    };
+
+    this.isReady =function() {
+        return initEnabled && domReady;
     };
 
     this.setPageMark = function(key) {
@@ -136,6 +132,10 @@ vichrome.Model = function() {
             hasOwnPrp  = Object.prototype.hasOwnProperty,
             i, myMap;
 
+        if( !window.location.href || window.location.href.length === 0 ) {
+            return nmap;
+        }
+
         myMap = nmap;
         for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
             if( this.isUrlMatched( window.location.href, i ) ) {
@@ -157,6 +157,9 @@ vichrome.Model = function() {
             hasOwnPrp  = Object.prototype.hasOwnProperty,
             i, myMap;
 
+        if( !window.location.href || window.location.href.length === 0 ) {
+            return imap;
+        }
         myMap = imap;
         for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
             if( this.isUrlMatched( window.location.href, i ) ) {
@@ -178,6 +181,9 @@ vichrome.Model = function() {
             hasOwnPrp  = Object.prototype.hasOwnProperty,
             i, myAlias;
 
+        if( !window.location.href || window.location.href.length === 0 ) {
+            return aliases;
+        }
         myAlias = aliases;
         for ( i in pageMap ) if( hasOwnPrp.call( pageMap, i ) ) {
             if( this.isUrlMatched( window.location.href, i ) ) {
@@ -330,7 +336,37 @@ vichrome.Model = function() {
     };
 
     this.onInitEnabled = function( msg ) {
+        logger.d("onInitEnabled");
         this.onSettings( msg );
+
+        initEnabled = true;
+        if( domReady ) {
+            this.onDomReady();
+        }
+    };
+
+    this.onDomReady = function() {
+        logger.d("onDomReady");
+        domReady = true;
+
+        if( !initEnabled ) {
+            return;
+        }
+
+        vichrome.view.init( this.getSetting("commandBoxAlign"),
+                            this.getSetting("commandBoxWidth") );
+
+        if( util.isEditable( document.activeElement ) &&
+            !this.getSetting("disableAutoFocus") ) {
+            this.enterInsertMode();
+        } else {
+            vichrome.view.blurActiveElement();
+            this.enterNormalMode();
+        }
     };
 };
+
+$(document).ready( function() {
+    vichrome.model.onDomReady();
+});
 

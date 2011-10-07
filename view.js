@@ -2,7 +2,8 @@ vichrome.views = {};
 
 vichrome.views.Surface = function() {
     var $commandBox, $commandField, $commandInput, $modeChar, $statusLine,
-        inputUpdateListener;
+        inputUpdateListener,
+        initialized = false;
 
     this.addInputUpdateListener = function(fn) {
         inputUpdateListener = fn;
@@ -45,9 +46,14 @@ vichrome.views.Surface = function() {
 
 
         $(document.body).append( $commandBox );
+
+        initialized = true;
     };
 
     this.showCommandBox = function(modeChar, input) {
+        if( !initialized ) {
+            return;
+        }
         $commandInput.attr( "value", input );
         $modeChar.html( modeChar );
         $statusLine.removeClass( 'statuslineinactive' );
@@ -58,6 +64,10 @@ vichrome.views.Surface = function() {
     };
 
     this.hideCommandBox = function() {
+        if( !initialized ) {
+            return;
+        }
+
         if(this.isCommandBoxActive()) {
             $commandField.hide();
             $commandInput.blur();
@@ -70,18 +80,31 @@ vichrome.views.Surface = function() {
     };
 
     this.focusCommandBox = function() {
+        if( !initialized ) {
+            return;
+        }
+
         $commandInput.get(0).focus();
     };
 
     this.isCommandBoxActive = function() {
+        if( !initialized ) {
+            return false;
+        }
         return $commandField.css( 'display' ) !== 'none';
     };
 
     this.getCommandBoxValue = function() {
+        if( !initialized ) {
+            return "";
+        }
         return $commandInput.val();
     };
 
     this.setStatusLineText = function(text, timeout) {
+        if( !initialized ) {
+            return;
+        }
         $statusLine.html( text );
         if( !this.isCommandBoxActive() && !text ) {
             $statusLine.hide();
@@ -97,30 +120,51 @@ vichrome.views.Surface = function() {
     };
 
     this.focusInput = function( idx ) {
+        if( !initialized ) {
+            return;
+        }
         $('form input:text:visible').get(0).focus();
     };
 
     this.scrollBy = function( x, y ) {
+        if( !initialized ) {
+            return;
+        }
         window.scrollBy( x, y );
     };
 
     this.scrollTo = function( x, y ) {
+        if( !initialized ) {
+            return;
+        }
         window.scrollTo( x, y );
     };
 
     this.backHist = function() {
+        if( !initialized ) {
+            return;
+        }
         window.history.back();
     };
 
     this.forwardHist = function() {
+        if( !initialized ) {
+            return;
+        }
         window.history.forward();
     };
 
     this.reload = function() {
+        if( !initialized ) {
+            return;
+        }
         window.location.reload();
     };
 
     this.blurActiveElement = function() {
+        if( !initialized ) {
+            return;
+        }
         document.activeElement.blur();
     };
 };

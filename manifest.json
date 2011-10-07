@@ -1,6 +1,6 @@
 {
   "name": "Vichrome",
-  "version": "0.2",
+  "version": "0.3",
   "description": "vi like interface for Google Chrome™. For every Google Chrome™ user who hate using a mouse.",
   "background_page": "background.html",
   "options_page": "options.html",
@@ -21,10 +21,10 @@
           "css/vichrome.css"
       ],
       "js": [
-          "vichrome.js",
-          "utils.js",
           "lib/jquery.js",
           "lib/jquery.highlight-3.js",
+          "vichrome.js",
+          "utils.js",
           "key.js",
           "register.js",
           "view.js",

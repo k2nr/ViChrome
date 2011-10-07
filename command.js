@@ -100,6 +100,19 @@ vichrome.command.CommandExecuter = function() {
         triggerInsideContent("Escape");
     }
 
+    // commands that can be executed before DOM is ready
+    o.commandsBeforeReady = [
+        "OpenNewTab",
+        "CloseCurTab",
+        "MoveToNextTab",
+        "MoveToPrevTab",
+        "NMap",
+        "IMap",
+        "Alias",
+        "OpenNewWindow",
+        "RestoreTab"
+    ];
+
     o.commandTable = {
         Open                  : triggerInsideContent,
         OpenNewTab            : sendToBackground,
@@ -178,6 +191,10 @@ vichrome.command.CommandExecuter = function() {
 
         args = this.args.slice(1);
         com  = this.args[0];
+
+        if( !vichrome.model.isReady() && !this.commandsBeforeReady[com] ) {
+            return;
+        }
 
         setTimeout( function() {
             while( times-- ) {

@@ -1,6 +1,6 @@
 vichrome = {};
 
-window.addEventListener("DOMContentLoaded", function() {
+setTimeout( function() {
     vichrome.model   = new vichrome.Model();
     vichrome.view    = new vichrome.views.Surface();
     vichrome.handler = new vichrome.event.EventHandler(vichrome.model,
@@ -10,5 +10,5 @@ window.addEventListener("DOMContentLoaded", function() {
                                     type    : "get",
                                     name    : "all" },
                                     vichrome.handler.onInitEnabled );
-});
+}, 0);
 

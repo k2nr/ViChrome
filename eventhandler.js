@@ -12,11 +12,12 @@ vichrome.event.EventHandler =  function(m, v) {
         view  = v;
 
     function onBlur (e) {
-        logger.d("onBlur");
+        logger.d("onBlur", e);
         model.onBlur();
     }
 
     function onKeyDown (e) {
+        logger.d("onKeyDown", e);
         var msg = getHandlableKey( e );
         if( msg ) {
             model.handleKey(msg);
