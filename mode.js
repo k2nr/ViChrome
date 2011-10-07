@@ -1,102 +1,96 @@
-
 vichrome.mode = {};
 
-vichrome.mode.Mode = function() { };
+vichrome.mode.Mode = {
+    exit : function() {},
 
-// Mode Class prototype definition
-(function(o) {
-    o.exit = function() {
-    };
+    enter : function() {},
 
-    o.enter = function() {
-    };
-
-    o.reqOpen = function(args) {
+    reqOpen : function(args) {
         if( args && args[0] ) {
             window.open(args[0], "_self");
         }
-    };
+    },
 
-    o.blur = function() {
-    };
+    blur : function() {
+    },
 
-    o.reqScrollDown = function() {
+    reqScrollDown : function() {
         vichrome.view.scrollBy( 0, vichrome.model.getSetting("scrollPixelCount") );
-    };
+    },
 
-    o.reqScrollUp = function() {
+    reqScrollUp : function() {
         vichrome.view.scrollBy( 0, -vichrome.model.getSetting("scrollPixelCount") );
-    };
+    },
 
-    o.reqScrollLeft = function() {
+    reqScrollLeft : function() {
         vichrome.view.scrollBy( -vichrome.model.getSetting("scrollPixelCount"), 0 );
-    };
+    },
 
-    o.reqScrollRight = function() {
+    reqScrollRight : function() {
         vichrome.view.scrollBy( vichrome.model.getSetting("scrollPixelCount"), 0 );
-    };
+    },
 
-    o.reqPageHalfDown = function() {
+    reqPageHalfDown : function() {
         vichrome.view.scrollBy( 0, window.innerHeight / 2 );
-    };
+    },
 
-    o.reqPageHalfUp = function() {
+    reqPageHalfUp : function() {
         vichrome.view.scrollBy( 0, -window.innerHeight / 2 );
-    };
+    },
 
-    o.reqPageDown = function() {
+    reqPageDown : function() {
         vichrome.view.scrollBy( 0, window.innerHeight );
-    };
+    },
 
-    o.reqPageUp = function() {
+    reqPageUp : function() {
         vichrome.view.scrollBy( 0, -window.innerHeight );
-    };
+    },
 
-    o.reqGoTop = function() {
+    reqGoTop : function() {
         vichrome.model.setPageMark();
         vichrome.view.scrollTo( window.pageXOffset, 0 );
-    };
+    },
 
-    o.reqGoBottom = function() {
+    reqGoBottom : function() {
         vichrome.model.setPageMark();
         vichrome.view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight );
-    };
+    },
 
-    o.reqBackHist = function() {
+    reqBackHist : function() {
         vichrome.view.backHist();
-    };
+    },
 
-    o.reqForwardHist = function() {
+    reqForwardHist : function() {
         vichrome.view.forwardHist();
-    };
+    },
 
-    o.reqReloadTab = function() {
+    reqReloadTab : function() {
         vichrome.view.reload();
-    };
+    },
 
-    o.reqGoSearchModeForward = function() {
+    reqGoSearchModeForward : function() {
         vichrome.model.enterSearchMode( false );
-    };
+    },
 
-    o.reqGoSearchModeBackward = function() {
+    reqGoSearchModeBackward : function() {
         vichrome.model.enterSearchMode( true );
-    };
+    },
 
-    o.reqBackToPageMark = function() {
+    reqBackToPageMark : function() {
         // TODO:enable to go any pagemark, not only unnamed.
         vichrome.model.goPageMark();
-    }
+    },
 
-    o.reqEscape = function() {
+    reqEscape : function() {
         vichrome.view.blurActiveElement();
         vichrome.model.escape();
 
         if( this.escape ) {
             this.escape();
         }
-    };
+    },
 
-    o.reqGoFMode = function(args) {
+    reqGoFMode : function(args) {
         var i, newTab, continuous, opt;
             len = args.length;
 
@@ -115,31 +109,42 @@ vichrome.mode.Mode = function() { };
                 continuous : continuous };
 
         vichrome.model.enterFMode( opt );
-    };
+    },
 
-    o.reqGoCommandMode = function() {
+    reqGoCommandMode : function() {
         vichrome.model.enterCommandMode();
         vichrome.view.showCommandBox(":", "");
         vichrome.view.focusCommandBox();
-    };
+    },
 
-    o.reqFocusOnFirstInput = function() {
+    reqFocusOnFirstInput : function() {
         vichrome.model.setPageMark();
         vichrome.view.focusInput( 0 );
-    };
+    },
 
-    o.getKeyMapping = function() {
+    req_ChangeLogLevel : function(args) {
+        if( args.length === 0 ) {
+            return;
+        }
+        if( vichrome.log.level[args[0]] ) {
+            vichrome.log.VICHROME_LOG_LEVEL = vichrome.log.level[args[0]];
+        } else {
+            vichrome.view.setStatusLineText( "log level '"+args[0]+"' doesn't exist", 2000 );
+        }
+    },
+
+    getKeyMapping : function() {
         return vichrome.model.getNMap();
-    };
-
-}(vichrome.mode.Mode.prototype));
-
-
-vichrome.mode.NormalMode = function() {
+    }
 };
 
-vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
+vichrome.mode.NormalMode = vichrome.object( vichrome.mode.Mode );
+
 (function(o) {
+    o.getName = function() {
+        return "NormalMode";
+    };
+
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         return true;
     };
@@ -159,21 +164,22 @@ vichrome.mode.NormalMode.prototype = new vichrome.mode.Mode();
     o.reqPrevSearch = function() {
         var found = vichrome.model.goNextSearchResult( true );
     };
-}(vichrome.mode.NormalMode.prototype));
+}(vichrome.mode.NormalMode));
 
+vichrome.mode.InsertMode = vichrome.object( vichrome.mode.Mode );
 
-vichrome.mode.InsertMode = function() {
-};
-
-vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
 (function(o) {
+    o.getName = function() {
+        return "InsertMode";
+    };
+
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         if( ctrl || alt || meta ) {
             return true;
         }
         if( vichrome.key.KeyManager.isNumber(key) ||
             vichrome.key.KeyManager.isAlphabet(key) ) {
-           return false;
+            return false;
         }
         return true;
     };
@@ -188,20 +194,25 @@ vichrome.mode.InsertMode.prototype = new vichrome.mode.Mode();
     o.getKeyMapping = function() {
         return vichrome.model.getIMap();
     };
-}(vichrome.mode.InsertMode.prototype));
+}(vichrome.mode.InsertMode));
 
-vichrome.mode.SearchMode = function(searcher_) {
-    this.searcher = searcher_;
-};
-
-vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
+vichrome.mode.SearchMode = vichrome.object( vichrome.mode.Mode );
 (function(o) {
+    o.getName = function() {
+        return "SearchMode";
+    };
+
+    o.setSearcher = function( searcher ) {
+        this.searcher = searcher;
+        return this;
+    };
+
     o.cancelSearch = function() {
         vichrome.model.goPageMark();
 
         this.searcher.finalize();
         vichrome.model.enterNormalMode();
-    }
+    };
 
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         if( ctrl || alt || meta ) {
@@ -216,7 +227,7 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
 
         if( vichrome.key.KeyManager.isNumber(key) ||
             vichrome.key.KeyManager.isAlphabet(key) ) {
-           return false;
+            return false;
         }
 
         if( key === "CR" ) {
@@ -243,12 +254,14 @@ vichrome.mode.SearchMode.prototype = new vichrome.mode.Mode();
         // TODO: should return search mode specialized map ?
         return vichrome.model.getIMap();
     };
-}(vichrome.mode.SearchMode.prototype));
+}(vichrome.mode.SearchMode));
 
-vichrome.mode.CommandMode = function() {
-};
-vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
+vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
 (function(o) {
+    o.getName = function() {
+        return "CommandMode";
+    };
+
     o.prePostKeyEvent = function(key, ctrl, alt, meta) {
         var executer;
 
@@ -264,7 +277,7 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
 
         if( vichrome.key.KeyManager.isNumber(key) ||
             vichrome.key.KeyManager.isAlphabet(key) ) {
-           return false;
+            return false;
         }
 
         if( key === "CR" ) {
@@ -274,8 +287,7 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
                 .parse()
                 .execute();
             } catch(e) {
-                vichrome.view.setStatusLineText( "Command Not Found : "+executer.get(),
-                                                 2000 );
+                vichrome.view.setStatusLineText( "Command Not Found : "+executer.get(), 2000 );
 
             }
 
@@ -294,32 +306,37 @@ vichrome.mode.CommandMode.prototype = new vichrome.mode.Mode();
         // TODO: should return command mode specialized map ?
         return vichrome.model.getIMap();
     };
-}(vichrome.mode.CommandMode.prototype));
+}(vichrome.mode.CommandMode));
 
-vichrome.mode.FMode = function( opt ) {
-    this.opt = opt;
-};
-
-
-vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
+vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
 (function(o) {
     var currentInput = "",
         hints        = [],
         keys         = "",
         keyLength    = 0;
 
+    o.getName = function() {
+        return "FMode";
+    };
+
+    o.setOption = function(opt) {
+        this.opt = opt;
+        return this;
+    };
+
     o.hit = function(i) {
-        var primary = this.opt.newTab;
+        var primary = false;
 
         if( hints[i].target.is('a') ) {
-            vichrome.util.dispatchMouseClickEvent(hints[i].target.get(0),
-                                    primary, false, false );
-        } else {
-            setTimeout( function() {
-                hints[i].target.focus();
+            primary = this.opt.newTab;
+            setTimeout(function() {
+                vichrome.model.enterNormalMode();
             }, 0);
+        } else {
+            hints[i].target.focus();
         }
-        event.preventDefault();
+        vichrome.util.dispatchMouseClickEvent(hints[i].target.get(0),
+                                              primary, false, false );
     };
 
     o.isValidKey = function(key) {
@@ -365,8 +382,6 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
             if( this.opt.continuous ) {
                 currentInput = "";
                 vichrome.view.setStatusLineText('f Mode : ');
-            } else {
-                vichrome.model.enterNormalMode();
             }
         }
     };
@@ -436,7 +451,7 @@ vichrome.mode.FMode.prototype = new vichrome.mode.Mode();
         $('.fModeTarget').removeClass('fModeTarget');
         vichrome.view.setStatusLineText('');
     };
-}(vichrome.mode.FMode.prototype));
+}(vichrome.mode.FMode));
 
 $.extend($.expr[':'], {
     _visible: function(elem){

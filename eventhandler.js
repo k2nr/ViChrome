@@ -37,18 +37,24 @@ vichrome.event.EventHandler =  function(m, v) {
     function getHandlableKey (e) {
         if( KeyManager.isOnlyModifier( e.keyIdentifier, e.ctrlKey,
                                        e.shiftKey, e.altKey, e.metaKey ) ) {
+            logger.d("getHandlableKey:only modefier");
             return undefined;
         }
 
         var code = KeyManager.getLocalKeyCode( e.keyIdentifier, e.ctrlKey,
                                        e.shiftKey, e.altKey, e.metaKey );
-        if( !code ){ return undefined; }
+        if( !code ){
+            logger.d("getHandlableKey:cant be handled");
+            return undefined;
+        }
 
         if( model.prePostKeyEvent( code, e.ctrlKey, e.altKey, e.metaKey ) ) {
             return { code : code,
                      ctrl : e.ctrlKey,
                      alt  : e.altKey,
                      meta : e.metaKey };
+        } else {
+            logger.d("prePostKeyEvent:key ignored by current mode");
         }
     }
 
@@ -78,7 +84,7 @@ vichrome.event.EventHandler =  function(m, v) {
 
     this.onCommandResponse = function (msg) {
         if( !msg ) { return; }
-        // TODO
+
         if( msg.command === "Settings" ) {
             model.onSettings( msg );
         }

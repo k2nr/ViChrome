@@ -8,10 +8,12 @@ vichrome.Model = function() {
         util           = vichrome.util,
         logger         = vichrome.log.logger,
         NormalSearcher = vichrome.search.NormalSearcher,
+        object         = vichrome.object,
 
         // private variables
         initEnabled    = false,
         domReady       = false,
+        disAutoFocus   = false,
         searcher       = null,
         pmRegister     = null,
         commandManager = null,
@@ -66,16 +68,19 @@ vichrome.Model = function() {
     };
 
     this.enterNormalMode = function() {
-        changeMode( new NormalMode() );
+        logger.d("enterNormalMode");
+        changeMode( object( NormalMode ) );
     };
 
     this.enterInsertMode = function() {
-        changeMode( new InsertMode() );
+        logger.d("enterInsertMode");
+        changeMode( object( InsertMode ) );
     };
 
     this.enterCommandMode = function() {
+        logger.d("enterCommandMode");
         this.cancelSearchHighlight();
-        changeMode( new CommandMode() );
+        changeMode( object( CommandMode ) );
     };
 
     this.enterSearchMode = function(backward, searcher_) {
@@ -86,37 +91,40 @@ vichrome.Model = function() {
                       backward      : backward },
             searcher = searcher_;
 
+        logger.d("enterSearchMode");
+
         if( !searcher ) {
             searcher = new vichrome.search.NormalSearcher();
         }
         searcher.init( opt );
 
-        changeMode( new SearchMode(searcher) );
+        changeMode( object( SearchMode ).setSearcher( searcher ) );
         this.setPageMark();
     };
 
     this.enterFMode = function(opt) {
-        changeMode( new FMode(opt) );
+        logger.d("enterFMode");
+        changeMode( object(FMode).setOption(opt) );
     };
 
     this.isInNormalMode = function() {
-        return (curMode instanceof vichrome.mode.NormalMode);
+        return (curMode.getName() === "NormalMode");
     };
 
     this.isInInsertMode = function() {
-        return (curMode instanceof vichrome.mode.InsertMode);
+        return (curMode.getName() === "InsertMode");
     };
 
     this.isInSearchMode = function() {
-        return (curMode instanceof vichrome.mode.SearchMode);
+        return (curMode.getName() === "SearchMode");
     };
 
     this.isInCommandMode = function() {
-        return (curMode instanceof vichrome.mode.CommandMode);
+        return (curMode.getName() === "CommandMode");
     };
 
     this.isInFMode = function() {
-        return (curMode instanceof vichrome.mode.FMode);
+        return (curMode.getName() === "FMode");
     };
 
     this.goNextSearchResult = function(reverse) {
@@ -216,6 +224,7 @@ vichrome.Model = function() {
     };
 
     this.prePostKeyEvent = function(key, ctrl, alt, meta) {
+        disAutoFocus = false;
         return curMode.prePostKeyEvent(key, ctrl, alt, meta);
     };
 
@@ -264,7 +273,7 @@ vichrome.Model = function() {
 
         regexp = new RegExp(str, "m");
         if( regexp.test( url ) ) {
-            logger.d("match pattern:" + url + ":" + matchPattern);
+            logger.d("URL pattern matched:" + url + ":" + matchPattern);
             return true;
         }
 
@@ -279,6 +288,7 @@ vichrome.Model = function() {
 
         for( i=0; i<len; i++ ) {
             if( this.isUrlMatched(window.location.href, urls[i]) ) {
+                logger.d("matched ignored list");
                 return false;
             }
         }
@@ -321,13 +331,22 @@ vichrome.Model = function() {
 
     this.onFocus = function(target) {
         if(this.isInCommandMode() || this.isInSearchMode()) {
+            logger.d("onFocus:current mode is command or search.do nothing");
             return;
         }
 
-        if( util.isEditable( target ) ) {
-            this.enterInsertMode();
+        if( disAutoFocus ) {
+            setTimeout( function(){
+                disAutoFocus = false;
+            }, 500);
+            vichrome.model.enterNormalMode();
+            vichrome.view.blurActiveElement();
         } else {
-            this.enterNormalMode();
+            if( util.isEditable( target ) ) {
+                this.enterInsertMode();
+            } else {
+                this.enterNormalMode();
+            }
         }
     };
 
@@ -339,6 +358,7 @@ vichrome.Model = function() {
         logger.d("onInitEnabled");
         this.onSettings( msg );
 
+        disAutoFocus = this.getSetting("disableAutoFocus");
         initEnabled = true;
         if( domReady ) {
             this.onDomReady();
@@ -350,23 +370,27 @@ vichrome.Model = function() {
         domReady = true;
 
         if( !initEnabled ) {
+            logger.w("onDomReady is called before onInitEnabled");
             return;
         }
 
         vichrome.view.init( this.getSetting("commandBoxAlign"),
                             this.getSetting("commandBoxWidth") );
 
-        if( util.isEditable( document.activeElement ) &&
-            !this.getSetting("disableAutoFocus") ) {
+        if( util.isEditable( document.activeElement ) && !disAutoFocus ) {
             this.enterInsertMode();
         } else {
-            vichrome.view.blurActiveElement();
-            this.enterNormalMode();
+            vichrome.model.enterNormalMode();
         }
     };
 };
 
 $(document).ready( function() {
-    vichrome.model.onDomReady();
+    // if vichrome.model is not created here
+    // this page may not have DOM so Vichrome
+    // would not run properly.
+    if( vichrome.model ) {
+        vichrome.model.onDomReady();
+    }
 });
 

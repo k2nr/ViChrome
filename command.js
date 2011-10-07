@@ -145,7 +145,10 @@ vichrome.command.CommandExecuter = function() {
         FocusOnFirstInput     : triggerInsideContent,
         BackToPageMark        : triggerInsideContent,
         RestoreTab            : sendToBackground,
-        Escape                : escape
+        Escape                : escape,
+
+        // hidden commands
+        _ChangeLogLevel       : triggerInsideContent
     };
 
     o.get = function() {
@@ -192,7 +195,7 @@ vichrome.command.CommandExecuter = function() {
         args = this.args.slice(1);
         com  = this.args[0];
 
-        if( !vichrome.model.isReady() && !this.commandsBeforeReady[com] ) {
+        if( !vichrome.model.isReady() && this.commandsBeforeReady.indexOf(com) < 0 ) {
             return;
         }
 
