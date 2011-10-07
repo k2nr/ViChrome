@@ -329,9 +329,11 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
 
         if( hints[i].target.is('a') ) {
             primary = this.opt.newTab;
-            setTimeout(function() {
-                vichrome.model.enterNormalMode();
-            }, 0);
+            if( !this.opt.continuous ) {
+                setTimeout(function() {
+                    vichrome.model.enterNormalMode();
+                }, 0);
+            }
         } else {
             hints[i].target.focus();
         }

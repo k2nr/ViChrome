@@ -21,7 +21,6 @@ vichrome.Model = function() {
         settings       = null;
 
     function changeMode(newMode) {
-        logger.d("mode changed", newMode);
         if( curMode ) {
             curMode.exit();
         }
