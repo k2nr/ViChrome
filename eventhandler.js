@@ -24,14 +24,6 @@ vichrome.event.EventHandler =  function(m, v) {
         }
     }
 
-    function onKeyPress (e) {
-    }
-
-    function onKeyUp (e) {
-        view.notifyInputUpdated();
-    }
-
-
     // decide whether to post the key event and do some pre-post process
     // return true if the key event can be posted.
     function getHandlableKey (e) {
@@ -65,8 +57,6 @@ vichrome.event.EventHandler =  function(m, v) {
 
     function addWindowListeners() {
         window.addEventListener("keydown"    , onKeyDown    , true);
-        window.addEventListener("keypress"   , onKeyPress   , true);
-        window.addEventListener("keyup"      , onKeyUp      , true);
         window.addEventListener("focus"      , onFocus      , true);
         window.addEventListener("blur"       , onBlur       , true);
     }

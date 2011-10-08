@@ -2,7 +2,7 @@ vichrome = {};
 
 setTimeout( function() {
     vichrome.model   = new vichrome.Model();
-    vichrome.view    = new vichrome.views.Surface();
+    vichrome.view    = new vichrome.widgets.Surface();
     vichrome.handler = new vichrome.event.EventHandler(vichrome.model,
                                                        vichrome.view);
 

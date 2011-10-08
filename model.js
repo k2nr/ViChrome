@@ -82,21 +82,11 @@ vichrome.Model = function() {
     };
 
     this.enterSearchMode = function(backward, searcher_) {
-        var opt   = { wrap          : vichrome.model.getSetting("wrapSearch"),
-                      ignoreCase    : vichrome.model.getSetting("ignoreCase"),
-                      incSearch     : vichrome.model.getSetting("incSearch"),
-                      minIncSearch  : vichrome.model.getSetting("minIncSearch"),
-                      backward      : backward },
-            searcher = searcher_;
+        var searcher = searcher_ || new vichrome.search.NormalSearcher();
 
         logger.d("enterSearchMode");
 
-        if( !searcher ) {
-            searcher = new vichrome.search.NormalSearcher();
-        }
-        searcher.init( opt );
-
-        changeMode( object( SearchMode ).setSearcher( searcher ) );
+        changeMode( object( SearchMode ).init( searcher, backward ) );
         this.setPageMark();
     };
 
@@ -211,6 +201,7 @@ vichrome.Model = function() {
 
     this.escape = function(){
         commandManager.reset();
+        vichrome.view.hideStatusLine();
         if( !this.isInNormalMode() ) {
             this.enterNormalMode();
         }
@@ -372,8 +363,7 @@ vichrome.Model = function() {
             return;
         }
 
-        vichrome.view.init( this.getSetting("commandBoxAlign"),
-                            this.getSetting("commandBoxWidth") );
+        vichrome.view.init();
 
         if( util.isEditable( document.activeElement ) && !disAutoFocus ) {
             this.enterInsertMode();

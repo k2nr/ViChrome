@@ -7,22 +7,38 @@
     z-index: 100000;
 }
 
-.vichromeboxRight-Bottom {
-    left:  0px;
-    bottom:0px;
-}
-
 .vichromeboxLeft-Bottom {
-    right: 0px;
-    bottom:0px;
-}
-.vichromeboxRight-Top {
     left:  0px;
-    top:   0px;
+    bottom:20px;
+}
+.vichromeboxRight-Bottom {
+    right: 6px;
+    bottom:20px;
 }
 .vichromeboxLeft-Top {
-    right: 0px;
+    left:  0px;
     top:   0px;
+}
+.vichromeboxRight-Top {
+    right: 6px;
+    top:   0px;
+}
+
+.statuslineLeft-Bottom {
+    left:  0px;
+    bottom:0px;
+}
+.statuslineRight-Bottom {
+    right: 0px;
+    bottom:0px;
+}
+.statuslineLeft-Top {
+    left:  0px;
+    top:   24px;
+}
+.statuslineRight-Top {
+    right: 0px;
+    top:   24px;
 }
 
 #vichromefield {
@@ -70,16 +86,18 @@
 
 #vichromestatusline {
     background-color: rgba(64, 64, 64, 0.7);
+    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    position : fixed;
     text-align: left;
     color: #fff;
     outline: none;
     border: none;
     -webkit-box-shadow: none;
-    width: 100%;
     height: 18px;
     padding: 1px 3px;
     margin:  0px 0px;
     font-size: 14px;
+    z-index: 100000;
 }
 
 #vichromehint {
@@ -107,7 +125,6 @@
 
 .statuslineinactive {
     background-color: rgba(64, 64, 64, 0.6) !important;
-    width : 100% !important;
 }
 
 .highlight {

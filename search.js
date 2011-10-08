@@ -131,26 +131,17 @@ vichrome.search.NormalSearcher = function() {
         }
     }
 
-    this.init = function(opt) {
+    this.init = function(opt, commandBox) {
         _opt = opt;
-
-        if( _opt.backward ) {
-            view.showCommandBox("?", "");
-        } else {
-            view.showCommandBox("/", "");
-        }
-        view.focusCommandBox();
 
         (function(obj) {
             if( _opt.incSearch ) {
-                view.addInputUpdateListener( function(word) {
+                commandBox.addInputUpdateListener( function(word) {
                     updateInput( obj, word );
                 });
             }
         }(this));
     };
-
-
 
     this.highlight = function(word) {
         $(document.body).highlight( word, {ignoreCase : _opt.ignoreCase} );
@@ -172,7 +163,6 @@ vichrome.search.NormalSearcher = function() {
             _word = word;
             this.searchAndHighlight( _word );
         }
-        view.removeInputUpdateListener();
     };
 
     this.goNext = function (reverse) {
@@ -211,7 +201,6 @@ vichrome.search.NormalSearcher = function() {
 
     this.cancelHighlight = function() {
         logger.d("cancelHighlight");
-        view.setStatusLineText("");
         this.removeHighlight();
         _removed = true;
     };
@@ -220,8 +209,7 @@ vichrome.search.NormalSearcher = function() {
         logger.d("finalize");
         _sortedResults = undefined;
         _opt = undefined;
-        view.removeInputUpdateListener();
-        view.setStatusLineText("");
+        view.hideStatusLine();
         this.removeHighlight();
     };
 };

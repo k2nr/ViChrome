@@ -1,122 +1,67 @@
-vichrome.views = {};
+vichrome.widgets = {};
 
-vichrome.views.Surface = function() {
-    var $commandBox, $commandField, $commandInput, $modeChar, $statusLine,
-        inputUpdateListener,
-        initialized = false;
+vichrome.widgets.Surface = function() {
+    var $statusLine, initialized = false;
 
-    this.addInputUpdateListener = function(fn) {
-        inputUpdateListener = fn;
-    };
+    this.init = function() {
+        var align = vichrome.model.getSetting("commandBoxAlign"),
+            width = vichrome.model.getSetting("commandBoxWidth"),
+            alignClass = "statusline"+align;
 
-    this.removeInputUpdateListener = function() {
-        inputUpdateListener = null;
-    };
-
-    this.notifyInputUpdated = function() {
-        if( this.isCommandBoxActive() && inputUpdateListener ) {
-            inputUpdateListener( this.getCommandBoxValue() );
-        }
-    };
-
-    this.init = function(align, w) {
-        var alignClass = "vichromebox" + align;
-        $commandBox   = $( '<div id="vichromebox" />' )
-                        .addClass( alignClass )
-                        .width( w );
-        $commandInput = $( '<input type="text" id="vichromeinput" spellcheck="false" value="" />' );
-        $modeChar  = $( '<div id="vichromemodechar" />' );
-        $commandField = $( '<table />' )
-                            .append( $('<tr />')
-                                .append( $('<td id="vichromemodechar" />')
-                                    .append( $modeChar )
-                                )
-                                .append( $('<td id="vichromeinput" />')
-                                    .append( $commandInput )
-                                )
-                            );
-
-        $commandField = $( '<div id="vichromefield" />' ).append( $commandField );
         $statusLine = $( '<div id="vichromestatusline" />' )
-                            .addClass( 'statuslineinactive' );
+                      .addClass( 'statuslineinactive' )
+                      .addClass( alignClass )
+                      .width( width );
 
-        $commandBox
-            .append( $commandField )
-            .append( $statusLine );
-
-
-        $(document.body).append( $commandBox );
-
+        this.hideStatusLine();
+        this.attach( $statusLine );
         initialized = true;
+        return this;
     };
 
-    this.showCommandBox = function(modeChar, input) {
-        if( !initialized ) {
-            return;
-        }
-        $commandInput.attr( "value", input );
-        $modeChar.html( modeChar );
+    this.attach = function( $w ) {
+        $(document.body).append( $w );
+        return this;
+    };
+
+    this.activeStatusLine = function() {
         $statusLine.removeClass( 'statuslineinactive' );
-
-        $commandBox.show();
-        $commandField.show();
         $statusLine.show();
+        if( this.slTimeout ) {
+            clearTimeout(this.slTimeout);
+            this.slTimeout = undefined;
+        }
+        return this;
     };
 
-    this.hideCommandBox = function() {
-        if( !initialized ) {
-            return;
-        }
-
-        if(this.isCommandBoxActive()) {
-            $commandField.hide();
-            $commandInput.blur();
-        }
-
-        if( $statusLine.html() === '' ) {
-            $statusLine.hide();
-        }
+    this.inactiveStatusLine = function() {
         $statusLine.addClass( 'statuslineinactive' );
+        return this;
     };
 
-    this.focusCommandBox = function() {
-        if( !initialized ) {
-            return;
+    this.hideStatusLine = function() {
+        if( this.slTimeout ) {
+            clearTimeout(this.slTimeout);
+            this.slTimeout = undefined;
         }
-
-        $commandInput.get(0).focus();
-    };
-
-    this.isCommandBoxActive = function() {
-        if( !initialized ) {
-            return false;
-        }
-        return $commandField.css( 'display' ) !== 'none';
-    };
-
-    this.getCommandBoxValue = function() {
-        if( !initialized ) {
-            return "";
-        }
-        return $commandInput.val();
+        $statusLine.html("").hide();
+        return this;
     };
 
     this.setStatusLineText = function(text, timeout) {
-        if( !initialized ) {
-            return;
-        }
         $statusLine.html( text );
-        if( !this.isCommandBoxActive() && !text ) {
-            $statusLine.hide();
-        } else {
-            $statusLine.show();
 
-            if( timeout ) {
-                setTimeout( function() {
-                    $statusLine.html("").hide();
-                }, timeout);
-            }
+        if( timeout ) {
+            this.slTimeout = setTimeout( function() {
+                $statusLine.html("").hide();
+            }, timeout);
         }
+
+        return this;
+    };
+
+    this.detach = function( $w ) {
+        return $w.detach();
     };
 
     this.focusInput = function( idx ) {
@@ -124,6 +69,7 @@ vichrome.views.Surface = function() {
             return;
         }
         $('form input:text:visible').get(0).focus();
+        return this;
     };
 
     this.scrollBy = function( x, y ) {
@@ -131,6 +77,7 @@ vichrome.views.Surface = function() {
             return;
         }
         window.scrollBy( x, y );
+        return this;
     };
 
     this.scrollTo = function( x, y ) {
@@ -138,6 +85,7 @@ vichrome.views.Surface = function() {
             return;
         }
         window.scrollTo( x, y );
+        return this;
     };
 
     this.backHist = function() {
@@ -145,6 +93,7 @@ vichrome.views.Surface = function() {
             return;
         }
         window.history.back();
+        return this;
     };
 
     this.forwardHist = function() {
@@ -152,6 +101,7 @@ vichrome.views.Surface = function() {
             return;
         }
         window.history.forward();
+        return this;
     };
 
     this.reload = function() {
@@ -159,6 +109,7 @@ vichrome.views.Surface = function() {
             return;
         }
         window.location.reload();
+        return this;
     };
 
     this.blurActiveElement = function() {
@@ -166,6 +117,102 @@ vichrome.views.Surface = function() {
             return;
         }
         document.activeElement.blur();
+        return this;
     };
 };
 
+vichrome.widgets.CommandBox = {
+    init : function(view, align, w) {
+        var alignClass = "vichromebox" + align;
+
+        this.$box   = $( '<div id="vichromebox" />' )
+                        .addClass( alignClass )
+                        .width( w );
+        this.$input = $( '<input type="text" id="vichromeinput" spellcheck="false" value="" />' );
+        this.$modeChar  = $( '<div id="vichromemodechar" />' );
+        this.$inputField = $( '<table />' )
+                       .append( $('<tr />')
+                        .append( $('<td id="vichromemodechar" />')
+                         .append( this.$modeChar )
+                        )
+                        .append( $('<td id="vichromeinput" />')
+                         .append( this.$input )
+                        )
+                       );
+
+        this.$inputField = $( '<div id="vichromefield" />' ).append( this.$inputField );
+
+        this.$box.append( this.$inputField );
+
+        this.view = view;
+
+        return this;
+    },
+
+    addInputUpdateListener : function(fn) {
+        this.inputUpdateListener = fn;
+        return this;
+    },
+
+    removeInputUpdateListener : function() {
+        this.inputUpdateListener = null;
+        return this;
+    },
+
+    attachTo : function(view) {
+        view.attach( this.$box );
+
+        return this;
+    },
+
+    detachFrom : function(view) {
+        view.detach( this.$box );
+
+        this.inputUpdateListener = null;
+        return this;
+    },
+
+    show : function(modeChar, input) {
+        var thisObj = this;
+        this.$input.attr( "value", input );
+        this.$modeChar.html( modeChar );
+
+        this.$box.show();
+        this.$inputField.show();
+
+        this.$box.keyup( function(e) {
+            if( thisObj.isVisible() && thisObj.inputUpdateListener ) {
+                thisObj.inputUpdateListener( thisObj.value() );
+            }
+        });
+
+        this.view.activeStatusLine();
+
+        return this;
+    },
+
+    hide : function() {
+        if(this.isVisible()) {
+            this.$inputField.hide();
+            this.$input.blur();
+        }
+
+        this.$box.unbind();
+
+        return this;
+    },
+
+    focus : function() {
+        this.$input.get(0).focus();
+
+        return this;
+    },
+
+    isVisible : function() {
+        return this.$inputField.css( 'display' ) !== 'none';
+    },
+
+    value : function() {
+        return this.$input.val();
+    }
+};

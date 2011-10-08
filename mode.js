@@ -113,8 +113,6 @@ vichrome.mode.Mode = {
 
     reqGoCommandMode : function() {
         vichrome.model.enterCommandMode();
-        vichrome.view.showCommandBox(":", "");
-        vichrome.view.focusCommandBox();
     },
 
     reqFocusOnFirstInput : function() {
@@ -154,7 +152,6 @@ vichrome.mode.NormalMode = vichrome.object( vichrome.mode.Mode );
     };
 
     o.enter = function() {
-        vichrome.view.hideCommandBox();
     };
 
     o.reqNextSearch = function() {
@@ -202,8 +199,23 @@ vichrome.mode.SearchMode = vichrome.object( vichrome.mode.Mode );
         return "SearchMode";
     };
 
-    o.setSearcher = function( searcher ) {
-        this.searcher = searcher;
+    o.init = function( searcher_, backward_, opt_ ) {
+        var opt   = opt_ ||
+                    { wrap          : vichrome.model.getSetting("wrapSearch"),
+                      ignoreCase    : vichrome.model.getSetting("ignoreCase"),
+                      incSearch     : vichrome.model.getSetting("incSearch"),
+                      minIncSearch  : vichrome.model.getSetting("minIncSearch"),
+                      backward      : backward_ },
+            align = vichrome.model.getSetting("commandBoxAlign"),
+            width = vichrome.model.getSetting("commandBoxWidth");
+
+        this.commandBox = vichrome.object( vichrome.widgets.CommandBox )
+                          .init( vichrome.view, align, width );
+
+        searcher_.init( opt, this.commandBox );
+        this.searcher = searcher_;
+        this.backward = backward_;
+
         return this;
     };
 
@@ -219,7 +231,7 @@ vichrome.mode.SearchMode = vichrome.object( vichrome.mode.Mode );
             return true;
         }
 
-        var word = vichrome.view.getCommandBoxValue();
+        var word = this.commandBox.value();
         if( word.length === 0 && (key === "BS" || key === "DEL") ) {
             this.cancelSearch();
             return false;
@@ -247,7 +259,12 @@ vichrome.mode.SearchMode = vichrome.object( vichrome.mode.Mode );
     };
 
     o.enter = function() {
-        vichrome.view.focusCommandBox();
+        var modeChar = (this.backward === true)? "?":"/";
+        this.commandBox.attachTo( vichrome.view ).show( modeChar ).focus();
+    };
+
+    o.exit = function() {
+        this.commandBox.hide().detachFrom( vichrome.view );
     };
 
     o.getKeyMapping = function() {
@@ -269,7 +286,7 @@ vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
             return true;
         }
 
-        if( vichrome.view.getCommandBoxValue().length === 0 &&
+        if( this.commandBox.value().length === 0 &&
             (key === "BS" || key === "DEL") ) {
             vichrome.model.enterNormalMode();
             return false;
@@ -283,7 +300,7 @@ vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
         if( key === "CR" ) {
             executer = new vichrome.command.CommandExecuter();
             try {
-                executer.set( vichrome.view.getCommandBoxValue() )
+                executer.set( this.commandBox.value() )
                 .parse()
                 .execute();
             } catch(e) {
@@ -291,6 +308,8 @@ vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
 
             }
 
+            event.stopPropagation();
+            event.preventDefault();
             vichrome.model.enterNormalMode();
             return false;
         }
@@ -299,7 +318,18 @@ vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
     };
 
     o.enter = function() {
-        vichrome.view.focusCommandBox();
+        var align = vichrome.model.getSetting("commandBoxAlign"),
+            width = vichrome.model.getSetting("commandBoxWidth");
+
+        this.commandBox = vichrome.object( vichrome.widgets.CommandBox )
+                          .init( vichrome.view, align, width )
+                          .attachTo( vichrome.view )
+                          .show( ":" )
+                          .focus();
+    };
+
+    o.exit = function() {
+        this.commandBox.hide().detachFrom( vichrome.view );
     };
 
     o.getKeyMapping = function() {
@@ -445,13 +475,13 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
             $(document.body).append(div);
         }
 
-        vichrome.view.setStatusLineText('f Mode : ');
+        vichrome.view.activeStatusLine().setStatusLineText('f Mode : ');
     };
 
     o.exit = function() {
         $('span#vichromehint').remove();
         $('.fModeTarget').removeClass('fModeTarget');
-        vichrome.view.setStatusLineText('');
+        vichrome.view.hideStatusLine();
     };
 }(vichrome.mode.FMode));
 

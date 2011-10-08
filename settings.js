@@ -23,7 +23,7 @@ var SettingManager = {
             "http*://docs.google.com/*",
             "http*://www.google.com/calendar/*"
         ],
-        "commandBoxAlign"         : "Right-Bottom",
+        "commandBoxAlign"         : "Left-Bottom",
         "commandBoxWidth"         : 350,
         "keyMappingAndAliases"    :
 "### Sample Settings\n\
