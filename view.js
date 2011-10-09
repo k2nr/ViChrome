@@ -1,5 +1,87 @@
 vichrome.widgets = {};
 
+$.fn.extend({
+    isWithinScreen : function() {
+        var offset = $(this).offset(),
+            padding = 10;
+        // padding is for visiblity, which if pos is on the edge of the screen
+        // it's a little bit difficult to see the result word.
+        if( offset.left + padding > window.pageXOffset + window.innerWidth ||
+            offset.left - padding < window.pageXOffset ) {
+            return false;
+        }
+
+        if( offset.top + padding > window.pageYOffset + window.innerHeight ||
+            offset.top - padding < window.pageYOffset ) {
+            return false;
+        }
+
+        return true;
+    },
+
+    scrollTo : function(x, y, speed) {
+        var top, left,
+            offset = $($(this).get(0)).offset(),
+            newX = offset.left - window.innerWidth / 2,
+            newY = offset.top  - window.innerHeight / 2;
+
+        if( newX > document.body.scrollLeft - window.innerWidth ) {
+            newX = document.body.scrollLeft - window.innerWidth;
+        }
+        if( newY > document.body.scrollHeight - window.innerHeight ) {
+            newX = document.body.scrollHeight - window.innerHeight;
+        }
+
+        if( x === undefined && y === undefined &&
+            $(this).isWithinScreen() ) {
+            return $(this);
+        }
+
+        if( x === undefined ) {
+            left = newX;
+        } else {
+            left = x;
+        }
+
+        if( y === undefined ) {
+            top  = newY;
+        } else {
+            top  = y;
+        }
+
+        if( speed === undefined ) {
+            speed = 80;
+        }
+
+        if( !vichrome.model.getSetting("smoothScroll") ) {
+            speed = 0;
+        }
+
+        $(document.body).animate({scrollTop : top, scrollLeft : left}, speed);
+        return $(this);
+    },
+
+    scrollBy : function(x, y, speed) {
+        var top, left,
+            win_left = window.pageXOffset,
+            win_top  = window.pageYOffset;
+
+        top  = win_top  + y;
+        left = win_left + x;
+
+        if( speed === undefined ) {
+                speed = 80;
+        }
+
+        if( !vichrome.model.getSetting("smoothScroll") ) {
+            speed = 0;
+        }
+
+        $(document.body).animate({scrollTop : top, scrollLeft : left}, speed);
+        return $(this);
+    }
+});
+
 vichrome.widgets.Surface = function() {
     var $statusLine, initialized = false;
 
@@ -69,7 +151,7 @@ vichrome.widgets.Surface = function() {
         if( !initialized ) {
             return;
         }
-        $('form input:text:visible').get(0).focus();
+        $('form input:text:visible').scrollTo().get(0).focus();
         return this;
     };
 
@@ -77,7 +159,8 @@ vichrome.widgets.Surface = function() {
         if( !initialized ) {
             return;
         }
-        window.scrollBy( x, y );
+        $(document.body).scrollBy(x, y, 40);
+
         return this;
     };
 
@@ -85,7 +168,8 @@ vichrome.widgets.Surface = function() {
         if( !initialized ) {
             return;
         }
-        window.scrollTo( x, y );
+        $(document.body).scrollTo(x, y, 80);
+
         return this;
     };
 

@@ -78,6 +78,12 @@ function onSettings(msg) {
         setSetting("disableAutoFocus", $(this).is(':checked'));
     });
 
+    $('#smoothScroll')
+    .attr( 'checked', settings.smoothScroll )
+    .change( function() {
+        setSetting("smoothScroll", $(this).is(':checked'));
+    });
+
     $('[name="newTabPage"][value="'+settings.defaultNewTab+'"]')
     .attr( 'checked', true );
     $('[name="newTabPage"]')

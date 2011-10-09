@@ -13,6 +13,7 @@ var SettingManager = {
         "commandWaitTimeOut"      : 2000,
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm",
         "disableAutoFocus"        : false,
+        "smoothScroll"            : false,
         "wrapSearch"              : true,
         "incSearch"               : true,
         "ignoreCase"              : true,

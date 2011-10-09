@@ -26,39 +26,6 @@ vichrome.search = {};
         });
     }
 
-    function adjustScreenToSearchResult(pos) {
-        // TODO:try to dicide more meaningful value for the padding
-        if( !isWithinScreen( pos.left, pos.top, 10 ) ) {
-            var newX = pos.left - window.innerWidth / 2,
-                newY = pos.top - window.innerHeight / 2;
-
-            if( newX > document.body.scrollLeft - window.innerWidth ) {
-                newX = document.body.scrollLeft - window.innerWidth;
-            }
-            if( newY > document.body.scrollHeight - window.innerHeight ) {
-                newX = document.body.scrollHeight - window.innerHeight;
-            }
-
-            window.scrollTo( newX, newY );
-        }
-    }
-
-    function isWithinScreen(x, y, padding) {
-        // padding is for visiblity, which if pos is on the edge of the screen
-        // it's a little bit difficult to see the result word.
-        if( x + padding > window.pageXOffset + window.innerWidth ||
-            x - padding < window.pageXOffset ) {
-            return false;
-        }
-
-        if( y + padding > window.pageYOffset + window.innerHeight ||
-            y - padding < window.pageYOffset ) {
-            return false;
-        }
-
-        return true;
-    }
-
     function getResultCnt() {
         return _sortedResults.length;
     }
@@ -167,7 +134,7 @@ vichrome.search = {};
                 if( span ) {
                     $('span').removeClass('highlightFocus');
                     span.addClass('highlightFocus');
-                    adjustScreenToSearchResult( span.offset() );
+                    span.scrollTo();
                     vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
                 }
             } else {
