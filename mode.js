@@ -366,6 +366,7 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
             primary = this.opt.newTab;
             if( !this.opt.continuous ) {
                 setTimeout(function() {
+                    vichrome.view.hideStatusLine();
                     vichrome.model.enterNormalMode();
                 }, 0);
             }
@@ -440,6 +441,10 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
     };
 
     o.getKeyLength = function(candiNum) {
+        if( candiNum === 1 ) {
+            return 1;
+        }
+
         return Math.ceil( Math.log( candiNum ) / Math.log( keys.length ) );
     };
 
@@ -449,8 +454,18 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
         hints        = [];
         keys         = "";
 
-        keys = vichrome.model.getSetting("fModeAvailableKeys");
         links = $('a:_visible,*:input:_visible');
+
+        if( links.length === 0 ) {
+            vichrome.view.setStatusLineText("No visible links found", 2000);
+            setTimeout( function() {
+                vichrome.model.enterNormalMode();
+            }, 0);
+
+            return;
+        }
+
+        keys = vichrome.model.getSetting("fModeAvailableKeys");
         keyLength = this.getKeyLength( links.length );
         links.each( function(i) {
             var key='', j, k;
@@ -480,13 +495,12 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
             $(document.body).append(div);
         }
 
-        vichrome.view.activeStatusLine().setStatusLineText('f Mode : ');
+        vichrome.view.setStatusLineText('f Mode : ');
     };
 
     o.exit = function() {
         $('span#vichromehint').remove();
         $('.fModeTarget').removeClass('fModeTarget');
-        vichrome.view.hideStatusLine();
     };
 }(vichrome.mode.FMode));
 

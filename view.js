@@ -50,6 +50,7 @@ vichrome.widgets.Surface = function() {
 
     this.setStatusLineText = function(text, timeout) {
         $statusLine.html( text );
+        this.activeStatusLine();
 
         if( timeout ) {
             this.slTimeout = setTimeout( function() {

@@ -1,4 +1,4 @@
-vichrome.Model = function() {
+(function() {
         // dependencies
     var NormalMode     = vichrome.mode.NormalMode,
         InsertMode     = vichrome.mode.InsertMode,
@@ -28,99 +28,6 @@ vichrome.Model = function() {
         curMode.enter();
     }
 
-    this.init = function() {
-        var thisObj = this;
-        this.enterNormalMode();
-
-        pmRegister     = new vichrome.register.PageMarkRegister();
-    };
-
-    this.isReady =function() {
-        return initEnabled && domReady;
-    };
-
-    this.setPageMark = function(key) {
-        var mark = {};
-        mark.top = window.pageYOffset;
-        mark.left = window.pageXOffset;
-
-        pmRegister.set( mark, key );
-    };
-
-    this.goPageMark = function(key) {
-        var offset = pmRegister.get( key );
-        if( offset ) {
-            vichrome.view.scrollTo( offset.left, offset.top );
-        }
-    };
-
-    this.setSearcher = function(searcher_) {
-        searcher = searcher_;
-    };
-
-    this.cancelSearchHighlight = function() {
-        if( searcher ) {
-            searcher.cancelHighlight();
-        }
-    };
-
-    this.enterNormalMode = function() {
-        logger.d("enterNormalMode");
-        changeMode( object( NormalMode ) );
-    };
-
-    this.enterInsertMode = function() {
-        logger.d("enterInsertMode");
-        changeMode( object( InsertMode ) );
-    };
-
-    this.enterCommandMode = function() {
-        logger.d("enterCommandMode");
-        this.cancelSearchHighlight();
-        changeMode( object( CommandMode ) );
-    };
-
-    this.enterSearchMode = function(backward, searcher_) {
-        var searcher = searcher_ || object( vichrome.search.NormalSearcher );
-
-        logger.d("enterSearchMode");
-
-        changeMode( object( SearchMode ).init( searcher, backward ) );
-        this.setPageMark();
-    };
-
-    this.enterFMode = function(opt) {
-        logger.d("enterFMode");
-        changeMode( object(FMode).setOption(opt) );
-    };
-
-    this.isInNormalMode = function() {
-        return (curMode.getName() === "NormalMode");
-    };
-
-    this.isInInsertMode = function() {
-        return (curMode.getName() === "InsertMode");
-    };
-
-    this.isInSearchMode = function() {
-        return (curMode.getName() === "SearchMode");
-    };
-
-    this.isInCommandMode = function() {
-        return (curMode.getName() === "CommandMode");
-    };
-
-    this.isInFMode = function() {
-        return (curMode.getName() === "FMode");
-    };
-
-    this.goNextSearchResult = function(reverse) {
-        if( !searcher ) { return; }
-
-        this.setPageMark();
-        return searcher.goNext( reverse );
-    };
-
     function getNMapFirst() {
         var nmap       = vichrome.extend( this.getSetting("keyMappingNormal") ),
             pageMap    = this.getSetting("pageMap"),
@@ -144,7 +51,6 @@ vichrome.Model = function() {
 
         return myMap;
     }
-    this.getNMap = getNMapFirst;
 
     function getIMapFirst() {
         var imap       = vichrome.extend( this.getSetting("keyMappingInsert") ),
@@ -168,7 +74,6 @@ vichrome.Model = function() {
 
         return myMap;
     }
-    this.getIMap = getIMapFirst;
 
     function getAliasFirst() {
         var aliases = vichrome.extend( this.getSetting("aliases") ),
@@ -192,192 +97,287 @@ vichrome.Model = function() {
 
         return myAlias;
     }
-    this.getAlias = getAliasFirst;
 
-    this.getSetting = function(name) {
-        return settings[name];
-    };
-
-    this.escape = function(){
-        commandManager.reset();
-        vichrome.view.hideStatusLine();
-        if( !this.isInNormalMode() ) {
+    vichrome.model = {
+        init : function() {
+            var thisObj = this;
             this.enterNormalMode();
-        }
 
-    };
+            pmRegister     = new vichrome.register.PageMarkRegister();
+        },
 
-    this.onBlur = function() {
-        curMode.blur();
-    };
+        isReady :function() {
+            return initEnabled && domReady;
+        },
 
-    this.prePostKeyEvent = function(key, ctrl, alt, meta) {
-        disAutoFocus = false;
-        return curMode.prePostKeyEvent(key, ctrl, alt, meta);
-    };
+        setPageMark : function(key) {
+            var mark = {};
+            mark.top = window.pageYOffset;
+            mark.left = window.pageXOffset;
 
-    this.isValidKeySeq = function(keySeq) {
-        if( this.getKeyMapping()[keySeq] ) {
-            return true;
-        } else {
-            return false;
-        }
-    };
+            pmRegister.set( mark, key );
+        },
 
-    this.isValidKeySeqAvailable = function(keySeq) {
-        // since escaping meta character for regexp is so complex that
-        // using regexp to compare should cause bugs, using slice & comparison
-        // with '==' may be a better & simple way.
-        var keyMapping = this.getKeyMapping(),
-            length     = keySeq.length,
-            hasOwnPrp  = Object.prototype.hasOwnProperty,
-            cmpStr, i, pos;
-
-        for ( i in keyMapping ) if( hasOwnPrp.call( keyMapping, i ) ) {
-            cmpStr = i.slice( 0, length );
-            pos = cmpStr.indexOf("<", 0);
-            if( pos >= 0 ) {
-                pos = i.indexOf( ">", pos );
-                if( pos >= length ) {
-                    cmpStr = i.slice( 0, pos+1 );
-                }
+        goPageMark : function(key) {
+            var offset = pmRegister.get( key );
+            if( offset ) {
+                vichrome.view.scrollTo( offset.left, offset.top );
             }
-            if( keySeq === cmpStr ) {
-                return true;
+        },
+
+        setSearcher : function(searcher_) {
+            searcher = searcher_;
+        },
+
+        cancelSearchHighlight : function() {
+            if( searcher ) {
+                searcher.cancelHighlight();
             }
-        }
+        },
 
-        return false;
-    };
+        enterNormalMode : function() {
+            logger.d("enterNormalMode");
+            changeMode( object( NormalMode ) );
+        },
 
-    this.isUrlMatched = function(url, matchPattern) {
-        var str, regexp;
+        enterInsertMode : function() {
+            logger.d("enterInsertMode");
+            changeMode( object( InsertMode ) );
+        },
 
-        str = matchPattern.replace(/\*/g, ".*" )
-                          .replace(/\/$/g, "")
-                          .replace(/\//g, "\\/");
-        str = "^" + str + "$";
-        url = url.replace(/\/$/g, "");
+        enterCommandMode : function() {
+            logger.d("enterCommandMode");
+            this.cancelSearchHighlight();
+            changeMode( object( CommandMode ) );
+        },
 
-        regexp = new RegExp(str, "m");
-        if( regexp.test( url ) ) {
-            logger.d("URL pattern matched:" + url + ":" + matchPattern);
-            return true;
-        }
+        enterSearchMode : function(backward, searcher_) {
+            var searcher = searcher_ || object( vichrome.search.NormalSearcher );
 
-        return false;
-    };
+            logger.d("enterSearchMode");
 
-    this.isEnabled = function() {
-        var urls = this.getSetting( "ignoredUrls" ),
-            len = urls.length,
-            hasOwnPrp  = Object.prototype.hasOwnProperty,
-            i;
+            changeMode( object( SearchMode ).init( searcher, backward ) );
+            this.setPageMark();
+        },
 
-        for( i=0; i<len; i++ ) {
-            if( this.isUrlMatched(window.location.href, urls[i]) ) {
-                logger.d("matched ignored list");
-                return false;
-            }
-        }
+        enterFMode : function(opt) {
+            logger.d("enterFMode");
+            changeMode( object(FMode).setOption(opt) );
+        },
 
-        return true;
-    };
+        isInNormalMode : function() {
+            return (curMode.getName() === "NormalMode");
+        },
 
-    this.handleKey = function(msg) {
-        return commandManager.handleKey( msg, this.getKeyMapping() );
-    };
+        isInInsertMode : function() {
+            return (curMode.getName() === "InsertMode");
+        },
 
-    this.triggerCommand = function(method, args) {
-        if( curMode[method] ) {
-            curMode[method]( args );
-        } else {
-            logger.e("INVALID command!:", method);
-        }
-    };
+        isInSearchMode : function() {
+            return (curMode.getName() === "SearchMode");
+        },
 
-    this.onSettings = function(msg) {
-        if(msg.name === "all") {
-            settings = msg.value;
-        } else {
-            settings[msg.name] = msg.value;
-        }
+        isInCommandMode : function() {
+            return (curMode.getName() === "CommandMode");
+        },
 
-        if( !this.isEnabled() ) {
-            settings.keyMappingNormal = {};
-            settings.keyMappingInsert = {};
-        }
+        isInFMode : function() {
+            return (curMode.getName() === "FMode");
+        },
 
-        if( msg.name === "keyMappingNormal" ) {
-            this.getNMap = getNMapFirst;
-        } else if( msg.name === "keyMappingInsert" ) {
-            this.getIMap = getIMapFirst;
-        } else if( msg.name === "aliases" ) {
-            this.getAlias = getAliasFirst;
-        }
-    };
+        goNextSearchResult : function(reverse) {
+            if( !searcher ) { return; }
 
-    this.onFocus = function(target) {
-        if(this.isInCommandMode() || this.isInSearchMode()) {
-            logger.d("onFocus:current mode is command or search.do nothing");
-            return;
-        }
+            this.setPageMark();
+            return searcher.goNext( reverse );
+        },
 
-        if( disAutoFocus ) {
-            setTimeout( function(){
-                disAutoFocus = false;
-            }, 500);
-            vichrome.model.enterNormalMode();
-            vichrome.view.blurActiveElement();
-        } else {
-            if( util.isEditable( target ) ) {
-                this.enterInsertMode();
-            } else {
+        getNMap : getNMapFirst,
+
+        getIMap : getIMapFirst,
+
+        getAlias : getAliasFirst,
+
+        getSetting : function(name) {
+            return settings[name];
+        },
+
+        escape : function(){
+            commandManager.reset();
+            vichrome.view.hideStatusLine();
+            if( !this.isInNormalMode() ) {
                 this.enterNormalMode();
             }
+
+        },
+
+        onBlur : function() {
+            curMode.blur();
+        },
+
+        prePostKeyEvent : function(key, ctrl, alt, meta) {
+            disAutoFocus = false;
+            return curMode.prePostKeyEvent(key, ctrl, alt, meta);
+        },
+
+        isValidKeySeq : function(keySeq) {
+            if( this.getKeyMapping()[keySeq] ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        isValidKeySeqAvailable : function(keySeq) {
+            // since escaping meta character for regexp is so complex that
+            // using regexp to compare should cause bugs, using slice & comparison
+            // with '==' may be a better & simple way.
+            var keyMapping = this.getKeyMapping(),
+                length     = keySeq.length,
+                hasOwnPrp  = Object.prototype.hasOwnProperty,
+                cmpStr, i, pos;
+
+            for ( i in keyMapping ) if( hasOwnPrp.call( keyMapping, i ) ) {
+                cmpStr = i.slice( 0, length );
+                pos = cmpStr.indexOf("<", 0);
+                if( pos >= 0 ) {
+                    pos = i.indexOf( ">", pos );
+                    if( pos >= length ) {
+                        cmpStr = i.slice( 0, pos+1 );
+                    }
+                }
+                if( keySeq === cmpStr ) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        isUrlMatched : function(url, matchPattern) {
+            var str, regexp;
+
+            str = matchPattern.replace(/\*/g, ".*" )
+                              .replace(/\/$/g, "")
+                              .replace(/\//g, "\\/");
+            str = "^" + str + "$";
+            url = url.replace(/\/$/g, "");
+
+            regexp = new RegExp(str, "m");
+            if( regexp.test( url ) ) {
+                logger.d("URL pattern matched:" + url + ":" + matchPattern);
+                return true;
+            }
+
+            return false;
+        },
+
+        isEnabled : function() {
+            var urls = this.getSetting( "ignoredUrls" ),
+                len = urls.length,
+                hasOwnPrp  = Object.prototype.hasOwnProperty,
+                i;
+
+            for( i=0; i<len; i++ ) {
+                if( this.isUrlMatched(window.location.href, urls[i]) ) {
+                    logger.d("matched ignored list");
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        handleKey : function(msg) {
+            return commandManager.handleKey( msg, this.getKeyMapping() );
+        },
+
+        triggerCommand : function(method, args) {
+            if( curMode[method] ) {
+                curMode[method]( args );
+            } else {
+                logger.e("INVALID command!:", method);
+            }
+        },
+
+        onSettings : function(msg) {
+            if(msg.name === "all") {
+                settings = msg.value;
+            } else {
+                settings[msg.name] = msg.value;
+            }
+
+            if( !this.isEnabled() ) {
+                settings.keyMappingNormal = {};
+                settings.keyMappingInsert = {};
+            }
+
+            if( msg.name === "keyMappingNormal" ) {
+                this.getNMap = getNMapFirst;
+            } else if( msg.name === "keyMappingInsert" ) {
+                this.getIMap = getIMapFirst;
+            } else if( msg.name === "aliases" ) {
+                this.getAlias = getAliasFirst;
+            }
+        },
+
+        onFocus : function(target) {
+            if(this.isInCommandMode() || this.isInSearchMode()) {
+                logger.d("onFocus:current mode is command or search.do nothing");
+                return;
+            }
+
+            if( disAutoFocus ) {
+                setTimeout( function(){
+                    disAutoFocus = false;
+                }, 500);
+                vichrome.model.enterNormalMode();
+                vichrome.view.blurActiveElement();
+            } else {
+                if( util.isEditable( target ) ) {
+                    this.enterInsertMode();
+                } else {
+                    this.enterNormalMode();
+                }
+            }
+        },
+
+        getKeyMapping : function() {
+            return curMode.getKeyMapping();
+        },
+
+        onInitEnabled : function( msg ) {
+            logger.d("onInitEnabled");
+            this.onSettings( msg );
+
+            disAutoFocus = this.getSetting("disableAutoFocus");
+            initEnabled = true;
+            if( domReady ) {
+                this.onDomReady();
+            }
+        },
+
+        onDomReady : function() {
+            logger.d("onDomReady");
+            domReady = true;
+
+            if( !initEnabled ) {
+                logger.w("onDomReady is called before onInitEnabled");
+                return;
+            }
+
+            vichrome.view.init();
+
+            if( util.isEditable( document.activeElement ) && !disAutoFocus ) {
+                this.enterInsertMode();
+            } else {
+                vichrome.model.enterNormalMode();
+            }
         }
     };
-
-    this.getKeyMapping = function() {
-        return curMode.getKeyMapping();
-    };
-
-    this.onInitEnabled = function( msg ) {
-        logger.d("onInitEnabled");
-        this.onSettings( msg );
-
-        disAutoFocus = this.getSetting("disableAutoFocus");
-        initEnabled = true;
-        if( domReady ) {
-            this.onDomReady();
-        }
-    };
-
-    this.onDomReady = function() {
-        logger.d("onDomReady");
-        domReady = true;
-
-        if( !initEnabled ) {
-            logger.w("onDomReady is called before onInitEnabled");
-            return;
-        }
-
-        vichrome.view.init();
-
-        if( util.isEditable( document.activeElement ) && !disAutoFocus ) {
-            this.enterInsertMode();
-        } else {
-            vichrome.model.enterNormalMode();
-        }
-    };
-};
+}());
 
 $(document).ready( function() {
-    // if vichrome.model is not created here
-    // this page may not have DOM so Vichrome
-    // would not run properly.
-    if( vichrome.model ) {
-        vichrome.model.onDomReady();
-    }
+    vichrome.model.onDomReady();
 });
 
