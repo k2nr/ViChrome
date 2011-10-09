@@ -75,6 +75,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n\
             ":"       : "GoCommandMode",
             "/"       : "GoSearchModeForward",
             "?"       : "GoSearchModeBackward",
+            "a"       : "GoLinkTextSearchMode",
             "f"       : "GoFMode",
             "F"       : "GoFMode --newtab",
             "i"       : "FocusOnFirstInput",

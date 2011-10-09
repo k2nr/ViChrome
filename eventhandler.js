@@ -2,8 +2,7 @@ vichrome.event = {};
 
 vichrome.event.EventHandler =  function(m, v) {
     // dependencies
-    var keyCodes         = vichrome.key.keyCodes,
-        KeyManager       = vichrome.key.KeyManager,
+    var KeyManager       = vichrome.key.KeyManager,
         util             = vichrome.util,
         logger           = vichrome.log.logger,
 

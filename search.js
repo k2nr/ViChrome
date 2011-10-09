@@ -1,12 +1,12 @@
 vichrome.search = {};
 
-vichrome.search.NormalSearcher = function() {
+(function() {
     var _sortedResults = null,
         _opt           = null,
         _curIndex      = -1,
         _word          = "",
-        _removed       = false;
-        logger         = vichrome.log.logger;
+        _removed       = false,
+        logger         = vichrome.log.logger,
         view           = vichrome.view;
 
     function buildSortedResults() {
@@ -24,10 +24,6 @@ vichrome.search.NormalSearcher = function() {
                 return a.offset.top - b.offset.top;
             }
         });
-    }
-
-    function getSearchResultSpan(cnt) {
-        return _sortedResults[cnt].value;
     }
 
     function adjustScreenToSearchResult(pos) {
@@ -63,22 +59,6 @@ vichrome.search.NormalSearcher = function() {
         return true;
     }
 
-    function moveTo(pos) {
-        var span  = null;
-
-        if( getResultCnt() > pos ) {
-            span = getSearchResultSpan( pos );
-            if( span ) {
-                $('span').removeClass('highlightFocus');
-                span.addClass('highlightFocus');
-                adjustScreenToSearchResult( span.offset() );
-                vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
-            }
-        } else {
-            vichrome.log.logger.e("out of bounds of searchResults length", pos);
-        }
-    }
-
     function getResultCnt() {
         return _sortedResults.length;
     }
@@ -88,12 +68,12 @@ vichrome.search.NormalSearcher = function() {
             i, offset;
         for (i=0; i < total; i++) {
             if( _opt.backward ) {
-                offset = getSearchResultSpan( total - 1 - i ).offset();
+                offset = this.getSearchResultSpan( total - 1 - i ).offset();
                 if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
                     return total - 1 - i;
                 }
             } else {
-                offset = getSearchResultSpan(i).offset();
+                offset = this.getSearchResultSpan(i).offset();
                 if( offset.top - 10 > window.pageYOffset ) {
                     return i;
                 }
@@ -103,19 +83,19 @@ vichrome.search.NormalSearcher = function() {
         return -1;
     }
 
-    function updateInput(thisObj, word) {
+    function updateInput(word) {
         _word = word;
 
         // because search for string the length of which is 1 may be slow,
         // search starts with string whose length is over 2.
         if( word.length >= _opt.minIncSearch ) {
-            thisObj.searchAndHighlight( word );
+            this.searchAndHighlight( word );
             if( getResultCnt() === 0 ) {
                 vichrome.view.setStatusLineText("no matches");
                 return;
             }
 
-            _curIndex = getFirstInnerSearchResultIndex();
+            _curIndex = getFirstInnerSearchResultIndex.call(this);
             if( _curIndex < 0 ){
                 if( _opt.backward ) {
                     _curIndex = getResultCnt() - 1;
@@ -124,92 +104,151 @@ vichrome.search.NormalSearcher = function() {
                 }
             }
 
-            moveTo( _curIndex );
+            this.moveTo( _curIndex );
         } else {
             vichrome.view.setStatusLineText("");
-            thisObj.removeHighlight();
+            this.removeHighlight();
         }
     }
 
-    this.init = function(opt, commandBox) {
-        _opt = opt;
+    vichrome.search.NormalSearcher = {
+        init : function(opt, commandBox) {
+            _opt = opt;
 
-        (function(obj) {
-            if( _opt.incSearch ) {
-                commandBox.addInputUpdateListener( function(word) {
-                    updateInput( obj, word );
-                });
+            (function(obj) {
+                if( _opt.incSearch ) {
+                    commandBox.addInputUpdateListener( function(word) {
+                        updateInput.call( obj, word );
+                    });
+                }
+            }(this));
+        },
+
+        getOption : function(){
+            return _opt;
+        },
+
+        highlight : function(word) {
+            $(document.body).highlight( word, {ignoreCase : _opt.ignoreCase} );
+        },
+
+        getCurIndex : function() {
+            return _curIndex;
+        },
+
+        removeHighlight : function() {
+            $(document.body).removeHighlight();
+        },
+
+        searchAndHighlight : function(word) {
+            this.removeHighlight();
+            this.highlight(word);
+
+            buildSortedResults();
+        },
+
+        getSearchResultSpan : function(cnt) {
+            return _sortedResults[cnt] && _sortedResults[cnt].value;
+        },
+
+        fix : function(word) {
+            if( !_opt.incSearch || word.length < _opt.minIncSearch  ) {
+                _word = word;
+                this.searchAndHighlight( _word );
             }
-        }(this));
-    };
+            this.fixed = true;
+        },
 
-    this.highlight = function(word) {
-        $(document.body).highlight( word, {ignoreCase : _opt.ignoreCase} );
-    };
+        moveTo : function(pos) {
+            var span  = null;
 
-    this.removeHighlight = function() {
-        $(document.body).removeHighlight();
-    };
-
-    this.searchAndHighlight = function(word) {
-        this.removeHighlight();
-        this.highlight(word);
-
-        buildSortedResults();
-    };
-
-    this.fix = function(word) {
-        if( !_opt.incSearch || word.length < _opt.minIncSearch  ) {
-            _word = word;
-            this.searchAndHighlight( _word );
-        }
-    };
-
-    this.goNext = function (reverse) {
-        var forward = (_opt.backward === reverse);
-
-        if( _removed ) {
-            this.searchAndHighlight( _word );
-            _removed = false;
-        }
-
-        if( forward ) {
-            _curIndex++;
-        } else {
-            _curIndex--;
-        }
-
-        if( forward && _curIndex >= getResultCnt() ) {
-            if( _opt.wrap ) {
-                _curIndex = 0;
+            if( getResultCnt() > pos ) {
+                span = this.getSearchResultSpan( pos );
+                if( span ) {
+                    $('span').removeClass('highlightFocus');
+                    span.addClass('highlightFocus');
+                    adjustScreenToSearchResult( span.offset() );
+                    vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
+                }
             } else {
-                _curIndex = getResultCnt() - 1;
-                return false;
+                logger.e("out of searchResults length", pos);
             }
-        } else if( !forward && _curIndex < 0 ) {
-            if( _opt.wrap ) {
-                _curIndex = getResultCnt() - 1;
+        },
+
+
+        goNext : function (reverse) {
+            var forward = (_opt.backward === reverse);
+
+            if( _removed ) {
+                this.searchAndHighlight( _word );
+                _removed = false;
+            }
+
+            if( forward ) {
+                _curIndex++;
             } else {
-                _curIndex = 0;
-                return false;
+                _curIndex--;
             }
+
+            if( forward && _curIndex >= getResultCnt() ) {
+                if( _opt.wrap ) {
+                    _curIndex = 0;
+                } else {
+                    _curIndex = getResultCnt() - 1;
+                    return false;
+                }
+            } else if( !forward && _curIndex < 0 ) {
+                if( _opt.wrap ) {
+                    _curIndex = getResultCnt() - 1;
+                } else {
+                    _curIndex = 0;
+                    return false;
+                }
+            }
+
+            this.moveTo( _curIndex );
+            return true;
+        },
+
+        cancelHighlight : function() {
+            logger.d("cancelHighlight");
+            this.removeHighlight();
+            _removed = true;
+        },
+
+        finalize : function() {
+            logger.d("finalize");
+            _sortedResults = undefined;
+            _opt = undefined;
+            vichrome.view.hideStatusLine();
+            this.removeHighlight();
         }
+    };
+}());
 
-        moveTo( _curIndex );
-        return true;
+vichrome.search.LinkTextSearcher = vichrome.object( vichrome.search.NormalSearcher );
+(function(o) {
+    var sper = vichrome.search.NormalSearcher;
+
+    o.highlight = function(word) {
+        $("a").highlight( word, {ignoreCase : this.getOption().ignoreCase} );
     };
 
-    this.cancelHighlight = function() {
-        logger.d("cancelHighlight");
-        this.removeHighlight();
-        _removed = true;
+    o.moveTo = function(pos) {
+        var span;
+        sper.moveTo.call(this, pos);
+        if( this.fixed ) {
+            span = this.getSearchResultSpan( pos );
+            span.parent("a").get(0).focus();
+        }
     };
 
-    this.finalize = function() {
-        logger.d("finalize");
-        _sortedResults = undefined;
-        _opt = undefined;
-        view.hideStatusLine();
-        this.removeHighlight();
+    o.fix = function(word) {
+        var span;
+        sper.fix.call(this, word);
+        span = this.getSearchResultSpan( this.getCurIndex() );
+        if( span ) {
+            span.parent("a").get(0).focus();
+        }
     };
-};
+}(vichrome.search.LinkTextSearcher));

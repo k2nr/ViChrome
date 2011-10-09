@@ -76,6 +76,11 @@ vichrome.mode.Mode = {
         vichrome.model.enterSearchMode( true );
     },
 
+    reqGoLinkTextSearchMode : function() {
+        vichrome.model.enterSearchMode( false,
+          vichrome.object( vichrome.search.LinkTextSearcher ) );
+    },
+
     reqBackToPageMark : function() {
         // TODO:enable to go any pagemark, not only unnamed.
         vichrome.model.goPageMark();
@@ -298,14 +303,14 @@ vichrome.mode.CommandMode = vichrome.object( vichrome.mode.Mode );
         }
 
         if( key === "CR" ) {
-            executer = new vichrome.command.CommandExecuter();
+            executer = vichrome.object( vichrome.command.CommandExecuter );
             try {
                 executer.set( this.commandBox.value() )
                 .parse()
                 .execute();
             } catch(e) {
-                vichrome.view.setStatusLineText( "Command Not Found : "+executer.get(), 2000 );
-
+                vichrome.view.setStatusLineText(
+                         "Command Not Found : "+executer.get(), 2000 );
             }
 
             event.stopPropagation();
@@ -464,8 +469,8 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
 
         total = hints.length;
         for( i=0; i < total; i++) {
-            x = hints[i].offset.left - 10;
-            y = hints[i].offset.top  - 10;
+            x = hints[i].offset.left - 7;
+            y = hints[i].offset.top  - 7;
             if( x < 0 ) { x = 0; }
             if( y < 0 ) { y = 0; }
             div = $( '<span id="vichromehint" />' )
@@ -487,9 +492,24 @@ vichrome.mode.FMode = vichrome.object( vichrome.mode.Mode );
 
 $.extend($.expr[':'], {
     _visible: function(elem){
-        if($.expr[':'].hidden(elem)) return false;
-        if($.curCSS(elem, 'visibility') == 'hidden') return false;
-        return true;
+        var win_left = window.pageXOffset,
+            win_top  = window.pageYOffset,
+            win_h    = window.innerHeight,
+            win_w    = window.innerWidth,
+            offset   = $(elem).offset();
+
+        if($.expr[':'].hidden(elem)){
+            return false;
+        }
+        if($.curCSS(elem, 'visibility') === 'hidden') {
+            return false;
+        }
+        if( ( win_left <= offset.left &&  offset.left <= win_left + win_w ) &&
+            ( win_top  <= offset.top  &&  offset.top  <= win_top  + win_h ) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
 

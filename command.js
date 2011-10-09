@@ -1,90 +1,5 @@
 vichrome.command = {};
 
-vichrome.command.KeyQueue = function(){
-    var logger = vichrome.log.logger,
-        a         = "",
-        times     = "",
-        timerId   = 0,
-        waiting = false;
-
-    function stopTimer() {
-        if( waiting ) {
-            logger.d("stop timeout");
-            clearTimeout( timerId );
-            waiting = false;
-        }
-    }
-
-    function startTimer( callback, ms ) {
-        if( waiting ) {
-            logger.e("startTimer:timer already running");
-        } else {
-            waiting = true;
-            timerId = setTimeout( callback, ms );
-        }
-    }
-
-    if( !(this instanceof vichrome.command.KeyQueue) ) {
-        return new vichrome.command.KeyQueue();
-    }
-
-
-    this.queue = function(s) {
-        if( s.search(/[0-9]/) >= 0 && a.length === 0 ) {
-            times += s;
-        } else {
-            a += s;
-        }
-
-        return this;
-    };
-
-    this.reset = function() {
-        a = "";
-        times = "";
-        stopTimer();
-    };
-
-    this.isWaiting = function() {
-        return waiting;
-    };
-
-    this.getTimes = function() {
-        if( times.length === 0 ) {
-            return 1;
-        }
-
-        return parseInt( times, 10 );
-    };
-
-    // returns valid key sequence.if valid key sequence isn't built up, return null
-    this.getNextKeySequence = function() {
-        stopTimer();
-
-        if( vichrome.model.isValidKeySeq(a) ) {
-            // keySeq has corresponding command
-            ret = a;
-            this.reset();
-            return ret;
-        } else {
-            if( !vichrome.model.isValidKeySeqAvailable(a) ) {
-                logger.d("invalid key sequence:" + a);
-                this.reset();
-            } else {
-                // possible key sequences are available.wait next key.
-                startTimer( function() {
-                    a       = "";
-                    times   = "";
-                    waiting = false;
-                }, vichrome.model.getSetting("commandWaitTimeOut") );
-            }
-            return null;
-        }
-    };
-};
-
-vichrome.command.CommandExecuter = function() {
-};
 
 (function(o) {
     function sendToBackground (com, args) {
@@ -101,7 +16,7 @@ vichrome.command.CommandExecuter = function() {
     }
 
     // commands that can be executed before DOM is ready
-    o.commandsBeforeReady = [
+    commandsBeforeReady = [
         "OpenNewTab",
         "CloseCurTab",
         "MoveToNextTab",
@@ -113,7 +28,7 @@ vichrome.command.CommandExecuter = function() {
         "RestoreTab"
     ];
 
-    o.commandTable = {
+    commandTable = {
         Open                  : triggerInsideContent,
         OpenNewTab            : sendToBackground,
         CloseCurTab           : sendToBackground,
@@ -141,6 +56,7 @@ vichrome.command.CommandExecuter = function() {
         GoCommandMode         : triggerInsideContent,
         GoSearchModeForward   : triggerInsideContent,
         GoSearchModeBackward  : triggerInsideContent,
+        GoLinkTextSearchMode  : triggerInsideContent,
         GoFMode               : triggerInsideContent,
         FocusOnFirstInput     : triggerInsideContent,
         BackToPageMark        : triggerInsideContent,
@@ -151,73 +67,155 @@ vichrome.command.CommandExecuter = function() {
         _ChangeLogLevel       : triggerInsideContent
     };
 
-    o.get = function() {
-        return this.command;
-    };
 
-    o.set = function(command, times) {
-        if( !command ) {
-            throw "invalid command";
-        }
-        this.command = command
-                       .replace(/^[\t ]*/, "")
-                       .replace(/[\t ]*$/, "");
+    vichrome.command.CommandExecuter = {
+        get : function() {
+            return this.command;
+        },
 
-        if( !times && times !== 0 ) { times = 1; }
-        this.times = times;
-
-        return this;
-    };
-
-    o.parse = function() {
-        var aliases = vichrome.model.getAlias();
-
-        this.args = this.command.split(/ +/);
-        if( !this.args || this.args.length === 0 ) {
-            throw "invalid command";
-        }
-
-        if( aliases[ this.args[0] ] ) {
-            this.args = aliases[ this.args[0] ]
-                        .split(' ')
-                        .concat( this.args.slice(1) );
-        }
-        if( this.commandTable[ this.args[0] ] ) {
-            return this;
-        } else {
-            throw "invalid command";
-        }
-    };
-
-    o.execute = function() {
-        var times = this.times, com, args, commandTable = this.commandTable;
-
-        args = this.args.slice(1);
-        com  = this.args[0];
-
-        if( !vichrome.model.isReady() && this.commandsBeforeReady.indexOf(com) < 0 ) {
-            return;
-        }
-
-        setTimeout( function() {
-            while( times-- ) {
-                commandTable[com](com, args);
+        set : function(command, times) {
+            if( !command ) {
+                throw "invalid command";
             }
-        }, 0);
-    };
-}(vichrome.command.CommandExecuter.prototype));
+            this.command = command
+            .replace(/^[\t ]*/, "")
+            .replace(/[\t ]*$/, "");
 
-vichrome.command.CommandManager = function(m) {
+            if( !times && times !== 0 ) { times = 1; }
+            this.times = times;
+
+            return this;
+        },
+
+        parse : function() {
+            var aliases = vichrome.model.getAlias();
+
+            this.args = this.command.split(/ +/);
+            if( !this.args || this.args.length === 0 ) {
+                throw "invalid command";
+            }
+
+            if( aliases[ this.args[0] ] ) {
+                this.args = aliases[ this.args[0] ]
+                .split(' ')
+                .concat( this.args.slice(1) );
+            }
+            if( commandTable[ this.args[0] ] ) {
+                return this;
+            } else {
+                throw "invalid command";
+            }
+        },
+
+        execute : function() {
+            var times = this.times, com, args;
+
+            args = this.args.slice(1);
+            com  = this.args[0];
+
+            if( !vichrome.model.isReady() && commandsBeforeReady.indexOf(com) < 0 ) {
+                return;
+            }
+
+            setTimeout( function() {
+                while( times-- ) {
+                    commandTable[com](com, args);
+                }
+            }, 0);
+        }
+    };
+}());
+
+// command Manager definition
+(function() {
     // dependencies
-    var KeyQueue     = vichrome.command.KeyQueue,
+    var keyQueue,
         KeyManager   = vichrome.key.KeyManager,
-        keyQueue     = new KeyQueue(),
-        model        = m,
         CommandExecuter = vichrome.command.CommandExecuter;
 
-    function getCommandFromKeySeq (s) {
-        var keySeq,
-            keyMap = model.getKeyMapping();
+    // keyQueue definition
+    (function() {
+        var logger = vichrome.log.logger,
+        a         = "",
+        times     = "",
+        timerId   = 0,
+        waiting = false;
+
+        function stopTimer() {
+            if( waiting ) {
+                logger.d("stop timeout");
+                clearTimeout( timerId );
+                waiting = false;
+            }
+        }
+
+        function startTimer( callback, ms ) {
+            if( waiting ) {
+                logger.e("startTimer:timer already running");
+            } else {
+                waiting = true;
+                timerId = setTimeout( callback, ms );
+            }
+        }
+
+        keyQueue = {
+            queue : function(s) {
+                if( s.search(/[0-9]/) >= 0 && a.length === 0 ) {
+                    times += s;
+                } else {
+                    a += s;
+                }
+
+                return this;
+            },
+
+            reset : function() {
+                a = "";
+                times = "";
+                stopTimer();
+            },
+
+            isWaiting : function() {
+                return waiting;
+            },
+
+            getTimes : function() {
+                if( times.length === 0 ) {
+                    return 1;
+                }
+
+                return parseInt( times, 10 );
+            },
+
+            // returns valid key sequence.if valid key sequence isn't built up, return null
+            getNextKeySequence : function() {
+                stopTimer();
+
+                if( vichrome.model.isValidKeySeq(a) ) {
+                    // keySeq has corresponding command
+                    ret = a;
+                    this.reset();
+                    return ret;
+                } else {
+                    if( !vichrome.model.isValidKeySeqAvailable(a) ) {
+                        logger.d("invalid key sequence:" + a);
+                        this.reset();
+                    } else {
+                        // possible key sequences are available.wait next key.
+                        startTimer( function() {
+                            a       = "";
+                            times   = "";
+                            waiting = false;
+                        }, vichrome.model.getSetting("commandWaitTimeOut") );
+                    }
+                    return null;
+                }
+            }
+        };
+    }());
+
+    function getCommandFromKeySeq (s, keyMap) {
+        var keySeq;
 
         keyQueue.queue(s);
         keySeq = keyQueue.getNextKeySequence();
@@ -227,33 +225,33 @@ vichrome.command.CommandManager = function(m) {
         }
     }
 
-    this.reset = function() {
-        keyQueue.reset();
-    };
+    vichrome.command.commandManager = {
+        reset : function() {
+            keyQueue.reset();
+        },
 
-    this.isWaitingNextKey = function() {
-        return keyQueue.isWaiting();
-    };
+        isWaitingNextKey : function() {
+            return keyQueue.isWaiting();
+        },
 
-    this.handleKey = function(msg){
-        var s     = KeyManager.getKeyCodeStr(msg),
+        handleKey : function(msg, keyMap){
+            var s     = KeyManager.getKeyCodeStr(msg),
             times = keyQueue.getTimes(),
-            com   = getCommandFromKeySeq( s ),
-            executer;
+            com   = getCommandFromKeySeq( s, keyMap );
 
-        if( com && com !== "<NOP>" ) {
-            executer = new CommandExecuter();
-            executer.set( com, times ).parse().execute();
+            if( com && com !== "<NOP>" ) {
+                vichrome.object( CommandExecuter )
+                .set( com, times ).parse().execute();
 
-            // some web sites set their own key bind(google instant search etc).
-            // to prevent messing up vichrome's key bind from them,
-            // we have to stop event propagation here.
-            event.stopPropagation();
-            event.preventDefault();
-        } else if( this.isWaitingNextKey() ) {
-            event.stopPropagation();
-            event.preventDefault();
+                // some web sites set their own key bind(google instant search etc).
+                // to prevent messing up vichrome's key bind from them,
+                // we have to stop event propagation here.
+                event.stopPropagation();
+                event.preventDefault();
+            } else if( this.isWaitingNextKey() ) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
         }
     };
-};
-
+}());

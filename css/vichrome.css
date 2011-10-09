@@ -101,7 +101,7 @@
 }
 
 #vichromehint {
-    background-color: rgba(255, 255, 64, 0.8);
+    background-color: rgba(255, 255, 80, 0.9);
     border-radius: 3px;
     border: solid 1px #777;
     position: absolute;
@@ -142,5 +142,5 @@
 }
 
 .fModeTarget {
-    background-color: rgba(255, 255, 150, 0.6);
+    background-color: rgba(255, 255, 160, 0.7);
 }

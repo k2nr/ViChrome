@@ -9,6 +9,7 @@ vichrome.Model = function() {
         logger         = vichrome.log.logger,
         NormalSearcher = vichrome.search.NormalSearcher,
         object         = vichrome.object,
+        commandManager = vichrome.command.commandManager,
 
         // private variables
         initEnabled    = false,
@@ -16,7 +17,6 @@ vichrome.Model = function() {
         disAutoFocus   = false,
         searcher       = null,
         pmRegister     = null,
-        commandManager = null,
         curMode        = null,
         settings       = null;
 
@@ -33,7 +33,6 @@ vichrome.Model = function() {
         this.enterNormalMode();
 
         pmRegister     = new vichrome.register.PageMarkRegister();
-        commandManager = new vichrome.command.CommandManager(this);
     };
 
     this.isReady =function() {
@@ -82,7 +81,7 @@ vichrome.Model = function() {
     };
 
     this.enterSearchMode = function(backward, searcher_) {
-        var searcher = searcher_ || new vichrome.search.NormalSearcher();
+        var searcher = searcher_ || object( vichrome.search.NormalSearcher );
 
         logger.d("enterSearchMode");
 
@@ -286,7 +285,7 @@ vichrome.Model = function() {
     };
 
     this.handleKey = function(msg) {
-        return commandManager.handleKey(msg);
+        return commandManager.handleKey( msg, this.getKeyMapping() );
     };
 
     this.triggerCommand = function(method, args) {
