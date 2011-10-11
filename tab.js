@@ -118,7 +118,7 @@
     TabHistory.prototype.restoreLastClosedTab = function() {
       var item, opt;
       item = this.closeHistStack.pop();
-      while (item && !this.openTabs[item.tab.windowId]) {
+      while ((item != null) && !this.openTabs[item.tab.windowId]) {
         item = this.closeHistStack.pop();
       }
       if (item == null) {

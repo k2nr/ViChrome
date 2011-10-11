@@ -114,9 +114,7 @@
             pop = true;
             break;
           default:
-            if (arg) {
-              urls.push(arg);
-            }
+            urls.push(arg);
         }
       }
       if (pop) {
@@ -159,41 +157,41 @@
       return this.tabHistory.restoreLastClosedTab();
     },
     reqNMap: function(req, sendResponse) {
-      var map, msg;
+      var msg;
       if (!((req.args[0] != null) && (req.args[1] != null))) {
         return;
       }
-      map = g.SettingManager.setNMap(req.args);
-      msg = {};
-      msg.command = "Settings";
-      msg.name = "keyMappingNormal";
-      msg.value = map;
+      msg = {
+        command: "Settings",
+        name: "keyMappingNormal",
+        value: g.SettingManager.setNMap(req.args)
+      };
       sendResponse(msg);
       return true;
     },
     reqIMap: function(req, sendResponse) {
-      var map, msg;
+      var msg;
       if (!((req.args[0] != null) && (req.args[1] != null))) {
         return;
       }
-      map = g.SettingManager.setIMap(req.args);
-      msg = {};
-      msg.command = "Settings";
-      msg.name = "keyMappingInsert";
-      msg.value = map;
+      msg = {
+        command: "Settings",
+        name: "keyMappingInsert",
+        value: g.SettingManager.setIMap(req.args)
+      };
       sendResponse(msg);
       return true;
     },
     reqAlias: function(req, sendResponse) {
-      var map, msg;
+      var msg;
       if (!((req.args[0] != null) && (req.args[1] != null))) {
         return;
       }
-      map = g.SettingManager.setAlias(req.args);
-      msg = {};
-      msg.command = "Settings";
-      msg.name = "aliases";
-      msg.value = map;
+      msg = {
+        command: "Settings",
+        name: "aliases",
+        value: g.SettingManager.setAlias(req.args)
+      };
       sendResponse(msg);
       return true;
     },

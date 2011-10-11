@@ -67,9 +67,9 @@ g.model =
     isReady : -> @initEnabled and @domReady
 
     setPageMark : (key) ->
-        mark      = {}
-        mark.top  = window.pageYOffset
-        mark.left = window.pageXOffset
+        mark =
+            top  : window.pageYOffset
+            left : window.pageXOffset
 
         @pmRegister.set mark, key
 
@@ -79,7 +79,7 @@ g.model =
 
     setSearcher : (@searcher) ->
 
-    cancelSearchHighlight : -> if @searcher? then @searcher.cancelHighlight()
+    cancelSearchHighlight : -> @searcher?.cancelHighlight()
 
     enterNormalMode : ->
         g.logger.d "enterNormalMode"
@@ -118,10 +118,8 @@ g.model =
         @setPageMark()
         @searcher.goNext reverse
 
-    getNMap : getNMapFirst
-
-    getIMap : getIMapFirst
-
+    getNMap  : getNMapFirst
+    getIMap  : getIMapFirst
     getAlias : getAliasFirst
 
     getSetting : (name) -> @settings[name]
@@ -129,7 +127,7 @@ g.model =
     escape : ->
         @commandManager.reset()
         g.view.hideStatusLine()
-        if not @isInNormalMode() then @enterNormalMode()
+        unless @isInNormalMode() then @enterNormalMode()
 
     onBlur : -> @curMode.blur()
 
@@ -160,7 +158,7 @@ g.model =
             if keySeq == cmpStr
                 return true
 
-        return false
+        false
 
     isUrlMatched : (url, matchPattern) ->
         str = matchPattern.replace(/\*/g, ".*" )
@@ -173,8 +171,7 @@ g.model =
         if regexp.test( url )
             g.logger.d "URL pattern matched:#{url}:#{matchPattern}"
             return true
-
-        return false
+        false
 
     isEnabled : ->
         urls = @getSetting "ignoredUrls"
@@ -183,8 +180,7 @@ g.model =
             if @isUrlMatched window.location.href, url
                 g.logger.d "matched ignored list"
                 return false
-
-        return true
+        true
 
     handleKey : (msg) -> @commandManager.handleKey msg, @getKeyMapping()
 
@@ -200,7 +196,7 @@ g.model =
         else
             @settings[msg.name] = msg.value
 
-        if not @isEnabled()
+        unless @isEnabled()
             @settings.keyMappingNormal = {}
             @settings.keyMappingInsert = {}
 
@@ -217,9 +213,7 @@ g.model =
             return
 
         if @disAutoFocus
-            setTimeout( =>
-                @disAutoFocus = false
-            , 500)
+            setTimeout( ( => @disAutoFocus = false ) , 500)
             @enterNormalMode()
             g.view.blurActiveElement()
         else
@@ -233,8 +227,8 @@ g.model =
     onInitEnabled : ( msg ) ->
         g.logger.d "onInitEnabled"
         @onSettings msg
-
         @disAutoFocus = @getSetting "disableAutoFocus"
+        @init()
         @initEnabled = true
         if @domReady then @onDomReady()
 
@@ -252,7 +246,6 @@ g.model =
             @enterInsertMode()
         else
             @enterNormalMode()
-$(document.body).ready( =>
-    g.model.onDomReady()
-)
+
+$(document).ready( => g.model.onDomReady() )
 

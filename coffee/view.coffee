@@ -31,17 +31,17 @@ $.fn.extend {
         left = x ? newX
         top  = y ? newY
 
-        if not g.model.getSetting "smoothScroll"
+        unless g.model.getSetting "smoothScroll"
             speed = 0
 
         $(document.body).animate( {scrollTop : top, scrollLeft : left}, speed )
         return $(@)
 
-    scrollBy : (x=0, y=0, speed=80) ->
+    scrollBy : (x=0, y=0, speed=35) ->
         top  = window.pageYOffset  + y
         left = window.pageXOffset  + x
 
-        if g.model.getSetting "smoothScroll"
+        unless g.model.getSetting "smoothScroll"
             speed = 0
 
         $(document.body).animate( {scrollTop : top, scrollLeft : left}, speed )
@@ -65,7 +65,7 @@ class g.Surface
 
     attach : (w) ->
         $(document.body).append( w )
-        return this
+        this
 
     activeStatusLine : ->
         @statusLine.removeClass( 'statuslineinactive' )
@@ -75,19 +75,19 @@ class g.Surface
             clearTimeout( @slTimeout )
             @slTimeout = undefined
 
-        return this
+        this
 
     inactiveStatusLine : ->
         @statusLine.addClass( 'statuslineinactive' )
         return this
 
     hideStatusLine : ->
-        if @slTimeout
+        if @slTimeout?
             clearTimeout( @slTimeout )
             @slTimeout = undefined
 
         @statusLine.html("").hide()
-        return this
+        this
 
     setStatusLineText : (text, timeout) ->
         @statusLine.html( text )
@@ -96,50 +96,50 @@ class g.Surface
         if timeout
             @slTimeout = setTimeout ( => @statusLine.html("").hide() ), timeout
 
-        return this
+        this
 
     detach : (w) -> w.detach()
 
     focusInput : (idx) ->
-        if not @initialized then return this
+        unless @initialized then return this
 
         $('form input:text:visible').scrollTo?().get(0)?.focus()
-        return this
+        this
 
     scrollBy : (x, y) ->
-        if not @initialized then return this
+        unless@initialized then return this
 
-        $(document.body).scrollBy(x, y, 40)
-        return this
+        $(document.body).scrollBy(x, y, 30)
+        this
 
     scrollTo : (x, y) ->
-        if not @initialized then return this
+        unless @initialized then return this
 
         $(document.body).scrollTo(x, y, 80)
-        return this
+        this
 
     backHist : ->
-        if not @initialized then return this
+        unless @initialized then return this
 
         window.history.back()
-        return this
+        this
 
     forwardHist : ->
-        if not @initialized then return this
+        unless @initialized then return this
         window.history.forward()
-        return this
+        this
 
     reload : ->
-        if not @initialized then return this
+        unless @initialized then return this
 
         window.location.reload()
-        return this
+        this
 
     blurActiveElement : ->
-        if not @initialized then return this
+        unless @initialized then return this
 
         document.activeElement.blur()
-        return this
+        this
 
 class g.CommandBox
     init : (view, align, w) ->
@@ -164,25 +164,25 @@ class g.CommandBox
 
         @view = view
 
-        return this
+        this
 
     addInputUpdateListener : (fn) ->
         @inputUpdateListener = fn
-        return this
+        this
 
     removeInputUpdateListener : ->
         @inputUpdateListener = null
-        return this
+        this
 
     attachTo : (view) ->
         view.attach( @box )
-        return this
+        this
 
     detachFrom : (view) ->
         view.detach( @box )
 
         @inputUpdateListener = null
-        return this
+        this
 
     show : (modeChar, input) ->
         @input.attr( "value", input )
@@ -196,8 +196,7 @@ class g.CommandBox
                 @inputUpdateListener( @value() )
 
         @view.activeStatusLine()
-
-        return this
+        this
 
     hide : ->
         if @isVisible()
@@ -205,12 +204,11 @@ class g.CommandBox
             @input.blur()
 
         @box.unbind()
-
-        return this
+        this
 
     focus : ->
         @input.get(0)?.focus()
-        return this
+        this
 
     isVisible : -> @inputField.css( 'display' ) isnt 'none'
 

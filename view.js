@@ -54,11 +54,11 @@
         y = 0;
       }
       if (speed == null) {
-        speed = 80;
+        speed = 35;
       }
       top = window.pageYOffset + y;
       left = window.pageXOffset + x;
-      if (g.model.getSetting("smoothScroll")) {
+      if (!g.model.getSetting("smoothScroll")) {
         speed = 0;
       }
       $(document.body).animate({
@@ -98,7 +98,7 @@
       return this;
     };
     Surface.prototype.hideStatusLine = function() {
-      if (this.slTimeout) {
+      if (this.slTimeout != null) {
         clearTimeout(this.slTimeout);
         this.slTimeout = void 0;
       }
@@ -134,7 +134,7 @@
       if (!this.initialized) {
         return this;
       }
-      $(document.body).scrollBy(x, y, 40);
+      $(document.body).scrollBy(x, y, 30);
       return this;
     };
     Surface.prototype.scrollTo = function(x, y) {

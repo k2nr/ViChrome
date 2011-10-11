@@ -103,7 +103,7 @@
       return g.view.focusInput(0);
     };
     Mode.prototype.req_ChangeLogLevel = function(args) {
-      if (!((args != null ? args.length : void 0) > 0)) {
+      if (!args || args.length < 1) {
         return;
       }
       if (g.logLevels[args[0]] != null) {
@@ -148,6 +148,12 @@
     InsertMode.prototype.getName = function() {
       return "InsertMode";
     };
+    InsertMode.prototype.blur = function() {
+      return g.model.enterNormalMode();
+    };
+    InsertMode.prototype.getKeyMapping = function() {
+      return g.model.getIMap();
+    };
     InsertMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
       if (ctrl || alt || meta) {
         return true;
@@ -156,13 +162,6 @@
         return false;
       }
       return true;
-    };
-    InsertMode.prototype.enter = function() {};
-    InsertMode.prototype.blur = function() {
-      return g.model.enterNormalMode();
-    };
-    InsertMode.prototype.getKeyMapping = function() {
-      return g.model.getIMap();
     };
     return InsertMode;
   })();
@@ -186,8 +185,7 @@
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
       this.commandBox = (new g.CommandBox).init(g.view, align, width);
-      searcher_.init(opt, this.commandBox);
-      this.searcher = searcher_;
+      this.searcher = searcher_.init(opt, this.commandBox);
       this.backward = backward_;
       return this;
     };
@@ -199,7 +197,7 @@
     SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
       var word;
       if (ctrl || alt || meta) {
-        true;
+        return true;
       }
       word = this.commandBox.value();
       if (word.length === 0 && (key === "BS" || key === "DEL")) {
@@ -361,8 +359,10 @@
         event.stopPropagation();
         event.preventDefault();
         this.putValidChar(key);
+        return false;
+      } else {
+        return true;
       }
-      return false;
     };
     FMode.prototype.getKeyLength = function(candiNum) {
       if (candiNum === 1) {
@@ -381,9 +381,9 @@
       links = $('a:_visible,*:input:_visible');
       if (links.length === 0) {
         g.view.setStatusLineText("No visible links found", 2000);
-        setTimeout(function() {
+        setTimeout((function() {
           return g.model.enterNormalMode();
-        }, 0);
+        }), 0);
         return;
       }
       this.keys = g.model.getSetting("fModeAvailableKeys");

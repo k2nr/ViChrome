@@ -100,9 +100,13 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
 
     userMap     : null
     pageMap     : null
-    setCb : null
+    setCb       : null
 
     mapApplied : (args) ->
+        if args.length < 2
+            g.logger.w "less arguments", args
+            return this
+
         if args[1].charAt(0) == ':'
             this[ args[0] ] = args.slice(1).join(' ').slice(1)
         else
@@ -110,19 +114,21 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
                 this[ args[0] ] = "<NOP>"
             else
                 this[ args[0] ] = this[ args[1] ]
-
-        return this
+        this
 
     _map   : ( map, args ) -> @mapApplied.call( map.nmap, args )
     _nmap  : ( map, args ) -> @mapApplied.call( map.nmap, args )
     _imap  : ( map, args ) -> @mapApplied.call( map.imap, args )
     _alias : ( map, args ) ->
+        if args.length < 2
+            g.logger.w "less arguments", args
+            return map.alias
+
         map.alias[ args[0] ] = args.slice(1).join(' ')
         map.alias
 
     _pagecmd : ( map, args ) ->
         unless @pageMap[args[0]]? then @pageMap[args[0]] = g.extendDeep( mapping )
-
         this["_"+args[1]]?( @pageMap[args[0]], args.slice(2) )
 
     parseKeyMappingAndAliases : ->
@@ -133,13 +139,12 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
                 .split('\n')
 
         for line in lines
-            if line.length == 0 then continue
+            if line.length    ==  0  then continue
             if line.charAt(0) == '#' then continue
 
             args = line.split(/[\t ]+/)
             this["_"+args[0]]?( @userMap, args.slice(1) )
-
-        return this
+        this
 
     initUserMap  : ->
         defNormal     = @defaultSettings.keyMappingNormal
@@ -179,13 +184,13 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
 
         return settings
 
-    get   : (name) ->
+    get : (name) ->
         if localStorage[name]?
             return JSON.parse( localStorage.getItem(name) )
         else
             return @defaultSettings[name]
 
-    set   : (name, value) ->
+    set : (name, value) ->
         localStorage.setItem( name, JSON.stringify(value) )
         if name == "keyMappingAndAliases"
             @initUserMap()
@@ -193,13 +198,9 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
 
         @setCb?(name, value)
 
-    #set normal key mapping but just for temporary usage
-    setNMap : (args) -> @_map( @userMap, args )
-
-    #set insert key mapping but just for temporary usage
-    setIMap : (args) -> @_imap( @userMap, args )
-
-    #set command alias but just for temporary usage
+    #set key mapping/aliases but just for temporary usage
+    setNMap  : (args) -> @_map(   @userMap, args )
+    setIMap  : (args) -> @_imap(  @userMap, args )
     setAlias : (args) -> @_alias( @userMap, args )
 
     init  : ->

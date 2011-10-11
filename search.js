@@ -32,19 +32,12 @@
       return this.sortedResults.length;
     };
     NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
-      var i, offset, total, _ref;
-      total = this.getResultCnt();
-      for (i = 0, _ref = total - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-        if (this.opt.backward) {
-          offset = this.getSearchResultSpan(total - 1 - i).offset();
-          if (offset.top + 10 < window.pageYOffset + window.innerHeight) {
-            return total - 1 - i;
-          }
-        } else {
-          offset = this.getSearchResultSpan(i).offset();
-          if (offset.top - 10 > window.pageYOffset) {
-            return i;
-          }
+      var i, idx, span, _ref;
+      for (i = 0, _ref = this.getResultCnt() - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        idx = this.opt.backward ? total - 1 - i : i;
+        span = this.getResult(idx);
+        if (span.isWithinScreen()) {
+          return idx;
         }
       }
       return -1;
@@ -65,19 +58,20 @@
             this.curIndex = 0;
           }
         }
-        return this.moveTo(this.curIndex);
+        this.moveTo(this.curIndex);
       } else {
         g.view.setStatusLineText("");
-        return this.removeHighlight();
+        this.removeHighlight();
       }
     };
     NormalSearcher.prototype.init = function(opt, commandBox) {
       this.opt = opt;
       if (this.opt.incSearch) {
-        return commandBox.addInputUpdateListener(__bind(function(word) {
+        commandBox.addInputUpdateListener(__bind(function(word) {
           return this.updateInput(word);
         }, this));
       }
+      return this;
     };
     NormalSearcher.prototype.getOption = function() {
       return this.opt;
@@ -98,7 +92,7 @@
       this.highlight(word);
       return this.buildSortedResults();
     };
-    NormalSearcher.prototype.getSearchResultSpan = function(cnt) {
+    NormalSearcher.prototype.getResult = function(cnt) {
       return this.sortedResults[cnt].value;
     };
     NormalSearcher.prototype.fix = function(word) {
@@ -113,7 +107,7 @@
     NormalSearcher.prototype.moveTo = function(pos) {
       var span;
       if (this.getResultCnt() > pos) {
-        span = this.getSearchResultSpan(pos);
+        span = this.getResult(pos);
         if (span != null) {
           $('span').removeClass('highlightFocus');
           span.addClass('highlightFocus');
@@ -182,13 +176,13 @@
       var _ref;
       LinkTextSearcher.__super__.moveTo.call(this, pos);
       if (this.fixed) {
-        return (_ref = this.getSearchResultSpan(pos)) != null ? _ref.closest("a").get(0).focus() : void 0;
+        return (_ref = this.getResult(pos)) != null ? _ref.closest("a").get(0).focus() : void 0;
       }
     };
     LinkTextSearcher.prototype.fix = function(word) {
       var span;
       LinkTextSearcher.__super__.fix.call(this, word);
-      span = this.getSearchResultSpan(this.getCurIndex());
+      span = this.getResult(this.getCurIndex());
       return span != null ? span.closest("a").get(0).focus() : void 0;
     };
     return LinkTextSearcher;

@@ -7,14 +7,14 @@
     }
     PageMarkRegister.prototype.defaultKeyName = "unnamed";
     PageMarkRegister.prototype.set = function(pos, key) {
-      if (!key) {
+      if (key == null) {
         key = this.defaultKeyName;
       }
       this.values[key] = pos;
       return this;
     };
     PageMarkRegister.prototype.get = function(key) {
-      if (!key) {
+      if (key == null) {
         key = this.defaultKeyName;
       }
       return this.values[key];

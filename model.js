@@ -84,9 +84,10 @@
     },
     setPageMark: function(key) {
       var mark;
-      mark = {};
-      mark.top = window.pageYOffset;
-      mark.left = window.pageXOffset;
+      mark = {
+        top: window.pageYOffset,
+        left: window.pageXOffset
+      };
       return this.pmRegister.set(mark, key);
     },
     goPageMark: function(key) {
@@ -100,9 +101,8 @@
       this.searcher = searcher;
     },
     cancelSearchHighlight: function() {
-      if (this.searcher != null) {
-        return this.searcher.cancelHighlight();
-      }
+      var _ref;
+      return (_ref = this.searcher) != null ? _ref.cancelHighlight() : void 0;
     },
     enterNormalMode: function() {
       g.logger.d("enterNormalMode");
@@ -254,9 +254,9 @@
         return;
       }
       if (this.disAutoFocus) {
-        setTimeout(__bind(function() {
+        setTimeout((__bind(function() {
           return this.disAutoFocus = false;
-        }, this), 500);
+        }, this)), 500);
         this.enterNormalMode();
         return g.view.blurActiveElement();
       } else {
@@ -274,6 +274,7 @@
       g.logger.d("onInitEnabled");
       this.onSettings(msg);
       this.disAutoFocus = this.getSetting("disableAutoFocus");
+      this.init();
       this.initEnabled = true;
       if (this.domReady) {
         return this.onDomReady();
@@ -294,7 +295,7 @@
       }
     }
   };
-  $(document.body).ready(__bind(function() {
+  $(document).ready(__bind(function() {
     return g.model.onDomReady();
   }, this));
 }).call(this);

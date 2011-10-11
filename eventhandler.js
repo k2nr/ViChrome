@@ -37,7 +37,7 @@
           meta: e.metaKey
         };
       } else {
-        return g.logger.d("prePostKeyEvent:key ignored by current mode");
+        g.logger.d("prePostKeyEvent:key ignored by current mode");
       }
     };
     EventHandler.prototype.onFocus = function(e) {
@@ -56,12 +56,11 @@
       }, this)), true);
     };
     EventHandler.prototype.init = function() {
-      this.addWindowListeners();
-      return this.model.init();
+      return this.addWindowListeners();
     };
     EventHandler.prototype.onInitEnabled = function(msg) {
-      this.model.onInitEnabled(msg);
-      return this.init();
+      this.init();
+      return this.model.onInitEnabled(msg);
     };
     EventHandler.prototype.onCommandResponse = function(msg) {
       if ((msg != null ? msg.command : void 0) === "Settings") {

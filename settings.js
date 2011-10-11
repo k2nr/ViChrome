@@ -74,6 +74,10 @@
     pageMap: null,
     setCb: null,
     mapApplied: function(args) {
+      if (args.length < 2) {
+        g.logger.w("less arguments", args);
+        return this;
+      }
       if (args[1].charAt(0) === ':') {
         this[args[0]] = args.slice(1).join(' ').slice(1);
       } else {
@@ -95,6 +99,10 @@
       return this.mapApplied.call(map.imap, args);
     },
     _alias: function(map, args) {
+      if (args.length < 2) {
+        g.logger.w("less arguments", args);
+        return map.alias;
+      }
       map.alias[args[0]] = args.slice(1).join(' ');
       return map.alias;
     },

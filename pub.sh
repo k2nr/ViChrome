@@ -1,6 +1,6 @@
 #!/bin/bash
 
 rm vichrome.zip
-coffee -o . -c coffee/*.coffee
+coffee/build.sh
 zip vichrome.zip *.js manifest.json *.html lib/* icons/* css/*
 

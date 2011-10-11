@@ -92,12 +92,9 @@
         return;
       }
       return setTimeout(__bind(function() {
-        var _results;
-        _results = [];
         while (this.times--) {
-          _results.push(this.commandTable[com](com, this.args.slice(1)));
+          this.commandTable[com](com, this.args.slice(1));
         }
-        return _results;
       }, this), 0);
     };
     return CommandExecuter;
@@ -118,12 +115,11 @@
         }
       },
       startTimer: function(callback, ms) {
-        if (this.waiting) {
-          return g.logger.e("startTimer:timer already running");
-        } else {
-          this.waiting = true;
-          return this.timerId = setTimeout(callback, ms);
+        if (!this.waiting) {
+          return;
         }
+        this.waiting = true;
+        return this.timerId = setTimeout(callback, ms);
       },
       queue: function(s) {
         if (s.search(/[0-9]/) >= 0 && this.a.length === 0) {
@@ -142,10 +138,11 @@
         return this.waiting;
       },
       getTimes: function() {
-        if (this.times.length === 0) {
+        if (this.times.length > 0) {
+          return parseInt(this.times, 10);
+        } else {
           return 1;
         }
-        return parseInt(this.times, 10);
       },
       getNextKeySequence: function() {
         var ret;
@@ -155,15 +152,15 @@
           this.reset();
           return ret;
         } else {
-          if (!g.model.isValidKeySeqAvailable(this.a)) {
-            g.logger.d("invalid key sequence: " + this.a);
-            this.reset();
-          } else {
+          if (g.model.isValidKeySeqAvailable(this.a)) {
             this.startTimer(__bind(function() {
               this.a = "";
               this.times = "";
               return this.waiting = false;
             }, this), g.model.getSetting("commandWaitTimeOut"));
+          } else {
+            g.logger.d("invalid key sequence: " + this.a);
+            this.reset();
           }
           return null;
         }
@@ -178,6 +175,8 @@
       keySeq = this.keyQueue.getNextKeySequence();
       if (keyMap && keySeq) {
         return keyMap[keySeq];
+      } else {
+        return null;
       }
     };
     CommandManager.prototype.reset = function() {

@@ -28,6 +28,7 @@ class g.EventHandler
             return code: code, ctrl: e.ctrlKey, alt: e.altKey, meta: e.metaKey
         else
             g.logger.d "prePostKeyEvent:key ignored by current mode"
+            return
 
     onFocus : (e) ->
         g.logger.d "onFocus", e.target
@@ -38,14 +39,12 @@ class g.EventHandler
         window.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
         window.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
 
-    init : ->
-        @addWindowListeners()
-        @model.init()
+    init : -> @addWindowListeners()
 
     onInitEnabled : (msg) ->
-        @model.onInitEnabled( msg )
         @init()
+        @model.onInitEnabled( msg )
 
     onCommandResponse : (msg) ->
-        if msg?.command == "Settings"
-            @model.onSettings msg
+        if msg?.command == "Settings" then @model.onSettings msg
+

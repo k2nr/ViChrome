@@ -64,6 +64,7 @@
     border-radius: 0px;
     -webkit-box-shadow: none;
     width: auto;
+    line-height: normal;
     height: 24px;
     padding: 0px 0px;
     margin: 0px 0px;
@@ -75,8 +76,9 @@
     color: #fff;
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
     text-align: left;
-    width: 10px;
+    line-height: normal;
     height: 24px;
+    width: 10px;
     outline: none;
     border: none;
     padding: 0px 0px;
@@ -93,6 +95,7 @@
     outline: none;
     border: none;
     -webkit-box-shadow: none;
+    line-height: normal;
     height: 18px;
     padding: 1px 3px;
     margin:  0px 0px;

@@ -1,16 +1,13 @@
-
 g  = this
 
 sendToBackground = (com, args) ->
     chrome.extension.sendRequest {command : com, args : args}, g.handler.onCommandResponse
 
-triggerInsideContent = (com, args) ->
-    g.model.triggerCommand "req" + com, args
+triggerInsideContent = (com, args) -> g.model.triggerCommand "req#{com}", args
 
 escape = (com) -> triggerInsideContent "Escape"
 
 class g.CommandExecuter
-
     commandsBeforeReady : [
         "OpenNewTab"
         "CloseCurTab"
@@ -61,16 +58,13 @@ class g.CommandExecuter
         "_ChangeLogLevel"     : triggerInsideContent
 
     get : -> @command
-
     set : (command, times) ->
         if not command then throw "invalid command"
         @command = command
                    .replace(/^[\t ]*/, "")
                    .replace(/[\t ]*$/, "")
-
         @times = times ? 1
-
-        return this
+        this
 
     parse : ->
         @args = @command.split(/\ +/)
@@ -82,17 +76,15 @@ class g.CommandExecuter
 
         if @commandTable[ @args[0] ]
             return this
-        else
-            throw "invalid command"
+        else throw "invalid command"
 
     execute : ->
         com  = @args[0]
-
         unless g.model.isReady() or com in @commandsBeforeReady then return
 
         setTimeout( =>
-            while @times--
-                @commandTable[com]( com, @args.slice(1) )
+            @commandTable[com]( com, @args.slice(1) ) while @times--
+            return
         , 0 )
 
 class g.CommandManager
@@ -110,11 +102,10 @@ class g.CommandManager
                 @waiting = false
 
         startTimer : (callback, ms) ->
-            if @waiting
-                g.logger.e "startTimer:timer already running"
-            else
-                @waiting = true;
-                @timerId = setTimeout( callback, ms )
+            unless @waiting then return
+
+            @waiting = true;
+            @timerId = setTimeout( callback, ms )
 
         queue : (s) ->
             if s.search(/[0-9]/) >= 0 and @a.length == 0
@@ -122,7 +113,7 @@ class g.CommandManager
             else
                 @a += s
 
-            return this
+            this
 
         reset : ->
             @a = ""
@@ -131,9 +122,7 @@ class g.CommandManager
 
         isWaiting : -> @waiting
 
-        getTimes : ->
-            if @times.length == 0 then return 1
-            parseInt @times, 10
+        getTimes : -> if @times.length > 0 then parseInt(@times, 10) else 1
 
         getNextKeySequence : ->
             @stopTimer()
@@ -143,17 +132,16 @@ class g.CommandManager
                 @reset()
                 return ret
             else
-                if not g.model.isValidKeySeqAvailable(@a)
-                    g.logger.d "invalid key sequence: #{@a}"
-                    @reset()
-                else
+                if g.model.isValidKeySeqAvailable(@a)
                     @startTimer( =>
                         @a       = ""
                         @times   = ""
                         @waiting = false
                     , g.model.getSetting "commandWaitTimeOut" )
-
-                return null
+                else
+                    g.logger.d "invalid key sequence: #{@a}"
+                    @reset()
+                null
 
     constructor : -> @keyQueue.init()
 
@@ -161,9 +149,7 @@ class g.CommandManager
         @keyQueue.queue(s)
         keySeq = @keyQueue.getNextKeySequence()
 
-        if keyMap and keySeq
-            return keyMap[keySeq]
-        return
+        if keyMap and keySeq then keyMap[keySeq] else null
 
     reset : -> @keyQueue.reset()
 

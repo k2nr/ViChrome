@@ -20,22 +20,14 @@ class g.NormalSearcher
     getResultCnt : -> @sortedResults.length
 
     getFirstInnerSearchResultIndex : ->
-        total = @getResultCnt()
-        for i in [0..total-1]
-            if @opt.backward
-                offset = @getSearchResultSpan( total - 1 - i ).offset()
-                if offset.top + 10 < window.pageYOffset + window.innerHeight
-                    return total - 1 - i
-            else
-                offset = @getSearchResultSpan(i).offset()
-                if offset.top - 10 > window.pageYOffset
-                    return i
+        for i in [0..@getResultCnt()-1]
+            idx = if @opt.backward then total - 1 - i else i
+            span = @getResult( idx )
+            if span.isWithinScreen() then return idx
 
         return -1
 
     updateInput : (@word) ->
-        # because search for string the length of which is 1 may be slow,
-        # search starts with string whose length is over 2.
         if @word.length >= @opt.minIncSearch
             @searchAndHighlight @word
             if @getResultCnt() == 0
@@ -54,9 +46,12 @@ class g.NormalSearcher
             g.view.setStatusLineText("")
             @removeHighlight()
 
+        return
+
     init : (@opt, commandBox) ->
         if @opt.incSearch
             commandBox.addInputUpdateListener( (word) => @updateInput(word) )
+        this
 
     getOption : -> @opt
 
@@ -72,7 +67,7 @@ class g.NormalSearcher
         @highlight(word)
         @buildSortedResults()
 
-    getSearchResultSpan : (cnt) -> @sortedResults[cnt].value
+    getResult : (cnt) -> @sortedResults[cnt].value
 
     fix : (@word) ->
         if not @opt.incSearch or word.length < @opt.minIncSearch
@@ -83,7 +78,7 @@ class g.NormalSearcher
 
     moveTo : (pos) ->
         if @getResultCnt() > pos
-            span = @getSearchResultSpan( pos )
+            span = @getResult( pos )
             if span?
                 $('span').removeClass('highlightFocus')
                 span.addClass('highlightFocus')
@@ -134,10 +129,9 @@ class g.LinkTextSearcher extends g.NormalSearcher
 
     moveTo : (pos) ->
         super pos
-        if @fixed
-            @getSearchResultSpan( pos )?.closest("a").get(0).focus()
+        if @fixed then @getResult( pos )?.closest("a").get(0).focus()
 
     fix : (word) ->
         super word
-        span = @getSearchResultSpan( @getCurIndex() )
+        span = @getResult( @getCurIndex() )
         span?.closest("a").get(0).focus()

@@ -3,10 +3,8 @@ g = this
 class g.Mode
     exit  : ->
     enter : ->
-
     reqOpen : (args) -> if args?[0]? then window.open( args[0], "_self" )
     blur : ->
-
     reqScrollDown   : -> g.view.scrollBy(0, g.model.getSetting "scrollPixelCount")
     reqScrollUp     : -> g.view.scrollBy(0, -g.model.getSetting "scrollPixelCount")
     reqScrollLeft   : -> g.view.scrollBy(-g.model.getSetting "scrollPixelCount", 0)
@@ -37,14 +35,12 @@ class g.Mode
     reqEscape : ->
         g.view.blurActiveElement()
         g.model.escape()
-
         @escape?()
 
     reqGoFMode : (args) ->
-        for arg in args
-            switch arg
-                when "--newtab" then newTab = true
-                when "--continuous" then continuous = true
+        for arg in args then switch arg
+            when "--newtab" then newTab = true
+            when "--continuous" then continuous = true
 
         opt = newTab : newTab, continuous : continuous
         g.model.enterFMode( opt )
@@ -56,7 +52,7 @@ class g.Mode
         g.view.focusInput( 0 )
 
     req_ChangeLogLevel : (args) ->
-        unless args?.length > 0 then return
+        if not args or args.length < 1 then return
 
         if g.logLevels[args[0]]?
             g.LOG_LEVEL = g.logLevels[args[0]]
@@ -67,31 +63,22 @@ class g.Mode
 
 class g.NormalMode extends g.Mode
     getName : -> "NormalMode"
-
     prePostKeyEvent : (key, ctrl, alt, meta) -> true
-
     escape : -> g.model.cancelSearchHighlight()
-
     enter : ->
-
     reqNextSearch : -> g.model.goNextSearchResult( false )
     reqPrevSearch : -> g.model.goNextSearchResult( true )
 
 class g.InsertMode extends g.Mode
     getName : -> "InsertMode"
+    blur    : -> g.model.enterNormalMode()
+    getKeyMapping : -> g.model.getIMap()
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if ctrl or alt or meta then return true
         if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
             return false
-
         true
-
-    enter : ->
-
-    blur : -> g.model.enterNormalMode()
-
-    getKeyMapping : -> g.model.getIMap()
 
 class g.SearchMode extends g.Mode
     getName : -> "SearchMode"
@@ -109,11 +96,9 @@ class g.SearchMode extends g.Mode
 
         @commandBox = (new g.CommandBox).init( g.view, align, width )
 
-        searcher_.init( opt, this.commandBox )
-        @searcher = searcher_
+        @searcher = searcher_.init( opt, this.commandBox )
         @backward = backward_
-
-        return this
+        this
 
     cancelSearch : ->
         g.model.goPageMark()
@@ -121,7 +106,7 @@ class g.SearchMode extends g.Mode
         g.model.enterNormalMode();
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
-        if ctrl or alt or meta then true
+        if ctrl or alt or meta then return true
 
         word = @commandBox.value()
         if word.length == 0 and ( key == "BS" or key == "DEL" )
@@ -139,7 +124,7 @@ class g.SearchMode extends g.Mode
             g.model.enterNormalMode()
             return false
 
-        return true
+        true
 
     escape : -> @cancelSearch()
 
@@ -157,7 +142,7 @@ class g.CommandMode extends g.Mode
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if ctrl or alt or meta then return true
 
-        if @commandBox.value().length == 0 and ( key == "BS" || key == "DEL" )
+        if @commandBox.value().length == 0 and ( key == "BS" or key == "DEL" )
             g.model.enterNormalMode()
             return false
 
@@ -171,13 +156,12 @@ class g.CommandMode extends g.Mode
                 g.view.hideStatusLine()
             catch e
                 g.view.setStatusLineText "Command Not Found : "+executer.get(), 2000
-
             event.stopPropagation()
             event.preventDefault()
             g.model.enterNormalMode()
             return false
 
-        return true
+        true
 
     enter : ->
         align = g.model.getSetting("commandBoxAlign")
@@ -194,8 +178,7 @@ class g.CommandMode extends g.Mode
     getKeyMapping : -> g.model.getIMap()
 
 class g.FMode extends g.Mode
-    getName : -> "FMode"
-
+    getName   : -> "FMode"
     setOption : (@opt) -> this
 
     hit : (i) ->
@@ -203,11 +186,10 @@ class g.FMode extends g.Mode
 
         if @hints[i].target.is('a')
             primary = @opt.newTab
-            if not @opt.continuous
-                setTimeout( ->
-                    g.view.hideStatusLine()
-                    g.model.enterNormalMode()
-                , 0 )
+            if not @opt.continuous then setTimeout( ->
+                g.view.hideStatusLine()
+                g.model.enterNormalMode()
+            , 0 )
         else
             @hints[i].target.focus()
 
@@ -222,8 +204,7 @@ class g.FMode extends g.Mode
 
     searchTarget : ->
         for elem, i in @hints
-            if @currentInput == elem.key
-                return i
+            if @currentInput == elem.key then return i
         return -1
 
     highlightCandidate : ->
@@ -251,10 +232,12 @@ class g.FMode extends g.Mode
             event.stopPropagation()
             event.preventDefault()
             @putValidChar( key )
-        return false
+            return false
+        else
+            return true
 
     getKeyLength : (candiNum) ->
-        if candiNum == 1 then return 1
+        if candiNum     == 1 then return 1
         if @keys.length == 1 then return 1
         Math.ceil( Math.log( candiNum ) / Math.log( @keys.length ) )
 
@@ -267,9 +250,7 @@ class g.FMode extends g.Mode
 
         if links.length == 0
             g.view.setStatusLineText( "No visible links found", 2000 )
-            setTimeout( ->
-                g.model.enterNormalMode()
-            , 0 )
+            setTimeout( ( -> g.model.enterNormalMode() ) , 0 )
             return
 
         @keys = g.model.getSetting("fModeAvailableKeys")

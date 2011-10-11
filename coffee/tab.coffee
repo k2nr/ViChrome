@@ -29,7 +29,7 @@ class g.TabHistory
             for win in wins
                 @openTabs[win.id] = {}
                 for tab in win.tabs
-                    @addOpenTabItem( tab )
+                    @addOpenTabItem tab
         )
 
     setupListeners : ->
@@ -88,17 +88,12 @@ class g.TabHistory
 
     restoreLastClosedTab : ->
         item = @closeHistStack.pop()
-
-        while item and not @openTabs[item.tab.windowId]
-            item = @closeHistStack.pop();
+        while item? and not @openTabs[item.tab.windowId]
+            item = @closeHistStack.pop()
 
         unless item? then return
 
         chrome.windows.update( item.tab.windowId, { focused : true } )
-
         opt = { windowId : item.tab.windowId, url : item.tab.url }
-        chrome.tabs.create( opt, (tab) =>
-#            chrome.tabs.sendRequest( tab.id, {command : "UpdateHistoryState",
-#                                              args    : item.history} );
-        )
+        chrome.tabs.create( opt, (tab) => )
 

@@ -47,11 +47,10 @@ g.bg =
         focus  = true
         pinned = false
 
-        for arg in req.args
-            switch arg
-                when "-b","--background" then focus = false
-                when "-p","--pinned" then pinned = true
-                else urls.push( arg )
+        for arg in req.args then switch arg
+            when "-b","--background" then focus  = false
+            when "-p","--pinned"     then pinned = true
+            else urls.push( arg )
 
         len = urls.length
         if len == 0
@@ -66,19 +65,16 @@ g.bg =
         focus = true
         pop   = false
 
-        for arg in req.args
-            switch arg
-                when "-b","--background" then focus = false
-                when "-p","--pop" then pop = true
-                else
-                    if arg then urls.push( arg )
+        for arg in req.args then switch arg
+            when "-b","--background" then focus = false
+            when "-p","--pop"        then pop   = true
+            else urls.push( arg )
 
-        if pop
-            chrome.tabs.getSelected(null, (tab) ->
-                if urls.length == 0
-                    chrome.windows.create( focused : focus, tabId : tab.id )
-                else
-                    chrome.windows.create( url : urls, focused : focus, tabId : tab.id )
+        if pop then chrome.tabs.getSelected(null, (tab) ->
+            if urls.length == 0
+                chrome.windows.create( focused : focus, tabId : tab.id )
+            else
+                chrome.windows.create( url : urls, focused : focus, tabId : tab.id )
             )
         else
             if urls.length == 0 then urls = @getDefaultNewTabPage()
@@ -88,19 +84,17 @@ g.bg =
         chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
 
     reqMoveToNextTab : -> @moveTab( 1 )
-
     reqMoveToPrevTab : -> @moveTab( -1 )
-
-    reqRestoreTab : (req) -> @tabHistory.restoreLastClosedTab()
+    reqRestoreTab    : (req) -> @tabHistory.restoreLastClosedTab()
 
     reqNMap : (req, sendResponse) ->
         unless req.args[0]? and req.args[1]? then return
 
-        map = g.SettingManager.setNMap( req.args )
-        msg = {}
-        msg.command = "Settings"
-        msg.name    = "keyMappingNormal"
-        msg.value   = map
+        msg =
+            command : "Settings"
+            name    : "keyMappingNormal"
+            value   : g.SettingManager.setNMap( req.args )
+
         sendResponse msg
 
         true
@@ -108,23 +102,21 @@ g.bg =
     reqIMap : (req, sendResponse) ->
         unless req.args[0]? and req.args[1]? then return
 
-        map = g.SettingManager.setIMap( req.args );
-        msg = {}
-        msg.command = "Settings"
-        msg.name    = "keyMappingInsert"
-        msg.value   = map
-        sendResponse(msg)
+        msg =
+            command : "Settings"
+            name    : "keyMappingInsert"
+            value   : g.SettingManager.setIMap( req.args );
+        sendResponse msg
 
         true
 
     reqAlias : (req, sendResponse) ->
         unless req.args[0]? and req.args[1]? then return
 
-        map = g.SettingManager.setAlias req.args
-        msg = {}
-        msg.command = "Settings"
-        msg.name    = "aliases"
-        msg.value   = map
+        msg =
+            command : "Settings"
+            name    : "aliases"
+            value   : g.SettingManager.setAlias req.args
         sendResponse msg
 
         true
