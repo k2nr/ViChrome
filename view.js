@@ -134,7 +134,7 @@
       if (!this.initialized) {
         return this;
       }
-      $(document.body).scrollBy(x, y, 30);
+      $(document.body).scrollBy(x, y, 20);
       return this;
     };
     Surface.prototype.scrollTo = function(x, y) {

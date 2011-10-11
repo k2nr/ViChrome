@@ -109,7 +109,7 @@ class g.Surface
     scrollBy : (x, y) ->
         unless@initialized then return this
 
-        $(document.body).scrollBy(x, y, 30)
+        $(document.body).scrollBy(x, y, 20)
         this
 
     scrollTo : (x, y) ->
