@@ -1,212 +1,178 @@
-vichrome.object = function(o) {
-    function F(){}
-    F.prototype = o;
-    return new F();
-};
-
-vichrome.extend = function(parent, child) {
-    var i;
-    child = child || {};
-
-    for(i in parent) if( parent.hasOwnProperty(i) ) {
-        child[i] = parent[i];
+(function() {
+  var g, include, levels;
+  var __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
     }
-
+    return -1;
+  };
+  g = this;
+  g.object = function(obj) {
+    var F;
+    F = function() {};
+    F.prototype = obj;
+    return new F;
+  };
+  g.extend = function(mixin, obj) {
+    var member, name;
+    if (obj == null) {
+      obj = {};
+    }
+    for (name in mixin) {
+      member = mixin[name];
+      obj[name] = member;
+    }
+    return obj;
+  };
+  g.extendDeep = function(parent, child) {
+    var astr, member, name, toStr;
+    if (child == null) {
+      child = {};
+    }
+    toStr = Object.prototype.toString;
+    astr = "[object Array]";
+    for (name in parent) {
+      member = parent[name];
+      if (typeof member === "object") {
+        child[name] = toStr.call(member) === astr ? [] : {};
+        g.extendDeep(member, child[name]);
+      } else {
+        child[name] = member;
+      }
+    }
     return child;
-};
-
-vichrome.extendDeep = function(parent, child) {
-    var i,
-        toStr = Object.prototype.toString,
-        astr  = "[object Array]"; // type string of Array
-    child = child || {};
-
-    for(i in parent) if( parent.hasOwnProperty(i) ) {
-        if( typeof parent[i] === "object" ) {
-            child[i] = (toStr.call(parent[i]) === astr) ? [] : {};
-            vichrome.extendDeep(parent[i], child[i]);
-        } else {
-            child[i] = parent[i];
-        }
+  };
+  include = function(klass, mixin) {
+    return extend(klass.prototype, mixin);
+  };
+  g.logLevels = {
+    DEBUG: 1,
+    WARNING: 2,
+    ERROR: 3,
+    FATAL: 4,
+    NONE: 5
+  };
+  g.LOG_LEVEL = g.logLevels.ERROR;
+  levels = g.logLevels;
+  g.logger = {
+    printLog: function(a, o) {
+      if (o) {
+        return console.log("vichrome: " + a + " :%o", o);
+      } else {
+        return console.log("vichrome:" + a);
+      }
+    },
+    d: function(a, o) {
+      if (g.LOG_LEVEL <= g.logLevels.DEBUG) {
+        return this.printLog(a, o);
+      }
+    },
+    w: function(a, o) {
+      if (g.LOG_LEVEL <= g.logLevels.WARNING) {
+        return this.printLog(a, o);
+      }
+    },
+    e: function(a, o) {
+      if (g.LOG_LEVEL <= g.logLevels.ERROR) {
+        return this.printLog(a, o);
+      }
+    },
+    f: function(a, o) {
+      if (g.LOG_LEVEL <= g.logLevels.FATAL) {
+        return this.printLog(a, o);
+      }
     }
-
-    return child;
-};
-
-vichrome.log  = {};
-vichrome.util = {};
-
-vichrome.log.level = {
-        DEBUG   : 1,
-        WARNING : 2,
-        ERROR   : 3,
-        FATAL   : 4,
-        NONE    : 5
-};
-
-// TODO:change to ERROR for release version!
-vichrome.log.VICHROME_LOG_LEVEL = vichrome.log.level.ERROR;
-
-vichrome.log.logger = (function(){
-    var log   = vichrome.log,
-        level = vichrome.log.level;
-
-    function _log(a, o) {
-        if(o) {
-            console.log( "vichrome:" + a + " :%o", o );
-        } else {
-            console.log( "vichrome:" + a );
-        }
+  };
+  g.util = {};
+  g.util.isEditable = function(target) {
+    var editableList, ignoreList, _ref, _ref2, _ref3;
+    ignoreList = ["TEXTAREA"];
+    editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
+    if (target.isContentEditable) {
+      return true;
     }
-
-    return {
-        d : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL <= level.DEBUG) {
-                _log(a, o);
-            }
-        },
-
-        w : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL <= level.WARNING) {
-                _log(a, o);
-            }
-        },
-
-        e : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL <= level.ERROR) {
-                _log(a, o);
-            }
-        },
-
-        f : function(a, o) {
-            if(log.VICHROME_LOG_LEVEL <= level.FATAL) {
-                _log(a, o);
-            }
-        }
-    };
-}());
-
-
-
-vichrome.util.isEditable = function(target) {
-    var ignoreList = ["TEXTAREA"],
-        editableList = ["TEXT",
-                        "PASSWORD",
-                        "NUMBER",
-                        "SEARCH",
-                        "TEL",
-                        "URL",
-                        "EMAIL",
-                        "TIME",
-                        "DATETIME",
-                        "DATETIME-LOCAL",
-                        "DEATE",
-                        "WEEK",
-                        "COLOR"];
-
-    if ( target.isContentEditable ) {
-        return true;
+    if (_ref = target.nodeName, __indexOf.call(ignoreList, _ref) >= 0) {
+      return true;
     }
-
-    if( target.nodeName && target.nodeName.toUpperCase() === "INPUT" ) {
-        if( editableList.indexOf( target.type.toUpperCase() ) >= 0 ) {
-            return true;
-        }
+    if (((_ref2 = target.nodeName) != null ? _ref2.toUpperCase() : void 0) === "INPUT" && (_ref3 = target.type.toUpperCase(), __indexOf.call(editableList, _ref3) >= 0)) {
+      return true;
     }
-
-    if( ignoreList.indexOf(target.nodeName) >= 0 ){
-        return true;
-    }
-
     return false;
-};
-
-vichrome.util.getPlatform = function() {
+  };
+  g.util.getPlatform = function() {
     var platform;
-
-    if (navigator.userAgent.indexOf("Mac") !== -1) {
-        platform = "Mac";
-    } else if (navigator.userAgent.indexOf("Linux") !== -1) {
-        platform = "Linux";
-    } else if (navigator.userAgent.indexOf("Win")){
-        platform = "Windows";
+    if (navigator.userAgent.indexOf("Mac") >= 0) {
+      platform = "Mac";
+    } else if (navigator.userAgent.indexOf("Linux") >= 0) {
+      platform = "Linux";
+    } else if (navigator.userAgent.indexOf("Win") >= 0) {
+      platform = "Windows";
     } else {
-        platform = "";
+      platform = "";
     }
-
-    vichrome.util.getPlatform = function() { return platform };
+    g.util.getPlatform = function() {
+      return platform;
+    };
     return platform;
-};
-
-vichrome.util.dispatchKeyEvent = function(target, identifier, primary, shift, alt) {
-    var e = document.createEvent("KeyboardEvent"),
-        modifier ="";
-
-    if( primary ) {
-        modifier += "Meta ";
+  };
+  g.util.dispatchKeyEvent = function(target, identifier, primary, shift, alt) {
+    var e, modifier;
+    e = document.createEvent("KeyboardEvent");
+    modifier = "";
+    if (primary) {
+      modifier += "Meta ";
     }
-    if( shift ) {
-        modifier += "Shift ";
+    if (shift) {
+      modifier += "Shift ";
     }
-    if( alt ) {
-        modifier += "Alt";
+    if (alt) {
+      modifier += "Alt";
     }
-
-    e.initKeyboardEvent("keydown", true, true, window, identifier, 0x00, modifier, true );
-
-    target.dispatchEvent(e);
-};
-
-vichrome.util.dispatchMouseClickEvent = function(target, primary, shift, alt){
-    var e = document.createEvent("MouseEvents"),
-        secondary = false,
-        ctrl, meta;
-
-    if( !target || !target.dispatchEvent ) {
-        vichrome.log.logger.e("target is invalid");
-        return false;
+    e.initKeyboardEvent("keydown", true, true, window, identifier, 0x00, modifier, true);
+    return target.dispatchEvent(e);
+  };
+  g.util.dispatchMouseClickEvent = function(target, primary, shift, alt) {
+    var ctrl, e, meta, secondary;
+    e = document.createEvent("MouseEvents");
+    secondary = false;
+    if ((target != null ? target.dispatchEvent : void 0) == null) {
+      g.logger.e("target is invalid");
+      return false;
     }
-
-    switch( vichrome.util.getPlatform() ) {
-        case "Mac":
-            meta = primary;
-            ctrl = secondary;
-            break;
-        case "Linux":
-        case "Windows":
-            meta = secondary;
-            ctrl = primary;
-            break;
-        default:
-            meta = secondary;
-            ctrl = primary;
-            break;
+    switch (g.util.getPlatform()) {
+      case "Mac":
+        meta = primary;
+        ctrl = secondary;
+        break;
+      case "Linux":
+      case "Windows":
+        meta = secondary;
+        ctrl = primary;
+        break;
+      default:
+        meta = secondary;
+        ctrl = primary;
     }
-
     e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null);
-
     target.dispatchEvent(e);
-
     return true;
-}
-
-vichrome.util.getLang = function(){
+  };
+  g.util.getLang = function() {
     var lang;
-    lang = (navigator.userLanguage||navigator.browserLanguage||navigator.language).substr(0,2);
-
-    vichrome.util.getLang = function(){ return lang; };
+    lang = (navigator.userLanguage || navigator.browserLanguage || navigator.language).substr(0, 2);
+    g.util.getLang = function() {
+      return lang;
+    };
     return lang;
-}
-
-vichrome.util.benchmark = function(cb, text) {
-    function getCurrentTime() {
-        return new Date().getTime();
-    }
-
-    if( text == undefined ) text="";
-
-    var start = getCurrentTime();
+  };
+  g.util.benchmark = function(cb, text) {
+    var getCurrentTime, start;
+    getCurrentTime = function() {
+      return (new Date).getTime();
+    };
+    start = getCurrentTime();
     cb();
-    vichrome.log.logger.d(text+"::benchmark result:" + (getCurrentTime() - start) + "ms" );
-};
-
+    text || (text = "");
+    return g.logger.d(text + ("::benchmark result:" + (getCurrentTime() - start) + "ms"));
+  };
+}).call(this);

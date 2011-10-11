@@ -1,221 +1,196 @@
-vichrome.search = {};
-
 (function() {
-    var _sortedResults = null,
-        _opt           = null,
-        _curIndex      = -1,
-        _word          = "",
-        _removed       = false,
-        logger         = vichrome.log.logger,
-        view           = vichrome.view;
-
-    function buildSortedResults() {
-        _sortedResults = [];
-        $('span.highlight:visible').each(function(i) {
-            _sortedResults[i] = {};
-            _sortedResults[i].offset = $(this).offset();
-            _sortedResults[i].value  = $(this);
-        });
-
-        _sortedResults.sort(function(a, b){
-            if( a.offset.top === b.offset.top ) {
-                return a.offset.left - b.offset.left;
-            } else {
-                return a.offset.top - b.offset.top;
-            }
-        });
-    }
-
-    function getResultCnt() {
-        return _sortedResults.length;
-    }
-
-    function getFirstInnerSearchResultIndex() {
-        var total = getResultCnt(),
-            i, offset;
-        for (i=0; i < total; i++) {
-            if( _opt.backward ) {
-                offset = this.getSearchResultSpan( total - 1 - i ).offset();
-                if( offset.top + 10 < window.pageYOffset + window.innerHeight ) {
-                    return total - 1 - i;
-                }
-            } else {
-                offset = this.getSearchResultSpan(i).offset();
-                if( offset.top - 10 > window.pageYOffset ) {
-                    return i;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    function updateInput(word) {
-        _word = word;
-
-        // because search for string the length of which is 1 may be slow,
-        // search starts with string whose length is over 2.
-        if( word.length >= _opt.minIncSearch ) {
-            this.searchAndHighlight( word );
-            if( getResultCnt() === 0 ) {
-                vichrome.view.setStatusLineText("no matches");
-                return;
-            }
-
-            _curIndex = getFirstInnerSearchResultIndex.call(this);
-            if( _curIndex < 0 ){
-                if( _opt.backward ) {
-                    _curIndex = getResultCnt() - 1;
-                } else {
-                    _curIndex = 0;
-                }
-            }
-
-            this.moveTo( _curIndex );
+  var g;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+  g = this;
+  g.NormalSearcher = (function() {
+    function NormalSearcher() {}
+    NormalSearcher.prototype.buildSortedResults = function() {
+      var results;
+      this.sortedResults = [];
+      results = this.sortedResults;
+      $('span.highlight:visible').each(function(i) {
+        results[i] = {};
+        results[i].offset = $(this).offset();
+        return results[i].value = $(this);
+      });
+      return this.sortedResults.sort(function(a, b) {
+        if (a.offset.top === b.offset.top) {
+          return a.offset.left - b.offset.left;
         } else {
-            vichrome.view.setStatusLineText("");
-            this.removeHighlight();
+          return a.offset.top - b.offset.top;
         }
+      });
+    };
+    NormalSearcher.prototype.getResultCnt = function() {
+      return this.sortedResults.length;
+    };
+    NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
+      var i, offset, total, _ref;
+      total = this.getResultCnt();
+      for (i = 0, _ref = total - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+        if (this.opt.backward) {
+          offset = this.getSearchResultSpan(total - 1 - i).offset();
+          if (offset.top + 10 < window.pageYOffset + window.innerHeight) {
+            return total - 1 - i;
+          }
+        } else {
+          offset = this.getSearchResultSpan(i).offset();
+          if (offset.top - 10 > window.pageYOffset) {
+            return i;
+          }
+        }
+      }
+      return -1;
+    };
+    NormalSearcher.prototype.updateInput = function(word) {
+      this.word = word;
+      if (this.word.length >= this.opt.minIncSearch) {
+        this.searchAndHighlight(this.word);
+        if (this.getResultCnt() === 0) {
+          g.view.setStatusLineText("no matches");
+          return;
+        }
+        this.curIndex = this.getFirstInnerSearchResultIndex();
+        if (this.curIndex < 0) {
+          if (this.opt.backward) {
+            this.curIndex = this.getResultCnt() - 1;
+          } else {
+            this.curIndex = 0;
+          }
+        }
+        return this.moveTo(this.curIndex);
+      } else {
+        g.view.setStatusLineText("");
+        return this.removeHighlight();
+      }
+    };
+    NormalSearcher.prototype.init = function(opt, commandBox) {
+      this.opt = opt;
+      if (this.opt.incSearch) {
+        return commandBox.addInputUpdateListener(__bind(function(word) {
+          return this.updateInput(word);
+        }, this));
+      }
+    };
+    NormalSearcher.prototype.getOption = function() {
+      return this.opt;
+    };
+    NormalSearcher.prototype.highlight = function(word) {
+      return $(document.body).highlight(word, {
+        ignoreCase: this.opt.ignoreCase
+      });
+    };
+    NormalSearcher.prototype.getCurIndex = function() {
+      return this.curIndex;
+    };
+    NormalSearcher.prototype.removeHighlight = function() {
+      return $(document.body).removeHighlight();
+    };
+    NormalSearcher.prototype.searchAndHighlight = function(word) {
+      this.removeHighlight();
+      this.highlight(word);
+      return this.buildSortedResults();
+    };
+    NormalSearcher.prototype.getSearchResultSpan = function(cnt) {
+      return this.sortedResults[cnt].value;
+    };
+    NormalSearcher.prototype.fix = function(word) {
+      this.word = word;
+      if (!this.opt.incSearch || word.length < this.opt.minIncSearch) {
+        this.searchAndHighlight(this.word);
+        this.curIndex = this.getFirstInnerSearchResultIndex();
+        this.moveTo(this.curIndex);
+      }
+      return this.fixed = true;
+    };
+    NormalSearcher.prototype.moveTo = function(pos) {
+      var span;
+      if (this.getResultCnt() > pos) {
+        span = this.getSearchResultSpan(pos);
+        if (span != null) {
+          $('span').removeClass('highlightFocus');
+          span.addClass('highlightFocus');
+          span.scrollTo();
+          return g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
+        }
+      } else {
+        return g.logger.e("out of searchResults length", pos);
+      }
+    };
+    NormalSearcher.prototype.goNext = function(reverse) {
+      var forward;
+      forward = this.opt.backward === reverse;
+      if (this.removed) {
+        this.searchAndHighlight(this.word);
+        this.removed = false;
+      }
+      if (forward) {
+        this.curIndex++;
+      } else {
+        this.curIndex--;
+      }
+      if (forward && this.curIndex >= this.getResultCnt()) {
+        if (this.opt.wrap) {
+          this.curIndex = 0;
+        } else {
+          this.curIndex = this.getResultCnt() - 1;
+          return false;
+        }
+      } else if (!forward && this.curIndex < 0) {
+        if (this.opt.wrap) {
+          this.curIndex = this.getResultCnt() - 1;
+        } else {
+          this.curIndex = 0;
+          return false;
+        }
+      }
+      this.moveTo(this.curIndex);
+      return true;
+    };
+    NormalSearcher.prototype.cancelHighlight = function() {
+      g.logger.d("cancelHighlight");
+      this.removeHighlight();
+      return this.removed = true;
+    };
+    NormalSearcher.prototype.finalize = function() {
+      g.logger.d("finalize");
+      this.sortedResults = void 0;
+      this.opt = void 0;
+      g.view.hideStatusLine();
+      return this.removeHighlight();
+    };
+    return NormalSearcher;
+  })();
+  g.LinkTextSearcher = (function() {
+    __extends(LinkTextSearcher, g.NormalSearcher);
+    function LinkTextSearcher() {
+      LinkTextSearcher.__super__.constructor.apply(this, arguments);
     }
-
-    vichrome.search.NormalSearcher = {
-        init : function(opt, commandBox) {
-            _opt = opt;
-
-            (function(obj) {
-                if( _opt.incSearch ) {
-                    commandBox.addInputUpdateListener( function(word) {
-                        updateInput.call( obj, word );
-                    });
-                }
-            }(this));
-        },
-
-        getOption : function(){
-            return _opt;
-        },
-
-        highlight : function(word) {
-            $(document.body).highlight( word, {ignoreCase : _opt.ignoreCase} );
-        },
-
-        getCurIndex : function() {
-            return _curIndex;
-        },
-
-        removeHighlight : function() {
-            $(document.body).removeHighlight();
-        },
-
-        searchAndHighlight : function(word) {
-            this.removeHighlight();
-            this.highlight(word);
-
-            buildSortedResults();
-        },
-
-        getSearchResultSpan : function(cnt) {
-            return _sortedResults[cnt] && _sortedResults[cnt].value;
-        },
-
-        fix : function(word) {
-            if( !_opt.incSearch || word.length < _opt.minIncSearch  ) {
-                _word = word;
-                this.searchAndHighlight( _word );
-            }
-            this.fixed = true;
-        },
-
-        moveTo : function(pos) {
-            var span  = null;
-
-            if( getResultCnt() > pos ) {
-                span = this.getSearchResultSpan( pos );
-                if( span ) {
-                    $('span').removeClass('highlightFocus');
-                    span.addClass('highlightFocus');
-                    span.scrollTo();
-                    vichrome.view.setStatusLineText( (pos+1) + " / " + getResultCnt() );
-                }
-            } else {
-                logger.e("out of searchResults length", pos);
-            }
-        },
-
-
-        goNext : function (reverse) {
-            var forward = (_opt.backward === reverse);
-
-            if( _removed ) {
-                this.searchAndHighlight( _word );
-                _removed = false;
-            }
-
-            if( forward ) {
-                _curIndex++;
-            } else {
-                _curIndex--;
-            }
-
-            if( forward && _curIndex >= getResultCnt() ) {
-                if( _opt.wrap ) {
-                    _curIndex = 0;
-                } else {
-                    _curIndex = getResultCnt() - 1;
-                    return false;
-                }
-            } else if( !forward && _curIndex < 0 ) {
-                if( _opt.wrap ) {
-                    _curIndex = getResultCnt() - 1;
-                } else {
-                    _curIndex = 0;
-                    return false;
-                }
-            }
-
-            this.moveTo( _curIndex );
-            return true;
-        },
-
-        cancelHighlight : function() {
-            logger.d("cancelHighlight");
-            this.removeHighlight();
-            _removed = true;
-        },
-
-        finalize : function() {
-            logger.d("finalize");
-            _sortedResults = undefined;
-            _opt = undefined;
-            vichrome.view.hideStatusLine();
-            this.removeHighlight();
-        }
+    LinkTextSearcher.prototype.highlight = function(word) {
+      return $("a").highlight(word, {
+        ignoreCase: this.getOption().ignoreCase
+      });
     };
-}());
-
-vichrome.search.LinkTextSearcher = vichrome.object( vichrome.search.NormalSearcher );
-(function(o) {
-    var sper = vichrome.search.NormalSearcher;
-
-    o.highlight = function(word) {
-        $("a").highlight( word, {ignoreCase : this.getOption().ignoreCase} );
+    LinkTextSearcher.prototype.moveTo = function(pos) {
+      var _ref;
+      LinkTextSearcher.__super__.moveTo.call(this, pos);
+      if (this.fixed) {
+        return (_ref = this.getSearchResultSpan(pos)) != null ? _ref.closest("a").get(0).focus() : void 0;
+      }
     };
-
-    o.moveTo = function(pos) {
-        var span;
-        sper.moveTo.call(this, pos);
-        if( this.fixed ) {
-            span = this.getSearchResultSpan( pos );
-            span.parent("a").get(0).focus();
-        }
+    LinkTextSearcher.prototype.fix = function(word) {
+      var span;
+      LinkTextSearcher.__super__.fix.call(this, word);
+      span = this.getSearchResultSpan(this.getCurIndex());
+      return span != null ? span.closest("a").get(0).focus() : void 0;
     };
-
-    o.fix = function(word) {
-        var span;
-        sper.fix.call(this, word);
-        span = this.getSearchResultSpan( this.getCurIndex() );
-        if( span ) {
-            span.parent("a").get(0).focus();
-        }
-    };
-}(vichrome.search.LinkTextSearcher));
+    return LinkTextSearcher;
+  })();
+}).call(this);

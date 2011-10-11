@@ -1,215 +1,214 @@
-vichrome={};
-vichrome.log={};
-var tabHistory;
-
-function moveTab ( offset ) {
-    chrome.tabs.getAllInWindow( null, function( tabs ) {
-        var nTabs = tabs.length;
-        chrome.tabs.getSelected(null, function( tab ) {
-            var idx = tab.index + offset;
-            if( idx < 0 ) {
-                idx = nTabs - 1;
-            } else if( idx >= nTabs ) {
-                idx = 0;
-            }
-            chrome.tabs.update( tabs[idx].id, { selected:true }, function(){ });
+(function() {
+  var g;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  g = this;
+  g.bg = {
+    tabHistory: null,
+    moveTab: function(offset) {
+      return chrome.tabs.getAllInWindow(null, function(tabs) {
+        var nTabs;
+        nTabs = tabs.length;
+        return chrome.tabs.getSelected(null, function(tab) {
+          var idx;
+          idx = tab.index + offset;
+          if (idx < 0) {
+            idx = nTabs - 1;
+          } else if (idx >= nTabs) {
+            idx = 0;
+          }
+          return chrome.tabs.update(tabs[idx].id, {
+            selected: true
+          });
         });
-    });
-}
-
-function getSettings (msg, response) {
-    var sendMsg = {};
-
-    sendMsg.name = msg.name;
-
-    if( msg.name === "all" ) {
-        sendMsg.value = SettingManager.getAll();
-    } else {
-        sendMsg.value = SettingManager.get( msg.name );
-    }
-
-    response( sendMsg );
-}
-
-function setSettings (msg, response) {
-    SettingManager.set( msg.name, msg.value );
-}
-
-
-//  Request Handlers
-//
-function reqSettings (msg, response) {
-    if( msg.type === "get" ) {
-        getSettings( msg, response );
-    } else if( msg.type === "set" ) {
-        setSettings( msg, response );
-    }
-
-    return true;
-}
-
-function getDefaultNewTabPage() {
-    switch( SettingManager.get("defaultNewTab") ) {
-        case "home"   : return undefined;
-        case "newtab" : return "chrome://newtab";
-        case "blank"  : return "about:blank";
-    }
-}
-
-function reqOpenNewTab (req) {
-    var url, urls = [], i, len = req.args.length, focus = true, pinned = false;
-
-    for(i=0; i < len; i++) {
-        switch( req.args[i] ) {
-            case "-b":
-            case "--background":
-                focus = false;
-                break;
-            case "-p":
-            case "--pinned":
-                pinned = true;
-                break;
-            default:
-                urls.push( req.args[i] );
-                break;
+      });
+    },
+    getSettings: function(msg, response) {
+      var sendMsg;
+      sendMsg = {};
+      sendMsg.name = msg.name;
+      if (msg.name === "all") {
+        sendMsg.value = g.SettingManager.getAll();
+      } else {
+        sendMsg.value = g.SettingManager.get(msg.name);
+      }
+      return response(sendMsg);
+    },
+    setSettings: function(msg, response) {
+      return g.SettingManager.set(msg.name, msg.value);
+    },
+    reqSettings: function(msg, response) {
+      if (msg.type === "get") {
+        this.getSettings(msg, response);
+      } else if (msg.type === "set") {
+        this.setSettings(msg, response);
+      }
+      return true;
+    },
+    getDefaultNewTabPage: function() {
+      switch (g.SettingManager.get("defaultNewTab")) {
+        case "home":
+          break;
+        case "newtab":
+          return "chrome://newtab";
+        case "blank":
+          return "about:blank";
+      }
+    },
+    reqOpenNewTab: function(req) {
+      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref, _results;
+      urls = [];
+      focus = true;
+      pinned = false;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
+        switch (arg) {
+          case "-b":
+          case "--background":
+            focus = false;
+            break;
+          case "-p":
+          case "--pinned":
+            pinned = true;
+            break;
+          default:
+            urls.push(arg);
         }
-    }
-
-    len = urls.length;
-    if( len === 0 ) {
-        url = getDefaultNewTabPage();
-        chrome.tabs.create( {url : url, selected : focus, pinned : pinned} );
-    } else {
-        for(i=0; i < len; i++) {
-            chrome.tabs.create({url : urls[i], selected : focus, pinned :pinned});
-        }
-    }
-}
-
-function reqOpenNewWindow (req) {
-    var urls = [], i, len = req.args.length, focus = true, pop = false;
-
-    for(i=0; i < len; i++) {
-        switch( req.args[i] ) {
-            case "-b":
-            case "--background":
-                focus = false;
-                break;
-            case "-p":
-            case "--pop":
-                pop = true;
-                break;
-            default:
-                if( req.args[0] ) {
-                    urls.push( req.args[0] );
-                }
-                break;
-        }
-    }
-
-    if( pop ) {
-        chrome.tabs.getSelected(null, function(tab) {
-            if( urls.length === 0 ) {
-                chrome.windows.create( {focused : focus, tabId : tab.id} );
-            } else {
-                chrome.windows.create( {url : urls, focused : focus, tabId : tab.id} );
-            }
+      }
+      len = urls.length;
+      if (len === 0) {
+        url = this.getDefaultNewTabPage();
+        return chrome.tabs.create({
+          url: url,
+          selected: focus,
+          pinned: pinned
         });
-    } else {
-        if( urls.length === 0 ) {
-            urls = getDefaultNewTabPage();
+      } else {
+        _results = [];
+        for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
+          url = urls[_j];
+          _results.push(chrome.tabs.create({
+            url: url,
+            selected: focus,
+            pinned: pinned
+          }));
         }
-
-        chrome.windows.create( {url : urls, focused : focus} );
-    }
-}
-
-function reqCloseCurTab () {
-    chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.remove(tab.id, function(){});
-    });
-}
-
-function reqMoveToNextTab () {
-    moveTab( 1 );
-}
-
-function reqMoveToPrevTab () {
-    moveTab( -1 );
-}
-
-
-function reqRestoreTab(req) {
-    tabHistory.restoreLastClosedTab();
-}
-
-function reqNMap(req, sendResponse) {
-    if( !req.args[0] || !req.args[1] ) {
-        return;
-    }
-
-    var msg = {}, map;
-
-    map = SettingManager.setNMap( req.args );
-    msg.command = "Settings";
-    msg.name    = "keyMappingNormal";
-    msg.value   = map;
-    sendResponse(msg);
-
-    return true;
-}
-
-function reqIMap(req, sendResponse) {
-    if( !req.args[0] || !req.args[1] ) {
-        return;
-    }
-
-    var msg = {}, map;
-
-    map = SettingManager.setIMap( req.args );
-    msg.command = "Settings";
-    msg.name    = "keyMappingInsert";
-    msg.value   = map;
-    sendResponse(msg);
-
-    return true;
-}
-
-function reqAlias(req, sendResponse) {
-    if( !req.args[0] || !req.args[1] ) {
-        return;
-    }
-
-    var msg = {}, map;
-
-    map = SettingManager.setAlias( req.args );
-    msg.command = "Settings";
-    msg.name    = "aliases";
-    msg.value   = map;
-    sendResponse(msg);
-
-    return true;
-}
-
-function init () {
-    var that = this,
-        logger = vichrome.log.logger;
-
-    tabHistory = new TabHistory();
-    tabHistory.init();
-
-    SettingManager.init();
-
-    chrome.extension.onRequest.addListener(
-        function( req, sender, sendResponse ) {
-            if( that["req"+req.command] ) {
-                if( !that["req"+req.command]( req, sendResponse ) ) {
-                    sendResponse();
-                }
-            } else {
-                logger.e("INVALID command!:", req.command);
+        return _results;
+      }
+    },
+    reqOpenNewWindow: function(req) {
+      var arg, focus, pop, urls, _i, _len, _ref;
+      urls = [];
+      focus = true;
+      pop = false;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
+        switch (arg) {
+          case "-b":
+          case "--background":
+            focus = false;
+            break;
+          case "-p":
+          case "--pop":
+            pop = true;
+            break;
+          default:
+            if (arg) {
+              urls.push(arg);
             }
         }
-    );
-}
-
+      }
+      if (pop) {
+        return chrome.tabs.getSelected(null, function(tab) {
+          if (urls.length === 0) {
+            return chrome.windows.create({
+              focused: focus,
+              tabId: tab.id
+            });
+          } else {
+            return chrome.windows.create({
+              url: urls,
+              focused: focus,
+              tabId: tab.id
+            });
+          }
+        });
+      } else {
+        if (urls.length === 0) {
+          urls = this.getDefaultNewTabPage();
+        }
+        return chrome.windows.create({
+          url: urls,
+          focused: focus
+        });
+      }
+    },
+    reqCloseCurTab: function() {
+      return chrome.tabs.getSelected(null, function(tab) {
+        return chrome.tabs.remove(tab.id);
+      });
+    },
+    reqMoveToNextTab: function() {
+      return this.moveTab(1);
+    },
+    reqMoveToPrevTab: function() {
+      return this.moveTab(-1);
+    },
+    reqRestoreTab: function(req) {
+      return this.tabHistory.restoreLastClosedTab();
+    },
+    reqNMap: function(req, sendResponse) {
+      var map, msg;
+      if (!((req.args[0] != null) && (req.args[1] != null))) {
+        return;
+      }
+      map = g.SettingManager.setNMap(req.args);
+      msg = {};
+      msg.command = "Settings";
+      msg.name = "keyMappingNormal";
+      msg.value = map;
+      sendResponse(msg);
+      return true;
+    },
+    reqIMap: function(req, sendResponse) {
+      var map, msg;
+      if (!((req.args[0] != null) && (req.args[1] != null))) {
+        return;
+      }
+      map = g.SettingManager.setIMap(req.args);
+      msg = {};
+      msg.command = "Settings";
+      msg.name = "keyMappingInsert";
+      msg.value = map;
+      sendResponse(msg);
+      return true;
+    },
+    reqAlias: function(req, sendResponse) {
+      var map, msg;
+      if (!((req.args[0] != null) && (req.args[1] != null))) {
+        return;
+      }
+      map = g.SettingManager.setAlias(req.args);
+      msg = {};
+      msg.command = "Settings";
+      msg.name = "aliases";
+      msg.value = map;
+      sendResponse(msg);
+      return true;
+    },
+    init: function() {
+      this.tabHistory = (new g.TabHistory).init();
+      g.SettingManager.init();
+      return chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
+        if (this["req" + req.command]) {
+          if (!this["req" + req.command](req, sendResponse)) {
+            return sendResponse();
+          }
+        } else {
+          return g.logger.e("INVALID command!:", req.command);
+        }
+      }, this));
+    }
+  };
+}).call(this);

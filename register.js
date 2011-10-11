@@ -1,25 +1,24 @@
-vichrome.register = {};
-
-vichrome.register.PageMarkRegister = function() {
-    this.values = {};
-};
-
-(function(o) {
-    o.defaultKeyName = "unnamed";
-
-    o.set = function(pos, key) {
-        if( !key ) {
-            key = this.defaultKeyName;
-        }
-
-        this.values[key] = pos;
+(function() {
+  var g;
+  g = this;
+  g.PageMarkRegister = (function() {
+    function PageMarkRegister() {
+      this.values = {};
+    }
+    PageMarkRegister.prototype.defaultKeyName = "unnamed";
+    PageMarkRegister.prototype.set = function(pos, key) {
+      if (!key) {
+        key = this.defaultKeyName;
+      }
+      this.values[key] = pos;
+      return this;
     };
-
-    o.get = function(key) {
-        if( !key ) {
-            key = this.defaultKeyName;
-        }
-
-        return this.values[key];
+    PageMarkRegister.prototype.get = function(key) {
+      if (!key) {
+        key = this.defaultKeyName;
+      }
+      return this.values[key];
     };
-}(vichrome.register.PageMarkRegister.prototype));
+    return PageMarkRegister;
+  })();
+}).call(this);
