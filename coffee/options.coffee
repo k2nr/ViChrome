@@ -78,6 +78,7 @@ onSettings = (msg) ->
     initInputText   "fModeAvailableKeys"
     initCheckBox    "disableAutoFocus"
     initCheckBox    "smoothScroll"
+    initCheckBox    "enableCompletion"
     initCheckBox    "wrapSearch"
     initCheckBox    "incSearch"
     initCheckBox    "ignoreCase"

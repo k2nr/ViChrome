@@ -11,6 +11,8 @@
   },
   "permissions": [
     "tabs",
+    "bookmarks",
+    "history",
     "unlimitedStorage",
     "<all_urls>"
   ],

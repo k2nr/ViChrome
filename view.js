@@ -191,15 +191,16 @@
     function CommandBox() {
       this.inputListeners = [];
     }
-    CommandBox.prototype.init = function(view, align, w) {
+    CommandBox.prototype.init = function(view, align, width) {
       var alignClass;
       this.view = view;
       this.align = align;
+      this.width = width;
       alignClass = "vichromebox" + this.align;
-      this.box = $('<div id="vichromebox" />').addClass(alignClass).width(w);
+      this.box = $('<div id="vichromebox" />').addClass(alignClass).width(this.width);
       this.input = $('<input type="text" id="vichromeinput" spellcheck="false" value="" />');
       this.modeChar = $('<div id="vichromemodechar" />');
-      this.inputField = $('<table />').append($('<tr />').append($('<td id="vichromemodechar" />').append(this.modeChar)).append($('<td id="vichromeinput" />').append(this.input)));
+      this.inputField = $('<table width="100%"/>').append($('<tr />').append($('<td id="vichromemodechar" />').append(this.modeChar)).append($('<td id="vichromeinput" />').append(this.input)));
       this.inputField = $('<div id="vichromefield" />').append(this.inputField);
       this.box.append(this.inputField);
       return this;
@@ -227,7 +228,7 @@
       this.inputField.show();
       $(document).keyup(__bind(function(e) {
         var listener, val, _i, _len, _ref;
-        val = this.value();
+        val = this.input.val();
         if (this.selectedCand === val) {
           return;
         }
@@ -262,39 +263,54 @@
       return this.inputField.css('display') !== 'none';
     };
     CommandBox.prototype.value = function(a) {
+      var val, _ref;
       if (a != null) {
         return this.input.val(a);
       } else {
-        return this.input.val();
+        val = (_ref = this.candidateBox) != null ? _ref.getFocusedValue() : void 0;
+        if (val) {
+          return val;
+        } else {
+          return this.input.val();
+        }
       }
     };
     CommandBox.prototype.setCandidateBox = function(candBox) {
+      if (!g.model.getSetting("enableCompletion")) {
+        return this;
+      }
       if (this.candidateBox != null) {
         this.candidateBox.stop();
         this.candidateBox.detachFrom(view);
       }
-      this.candidateBox = candBox.setAlign(this.align).init();
+      this.candidateBox = candBox.init(this.align, this.width);
       this.candidateBox.setCommandBox(this);
       this.candidateBox.attachTo(this.view).show();
       return this;
     };
     CommandBox.prototype.nextCandidate = function() {
-      var focused, _ref;
-      focused = (_ref = this.candidateBox) != null ? _ref.focusNext() : void 0;
-      this.value(focused != null ? focused.str : void 0);
-      this.selectedCand = focused.str;
+      var focused;
+      if (this.candidateBox != null) {
+        focused = this.candidateBox.focusNext();
+        this.value(focused != null ? focused.str : void 0);
+        this.selectedCand = focused.str;
+      }
       return this;
     };
     CommandBox.prototype.prevCandidate = function() {
       var focused, _ref;
-      focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
-      this.value(focused != null ? focused.str : void 0);
-      this.selectedCand = focused.str;
+      if (this.candidateBox != null) {
+        focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
+        this.value(focused != null ? focused.str : void 0);
+        this.selectedCand = focused.str;
+      }
       return this;
     };
     return CommandBox;
   })();
   g.CandidateBox = (function() {
+    CandidateBox.prototype.itemHeight = 22;
+    CandidateBox.prototype.winColumns = 20;
     function CandidateBox() {
       this.items = {};
       this.sources = {};
@@ -302,14 +318,12 @@
       this.index = 0;
       this.scrIndex = 0;
     }
-    CandidateBox.prototype.setAlign = function(align) {
-      this.align = align;
-      return this;
-    };
-    CandidateBox.prototype.init = function() {
+    CandidateBox.prototype.init = function(align, width) {
       var alignClass;
+      this.align = align;
+      this.width = width;
       alignClass = "candbox" + this.align;
-      this.box = $('<div id="vichromecandbox" />').addClass(alignClass);
+      this.box = $('<div id="vichromecandbox" />').addClass(alignClass).css('min-width', this.width);
       return this;
     };
     CandidateBox.prototype.show = function() {
@@ -361,7 +375,11 @@
       text = $("<div class=\"candtext\" />").html(item.str);
       dscr = $("<div class=\"canddscr\" />").html(item.dscr);
       srcType = $("<div class=\"canddscr\" />").html(item.source);
-      return line.append(text).append(dscr).append(srcType);
+      line.append(text).append(srcType).append(dscr);
+      if (item.value != null) {
+        line.attr("value", item.value);
+      }
+      return line;
     };
     CandidateBox.prototype.update = function(id) {
       var i, item, _len, _ref;
@@ -378,21 +396,27 @@
     };
     CandidateBox.prototype.scrollTo = function(scrIndex) {
       this.scrIndex = scrIndex;
-      return this.box.get(0).scrollTop = 22 * this.scrIndex;
+      return this.box.get(0).scrollTop = this.itemHeight * this.scrIndex;
     };
     CandidateBox.prototype.scrollDown = function() {
-      if (this.index >= this.scrIndex + 20) {
+      if (this.index >= this.scrIndex + this.winColumns) {
         return this.scrollTo(this.scrIndex + 1);
       } else if (this.index < this.scrIndex) {
         return this.scrollTo(this.index);
       }
     };
     CandidateBox.prototype.scrollUp = function() {
-      if (this.index >= this.scrIndex + 20) {
-        return this.scrollTo(this.getItemCnt() - 20);
+      if (this.index >= this.scrIndex + this.winColumns) {
+        return this.scrollTo(this.getItemCnt() - this.winColumns);
       } else if (this.index < this.scrIndex) {
         return this.scrollTo(this.index);
       }
+    };
+    CandidateBox.prototype.getFocusedValue = function() {
+      return this.focusedValue;
+    };
+    CandidateBox.prototype.setFocusedValue = function(focusedValue) {
+      this.focusedValue = focusedValue;
     };
     CandidateBox.prototype.scrollTop = function() {
       return this.scrollTo(0);
@@ -406,8 +430,12 @@
       return $focused.children().removeClass("canditemfocused");
     };
     CandidateBox.prototype.setFocus = function($settee) {
+      var val;
       $settee.addClass("canditemfocused");
-      return $settee.children().addClass("canditemfocused");
+      $settee.children().addClass("canditemfocused");
+      if ((val = $settee.attr("value"))) {
+        return this.setFocusedValue(val);
+      }
     };
     CandidateBox.prototype.focusNext = function() {
       var $focused, $next;
@@ -444,6 +472,9 @@
     };
     CandidateBox.prototype.onInput = function(word) {
       var id, src, _ref;
+      if (this.stopped) {
+        return;
+      }
       _ref = this.sources;
       for (id in _ref) {
         src = _ref[id];
@@ -457,12 +488,13 @@
       return this;
     };
     CandidateBox.prototype.stop = function() {
-      return this.onInput = function() {};
+      return this.stopped = true;
     };
     return CandidateBox;
   })();
   g.CandidateSource = (function() {
-    function CandidateSource() {
+    function CandidateSource(maxItems) {
+      this.maxItems = maxItems != null ? maxItems : 5;
       this.updatedListeners = [];
       this.items = [];
     }
@@ -471,7 +503,9 @@
       return this;
     };
     CandidateSource.prototype.addItem = function(item) {
-      return this.items.push(item);
+      if (this.items.length <= this.maxItems) {
+        return this.items.push(item);
+      }
     };
     CandidateSource.prototype.resetItem = function() {
       return this.items = [];
@@ -485,6 +519,15 @@
       }
       return this;
     };
+    CandidateSource.prototype.cbInputUpdated = function(word) {
+      if (this.timer != null) {
+        clearTimeout(this.timer);
+      }
+      return this.timer = setTimeout(__bind(function() {
+        this.timer = null;
+        return typeof this.onInput === "function" ? this.onInput(word) : void 0;
+      }, this), 200);
+    };
     return CandidateSource;
   })();
   g.CandSourceCommand = (function() {
@@ -493,8 +536,11 @@
       CandSourceCommand.__super__.constructor.apply(this, arguments);
     }
     CandSourceCommand.prototype.id = "Command";
-    CandSourceCommand.prototype.cbInputUpdated = function(word) {
+    CandSourceCommand.prototype.onInput = function(word) {
       var com, method, _ref;
+      if (!(word.length > 0)) {
+        return;
+      }
       this.resetItem();
       _ref = g.CommandExecuter.prototype.commandTable;
       for (com in _ref) {
@@ -517,8 +563,11 @@
       CandSourceAlias.__super__.constructor.apply(this, arguments);
     }
     CandSourceAlias.prototype.id = "Alias";
-    CandSourceAlias.prototype.cbInputUpdated = function(word) {
+    CandSourceAlias.prototype.onInput = function(word) {
       var alias, com, _ref;
+      if (!(word.length > 0)) {
+        return;
+      }
       this.resetItem();
       _ref = g.model.getAlias();
       for (alias in _ref) {
@@ -527,7 +576,7 @@
           this.addItem({
             str: alias,
             source: "Alias",
-            dscr: ""
+            dscr: com
           });
         }
       }
@@ -541,7 +590,28 @@
       CandSourceHistory.__super__.constructor.apply(this, arguments);
     }
     CandSourceHistory.prototype.id = "WebHistory";
-    CandSourceHistory.prototype.cbInputUpdated = function(word) {};
+    CandSourceHistory.prototype.onInput = function(word) {
+      if (!(word.length > 0)) {
+        return;
+      }
+      this.resetItem();
+      return chrome.extension.sendRequest({
+        command: "GetHistory",
+        value: word
+      }, __bind(function(items) {
+        var item, _i, _len;
+        for (_i = 0, _len = items.length; _i < _len; _i++) {
+          item = items[_i];
+          this.addItem({
+            str: item.title,
+            source: "History",
+            dscr: item.url,
+            value: item.url
+          });
+        }
+        return this.notifyUpdated();
+      }, this));
+    };
     return CandSourceHistory;
   })();
   g.CandSourceBookmark = (function() {
@@ -550,7 +620,28 @@
       CandSourceBookmark.__super__.constructor.apply(this, arguments);
     }
     CandSourceBookmark.prototype.id = "Bookmark";
-    CandSourceBookmark.prototype.cbInputUpdated = function(word) {};
+    CandSourceBookmark.prototype.onInput = function(word) {
+      if (!(word.length > 0)) {
+        return;
+      }
+      this.resetItem();
+      return chrome.extension.sendRequest({
+        command: "GetBookmark",
+        value: word
+      }, __bind(function(nodes) {
+        var node, _i, _len;
+        for (_i = 0, _len = nodes.length; _i < _len; _i++) {
+          node = nodes[_i];
+          this.addItem({
+            str: node.title,
+            source: "Bookmark",
+            dscr: node.url,
+            value: node.url
+          });
+        }
+        return this.notifyUpdated();
+      }, this));
+    };
     return CandSourceBookmark;
   })();
   g.CandSourceSearchHist = (function() {
@@ -564,7 +655,7 @@
         return this.history = msg.value.reverse();
       }, this));
     }
-    CandSourceSearchHist.prototype.cbInputUpdated = function(word) {
+    CandSourceSearchHist.prototype.onInput = function(word) {
       var hist, _i, _len, _ref;
       if (this.history == null) {
         return;
@@ -591,7 +682,7 @@
       CandSourceGoogleSuggest.__super__.constructor.apply(this, arguments);
     }
     CandSourceGoogleSuggest.prototype.id = "GoogleSuggest";
-    CandSourceGoogleSuggest.prototype.cbInputUpdated = function(word) {};
+    CandSourceGoogleSuggest.prototype.onInput = function(word) {};
     return CandSourceGoogleSuggest;
   })();
 }).call(this);

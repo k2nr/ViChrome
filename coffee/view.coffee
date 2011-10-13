@@ -148,16 +148,16 @@ class g.CommandBox
     constructor : ->
         @inputListeners = []
 
-    init : (@view, @align, w) ->
+    init : (@view, @align, @width) ->
         alignClass = "vichromebox" + @align
 
         @box   = $( '<div id="vichromebox" />' )
                  .addClass( alignClass )
-                 .width( w )
+                 .width( @width )
 
         @input = $( '<input type="text" id="vichromeinput" spellcheck="false" value="" />' )
         @modeChar  = $( '<div id="vichromemodechar" />' )
-        @inputField = $( '<table />' )
+        @inputField = $( '<table width="100%"/>' )
                        .append( $('<tr />')
                         .append( $('<td id="vichromemodechar" />')
                          .append( @modeChar ))
@@ -193,7 +193,7 @@ class g.CommandBox
         @inputField.show()
 
         $(document).keyup (e) =>
-            val = @value()
+            val = @input.val()
             if @selectedCand == val then return
 
             if @bfInput != val and @isVisible()
@@ -222,31 +222,37 @@ class g.CommandBox
         if a?
             @input.val(a)
         else
-            @input.val()
+            val = @candidateBox?.getFocusedValue()
+            return if val then val else @input.val()
 
     setCandidateBox : (candBox) ->
+        unless g.model.getSetting "enableCompletion" then return this
         if @candidateBox?
             @candidateBox.stop()
             @candidateBox.detachFrom( view )
 
-        @candidateBox = candBox.setAlign( @align ).init()
+        @candidateBox = candBox.init(@align, @width)
         @candidateBox.setCommandBox this
         @candidateBox.attachTo(@view).show()
         this
 
     nextCandidate : ->
-        focused = @candidateBox?.focusNext()
-        @value( focused?.str )
-        @selectedCand = focused.str
+        if @candidateBox?
+            focused = @candidateBox.focusNext()
+            @value( focused?.str )
+            @selectedCand = focused.str
         this
 
     prevCandidate : ->
-        focused = @candidateBox?.focusPrev()
-        @value( focused?.str )
-        @selectedCand = focused.str
+        if @candidateBox?
+            focused = @candidateBox?.focusPrev()
+            @value( focused?.str )
+            @selectedCand = focused.str
         this
 
 class g.CandidateBox
+    itemHeight  : 22
+    winColumns  : 20
     constructor : ->
         @items   = {}
         @sources = {}
@@ -254,11 +260,11 @@ class g.CandidateBox
         @index    = 0
         @scrIndex = 0
 
-    setAlign : (@align) -> this
-    init : ()->
+    init : (@align, @width)->
         alignClass = "candbox" + @align
         @box = $( '<div id="vichromecandbox" />' )
                .addClass( alignClass )
+               .css( 'min-width', @width )
         this
 
     show : ->
@@ -283,7 +289,6 @@ class g.CandidateBox
         @sources[src.id] = src
         @items[src.id] = []
         src.addSrcUpdatedListener( (items) =>
-            #@addItem src.id,item for item in items
             @items[src.id] = items
             @update(src.id)
         )
@@ -306,7 +311,10 @@ class g.CandidateBox
         text = $("<div class=\"candtext\" />").html( item.str )
         dscr = $("<div class=\"canddscr\" />").html( item.dscr )
         srcType = $("<div class=\"canddscr\" />").html( item.source )
-        line.append( text ).append( dscr ).append( srcType )
+        line.append( text ).append( srcType ).append( dscr )
+        if item.value?
+            line.attr("value", item.value)
+        line
 
     update : (id)->
         $('#vichromecanditem'+"[source=#{id}]").remove()
@@ -316,17 +324,20 @@ class g.CandidateBox
 
     getItem : (id, num) -> @items[id][num]
 
-    scrollTo   : (@scrIndex) -> @box.get(0).scrollTop = 22 * @scrIndex
+    scrollTo   : (@scrIndex) -> @box.get(0).scrollTop = @itemHeight * @scrIndex
     scrollDown : ->
-        if @index >= @scrIndex + 20
+        if @index >= @scrIndex + @winColumns
             @scrollTo( @scrIndex+1 )
         else if @index < @scrIndex
             @scrollTo( @index )
     scrollUp   : ->
-        if @index >= @scrIndex + 20
-            @scrollTo(@getItemCnt() - 20)
+        if @index >= @scrIndex + @winColumns
+            @scrollTo(@getItemCnt() - @winColumns)
         else if @index < @scrIndex
             @scrollTo( @index )
+
+    getFocusedValue : -> @focusedValue
+    setFocusedValue : (@focusedValue) ->
 
     scrollTop  : -> @scrollTo( 0 )
     scrollBottom : ->
@@ -340,6 +351,8 @@ class g.CandidateBox
     setFocus : ( $settee ) ->
         $settee.addClass("canditemfocused")
         $settee.children().addClass("canditemfocused")
+        if (val = $settee.attr("value"))
+            @setFocusedValue( val )
 
     focusNext : ->
         $focused = $("#vichromecanditem.canditemfocused")
@@ -372,6 +385,7 @@ class g.CandidateBox
         @getItem( $focused.attr("source"), parseInt( $focused.attr("num") ) )
 
     onInput : (word) ->
+        if @stopped then return
         src.cbInputUpdated word for id, src of @sources
         return
 
@@ -379,11 +393,12 @@ class g.CandidateBox
         box.addInputUpdateListener( (word) => @onInput word )
         this
 
-    stop : -> @onInput = ->
+    stop : ->
+        @stopped = true
 
 
 class g.CandidateSource
-    constructor : ->
+    constructor : (@maxItems=5)->
         @updatedListeners = []
         @items = []
 
@@ -392,7 +407,7 @@ class g.CandidateSource
         this
 
     addItem : (item) ->
-        @items.push( item )
+        @items.push( item ) if @items.length <= @maxItems
 
     resetItem : ->
         @items = []
@@ -401,9 +416,17 @@ class g.CandidateSource
         listener( @items ) for listener in @updatedListeners
         this
 
+    cbInputUpdated : (word) ->
+        if @timer? then clearTimeout @timer
+        @timer = setTimeout( =>
+            @timer = null
+            @onInput?(word)
+        , 200)
+
 class g.CandSourceCommand extends g.CandidateSource
     id : "Command"
-    cbInputUpdated : (word) ->
+    onInput : (word) ->
+        unless word.length > 0 then return
         @resetItem()
         for com,method of g.CommandExecuter::commandTable
             if com.toUpperCase().slice( 0, word.length ) == word.toUpperCase()
@@ -417,25 +440,58 @@ class g.CandSourceCommand extends g.CandidateSource
 
 class g.CandSourceAlias extends g.CandidateSource
     id : "Alias"
-    cbInputUpdated : (word) ->
+    onInput : (word) ->
+        unless word.length > 0 then return
         @resetItem()
         for alias, com of g.model.getAlias()
             if alias.toUpperCase().slice( 0, word.length ) == word.toUpperCase()
                 @addItem(
                     str    : alias
                     source : "Alias"
-                    dscr   : ""
+                    dscr   : com
                 )
 
         @notifyUpdated()
 
 class g.CandSourceHistory extends g.CandidateSource
     id : "WebHistory"
-    cbInputUpdated : (word) ->
+    onInput : (word) ->
+        unless word.length > 0 then return
+
+        @resetItem()
+        chrome.extension.sendRequest( {
+            command : "GetHistory"
+            value   : word
+        }, (items) =>
+            for item in items
+                @addItem(
+                    str    : item.title
+                    source : "History"
+                    dscr   : item.url
+                    value  : item.url
+                )
+            @notifyUpdated()
+        )
 
 class g.CandSourceBookmark extends g.CandidateSource
     id : "Bookmark"
-    cbInputUpdated : (word) ->
+    onInput : (word) ->
+        unless word.length > 0 then return
+
+        @resetItem()
+        chrome.extension.sendRequest( {
+            command : "GetBookmark"
+            value   : word
+        }, (nodes) =>
+            for node in nodes
+                @addItem(
+                    str    : node.title
+                    source : "Bookmark"
+                    dscr   : node.url
+                    value  : node.url
+                )
+            @notifyUpdated()
+        )
 
 class g.CandSourceSearchHist extends g.CandidateSource
     id : "SearchHistory"
@@ -445,7 +501,7 @@ class g.CandSourceSearchHist extends g.CandidateSource
             command : "GetSearchHistory"
         }, (msg) => @history = msg.value.reverse() )
 
-    cbInputUpdated : (word) ->
+    onInput : (word) ->
         unless @history? then return
 
         @resetItem()
@@ -461,4 +517,4 @@ class g.CandSourceSearchHist extends g.CandidateSource
 
 class g.CandSourceGoogleSuggest extends g.CandidateSource
     id : "GoogleSuggest"
-    cbInputUpdated : (word) ->
+    onInput : (word) ->

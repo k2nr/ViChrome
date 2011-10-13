@@ -15,6 +15,7 @@ g.SettingManager =
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm"
         "disableAutoFocus"        : false
         "smoothScroll"            : false
+        "enableCompletion"        : true
         "wrapSearch"              : true
         "incSearch"               : true
         "ignoreCase"              : true
@@ -81,6 +82,8 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
             "i"       : "FocusOnFirstInput"
             "u"       : "RestoreTab"
             "gp"      : "OpenNewWindow --pop"
+            "o"       : "Open -i"
+            "O"       : "OpenNewTab -i"
             "''"      : "BackToPageMark"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"

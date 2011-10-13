@@ -104,10 +104,14 @@ g.model =
         g.logger.d "enterInsertMode"
         @changeMode new g.InsertMode
 
-    enterCommandMode : ->
+    enterCommandMode : (executer, sources)->
+        mode = new g.CommandMode
+        mode.setExecuter( executer ) if executer?
+        mode.setSources(sources) if sources?
+
         g.logger.d "enterCommandMode"
         @cancelSearchHighlight()
-        @changeMode new g.CommandMode
+        @changeMode mode
 
     enterSearchMode : (backward, searcher_) ->
         @searcher = searcher_ ? new g.NormalSearcher

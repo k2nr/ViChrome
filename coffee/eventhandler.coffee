@@ -8,7 +8,7 @@ class g.EventHandler
         @model.onBlur()
 
     onKeyPress : (e) ->
-        if g.model.isInSearchMode() or g.model.isInCommandMode
+        if g.model.isInSearchMode() or g.model.isInCommandMode()
             if !e.ctrlKey and !e.altKey and !e.metaKey
                 event.stopPropagation()
 

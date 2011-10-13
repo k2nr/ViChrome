@@ -59,7 +59,7 @@
 }
 
 #vichromefield {
-    background-color: rgba(64, 64, 64, 0.7);
+    background-color: rgba(64, 64, 64, 0.8);
     display: none;
     outline: none;
     border: none;
@@ -80,7 +80,7 @@
     border: none;
     border-radius: 0px;
     -webkit-box-shadow: none;
-    width: auto;
+    width: 100%;
     line-height: normal;
     height: 24px;
     padding: 0px 0px;
@@ -95,7 +95,7 @@
     text-align: left;
     line-height: normal;
     height: 24px;
-    width: 20px;
+    width: 14px;
     outline: none;
     border: none;
     padding: 0px 0px;
@@ -104,7 +104,7 @@
 }
 
 #vichromestatusline {
-    background-color: rgba(64, 64, 64, 0.7);
+    background-color: rgba(64, 64, 64, 0.8);
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
     position : fixed;
     text-align: left;
@@ -140,7 +140,7 @@
 }
 
 #vichromecandbox {
-    background-color: rgba(64, 64, 64, 0.7);
+    background-color: rgba(64, 64, 64, 0.8);
     font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
     position: fixed;
     outline: none;
@@ -149,7 +149,7 @@
     border: none;
     border-radius: 0px;
     -webkit-box-shadow: none;
-    width: 400px;
+    min-width:  400px;
     max-height: 440px;
     overflow: auto;
     font-size: 14px;
@@ -164,6 +164,7 @@
     border: none;
     border-radius: 0px;
     line-height: normal;
+    white-space : nowrap;
     width: 100%;
     height: 22px;
     padding: 0px 0px;
@@ -172,10 +173,10 @@
 
 .candtext {
     text-align: left;
-    color: #fff;
-    line-height: normal;
+    color: #d3d3d3;
+    line-height: 22px;
     height: 22px;
-    min-width : 200px;
+    min-width : 120px;
     padding-left : 5px;
     font-size: 16px;
     float : left;
@@ -183,11 +184,11 @@
 
 .canddscr {
     text-align: left;
-    color: #ddd;
+    color: #bbf;
     height: 22px;
-    line-height: 26px;
-    font-size: 14px;
-    padding-left: 15px;
+    line-height: 25px;
+    font-size: 12px;
+    padding-left: 10px;
     float : left;
 }
 

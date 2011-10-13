@@ -14,8 +14,50 @@
     Mode.prototype.exit = function() {};
     Mode.prototype.enter = function() {};
     Mode.prototype.reqOpen = function(args) {
-      if ((args != null ? args[0] : void 0) != null) {
-        return window.open(args[0], "_self");
+      var arg, interactive, sources, url, _i, _len;
+      url = null;
+      interactive = false;
+      for (_i = 0, _len = args.length; _i < _len; _i++) {
+        arg = args[_i];
+        switch (arg) {
+          case "-i":
+            interactive = true;
+            break;
+          default:
+            url = arg;
+        }
+      }
+      if (interactive) {
+        sources = [new g.CandSourceBookmark, new g.CandSourceHistory];
+        g.model.enterCommandMode((new g.CommandExecuter).set("Open"), sources);
+        return;
+      }
+      if (url) {
+        return window.open(url, "_self");
+      }
+    };
+    Mode.prototype.reqOpenNewTab = function(args) {
+      var arg, interactive, sources, urls, _i, _len;
+      urls = [];
+      interactive = false;
+      for (_i = 0, _len = args.length; _i < _len; _i++) {
+        arg = args[_i];
+        switch (arg) {
+          case "-i":
+            interactive = true;
+            break;
+          default:
+            urls.push(arg);
+        }
+      }
+      if (interactive) {
+        sources = [new g.CandSourceBookmark, new g.CandSourceHistory];
+        return g.model.enterCommandMode((new g.CommandExecuter).set("OpenNewTab"), sources);
+      } else {
+        return chrome.extension.sendRequest({
+          command: "OpenNewTab",
+          args: urls
+        }, g.handler.onCommandResponse);
       }
     };
     Mode.prototype.blur = function() {};
@@ -96,7 +138,9 @@
       return g.model.enterFMode(opt);
     };
     Mode.prototype.reqGoCommandMode = function() {
-      return g.model.enterCommandMode();
+      var sources;
+      sources = [new g.CandSourceCommand, new g.CandSourceAlias];
+      return g.model.enterCommandMode(null, sources);
     };
     Mode.prototype.reqFocusOnFirstInput = function() {
       g.model.setPageMark();
@@ -251,7 +295,7 @@
       return "CommandMode";
     };
     CommandMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-      var executer;
+      var _ref;
       if (ctrl || alt || meta) {
         return true;
       }
@@ -263,12 +307,14 @@
         return false;
       }
       if (key === "CR") {
-        executer = new g.CommandExecuter;
         try {
-          executer.set(this.commandBox.value()).parse().execute();
+          if ((_ref = this.executer) == null) {
+            this.executer = new g.CommandExecuter;
+          }
+          this.executer.set(this.commandBox.value()).parse().execute();
           g.view.hideStatusLine();
         } catch (e) {
-          g.view.setStatusLineText("Command Not Found : " + executer.get(), 2000);
+          g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
         }
         event.stopPropagation();
         event.preventDefault();
@@ -278,10 +324,20 @@
       return true;
     };
     CommandMode.prototype.enter = function() {
-      var align, candBox, width;
+      var align, candBox, source, width, _i, _len, _ref;
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
-      candBox = (new g.CandidateBox).addSource(new g.CandSourceCommand).addSource(new g.CandSourceAlias);
+      if (this.executer != null) {
+        g.view.setStatusLineText(this.executer.get());
+      }
+      candBox = new g.CandidateBox;
+      if (this.sources != null) {
+        _ref = this.sources;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          source = _ref[_i];
+          candBox.addSource(source);
+        }
+      }
       return this.commandBox = (new g.CommandBox).init(g.view, align, width).attachTo(g.view).show(":").focus().setCandidateBox(candBox);
     };
     CommandMode.prototype.exit = function() {
@@ -289,6 +345,12 @@
     };
     CommandMode.prototype.getKeyMapping = function() {
       return g.model.getCMap();
+    };
+    CommandMode.prototype.setExecuter = function(executer) {
+      this.executer = executer;
+    };
+    CommandMode.prototype.setSources = function(sources) {
+      this.sources = sources;
     };
     return CommandMode;
   })();
@@ -309,7 +371,9 @@
       primary = false;
       if (this.hints[i].target.is('a')) {
         primary = this.opt.newTab;
-        g.model.enterNormalMode();
+        if (!this.opt.continuous) {
+          g.model.enterNormalMode();
+        }
       } else {
         this.hints[i].target.focus();
         if (g.util.isEditable(this.hints[i].target.get(0))) {

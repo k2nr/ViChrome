@@ -16,6 +16,7 @@
       "fModeAvailableKeys": "fdsaghjklwertyuiovbcnm",
       "disableAutoFocus": false,
       "smoothScroll": false,
+      "enableCompletion": true,
       "wrapSearch": true,
       "incSearch": true,
       "ignoreCase": true,
@@ -53,6 +54,8 @@
         "i": "FocusOnFirstInput",
         "u": "RestoreTab",
         "gp": "OpenNewWindow --pop",
+        "o": "Open -i",
+        "O": "OpenNewTab -i",
         "''": "BackToPageMark",
         "<ESC>": "Escape",
         "<C-[>": "Escape"

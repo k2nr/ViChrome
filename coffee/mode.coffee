@@ -3,7 +3,39 @@ g = this
 class g.Mode
     exit  : ->
     enter : ->
-    reqOpen : (args) -> if args?[0]? then window.open( args[0], "_self" )
+    reqOpen : (args) ->
+        url = null
+        interactive = false
+        for arg in args then switch arg
+            when "-i" then interactive = true
+            else url = arg
+
+        if interactive
+            sources = [
+                new g.CandSourceBookmark
+                new g.CandSourceHistory
+            ]
+            g.model.enterCommandMode((new g.CommandExecuter).set("Open"), sources)
+            return
+
+        if url then window.open( url, "_self" )
+
+    reqOpenNewTab : (args) ->
+        urls = []
+        interactive = false
+        for arg in args then switch arg
+            when "-i" then interactive = true
+            else urls.push arg
+
+        if interactive
+            sources = [
+                new g.CandSourceBookmark
+                new g.CandSourceHistory
+            ]
+            g.model.enterCommandMode((new g.CommandExecuter).set("OpenNewTab"), sources)
+        else
+            chrome.extension.sendRequest {command : "OpenNewTab", args : urls}, g.handler.onCommandResponse
+
     blur : ->
     reqScrollDown   : -> g.view.scrollBy(0, g.model.getSetting "scrollPixelCount")
     reqScrollUp     : -> g.view.scrollBy(0, -g.model.getSetting "scrollPixelCount")
@@ -45,7 +77,12 @@ class g.Mode
         opt = newTab : newTab, continuous : continuous
         g.model.enterFMode( opt )
 
-    reqGoCommandMode : -> g.model.enterCommandMode()
+    reqGoCommandMode : ->
+        sources = [
+            new g.CandSourceCommand
+            new g.CandSourceAlias
+        ]
+        g.model.enterCommandMode( null, sources )
 
     reqFocusOnFirstInput : ->
         g.model.setPageMark()
@@ -166,12 +203,12 @@ class g.CommandMode extends g.Mode
             return false
 
         if key == "CR"
-            executer = new g.CommandExecuter
             try
-                executer.set( @commandBox.value() ).parse().execute()
+                @executer ?= new g.CommandExecuter
+                @executer.set( @commandBox.value() ).parse().execute()
                 g.view.hideStatusLine()
             catch e
-                g.view.setStatusLineText "Command Not Found : "+executer.get(), 2000
+                g.view.setStatusLineText "Command Not Found : "+@executer.get(), 2000
             event.stopPropagation()
             event.preventDefault()
             g.model.enterNormalMode()
@@ -182,10 +219,12 @@ class g.CommandMode extends g.Mode
     enter : ->
         align = g.model.getSetting("commandBoxAlign")
         width = g.model.getSetting("commandBoxWidth")
+        if @executer?
+            g.view.setStatusLineText @executer.get()
 
         candBox = (new g.CandidateBox)
-                  .addSource( new g.CandSourceCommand )
-                  .addSource( new g.CandSourceAlias )
+        if @sources? then for source in @sources
+            candBox.addSource( source )
 
         @commandBox = (new g.CommandBox)
                       .init( g.view, align, width )
@@ -198,6 +237,9 @@ class g.CommandMode extends g.Mode
 
     getKeyMapping : -> g.model.getCMap()
 
+    setExecuter : (@executer) ->
+    setSources  : (@sources) ->
+
 class g.FMode extends g.Mode
     getName   : -> "FMode"
     setOption : (@opt) -> this
@@ -207,7 +249,8 @@ class g.FMode extends g.Mode
 
         if @hints[i].target.is('a')
             primary = @opt.newTab
-            g.model.enterNormalMode()
+            unless @opt.continuous
+                g.model.enterNormalMode()
         else
             @hints[i].target.focus()
             if g.util.isEditable( @hints[i].target.get(0) )

@@ -22,7 +22,7 @@ class g.CommandExecuter
 
     commandTable :
         Open                  : triggerInsideContent
-        OpenNewTab            : sendToBackground
+        OpenNewTab            : triggerInsideContent
         CloseCurTab           : sendToBackground
         MoveToNextTab         : sendToBackground
         MoveToPrevTab         : sendToBackground
@@ -61,16 +61,21 @@ class g.CommandExecuter
 
     get : -> @command
     set : (command, times) ->
-        if not command then throw "invalid command"
-        @command = command
-                   .replace(/^[\t ]*/, "")
-                   .replace(/[\t ]*$/, "")
+        if @command? then @command += " " else @command = ""
+        @command += command
+                    .replace(/^[\t ]*/, "")
+                    .replace(/[\t ]*$/, "")
         @times = times ? 1
         this
 
     parse : ->
+        unless @command then throw "invalid command"
         @args = @command.split(/\ +/)
         if not @args or @args.length == 0 then throw "invalid command"
+
+        for i in [@args.length-1..0]
+            if @args[i].length == 0
+                @args.splice( i, 1 )
 
         aliases = g.model.getAlias()
         if aliases[ @args[0] ]

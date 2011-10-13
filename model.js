@@ -131,10 +131,18 @@
       g.logger.d("enterInsertMode");
       return this.changeMode(new g.InsertMode);
     },
-    enterCommandMode: function() {
+    enterCommandMode: function(executer, sources) {
+      var mode;
+      mode = new g.CommandMode;
+      if (executer != null) {
+        mode.setExecuter(executer);
+      }
+      if (sources != null) {
+        mode.setSources(sources);
+      }
       g.logger.d("enterCommandMode");
       this.cancelSearchHighlight();
-      return this.changeMode(new g.CommandMode);
+      return this.changeMode(mode);
     },
     enterSearchMode: function(backward, searcher_) {
       this.searcher = searcher_ != null ? searcher_ : new g.NormalSearcher;

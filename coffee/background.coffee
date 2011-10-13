@@ -143,6 +143,17 @@ g.bg =
 
         sendResponse msg
 
+    reqGetBookmark : (req, sendResponse) ->
+        chrome.bookmarks.search(req.value, (nodes) -> sendResponse(nodes))
+        true
+
+    reqGetHistory : (req, sendResponse) ->
+        chrome.history.search( {
+            text : req.value
+            maxResults : 5
+        }, (items) -> sendResponse(items))
+        true
+
     init : ->
         @tabHistory = (new g.TabHistory).init()
         g.SettingManager.init()

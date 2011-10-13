@@ -24,7 +24,7 @@
     CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "NMap", "IMap", "Alias", "OpenNewWindow", "RestoreTab"];
     CommandExecuter.prototype.commandTable = {
       Open: triggerInsideContent,
-      OpenNewTab: sendToBackground,
+      OpenNewTab: triggerInsideContent,
       CloseCurTab: sendToBackground,
       MoveToNextTab: sendToBackground,
       MoveToPrevTab: sendToBackground,
@@ -64,18 +64,28 @@
       return this.command;
     };
     CommandExecuter.prototype.set = function(command, times) {
-      if (!command) {
-        throw "invalid command";
+      if (this.command != null) {
+        this.command += " ";
+      } else {
+        this.command = "";
       }
-      this.command = command.replace(/^[\t ]*/, "").replace(/[\t ]*$/, "");
+      this.command += command.replace(/^[\t ]*/, "").replace(/[\t ]*$/, "");
       this.times = times != null ? times : 1;
       return this;
     };
     CommandExecuter.prototype.parse = function() {
-      var aliases;
+      var aliases, i, _ref;
+      if (!this.command) {
+        throw "invalid command";
+      }
       this.args = this.command.split(/\ +/);
       if (!this.args || this.args.length === 0) {
         throw "invalid command";
+      }
+      for (i = _ref = this.args.length - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
+        if (this.args[i].length === 0) {
+          this.args.splice(i, 1);
+        }
       }
       aliases = g.model.getAlias();
       if (aliases[this.args[0]]) {

@@ -220,6 +220,21 @@
       };
       return sendResponse(msg);
     },
+    reqGetBookmark: function(req, sendResponse) {
+      chrome.bookmarks.search(req.value, function(nodes) {
+        return sendResponse(nodes);
+      });
+      return true;
+    },
+    reqGetHistory: function(req, sendResponse) {
+      chrome.history.search({
+        text: req.value,
+        maxResults: 5
+      }, function(items) {
+        return sendResponse(items);
+      });
+      return true;
+    },
     init: function() {
       this.tabHistory = (new g.TabHistory).init();
       g.SettingManager.init();

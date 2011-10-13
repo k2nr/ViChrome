@@ -11,7 +11,7 @@
       return this.model.onBlur();
     };
     EventHandler.prototype.onKeyPress = function(e) {
-      if (g.model.isInSearchMode() || g.model.isInCommandMode) {
+      if (g.model.isInSearchMode() || g.model.isInCommandMode()) {
         if (!e.ctrlKey && !e.altKey && !e.metaKey) {
           return event.stopPropagation();
         }
