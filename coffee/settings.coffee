@@ -3,6 +3,7 @@ g = this
 mapping =
     nmap  : {}
     imap  : {}
+    cmap  : {}
     alias : {}
 
 g.SettingManager =
@@ -90,6 +91,16 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"
 
+        "keyMappingCommand" :
+            "<C-n>"   : "FocusNextCandidate"
+            "<C-p>"   : "FocusPrevCandidate"
+            "<TAB>"   : "FocusNextCandidate"
+            "<S-TAB>" : "FocusPrevCandidate"
+            "<DOWN>"  : "FocusNextCandidate"
+            "<UP>"    : "FocusPrevCandidate"
+            "<ESC>"   : "Escape"
+            "<C-[>"   : "Escape"
+
         "aliases"    :
             "o"      : "Open"
             "ot"     : "OpenNewTab"
@@ -110,15 +121,16 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
         if args[1].charAt(0) == ':'
             this[ args[0] ] = args.slice(1).join(' ').slice(1)
         else
-            if args[1].toUpperCase() == "<NOP>"
-                this[ args[0] ] = "<NOP>"
-            else
-                this[ args[0] ] = this[ args[1] ]
+            switch args[1].toUpperCase()
+                when "<NOP>"     then this[args[0]] = "<NOP>"
+                when "<DISCARD>" then this[args[0]] = "<DISCARD>"
+                else this[ args[0] ] = this[ args[1] ]
         this
 
     _map   : ( map, args ) -> @mapApplied.call( map.nmap, args )
     _nmap  : ( map, args ) -> @mapApplied.call( map.nmap, args )
     _imap  : ( map, args ) -> @mapApplied.call( map.imap, args )
+    _cmap  : ( map, args ) -> @mapApplied.call( map.cmap, args )
     _alias : ( map, args ) ->
         if args.length < 2
             g.logger.w "less arguments", args
@@ -149,6 +161,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
     initUserMap  : ->
         defNormal     = @defaultSettings.keyMappingNormal
         defInsert     = @defaultSettings.keyMappingInsert
+        defCommand    = @defaultSettings.keyMappingCommand
         defAliases    = @defaultSettings.aliases
         defPageMap    = @defaultSettings.pageMap
 
@@ -156,6 +169,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
 
         @userMap.nmap[key]  = command for key,command of defNormal
         @userMap.imap[key]  = command for key,command of defInsert
+        @userMap.cmap[key]  = command for key,command of defCommand
         @userMap.alias[key] = command for key,command of defAliases
 
         @pageMap = {}
@@ -163,6 +177,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
             @pageMap[url] = g.extendDeep( mapping )
             @pageMap[url].nmap[key]  = com for key,com of map.nmap
             @pageMap[url].imap[key]  = com for key,com of map.imap
+            @pageMap[url].cmap[key]  = com for key,com of map.cmap
             @pageMap[url].alias[key] = com for key,com of map.alias
 
         return this
@@ -170,17 +185,13 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
     getAll : ->
         settings = {}
 
-        for name,value of @defaultSettings
-            if name == "keyMappingNormal"
-                settings[name] = @userMap.nmap
-            else if name == "keyMappingInsert"
-                settings[name] = @userMap.imap
-            else if name == "aliases"
-                settings[name] = @userMap.alias
-            else if name == "pageMap"
-                settings[name] = @pageMap
-            else
-                settings[name] = @get(name)
+        for name,value of @defaultSettings then switch name
+            when "keyMappingNormal"  then settings[name] = @userMap.nmap
+            when "keyMappingInsert"  then settings[name] = @userMap.imap
+            when "keyMappingCommand" then settings[name] = @userMap.cmap
+            when "aliases"           then settings[name] = @userMap.alias
+            when "pageMap"           then settings[name] = @pageMap
+            else settings[name] = @get(name)
 
         return settings
 
@@ -201,6 +212,7 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
     #set key mapping/aliases but just for temporary usage
     setNMap  : (args) -> @_map(   @userMap, args )
     setIMap  : (args) -> @_imap(  @userMap, args )
+    setCMap  : (args) -> @_cmap(  @userMap, args )
     setAlias : (args) -> @_alias( @userMap, args )
 
     init  : ->

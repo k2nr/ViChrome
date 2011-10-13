@@ -96,12 +96,16 @@
       return this.sortedResults[cnt].value;
     };
     NormalSearcher.prototype.fix = function(word) {
-      this.word = word;
-      if (!this.opt.incSearch || word.length < this.opt.minIncSearch) {
-        this.searchAndHighlight(this.word);
+      if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
+        this.searchAndHighlight(word);
         this.curIndex = this.getFirstInnerSearchResultIndex();
         this.moveTo(this.curIndex);
       }
+      this.word = word;
+      chrome.extension.sendRequest({
+        command: "PushSearchHistory",
+        value: this.word
+      });
       return this.fixed = true;
     };
     NormalSearcher.prototype.moveTo = function(pos) {

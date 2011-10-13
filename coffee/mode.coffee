@@ -80,7 +80,15 @@ class g.InsertMode extends g.Mode
             return false
         true
 
+Commandable =
+    commandBox : null
+    reqFocusNextCandidate : (args) -> @commandBox.nextCandidate()
+    reqFocusPrevCandidate : (args) -> @commandBox.prevCandidate()
+
 class g.SearchMode extends g.Mode
+    constructor : ->
+        g.extend( Commandable, this )
+
     getName : -> "SearchMode"
 
     init : ( searcher_, backward_, opt_ ) ->
@@ -107,18 +115,17 @@ class g.SearchMode extends g.Mode
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if ctrl or alt or meta then return true
-
         word = @commandBox.value()
         if word.length == 0 and ( key == "BS" or key == "DEL" )
             @cancelSearch()
             return false
 
+        event.stopPropagation()
+
         if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
             return false
 
         if key == "CR"
-            event.stopPropagation()
-
             @searcher.fix( word )
             g.model.setSearcher( this.searcher )
             g.model.enterNormalMode()
@@ -130,13 +137,22 @@ class g.SearchMode extends g.Mode
 
     enter : ->
         modeChar = if @backward == true then "?" else "/"
-        @commandBox.attachTo( g.view ).show( modeChar ).focus()
+        candBox = (new g.CandidateBox)
+                  .addSource( new g.CandSourceSearchHist )
+
+        @commandBox.attachTo( g.view )
+                   .show( modeChar )
+                   .focus()
+                   .setCandidateBox( candBox )
 
     exit : -> @commandBox.hide().detachFrom( g.view )
 
-    getKeyMapping : -> g.model.getIMap()
+    getKeyMapping : -> g.model.getCMap()
 
 class g.CommandMode extends g.Mode
+    constructor : ->
+        g.extend( Commandable, this )
+
     getName : -> "CommandMode"
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
@@ -167,15 +183,20 @@ class g.CommandMode extends g.Mode
         align = g.model.getSetting("commandBoxAlign")
         width = g.model.getSetting("commandBoxWidth")
 
+        candBox = (new g.CandidateBox)
+                  .addSource( new g.CandSourceCommand )
+                  .addSource( new g.CandSourceAlias )
+
         @commandBox = (new g.CommandBox)
-                          .init( g.view, align, width )
-                          .attachTo( g.view )
-                          .show( ":" )
-                          .focus()
+                      .init( g.view, align, width )
+                      .attachTo( g.view )
+                      .show( ":" )
+                      .focus()
+                      .setCandidateBox( candBox )
+    exit : ->
+        @commandBox.hide().detachFrom( g.view )
 
-    exit : -> @commandBox.hide().detachFrom( g.view )
-
-    getKeyMapping : -> g.model.getIMap()
+    getKeyMapping : -> g.model.getCMap()
 
 class g.FMode extends g.Mode
     getName   : -> "FMode"
@@ -186,12 +207,13 @@ class g.FMode extends g.Mode
 
         if @hints[i].target.is('a')
             primary = @opt.newTab
-            if not @opt.continuous then setTimeout( ->
-                g.view.hideStatusLine()
-                g.model.enterNormalMode()
-            , 0 )
+            g.model.enterNormalMode()
         else
             @hints[i].target.focus()
+            if g.util.isEditable( @hints[i].target.get(0) )
+                g.model.enterInsertMode()
+            else
+                g.model.enterNormalMode()
 
         g.util.dispatchMouseClickEvent @hints[i].target.get(0), primary, false, false
 
@@ -223,6 +245,8 @@ class g.FMode extends g.Mode
             if @opt.continuous
                 @currentInput = ""
                 g.view.setStatusLineText 'f Mode : '
+            else
+                g.view.hideStatusLine()
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if key == "ESC" then return true
@@ -246,7 +270,7 @@ class g.FMode extends g.Mode
         @hints        = [];
         @keys         = "";
 
-        links = $('a:_visible,*:input:_visible')
+        links = $('a:_visible,*:input:_visible,.button:_visible')
 
         if links.length == 0
             g.view.setStatusLineText( "No visible links found", 2000 )

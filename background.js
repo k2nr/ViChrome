@@ -195,6 +195,31 @@
       sendResponse(msg);
       return true;
     },
+    reqPushSearchHistory: function(req) {
+      var history, idx;
+      if (req.value == null) {
+        return;
+      }
+      history = JSON.parse(localStorage.getItem("_searchHistory"));
+      history || (history = []);
+      if ((idx = history.indexOf(req.value)) >= 0) {
+        history.splice(idx, 1);
+      }
+      history.push(req.value);
+      if (history.length > 10) {
+        history.shift();
+      }
+      localStorage.setItem("_searchHistory", JSON.stringify(history));
+    },
+    reqGetSearchHistory: function(req, sendResponse) {
+      var history, msg;
+      history = JSON.parse(localStorage.getItem("_searchHistory"));
+      msg = {
+        command: "GetSearchHistory",
+        value: history
+      };
+      return sendResponse(msg);
+    },
     init: function() {
       this.tabHistory = (new g.TabHistory).init();
       g.SettingManager.init();

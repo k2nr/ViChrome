@@ -7,6 +7,11 @@ class g.EventHandler
         g.logger.d "onBlur", e
         @model.onBlur()
 
+    onKeyPress : (e) ->
+        if g.model.isInSearchMode() or g.model.isInCommandMode
+            if !e.ctrlKey and !e.altKey and !e.metaKey
+                event.stopPropagation()
+
     onKeyDown : (e) ->
         g.logger.d "onKeyDown", e
         msg = @getHandlableKey e
@@ -25,7 +30,13 @@ class g.EventHandler
             return undefined
 
         if @model.prePostKeyEvent( code, e.ctrlKey, e.altKey, e.metaKey )
-            return code: code, ctrl: e.ctrlKey, alt: e.altKey, meta: e.metaKey
+            return {
+                code  : code
+                shift : e.shiftKey
+                ctrl  : e.ctrlKey
+                alt   : e.altKey
+                meta  : e.metaKey
+            }
         else
             g.logger.d "prePostKeyEvent:key ignored by current mode"
             return
@@ -36,6 +47,7 @@ class g.EventHandler
 
     addWindowListeners : ->
         window.addEventListener("keydown" , ((e) => @onKeyDown(e)) , true)
+        window.addEventListener("keypress" , ((e) => @onKeyPress(e)) , true)
         window.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
         window.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
 

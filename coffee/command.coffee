@@ -53,6 +53,8 @@ class g.CommandExecuter
         FocusOnFirstInput     : triggerInsideContent
         BackToPageMark        : triggerInsideContent
         RestoreTab            : sendToBackground
+        FocusNextCandidate    : triggerInsideContent
+        FocusPrevCandidate    : triggerInsideContent
         Escape                : escape
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
@@ -102,7 +104,7 @@ class g.CommandManager
                 @waiting = false
 
         startTimer : (callback, ms) ->
-            unless @waiting then return
+            if @waiting then return
 
             @waiting = true;
             @timerId = setTimeout( callback, ms )
@@ -160,14 +162,18 @@ class g.CommandManager
         times = @keyQueue.getTimes()
         com   = @getCommandFromKeySeq( s, keyMap )
 
-        if com? and com != "<NOP>"
-            (new g.CommandExecuter).set( com, times ).parse().execute()
+        unless com
+            if @isWaitingNextKey()
+                event.stopPropagation()
+                event.preventDefault()
+            return
 
-            # some web sites set their own key bind(google instant search etc).
-            # to prevent messing up vichrome's key bind from them,
-            # we have to stop event propagation here.
-            event.stopPropagation()
-            event.preventDefault()
-        else if @isWaitingNextKey()
-            event.stopPropagation()
-            event.preventDefault()
+        switch com
+            when "<NOP>" then return
+            when "<DISCARD>"
+                event.stopPropagation()
+                event.preventDefault()
+            else
+                (new g.CommandExecuter).set( com, times ).parse().execute()
+                event.stopPropagation()
+                event.preventDefault()

@@ -240,6 +240,7 @@ g.KeyManager =
         result = "M-" + result if msg.meta
 
         if msg.ctrl or msg.alt or msg.meta or keyCodes[msg.code]
+            result = "S-" + result if msg.shift
             result = "<" + result + ">"
 
         result

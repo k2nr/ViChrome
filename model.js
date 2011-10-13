@@ -1,5 +1,5 @@
 (function() {
-  var g, getAliasFirst, getIMapFirst, getNMapFirst;
+  var g, getAliasFirst, getCMapFirst, getIMapFirst, getNMapFirst;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   g = this;
   getNMapFirst = function() {
@@ -33,6 +33,25 @@
       map = pageMap[url];
       if (this.isUrlMatched(window.location.href, url)) {
         g.extend(map.imap, myMap);
+      }
+    }
+    this.getIMap = function() {
+      return myMap;
+    };
+    return myMap;
+  };
+  getCMapFirst = function() {
+    var cmap, map, myMap, pageMap, url, _ref;
+    cmap = g.object(this.getSetting("keyMappingCommand"));
+    pageMap = this.getSetting("pageMap");
+    if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
+      return nmap;
+    }
+    myMap = cmap;
+    for (url in pageMap) {
+      map = pageMap[url];
+      if (this.isUrlMatched(window.location.href, url)) {
+        g.extend(map.cmap, myMap);
       }
     }
     this.getIMap = function() {
@@ -151,6 +170,7 @@
     },
     getNMap: getNMapFirst,
     getIMap: getIMapFirst,
+    getCMap: getCMapFirst,
     getAlias: getAliasFirst,
     getSetting: function(name) {
       return this.settings[name];
@@ -240,12 +260,15 @@
         this.settings.keyMappingNormal = {};
         this.settings.keyMappingInsert = {};
       }
-      if (msg.name === "keyMappingNormal") {
-        return this.getNMap = getNMapFirst;
-      } else if (msg.name === "keyMappingInsert") {
-        return this.getIMap = getIMapFirst;
-      } else if (msg.name === "aliases") {
-        return this.getAlias = getAliasFirst;
+      switch (msg.name) {
+        case "keyMappingNormal":
+          return this.getNMap = getNMapFirst;
+        case "keyMappingInsert":
+          return this.getIMap = getIMapFirst;
+        case "keyMappingCommand":
+          return this.getCMap = getCMapFirst;
+        case "aliases":
+          return this.getAlias = getAliasFirst;
       }
     },
     onFocus: function(target) {

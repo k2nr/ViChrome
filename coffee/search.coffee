@@ -60,7 +60,8 @@ class g.NormalSearcher
 
     getCurIndex : -> @curIndex
 
-    removeHighlight : -> $(document.body).removeHighlight()
+    removeHighlight : ->
+        $(document.body).removeHighlight()
 
     searchAndHighlight : (word) ->
         @removeHighlight()
@@ -69,11 +70,18 @@ class g.NormalSearcher
 
     getResult : (cnt) -> @sortedResults[cnt].value
 
-    fix : (@word) ->
-        if not @opt.incSearch or word.length < @opt.minIncSearch
-            @searchAndHighlight( @word )
+    fix : (word) ->
+        if not @opt.incSearch or word.length < @opt.minIncSearch or @word != word
+            @searchAndHighlight( word )
             @curIndex = @getFirstInnerSearchResultIndex()
             @moveTo( @curIndex )
+
+        @word = word
+        chrome.extension.sendRequest(
+            command : "PushSearchHistory"
+            value   : @word
+        )
+
         @fixed = true
 
     moveTo : (pos) ->

@@ -30,6 +30,21 @@ getIMapFirst = ->
     @getIMap = -> myMap
     myMap
 
+getCMapFirst = ->
+    cmap    = g.object( @getSetting "keyMappingCommand" )
+    pageMap = @getSetting "pageMap"
+
+    unless window.location.href?.length > 0
+        return nmap
+
+    myMap = cmap
+    for url,map of pageMap
+        if @isUrlMatched( window.location.href, url )
+            g.extend( map.cmap, myMap )
+
+    @getIMap = -> myMap
+    myMap
+
 getAliasFirst = ->
     aliases = g.object( @getSetting "aliases" )
     pageMap = @getSetting "pageMap"
@@ -120,6 +135,7 @@ g.model =
 
     getNMap  : getNMapFirst
     getIMap  : getIMapFirst
+    getCMap  : getCMapFirst
     getAlias : getAliasFirst
 
     getSetting : (name) -> @settings[name]
@@ -200,12 +216,11 @@ g.model =
             @settings.keyMappingNormal = {}
             @settings.keyMappingInsert = {}
 
-        if msg.name == "keyMappingNormal"
-            @getNMap = getNMapFirst
-        else if msg.name == "keyMappingInsert"
-            @getIMap = getIMapFirst
-        else if msg.name == "aliases"
-            @getAlias = getAliasFirst
+        switch msg.name
+            when "keyMappingNormal"  then @getNMap = getNMapFirst
+            when "keyMappingInsert"  then @getIMap = getIMapFirst
+            when "keyMappingCommand" then @getCMap = getCMapFirst
+            when "aliases" then @getAlias = getAliasFirst
 
     onFocus : (target) ->
         if @isInCommandMode() or @isInSearchMode()

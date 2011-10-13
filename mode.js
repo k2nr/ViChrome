@@ -1,5 +1,5 @@
 (function() {
-  var g;
+  var Commandable, g;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -165,10 +165,19 @@
     };
     return InsertMode;
   })();
+  Commandable = {
+    commandBox: null,
+    reqFocusNextCandidate: function(args) {
+      return this.commandBox.nextCandidate();
+    },
+    reqFocusPrevCandidate: function(args) {
+      return this.commandBox.prevCandidate();
+    }
+  };
   g.SearchMode = (function() {
     __extends(SearchMode, g.Mode);
     function SearchMode() {
-      SearchMode.__super__.constructor.apply(this, arguments);
+      g.extend(Commandable, this);
     }
     SearchMode.prototype.getName = function() {
       return "SearchMode";
@@ -204,11 +213,11 @@
         this.cancelSearch();
         return false;
       }
+      event.stopPropagation();
       if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
         return false;
       }
       if (key === "CR") {
-        event.stopPropagation();
         this.searcher.fix(word);
         g.model.setSearcher(this.searcher);
         g.model.enterNormalMode();
@@ -220,22 +229,23 @@
       return this.cancelSearch();
     };
     SearchMode.prototype.enter = function() {
-      var modeChar;
+      var candBox, modeChar;
       modeChar = this.backward === true ? "?" : "/";
-      return this.commandBox.attachTo(g.view).show(modeChar).focus();
+      candBox = (new g.CandidateBox).addSource(new g.CandSourceSearchHist);
+      return this.commandBox.attachTo(g.view).show(modeChar).focus().setCandidateBox(candBox);
     };
     SearchMode.prototype.exit = function() {
       return this.commandBox.hide().detachFrom(g.view);
     };
     SearchMode.prototype.getKeyMapping = function() {
-      return g.model.getIMap();
+      return g.model.getCMap();
     };
     return SearchMode;
   })();
   g.CommandMode = (function() {
     __extends(CommandMode, g.Mode);
     function CommandMode() {
-      CommandMode.__super__.constructor.apply(this, arguments);
+      g.extend(Commandable, this);
     }
     CommandMode.prototype.getName = function() {
       return "CommandMode";
@@ -268,16 +278,17 @@
       return true;
     };
     CommandMode.prototype.enter = function() {
-      var align, width;
+      var align, candBox, width;
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
-      return this.commandBox = (new g.CommandBox).init(g.view, align, width).attachTo(g.view).show(":").focus();
+      candBox = (new g.CandidateBox).addSource(new g.CandSourceCommand).addSource(new g.CandSourceAlias);
+      return this.commandBox = (new g.CommandBox).init(g.view, align, width).attachTo(g.view).show(":").focus().setCandidateBox(candBox);
     };
     CommandMode.prototype.exit = function() {
       return this.commandBox.hide().detachFrom(g.view);
     };
     CommandMode.prototype.getKeyMapping = function() {
-      return g.model.getIMap();
+      return g.model.getCMap();
     };
     return CommandMode;
   })();
@@ -298,14 +309,14 @@
       primary = false;
       if (this.hints[i].target.is('a')) {
         primary = this.opt.newTab;
-        if (!this.opt.continuous) {
-          setTimeout(function() {
-            g.view.hideStatusLine();
-            return g.model.enterNormalMode();
-          }, 0);
-        }
+        g.model.enterNormalMode();
       } else {
         this.hints[i].target.focus();
+        if (g.util.isEditable(this.hints[i].target.get(0))) {
+          g.model.enterInsertMode();
+        } else {
+          g.model.enterNormalMode();
+        }
       }
       return g.util.dispatchMouseClickEvent(this.hints[i].target.get(0), primary, false, false);
     };
@@ -345,6 +356,8 @@
         if (this.opt.continuous) {
           this.currentInput = "";
           return g.view.setStatusLineText('f Mode : ');
+        } else {
+          return g.view.hideStatusLine();
         }
       }
     };
@@ -378,7 +391,7 @@
       this.currentInput = "";
       this.hints = [];
       this.keys = "";
-      links = $('a:_visible,*:input:_visible');
+      links = $('a:_visible,*:input:_visible,.button:_visible');
       if (links.length === 0) {
         g.view.setStatusLineText("No visible links found", 2000);
         setTimeout((function() {

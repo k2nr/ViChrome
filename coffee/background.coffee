@@ -121,6 +121,28 @@ g.bg =
 
         true
 
+    reqPushSearchHistory : (req) ->
+        unless req.value? then return
+
+        history = JSON.parse( localStorage.getItem("_searchHistory") )
+        history or= []
+
+        if ( idx = history.indexOf(req.value) ) >= 0
+            history.splice(idx, 1)
+
+        history.push( req.value )
+        if( history.length > 10 ) then history.shift()
+        localStorage.setItem( "_searchHistory", JSON.stringify(history) )
+        return
+
+    reqGetSearchHistory : (req, sendResponse) ->
+        history = JSON.parse( localStorage.getItem("_searchHistory") )
+        msg =
+            command : "GetSearchHistory"
+            value   : history
+
+        sendResponse msg
+
     init : ->
         @tabHistory = (new g.TabHistory).init()
         g.SettingManager.init()

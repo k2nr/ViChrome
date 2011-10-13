@@ -4,6 +4,7 @@
   mapping = {
     nmap: {},
     imap: {},
+    cmap: {},
     alias: {}
   };
   g.SettingManager = {
@@ -62,6 +63,16 @@
         "<ESC>": "Escape",
         "<C-[>": "Escape"
       },
+      "keyMappingCommand": {
+        "<C-n>": "FocusNextCandidate",
+        "<C-p>": "FocusPrevCandidate",
+        "<TAB>": "FocusNextCandidate",
+        "<S-TAB>": "FocusPrevCandidate",
+        "<DOWN>": "FocusNextCandidate",
+        "<UP>": "FocusPrevCandidate",
+        "<ESC>": "Escape",
+        "<C-[>": "Escape"
+      },
       "aliases": {
         "o": "Open",
         "ot": "OpenNewTab",
@@ -81,10 +92,15 @@
       if (args[1].charAt(0) === ':') {
         this[args[0]] = args.slice(1).join(' ').slice(1);
       } else {
-        if (args[1].toUpperCase() === "<NOP>") {
-          this[args[0]] = "<NOP>";
-        } else {
-          this[args[0]] = this[args[1]];
+        switch (args[1].toUpperCase()) {
+          case "<NOP>":
+            this[args[0]] = "<NOP>";
+            break;
+          case "<DISCARD>":
+            this[args[0]] = "<DISCARD>";
+            break;
+          default:
+            this[args[0]] = this[args[1]];
         }
       }
       return this;
@@ -97,6 +113,9 @@
     },
     _imap: function(map, args) {
       return this.mapApplied.call(map.imap, args);
+    },
+    _cmap: function(map, args) {
+      return this.mapApplied.call(map.cmap, args);
     },
     _alias: function(map, args) {
       if (args.length < 2) {
@@ -134,9 +153,10 @@
       return this;
     },
     initUserMap: function() {
-      var com, command, defAliases, defInsert, defNormal, defPageMap, key, map, url, _ref, _ref2, _ref3;
+      var com, command, defAliases, defCommand, defInsert, defNormal, defPageMap, key, map, url, _ref, _ref2, _ref3, _ref4;
       defNormal = this.defaultSettings.keyMappingNormal;
       defInsert = this.defaultSettings.keyMappingInsert;
+      defCommand = this.defaultSettings.keyMappingCommand;
       defAliases = this.defaultSettings.aliases;
       defPageMap = this.defaultSettings.pageMap;
       this.userMap = g.extendDeep(mapping);
@@ -147,6 +167,10 @@
       for (key in defInsert) {
         command = defInsert[key];
         this.userMap.imap[key] = command;
+      }
+      for (key in defCommand) {
+        command = defCommand[key];
+        this.userMap.cmap[key] = command;
       }
       for (key in defAliases) {
         command = defAliases[key];
@@ -166,9 +190,14 @@
           com = _ref2[key];
           this.pageMap[url].imap[key] = com;
         }
-        _ref3 = map.alias;
+        _ref3 = map.cmap;
         for (key in _ref3) {
           com = _ref3[key];
+          this.pageMap[url].cmap[key] = com;
+        }
+        _ref4 = map.alias;
+        for (key in _ref4) {
+          com = _ref4[key];
           this.pageMap[url].alias[key] = com;
         }
       }
@@ -180,16 +209,24 @@
       _ref = this.defaultSettings;
       for (name in _ref) {
         value = _ref[name];
-        if (name === "keyMappingNormal") {
-          settings[name] = this.userMap.nmap;
-        } else if (name === "keyMappingInsert") {
-          settings[name] = this.userMap.imap;
-        } else if (name === "aliases") {
-          settings[name] = this.userMap.alias;
-        } else if (name === "pageMap") {
-          settings[name] = this.pageMap;
-        } else {
-          settings[name] = this.get(name);
+        switch (name) {
+          case "keyMappingNormal":
+            settings[name] = this.userMap.nmap;
+            break;
+          case "keyMappingInsert":
+            settings[name] = this.userMap.imap;
+            break;
+          case "keyMappingCommand":
+            settings[name] = this.userMap.cmap;
+            break;
+          case "aliases":
+            settings[name] = this.userMap.alias;
+            break;
+          case "pageMap":
+            settings[name] = this.pageMap;
+            break;
+          default:
+            settings[name] = this.get(name);
         }
       }
       return settings;
@@ -214,6 +251,9 @@
     },
     setIMap: function(args) {
       return this._imap(this.userMap, args);
+    },
+    setCMap: function(args) {
+      return this._cmap(this.userMap, args);
     },
     setAlias: function(args) {
       return this._alias(this.userMap, args);

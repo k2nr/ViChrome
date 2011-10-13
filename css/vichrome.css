@@ -17,11 +17,11 @@
 }
 .vichromeboxLeft-Top {
     left:  0px;
-    top:   0px;
+    top:   20px;
 }
 .vichromeboxRight-Top {
     right: 6px;
-    top:   0px;
+    top:   20px;
 }
 
 .statuslineLeft-Bottom {
@@ -34,11 +34,28 @@
 }
 .statuslineLeft-Top {
     left:  0px;
-    top:   24px;
+    top:   0px;
 }
 .statuslineRight-Top {
     right: 0px;
-    top:   24px;
+    top:   0px;
+}
+
+.candboxLeft-Bottom {
+    left:  0px;
+    bottom:44px;
+}
+.candboxRight-Bottom {
+    right: 0px;
+    bottom:44px;
+}
+.candboxLeft-Top {
+    left:  0px;
+    top:   44px;
+}
+.candboxRight-Top {
+    right: 0px;
+    top:   44px;
 }
 
 #vichromefield {
@@ -78,7 +95,7 @@
     text-align: left;
     line-height: normal;
     height: 24px;
-    width: 10px;
+    width: 20px;
     outline: none;
     border: none;
     padding: 0px 0px;
@@ -123,7 +140,60 @@
 }
 
 #vichromecandbox {
+    background-color: rgba(64, 64, 64, 0.7);
+    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
+    position: fixed;
+    outline: none;
+    text-align: left;
+    color: #fff;
+    border: none;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    width: 400px;
+    max-height: 440px;
+    overflow: auto;
+    font-size: 14px;
+    padding: 0px 3px;
+    margin: 0px 0px;
+    z-index: 100000;
+}
 
+#vichromecanditem {
+    background : none;
+    outline: none;
+    border: none;
+    border-radius: 0px;
+    line-height: normal;
+    width: 100%;
+    height: 22px;
+    padding: 0px 0px;
+    margin: 0px 0px;
+}
+
+.candtext {
+    text-align: left;
+    color: #fff;
+    line-height: normal;
+    height: 22px;
+    min-width : 200px;
+    padding-left : 5px;
+    font-size: 16px;
+    float : left;
+}
+
+.canddscr {
+    text-align: left;
+    color: #ddd;
+    height: 22px;
+    line-height: 26px;
+    font-size: 14px;
+    padding-left: 15px;
+    float : left;
+}
+
+.canditemfocused {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #444 !important;
 }
 
 .statuslineinactive {

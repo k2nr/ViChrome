@@ -10,6 +10,13 @@
       g.logger.d("onBlur", e);
       return this.model.onBlur();
     };
+    EventHandler.prototype.onKeyPress = function(e) {
+      if (g.model.isInSearchMode() || g.model.isInCommandMode) {
+        if (!e.ctrlKey && !e.altKey && !e.metaKey) {
+          return event.stopPropagation();
+        }
+      }
+    };
     EventHandler.prototype.onKeyDown = function(e) {
       var msg;
       g.logger.d("onKeyDown", e);
@@ -32,6 +39,7 @@
       if (this.model.prePostKeyEvent(code, e.ctrlKey, e.altKey, e.metaKey)) {
         return {
           code: code,
+          shift: e.shiftKey,
           ctrl: e.ctrlKey,
           alt: e.altKey,
           meta: e.metaKey
@@ -47,6 +55,9 @@
     EventHandler.prototype.addWindowListeners = function() {
       window.addEventListener("keydown", (__bind(function(e) {
         return this.onKeyDown(e);
+      }, this)), true);
+      window.addEventListener("keypress", (__bind(function(e) {
+        return this.onKeyPress(e);
       }, this)), true);
       window.addEventListener("focus", (__bind(function(e) {
         return this.onFocus(e);

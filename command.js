@@ -55,6 +55,8 @@
       FocusOnFirstInput: triggerInsideContent,
       BackToPageMark: triggerInsideContent,
       RestoreTab: sendToBackground,
+      FocusNextCandidate: triggerInsideContent,
+      FocusPrevCandidate: triggerInsideContent,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };
@@ -115,7 +117,7 @@
         }
       },
       startTimer: function(callback, ms) {
-        if (!this.waiting) {
+        if (this.waiting) {
           return;
         }
         this.waiting = true;
@@ -190,13 +192,23 @@
       s = KeyManager.getKeyCodeStr(msg);
       times = this.keyQueue.getTimes();
       com = this.getCommandFromKeySeq(s, keyMap);
-      if ((com != null) && com !== "<NOP>") {
-        (new g.CommandExecuter).set(com, times).parse().execute();
-        event.stopPropagation();
-        return event.preventDefault();
-      } else if (this.isWaitingNextKey()) {
-        event.stopPropagation();
-        return event.preventDefault();
+      if (!com) {
+        if (this.isWaitingNextKey()) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        return;
+      }
+      switch (com) {
+        case "<NOP>":
+          break;
+        case "<DISCARD>":
+          event.stopPropagation();
+          return event.preventDefault();
+        default:
+          (new g.CommandExecuter).set(com, times).parse().execute();
+          event.stopPropagation();
+          return event.preventDefault();
       }
     };
     return CommandManager;
