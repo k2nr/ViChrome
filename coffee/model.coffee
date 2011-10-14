@@ -261,9 +261,11 @@ g.model =
 
         g.view.init()
 
+        g.logger.d("disAutoFocus", @disAutoFocus)
         if g.util.isEditable( document.activeElement ) and not @disAutoFocus
             @enterInsertMode()
         else
+            g.view.blurActiveElement()
             @enterNormalMode()
 
 $(document).ready( => g.model.onDomReady() )

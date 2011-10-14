@@ -86,6 +86,7 @@
   g.util = {};
   g.util.isEditable = function(target) {
     var editableList, ignoreList, _ref, _ref2, _ref3;
+    g.logger.d("isEditable", target);
     ignoreList = ["TEXTAREA"];
     editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
     if (target.isContentEditable) {

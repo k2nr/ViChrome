@@ -67,8 +67,6 @@
         "<C-[>": "Escape"
       },
       "keyMappingCommand": {
-        "<C-n>": "FocusNextCandidate",
-        "<C-p>": "FocusPrevCandidate",
         "<TAB>": "FocusNextCandidate",
         "<S-TAB>": "FocusPrevCandidate",
         "<DOWN>": "FocusNextCandidate",

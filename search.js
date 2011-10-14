@@ -15,7 +15,7 @@
       var results;
       this.sortedResults = [];
       results = this.sortedResults;
-      $('span.highlight:visible').each(function(i) {
+      $('span.vichrome-highlight:visible').each(function(i) {
         results[i] = {};
         results[i].offset = $(this).offset();
         return results[i].value = $(this);
@@ -36,7 +36,7 @@
       for (i = 0, _ref = this.getResultCnt() - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         idx = this.opt.backward ? total - 1 - i : i;
         span = this.getResult(idx);
-        if (span.isWithinScreen()) {
+        if ((span != null) && span.isWithinScreen()) {
           return idx;
         }
       }
@@ -93,12 +93,24 @@
       return this.buildSortedResults();
     };
     NormalSearcher.prototype.getResult = function(cnt) {
-      return this.sortedResults[cnt].value;
+      var _ref;
+      return (_ref = this.sortedResults[cnt]) != null ? _ref.value : void 0;
     };
     NormalSearcher.prototype.fix = function(word) {
       if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
         this.searchAndHighlight(word);
+        if (this.getResultCnt() === 0) {
+          g.view.setStatusLineText("no matches");
+          return;
+        }
         this.curIndex = this.getFirstInnerSearchResultIndex();
+        if (this.curIndex < 0) {
+          if (this.opt.backward) {
+            this.curIndex = this.getResultCnt() - 1;
+          } else {
+            this.curIndex = 0;
+          }
+        }
         this.moveTo(this.curIndex);
       }
       this.word = word;
@@ -113,8 +125,8 @@
       if (this.getResultCnt() > pos) {
         span = this.getResult(pos);
         if (span != null) {
-          $('span').removeClass('highlightFocus');
-          span.addClass('highlightFocus');
+          $('span').removeClass('vichrome-highlightFocus');
+          span.addClass('vichrome-highlightFocus');
           span.scrollTo();
           return g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
         }

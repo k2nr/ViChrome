@@ -4,21 +4,22 @@ class g.Mode
     exit  : ->
     enter : ->
     reqOpen : (args) ->
-        url = null
+        urls = []
         interactive = false
         for arg in args then switch arg
             when "-i" then interactive = true
-            else url = arg
+            else urls.push arg
 
         if interactive
             sources = [
                 new g.CandSourceBookmark
                 new g.CandSourceHistory
             ]
-            g.model.enterCommandMode((new g.CommandExecuter).set("Open"), sources)
+            com = "Open " + urls.join(' ')
+            g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
             return
-
-        if url then window.open( url, "_self" )
+        else
+            window.open( args[0], "_self" )
 
     reqOpenNewTab : (args) ->
         urls = []
@@ -32,7 +33,8 @@ class g.Mode
                 new g.CandSourceBookmark
                 new g.CandSourceHistory
             ]
-            g.model.enterCommandMode((new g.CommandExecuter).set("OpenNewTab"), sources)
+            com = "OpenNewTab " + urls.join(' ')
+            g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
         else
             chrome.extension.sendRequest {command : "OpenNewTab", args : urls}, g.handler.onCommandResponse
 
@@ -152,12 +154,13 @@ class g.SearchMode extends g.Mode
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if ctrl or alt or meta then return true
+        event.stopPropagation()
+
         word = @commandBox.value()
         if word.length == 0 and ( key == "BS" or key == "DEL" )
             @cancelSearch()
             return false
 
-        event.stopPropagation()
 
         if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
             return false
@@ -195,8 +198,11 @@ class g.CommandMode extends g.Mode
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         if ctrl or alt or meta then return true
 
+        event.stopPropagation()
         if @commandBox.value().length == 0 and ( key == "BS" or key == "DEL" )
+            event.preventDefault()
             g.model.enterNormalMode()
+            g.view.hideStatusLine()
             return false
 
         if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
@@ -209,8 +215,6 @@ class g.CommandMode extends g.Mode
                 g.view.hideStatusLine()
             catch e
                 g.view.setStatusLineText "Command Not Found : "+@executer.get(), 2000
-            event.stopPropagation()
-            event.preventDefault()
             g.model.enterNormalMode()
             return false
 
@@ -337,7 +341,7 @@ class g.FMode extends g.Mode
             that.hints[i].key    = key
             that.hints[i].target = $(this)
 
-            $(this).addClass('fModeTarget')
+            $(this).addClass('vichrome-fModeTarget')
         )
 
         for elem in @hints
@@ -355,7 +359,7 @@ class g.FMode extends g.Mode
 
     exit : ->
         $('span#vichromehint').remove()
-        $('.fModeTarget').removeClass('fModeTarget')
+        $('.vichrome-fModeTarget').removeClass('vichrome-fModeTarget')
 
 $.extend( $.expr[':'],
     _visible : (elem) ->

@@ -14,30 +14,7 @@
     Mode.prototype.exit = function() {};
     Mode.prototype.enter = function() {};
     Mode.prototype.reqOpen = function(args) {
-      var arg, interactive, sources, url, _i, _len;
-      url = null;
-      interactive = false;
-      for (_i = 0, _len = args.length; _i < _len; _i++) {
-        arg = args[_i];
-        switch (arg) {
-          case "-i":
-            interactive = true;
-            break;
-          default:
-            url = arg;
-        }
-      }
-      if (interactive) {
-        sources = [new g.CandSourceBookmark, new g.CandSourceHistory];
-        g.model.enterCommandMode((new g.CommandExecuter).set("Open"), sources);
-        return;
-      }
-      if (url) {
-        return window.open(url, "_self");
-      }
-    };
-    Mode.prototype.reqOpenNewTab = function(args) {
-      var arg, interactive, sources, urls, _i, _len;
+      var arg, com, interactive, sources, urls, _i, _len;
       urls = [];
       interactive = false;
       for (_i = 0, _len = args.length; _i < _len; _i++) {
@@ -52,7 +29,30 @@
       }
       if (interactive) {
         sources = [new g.CandSourceBookmark, new g.CandSourceHistory];
-        return g.model.enterCommandMode((new g.CommandExecuter).set("OpenNewTab"), sources);
+        com = "Open " + urls.join(' ');
+        g.model.enterCommandMode((new g.CommandExecuter).set(com), sources);
+      } else {
+        return window.open(args[0], "_self");
+      }
+    };
+    Mode.prototype.reqOpenNewTab = function(args) {
+      var arg, com, interactive, sources, urls, _i, _len;
+      urls = [];
+      interactive = false;
+      for (_i = 0, _len = args.length; _i < _len; _i++) {
+        arg = args[_i];
+        switch (arg) {
+          case "-i":
+            interactive = true;
+            break;
+          default:
+            urls.push(arg);
+        }
+      }
+      if (interactive) {
+        sources = [new g.CandSourceBookmark, new g.CandSourceHistory];
+        com = "OpenNewTab " + urls.join(' ');
+        return g.model.enterCommandMode((new g.CommandExecuter).set(com), sources);
       } else {
         return chrome.extension.sendRequest({
           command: "OpenNewTab",
@@ -252,12 +252,12 @@
       if (ctrl || alt || meta) {
         return true;
       }
+      event.stopPropagation();
       word = this.commandBox.value();
       if (word.length === 0 && (key === "BS" || key === "DEL")) {
         this.cancelSearch();
         return false;
       }
-      event.stopPropagation();
       if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
         return false;
       }
@@ -299,8 +299,11 @@
       if (ctrl || alt || meta) {
         return true;
       }
+      event.stopPropagation();
       if (this.commandBox.value().length === 0 && (key === "BS" || key === "DEL")) {
+        event.preventDefault();
         g.model.enterNormalMode();
+        g.view.hideStatusLine();
         return false;
       }
       if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
@@ -316,8 +319,6 @@
         } catch (e) {
           g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
         }
-        event.stopPropagation();
-        event.preventDefault();
         g.model.enterNormalMode();
         return false;
       }
@@ -479,7 +480,7 @@
         that.hints[i].offset = $(this).offset();
         that.hints[i].key = key;
         that.hints[i].target = $(this);
-        return $(this).addClass('fModeTarget');
+        return $(this).addClass('vichrome-fModeTarget');
       });
       _ref = this.hints;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -499,7 +500,7 @@
     };
     FMode.prototype.exit = function() {
       $('span#vichromehint').remove();
-      return $('.fModeTarget').removeClass('fModeTarget');
+      return $('.vichrome-fModeTarget').removeClass('vichrome-fModeTarget');
     };
     return FMode;
   })();

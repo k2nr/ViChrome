@@ -87,8 +87,8 @@
       var align, alignClass, width;
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
-      alignClass = "statusline" + align;
-      this.statusLine = $('<div id="vichromestatusline" />').addClass('statuslineinactive').addClass(alignClass).width(width);
+      alignClass = "vichrome-statusline" + align;
+      this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass(alignClass).width(width);
       this.hideStatusLine();
       this.attach(this.statusLine);
       return this.initialized = true;
@@ -98,7 +98,7 @@
       return this;
     };
     Surface.prototype.activeStatusLine = function() {
-      this.statusLine.removeClass('statuslineinactive');
+      this.statusLine.removeClass('vichrome-statuslineinactive');
       this.statusLine.show();
       if (this.slTimeout) {
         clearTimeout(this.slTimeout);
@@ -107,7 +107,7 @@
       return this;
     };
     Surface.prototype.inactiveStatusLine = function() {
-      this.statusLine.addClass('statuslineinactive');
+      this.statusLine.addClass('vichrome-statuslineinactive');
       return this;
     };
     Surface.prototype.hideStatusLine = function() {
@@ -196,12 +196,11 @@
       this.view = view;
       this.align = align;
       this.width = width;
-      alignClass = "vichromebox" + this.align;
+      alignClass = "vichrome-vichromebox" + this.align;
       this.box = $('<div id="vichromebox" />').addClass(alignClass).width(this.width);
       this.input = $('<input type="text" id="vichromeinput" spellcheck="false" value="" />');
       this.modeChar = $('<div id="vichromemodechar" />');
-      this.inputField = $('<table width="100%"/>').append($('<tr />').append($('<td id="vichromemodechar" />').append(this.modeChar)).append($('<td id="vichromeinput" />').append(this.input)));
-      this.inputField = $('<div id="vichromefield" />').append(this.inputField);
+      this.inputField = $('<div id="vichromefield" />').append(this.modeChar).append($('<div id="vichromeinput" />').append(this.input));
       this.box.append(this.inputField);
       return this;
     };
@@ -263,16 +262,10 @@
       return this.inputField.css('display') !== 'none';
     };
     CommandBox.prototype.value = function(a) {
-      var val, _ref;
       if (a != null) {
         return this.input.val(a);
       } else {
-        val = (_ref = this.candidateBox) != null ? _ref.getFocusedValue() : void 0;
-        if (val) {
-          return val;
-        } else {
-          return this.input.val();
-        }
+        return this.input.val();
       }
     };
     CommandBox.prototype.setCandidateBox = function(candBox) {
@@ -289,20 +282,20 @@
       return this;
     };
     CommandBox.prototype.nextCandidate = function() {
-      var focused;
+      var focused, _ref;
       if (this.candidateBox != null) {
         focused = this.candidateBox.focusNext();
-        this.value(focused != null ? focused.str : void 0);
-        this.selectedCand = focused.str;
+        this.selectedCand = (_ref = focused.value) != null ? _ref : focused.str;
+        this.value(this.selectedCand);
       }
       return this;
     };
     CommandBox.prototype.prevCandidate = function() {
-      var focused, _ref;
+      var focused, _ref, _ref2;
       if (this.candidateBox != null) {
         focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
-        this.value(focused != null ? focused.str : void 0);
-        this.selectedCand = focused.str;
+        this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
+        this.value(this.selectedCand);
       }
       return this;
     };
@@ -322,7 +315,7 @@
       var alignClass;
       this.align = align;
       this.width = width;
-      alignClass = "candbox" + this.align;
+      alignClass = "vichrome-candbox" + this.align;
       this.box = $('<div id="vichromecandbox" />').addClass(alignClass).css('min-width', this.width);
       return this;
     };
@@ -372,9 +365,9 @@
     CandidateBox.prototype.makeItemLine = function(src, id, item) {
       var dscr, line, srcType, text;
       line = $("<div id=\"vichromecanditem\" source=\"" + src + "\" num=\"" + id + "\" />");
-      text = $("<div class=\"candtext\" />").html(item.str);
-      dscr = $("<div class=\"canddscr\" />").html(item.dscr);
-      srcType = $("<div class=\"canddscr\" />").html(item.source);
+      text = $("<div class=\"vichrome-candtext\" />").html(item.str);
+      dscr = $("<div class=\"vichrome-canddscr\" />").html(item.dscr);
+      srcType = $("<div class=\"vichrome-canddscr\" />").html(item.source);
       line.append(text).append(srcType).append(dscr);
       if (item.value != null) {
         line.attr("value", item.value);
@@ -426,20 +419,20 @@
       return this.box.get(0).scrollTop = 0;
     };
     CandidateBox.prototype.removeFocus = function($focused) {
-      $focused.removeClass("canditemfocused");
-      return $focused.children().removeClass("canditemfocused");
+      $focused.removeClass("vichrome-canditemfocused");
+      return $focused.children().removeClass("vichrome-canditemfocused");
     };
     CandidateBox.prototype.setFocus = function($settee) {
       var val;
-      $settee.addClass("canditemfocused");
-      $settee.children().addClass("canditemfocused");
+      $settee.addClass("vichrome-canditemfocused");
+      $settee.children().addClass("vichrome-canditemfocused");
       if ((val = $settee.attr("value"))) {
         return this.setFocusedValue(val);
       }
     };
     CandidateBox.prototype.focusNext = function() {
       var $focused, $next;
-      $focused = $("#vichromecanditem.canditemfocused");
+      $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.next();
       this.index++;
@@ -453,7 +446,7 @@
     };
     CandidateBox.prototype.focusPrev = function() {
       var $focused, $next;
-      $focused = $("#vichromecanditem.canditemfocused");
+      $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.prev();
       this.index--;
@@ -467,7 +460,7 @@
     };
     CandidateBox.prototype.getFocused = function() {
       var $focused;
-      $focused = $("#vichromecanditem.canditemfocused");
+      $focused = $("#vichromecanditem.vichrome-canditemfocused");
       return this.getItem($focused.attr("source"), parseInt($focused.attr("num")));
     };
     CandidateBox.prototype.onInput = function(word) {

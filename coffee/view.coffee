@@ -55,10 +55,10 @@ class g.Surface
     init : ->
         align = g.model.getSetting "commandBoxAlign"
         width = g.model.getSetting "commandBoxWidth"
-        alignClass = "statusline" + align
+        alignClass = "vichrome-statusline" + align
 
         @statusLine = $( '<div id="vichromestatusline" />' )
-                      .addClass( 'statuslineinactive' )
+                      .addClass( 'vichrome-statuslineinactive' )
                       .addClass( alignClass )
                       .width( width )
 
@@ -71,7 +71,7 @@ class g.Surface
         this
 
     activeStatusLine : ->
-        @statusLine.removeClass( 'statuslineinactive' )
+        @statusLine.removeClass( 'vichrome-statuslineinactive' )
         @statusLine.show()
 
         if @slTimeout
@@ -81,7 +81,7 @@ class g.Surface
         this
 
     inactiveStatusLine : ->
-        @statusLine.addClass( 'statuslineinactive' )
+        @statusLine.addClass( 'vichrome-statuslineinactive' )
         return this
 
     hideStatusLine : ->
@@ -149,7 +149,7 @@ class g.CommandBox
         @inputListeners = []
 
     init : (@view, @align, @width) ->
-        alignClass = "vichromebox" + @align
+        alignClass = "vichrome-vichromebox" + @align
 
         @box   = $( '<div id="vichromebox" />' )
                  .addClass( alignClass )
@@ -157,15 +157,9 @@ class g.CommandBox
 
         @input = $( '<input type="text" id="vichromeinput" spellcheck="false" value="" />' )
         @modeChar  = $( '<div id="vichromemodechar" />' )
-        @inputField = $( '<table width="100%"/>' )
-                       .append( $('<tr />')
-                        .append( $('<td id="vichromemodechar" />')
-                         .append( @modeChar ))
-                        .append( $('<td id="vichromeinput" />')
-                         .append( @input )))
-
-        @inputField = $( '<div id="vichromefield" />' ).append( @inputField )
-
+        @inputField = $( '<div id="vichromefield" />' )
+                      .append( @modeChar )
+                      .append( $('<div id="vichromeinput" />').append(@input) )
         @box.append( @inputField )
 
         this
@@ -222,8 +216,7 @@ class g.CommandBox
         if a?
             @input.val(a)
         else
-            val = @candidateBox?.getFocusedValue()
-            return if val then val else @input.val()
+            return @input.val()
 
     setCandidateBox : (candBox) ->
         unless g.model.getSetting "enableCompletion" then return this
@@ -239,15 +232,15 @@ class g.CommandBox
     nextCandidate : ->
         if @candidateBox?
             focused = @candidateBox.focusNext()
-            @value( focused?.str )
-            @selectedCand = focused.str
+            @selectedCand = focused.value ? focused.str
+            @value( @selectedCand  )
         this
 
     prevCandidate : ->
         if @candidateBox?
             focused = @candidateBox?.focusPrev()
-            @value( focused?.str )
-            @selectedCand = focused.str
+            @selectedCand = focused.value ? focused.str
+            @value( @selectedCand  )
         this
 
 class g.CandidateBox
@@ -261,7 +254,7 @@ class g.CandidateBox
         @scrIndex = 0
 
     init : (@align, @width)->
-        alignClass = "candbox" + @align
+        alignClass = "vichrome-candbox" + @align
         @box = $( '<div id="vichromecandbox" />' )
                .addClass( alignClass )
                .css( 'min-width', @width )
@@ -308,9 +301,9 @@ class g.CandidateBox
 
     makeItemLine : (src, id, item) ->
         line = $("<div id=\"vichromecanditem\" source=\"#{src}\" num=\"#{id}\" />")
-        text = $("<div class=\"candtext\" />").html( item.str )
-        dscr = $("<div class=\"canddscr\" />").html( item.dscr )
-        srcType = $("<div class=\"canddscr\" />").html( item.source )
+        text = $("<div class=\"vichrome-candtext\" />").html( item.str )
+        dscr = $("<div class=\"vichrome-canddscr\" />").html( item.dscr )
+        srcType = $("<div class=\"vichrome-canddscr\" />").html( item.source )
         line.append( text ).append( srcType ).append( dscr )
         if item.value?
             line.attr("value", item.value)
@@ -345,17 +338,17 @@ class g.CandidateBox
         @box.get(0).scrollTop = 0
 
     removeFocus : ($focused) ->
-        $focused.removeClass("canditemfocused")
-        $focused.children().removeClass("canditemfocused")
+        $focused.removeClass("vichrome-canditemfocused")
+        $focused.children().removeClass("vichrome-canditemfocused")
 
     setFocus : ( $settee ) ->
-        $settee.addClass("canditemfocused")
-        $settee.children().addClass("canditemfocused")
+        $settee.addClass("vichrome-canditemfocused")
+        $settee.children().addClass("vichrome-canditemfocused")
         if (val = $settee.attr("value"))
             @setFocusedValue( val )
 
     focusNext : ->
-        $focused = $("#vichromecanditem.canditemfocused")
+        $focused = $("#vichromecanditem.vichrome-canditemfocused")
         @removeFocus( $focused )
         $next = $focused.next()
         @index++
@@ -368,7 +361,7 @@ class g.CandidateBox
         @getItem( $next.attr("source"), parseInt( $next.attr("num") ) )
 
     focusPrev : ->
-        $focused = $("#vichromecanditem.canditemfocused")
+        $focused = $("#vichromecanditem.vichrome-canditemfocused")
         @removeFocus( $focused )
         $next = $focused.prev()
         @index--
@@ -381,7 +374,7 @@ class g.CandidateBox
         @getItem( $next.attr("source"), parseInt( $next.attr("num") ) )
 
     getFocused : ->
-        $focused = $("#vichromecanditem.canditemfocused")
+        $focused = $("#vichromecanditem.vichrome-canditemfocused")
         @getItem( $focused.attr("source"), parseInt( $focused.attr("num") ) )
 
     onInput : (word) ->

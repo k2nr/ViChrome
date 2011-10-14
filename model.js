@@ -319,9 +319,11 @@
         return;
       }
       g.view.init();
+      g.logger.d("disAutoFocus", this.disAutoFocus);
       if (g.util.isEditable(document.activeElement) && !this.disAutoFocus) {
         return this.enterInsertMode();
       } else {
+        g.view.blurActiveElement();
         return this.enterNormalMode();
       }
     }

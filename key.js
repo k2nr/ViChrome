@@ -253,7 +253,7 @@
         result = "M-" + result;
       }
       if (msg.ctrl || msg.alt || msg.meta || keyCodes[msg.code]) {
-        if (msg.shift) {
+        if (keyCodes[msg.code] ? msg.shift : void 0) {
           result = "S-" + result;
         }
         result = "<" + result + ">";

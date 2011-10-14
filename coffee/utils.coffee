@@ -52,6 +52,7 @@ g.logger =
 
 g.util = {}
 g.util.isEditable = (target) ->
+    g.logger.d("isEditable", target)
     ignoreList = ["TEXTAREA"]
     editableList = [
         "TEXT"

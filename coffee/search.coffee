@@ -4,7 +4,7 @@ class g.NormalSearcher
     buildSortedResults : ->
         @sortedResults = []
         results = @sortedResults
-        $('span.highlight:visible').each( (i) ->
+        $('span.vichrome-highlight:visible').each( (i) ->
             results[i] = {}
             results[i].offset = $(this).offset()
             results[i].value  = $(this)
@@ -23,7 +23,7 @@ class g.NormalSearcher
         for i in [0..@getResultCnt()-1]
             idx = if @opt.backward then total - 1 - i else i
             span = @getResult( idx )
-            if span.isWithinScreen() then return idx
+            if span? and span.isWithinScreen() then return idx
 
         return -1
 
@@ -68,12 +68,21 @@ class g.NormalSearcher
         @highlight(word)
         @buildSortedResults()
 
-    getResult : (cnt) -> @sortedResults[cnt].value
+    getResult : (cnt) -> @sortedResults[cnt]?.value
 
     fix : (word) ->
         if not @opt.incSearch or word.length < @opt.minIncSearch or @word != word
             @searchAndHighlight( word )
+            if @getResultCnt() == 0
+                g.view.setStatusLineText( "no matches" )
+                return
+
             @curIndex = @getFirstInnerSearchResultIndex()
+            if @curIndex < 0
+                if @opt.backward
+                    @curIndex = @getResultCnt() - 1
+                else
+                    @curIndex = 0
             @moveTo( @curIndex )
 
         @word = word
@@ -88,8 +97,8 @@ class g.NormalSearcher
         if @getResultCnt() > pos
             span = @getResult( pos )
             if span?
-                $('span').removeClass('highlightFocus')
-                span.addClass('highlightFocus')
+                $('span').removeClass('vichrome-highlightFocus')
+                span.addClass('vichrome-highlightFocus')
                 span.scrollTo()
                 g.view.setStatusLineText( (pos+1) + " / " + @getResultCnt() )
         else g.logger.e("out of searchResults length", pos)
