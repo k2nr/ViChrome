@@ -142,6 +142,7 @@ g.bg =
             value   : history
 
         sendResponse msg
+        true
 
     reqGetBookmark : (req, sendResponse) ->
         chrome.bookmarks.search(req.value, (nodes) -> sendResponse(nodes))

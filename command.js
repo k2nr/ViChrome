@@ -134,7 +134,7 @@
         return this.timerId = setTimeout(callback, ms);
       },
       queue: function(s) {
-        if (s.search(/[0-9]/) >= 0 && this.a.length === 0) {
+        if (s.length === 1 && s.search(/[0-9]/) >= 0 && this.a.length === 0) {
           this.times += s;
         } else {
           this.a += s;

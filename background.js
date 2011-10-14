@@ -218,7 +218,8 @@
         command: "GetSearchHistory",
         value: history
       };
-      return sendResponse(msg);
+      sendResponse(msg);
+      return true;
     },
     reqGetBookmark: function(req, sendResponse) {
       chrome.bookmarks.search(req.value, function(nodes) {

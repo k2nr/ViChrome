@@ -115,7 +115,7 @@ class g.CommandManager
             @timerId = setTimeout( callback, ms )
 
         queue : (s) ->
-            if s.search(/[0-9]/) >= 0 and @a.length == 0
+            if s.length == 1 and s.search(/[0-9]/) >= 0 and @a.length == 0
                 @times += s
             else
                 @a += s
