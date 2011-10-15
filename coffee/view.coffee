@@ -431,7 +431,7 @@ class g.CandidateSource
         @timer = setTimeout( =>
             @timer = null
             @onInput?(word)
-        , 200)
+        , 50)
 
 class g.CandSourceCommand extends g.CandidateSource
     id : "Command"

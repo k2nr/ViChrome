@@ -543,7 +543,7 @@
       return this.timer = setTimeout(__bind(function() {
         this.timer = null;
         return typeof this.onInput === "function" ? this.onInput(word) : void 0;
-      }, this), 200);
+      }, this), 50);
     };
     return CandidateSource;
   })();
