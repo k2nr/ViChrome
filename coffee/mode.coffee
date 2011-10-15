@@ -333,7 +333,11 @@ class g.FMode extends g.Mode
             return
         else
             idx = @searchTarget()
-            if idx >= 0 then @hit idx
+            if idx >= 0
+                @hit idx
+            else
+                g.model.enterNormalMode() unless @opt.continuous
+
             if @opt.continuous
                 @currentInput = ""
                 g.view.setStatusLineText 'f Mode : '

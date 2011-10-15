@@ -464,6 +464,10 @@
         idx = this.searchTarget();
         if (idx >= 0) {
           this.hit(idx);
+        } else {
+          if (!this.opt.continuous) {
+            g.model.enterNormalMode();
+          }
         }
         if (this.opt.continuous) {
           this.currentInput = "";
