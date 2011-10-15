@@ -5,38 +5,83 @@ class g.Mode
     enter : ->
     reqOpen : (args) ->
         urls = []
-        interactive = false
         for arg in args then switch arg
             when "-i" then interactive = true
+            when "-b" then bookmark    = true
+            when "-h" then history     = true
+            when "-g","g"  then search      = true
             else urls.push arg
 
-        if interactive
-            sources = [
-                new g.CandSourceBookmark
-                new g.CandSourceHistory
-            ]
+        if interactive or bookmark or history
             com = "Open " + urls.join(' ')
+            if search
+                com += " g"
+                sources = [
+                    new g.CandSourceGoogleSuggest
+                ]
+            else if bookmark
+                sources = [
+                    new g.CandSourceBookmark
+                ]
+            else if history
+                sources = [
+                    new g.CandSourceHistory
+                ]
+            else
+                sources = [
+                    (new g.CandSourceGoogleSuggest(3)).requirePrefix(true)
+                    new g.CandSourceWebSuggest(3)
+                    new g.CandSourceBookmark(3)
+                    new g.CandSourceHistory(3)
+                ]
             g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
             return
+        else if search
+            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1"
+            window.open( url, "_self" )
+
         else
-            window.open( args[0], "_self" )
+            window.open( urls[0], "_self" )
 
     reqOpenNewTab : (args) ->
-        urls = []
-        interactive = false
+        words = []
         for arg in args then switch arg
             when "-i" then interactive = true
-            else urls.push arg
+            when "-b" then bookmark    = true
+            when "-h" then history     = true
+            when "-g","g"  then search      = true
+            else words.push arg
 
-        if interactive
-            sources = [
-                new g.CandSourceBookmark
-                new g.CandSourceHistory
-            ]
-            com = "OpenNewTab " + urls.join(' ')
+        if interactive or bookmark or history
+            com = "OpenNewTab " + words.join(' ')
+            if search
+                com += " g"
+                sources = [
+                    new g.CandSourceGoogleSuggest
+                ]
+            else if bookmark
+                sources = [
+                    new g.CandSourceBookmark
+                ]
+            else if history
+                sources = [
+                    new g.CandSourceHistory
+                ]
+            else
+                sources = [
+                    (new g.CandSourceGoogleSuggest(3)).requirePrefix(true)
+                    new g.CandSourceWebSuggest(3)
+                    new g.CandSourceBookmark(3)
+                    new g.CandSourceHistory(3)
+                ]
             g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
-        else
+        else if search
+            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1"
+            urls = []
+            urls.push url
             chrome.extension.sendRequest {command : "OpenNewTab", args : urls}, g.handler.onCommandResponse
+        else
+            chrome.extension.sendRequest {command : "OpenNewTab", args : words}, g.handler.onCommandResponse
 
     blur : ->
     reqScrollDown   : -> g.view.scrollBy(0, g.model.getSetting "scrollPixelCount")

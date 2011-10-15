@@ -236,9 +236,64 @@
       });
       return true;
     },
+    reqGetGoogleSuggest: function(req, sendResponse) {
+      if (!this.gglLoaded) {
+        sendResponse([]);
+        return true;
+      }
+      this.cWSrch.reset().sgst({
+        kw: req.value,
+        res: function(res) {
+          return sendResponse(res.raw);
+        }
+      }).start();
+      return true;
+    },
+    reqGetWebSuggest: function(req, sendResponse) {
+      if (!this.gglLoaded) {
+        sendResponse([]);
+        return true;
+      }
+      this.cWSrch.init({
+        type: "web",
+        opt: function(obj) {
+          return obj.setResultSetSize(google.search.Search.LARGE_RESULTSET);
+        }
+      }).start();
+      this.cWSrch.reset().srch({
+        type: "web",
+        page: 1,
+        key: req.value,
+        res: function(res) {
+          var i, item, msg, obj, _len;
+          if (!res || res.length <= 0) {
+            this.cWSrch.cmndsBreak();
+            sendResponse([]);
+            return true;
+          }
+          msg = [];
+          for (i = 0, _len = res.length; i < _len; i++) {
+            item = res[i];
+            obj = {};
+            obj.titleNoFormatting = item.titleNoFormatting;
+            obj.unescapedUrl = item.unescapedUrl;
+            obj.url = item.url;
+            msg.push(obj);
+          }
+          return sendResponse(msg);
+        }
+      }).start();
+      return true;
+    },
     init: function() {
+      var $WA;
       this.tabHistory = (new g.TabHistory).init();
       g.SettingManager.init();
+      $WA = crocro.webAi;
+      this.cWSrch = new $WA.WebSrch();
+      this.cWSrch.ready(__bind(function() {
+        return this.gglLoaded = true;
+      }, this));
       return chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
         if (this["req" + req.command]) {
           if (!this["req" + req.command](req, sendResponse)) {

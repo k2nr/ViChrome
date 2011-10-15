@@ -328,7 +328,7 @@
       }
     }
   };
-  $(document).ready(__bind(function() {
+  $(document).ready(function() {
     return g.model.onDomReady();
-  }, this));
+  });
 }).call(this);

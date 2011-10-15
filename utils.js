@@ -89,6 +89,9 @@
     g.logger.d("isEditable", target);
     ignoreList = ["TEXTAREA"];
     editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
+    if (target == null) {
+      return false;
+    }
     if (target.isContentEditable) {
       return true;
     }

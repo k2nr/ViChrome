@@ -268,5 +268,7 @@ g.model =
             g.view.blurActiveElement()
             @enterNormalMode()
 
-$(document).ready( => g.model.onDomReady() )
+$(document).ready( ->
+    g.model.onDomReady()
+)
 

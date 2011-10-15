@@ -1,5 +1,6 @@
 g = this
 
+
 class g.PageMarkRegister
     constructor    : -> @values = {}
     defaultKeyName : "unnamed"

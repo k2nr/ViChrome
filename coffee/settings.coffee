@@ -10,12 +10,12 @@ g.SettingManager =
     defaultSettings :
         "scrollPixelCount"        : 40
         "defaultNewTab"           : "home"
-        "searchEngine"            : "http://www.google.com/"
         "commandWaitTimeOut"      : 2000
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm"
         "disableAutoFocus"        : false
         "smoothScroll"            : false
         "enableCompletion"        : true
+        "searchEngine"            : "www.google.com"
         "wrapSearch"              : true
         "incSearch"               : true
         "ignoreCase"              : true
@@ -41,6 +41,7 @@ nmap <Space>tw :OpenNewTab http://www.twitter.com\n
 nmap <Space>gr :OpenNewTab http://www.google.com/reader\n
 nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
 \n
+
 # F for continuous f-Mode\n
 # this is recomended setting but commented out by default.\n
 # if you want to use this setting, please delete '#'\n
@@ -51,8 +52,13 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
 # in this example you can use <C-l>, <C-h> for moving between tabs\n
 # on all web pages regardless of your ignored list setting\n
 # because pagecmd has higher priority than ignored URLs.\n
-pagecmd http*://* nmap <C-l> :MoveToNextTab\n
-pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
+#pagecmd * nmap <C-l> :MoveToNextTab\n
+#pagecmd * nmap <C-h> :MoveToPrevTab\n
+
+# if you want to use twitter web's key binding, write settings like below\n
+#pagecmd http*://twitter.com/* nmap f <NOP>\n
+#pagecmd http*://twitter.com/* nmap r <NOP>\n"
+
         "keyMappingNormal"  :
             "j"       : "ScrollDown"
             "k"       : "ScrollUp"
@@ -84,6 +90,10 @@ pagecmd http*://* nmap <C-h> :MoveToPrevTab\n"
             "gp"      : "OpenNewWindow --pop"
             "o"       : "Open -i"
             "O"       : "OpenNewTab -i"
+            "s"       : "Open -i g"
+            "S"       : "OpenNewTab -i g"
+            "b"       : "Open -b"
+            "B"       : "OpenNewTab -b"
             "''"      : "BackToPageMark"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"

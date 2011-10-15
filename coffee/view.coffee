@@ -141,7 +141,7 @@ class g.Surface
     blurActiveElement : ->
         unless @initialized then return this
 
-        document.activeElement.blur()
+        document.activeElement?.blur()
         this
 
 class g.CommandBox
@@ -395,15 +395,18 @@ class g.CandidateSource
         @updatedListeners = []
         @items = []
 
+    requirePrefix : (@reqPrefix) -> this
     addSrcUpdatedListener : (listener) ->
         @updatedListeners.push( listener )
         this
 
     addItem : (item) ->
-        @items.push( item ) if @items.length <= @maxItems
+        @items.push( item ) if @items.length < @maxItems
+        this
 
     resetItem : ->
         @items = []
+        this
 
     notifyUpdated : ->
         listener( @items ) for listener in @updatedListeners
@@ -411,6 +414,20 @@ class g.CandidateSource
 
     cbInputUpdated : (word) ->
         if @timer? then clearTimeout @timer
+        if @prefix? and word.charAt(1) == " " and word.charAt(0) != @prefix
+            g.logger.d("different prefix:"+@prefix)
+            @resetItem()
+            @notifyUpdated()
+            return
+
+        if @reqPrefix and @prefix?
+            if word.length<2 or word.charAt(1) != " " or word.charAt(0) != @prefix
+                @resetItem()
+                @notifyUpdated()
+                return
+            else
+                word = word.slice(2)
+
         @timer = setTimeout( =>
             @timer = null
             @onInput?(word)
@@ -448,6 +465,7 @@ class g.CandSourceAlias extends g.CandidateSource
 
 class g.CandSourceHistory extends g.CandidateSource
     id : "WebHistory"
+    prefix : "h"
     onInput : (word) ->
         unless word.length > 0 then return
 
@@ -457,8 +475,9 @@ class g.CandSourceHistory extends g.CandidateSource
             value   : word
         }, (items) =>
             for item in items
+                str = if item.title then item.title else item.url
                 @addItem(
-                    str    : item.title
+                    str    : str
                     source : "History"
                     dscr   : item.url
                     value  : item.url
@@ -468,6 +487,7 @@ class g.CandSourceHistory extends g.CandidateSource
 
 class g.CandSourceBookmark extends g.CandidateSource
     id : "Bookmark"
+    prefix : "b"
     onInput : (word) ->
         unless word.length > 0 then return
 
@@ -510,4 +530,48 @@ class g.CandSourceSearchHist extends g.CandidateSource
 
 class g.CandSourceGoogleSuggest extends g.CandidateSource
     id : "GoogleSuggest"
+    prefix : "g"
     onInput : (word) ->
+        unless word.length > 0 then return
+
+        @resetItem()
+        chrome.extension.sendRequest( {
+            command : "GetGoogleSuggest"
+            value   : word
+        }, (raws) =>
+            for raw in raws
+                value = if @reqPrefix then "g "+raw else raw
+                @addItem(
+                    str    : raw
+                    source : "Google Search"
+                    dscr   : ""
+                    value : value
+                )
+            @notifyUpdated()
+        )
+
+class g.CandSourceWebSuggest extends g.CandidateSource
+    id : "WebSuggest"
+    prefix : "w"
+    onInput : (word) ->
+        unless word.length > 0 then return
+
+        @resetItem()
+        if word.charAt(1) == " " and word.charAt(0) != "w"
+            @notifyUpdated()
+            return
+
+        chrome.extension.sendRequest( {
+            command : "GetWebSuggest"
+            value   : word
+        }, (results) =>
+            for res in results
+                @addItem(
+                    str    : res.titleNoFormatting
+                    source : "Web"
+                    dscr   : res.unescapedUrl
+                    value  : res.url
+                )
+            @notifyUpdated()
+        )
+

@@ -1,4 +1,5 @@
 g = this
+
 g.bg =
     tabHistory : null
     moveTab : (offset) ->
@@ -155,9 +156,55 @@ g.bg =
         }, (items) -> sendResponse(items))
         true
 
+    reqGetGoogleSuggest : (req, sendResponse) ->
+        unless @gglLoaded
+            sendResponse []
+            return true
+
+        @cWSrch.reset().sgst({
+            kw  : req.value
+            res : (res) -> sendResponse res.raw
+        }).start()
+        true
+
+    reqGetWebSuggest : (req, sendResponse) ->
+        unless @gglLoaded
+            sendResponse []
+            return true
+        @cWSrch.init({
+            type : "web"
+            opt  : (obj) ->
+                obj.setResultSetSize(google.search.Search.LARGE_RESULTSET)
+        }).start()
+        @cWSrch.reset().srch({
+            type : "web"
+            page : 1
+            key : req.value
+            res : (res) ->
+                if !res or res.length <= 0
+                    @cWSrch.cmndsBreak()
+                    sendResponse []
+                    return true
+
+                msg = []
+                for item, i in res
+                    obj = {}
+                    obj.titleNoFormatting = item.titleNoFormatting
+                    obj.unescapedUrl = item.unescapedUrl
+                    obj.url = item.url
+                    msg.push obj
+
+                sendResponse msg
+        }).start()
+        true
+
     init : ->
         @tabHistory = (new g.TabHistory).init()
         g.SettingManager.init()
+
+        $WA = crocro.webAi
+        @cWSrch   = new $WA.WebSrch()
+        @cWSrch.ready( => @gglLoaded = true )
 
         chrome.extension.onRequest.addListener( (req, sender, sendResponse) =>
             if this["req"+req.command]

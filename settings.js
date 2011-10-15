@@ -11,12 +11,12 @@
     defaultSettings: {
       "scrollPixelCount": 40,
       "defaultNewTab": "home",
-      "searchEngine": "http://www.google.com/",
       "commandWaitTimeOut": 2000,
       "fModeAvailableKeys": "fdsaghjklwertyuiovbcnm",
       "disableAutoFocus": false,
       "smoothScroll": false,
       "enableCompletion": true,
+      "searchEngine": "www.google.com",
       "wrapSearch": true,
       "incSearch": true,
       "ignoreCase": true,
@@ -24,7 +24,7 @@
       "ignoredUrls": ["http*://mail.google.com/*", "http*://www.google.co*/reader/*", "http*://docs.google.com/*", "http*://www.google.com/calendar/*"],
       "commandBoxAlign": "Left-Bottom",
       "commandBoxWidth": 350,
-      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext OpenNewTab chrome://extensions/\nalias option OpenNewTab chrome://settings/browser\n\n# mappings for opening your favorite web page\nnmap <Space>tw :OpenNewTab http://www.twitter.com\nnmap <Space>gr :OpenNewTab http://www.google.com/reader\nnmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, please delete '#'\n\n#nmap F :GoFMode --newtab --continuous\n\n# pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\npagecmd http*://* nmap <C-l> :MoveToNextTab\npagecmd http*://* nmap <C-h> :MoveToPrevTab\n",
+      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext OpenNewTab chrome://extensions/\nalias option OpenNewTab chrome://settings/browser\n\n# mappings for opening your favorite web page\nnmap <Space>tw :OpenNewTab http://www.twitter.com\nnmap <Space>gr :OpenNewTab http://www.google.com/reader\nnmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, please delete '#'\n\n#nmap F :GoFMode --newtab --continuous\n\n# pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\n#pagecmd * nmap <C-l> :MoveToNextTab\n#pagecmd * nmap <C-h> :MoveToPrevTab\n# if you want to use twitter web's key binding, write settings like below\n#pagecmd http*://twitter.com/* nmap f <NOP>\n#pagecmd http*://twitter.com/* nmap r <NOP>\n",
       "keyMappingNormal": {
         "j": "ScrollDown",
         "k": "ScrollUp",
@@ -56,6 +56,10 @@
         "gp": "OpenNewWindow --pop",
         "o": "Open -i",
         "O": "OpenNewTab -i",
+        "s": "Open -i g",
+        "S": "OpenNewTab -i g",
+        "b": "Open -b",
+        "B": "OpenNewTab -b",
         "''": "BackToPageMark",
         "<ESC>": "Escape",
         "<C-[>": "Escape"

@@ -69,6 +69,7 @@ g.util.isEditable = (target) ->
         "WEEK"
         "COLOR"
     ]
+    unless target? then return false
 
     if target.isContentEditable then return true
     if target.nodeName in ignoreList then return true

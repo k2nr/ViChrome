@@ -179,10 +179,13 @@
       return this;
     };
     Surface.prototype.blurActiveElement = function() {
+      var _ref;
       if (!this.initialized) {
         return this;
       }
-      document.activeElement.blur();
+      if ((_ref = document.activeElement) != null) {
+        _ref.blur();
+      }
       return this;
     };
     return Surface;
@@ -491,17 +494,23 @@
       this.updatedListeners = [];
       this.items = [];
     }
+    CandidateSource.prototype.requirePrefix = function(reqPrefix) {
+      this.reqPrefix = reqPrefix;
+      return this;
+    };
     CandidateSource.prototype.addSrcUpdatedListener = function(listener) {
       this.updatedListeners.push(listener);
       return this;
     };
     CandidateSource.prototype.addItem = function(item) {
-      if (this.items.length <= this.maxItems) {
-        return this.items.push(item);
+      if (this.items.length < this.maxItems) {
+        this.items.push(item);
       }
+      return this;
     };
     CandidateSource.prototype.resetItem = function() {
-      return this.items = [];
+      this.items = [];
+      return this;
     };
     CandidateSource.prototype.notifyUpdated = function() {
       var listener, _i, _len, _ref;
@@ -515,6 +524,21 @@
     CandidateSource.prototype.cbInputUpdated = function(word) {
       if (this.timer != null) {
         clearTimeout(this.timer);
+      }
+      if ((this.prefix != null) && word.charAt(1) === " " && word.charAt(0) !== this.prefix) {
+        g.logger.d("different prefix:" + this.prefix);
+        this.resetItem();
+        this.notifyUpdated();
+        return;
+      }
+      if (this.reqPrefix && (this.prefix != null)) {
+        if (word.length < 2 || word.charAt(1) !== " " || word.charAt(0) !== this.prefix) {
+          this.resetItem();
+          this.notifyUpdated();
+          return;
+        } else {
+          word = word.slice(2);
+        }
       }
       return this.timer = setTimeout(__bind(function() {
         this.timer = null;
@@ -583,6 +607,7 @@
       CandSourceHistory.__super__.constructor.apply(this, arguments);
     }
     CandSourceHistory.prototype.id = "WebHistory";
+    CandSourceHistory.prototype.prefix = "h";
     CandSourceHistory.prototype.onInput = function(word) {
       if (!(word.length > 0)) {
         return;
@@ -592,11 +617,12 @@
         command: "GetHistory",
         value: word
       }, __bind(function(items) {
-        var item, _i, _len;
+        var item, str, _i, _len;
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
+          str = item.title ? item.title : item.url;
           this.addItem({
-            str: item.title,
+            str: str,
             source: "History",
             dscr: item.url,
             value: item.url
@@ -613,6 +639,7 @@
       CandSourceBookmark.__super__.constructor.apply(this, arguments);
     }
     CandSourceBookmark.prototype.id = "Bookmark";
+    CandSourceBookmark.prototype.prefix = "b";
     CandSourceBookmark.prototype.onInput = function(word) {
       if (!(word.length > 0)) {
         return;
@@ -675,7 +702,65 @@
       CandSourceGoogleSuggest.__super__.constructor.apply(this, arguments);
     }
     CandSourceGoogleSuggest.prototype.id = "GoogleSuggest";
-    CandSourceGoogleSuggest.prototype.onInput = function(word) {};
+    CandSourceGoogleSuggest.prototype.prefix = "g";
+    CandSourceGoogleSuggest.prototype.onInput = function(word) {
+      if (!(word.length > 0)) {
+        return;
+      }
+      this.resetItem();
+      return chrome.extension.sendRequest({
+        command: "GetGoogleSuggest",
+        value: word
+      }, __bind(function(raws) {
+        var raw, value, _i, _len;
+        for (_i = 0, _len = raws.length; _i < _len; _i++) {
+          raw = raws[_i];
+          value = this.reqPrefix ? "g " + raw : raw;
+          this.addItem({
+            str: raw,
+            source: "Google Search",
+            dscr: "",
+            value: value
+          });
+        }
+        return this.notifyUpdated();
+      }, this));
+    };
     return CandSourceGoogleSuggest;
+  })();
+  g.CandSourceWebSuggest = (function() {
+    __extends(CandSourceWebSuggest, g.CandidateSource);
+    function CandSourceWebSuggest() {
+      CandSourceWebSuggest.__super__.constructor.apply(this, arguments);
+    }
+    CandSourceWebSuggest.prototype.id = "WebSuggest";
+    CandSourceWebSuggest.prototype.prefix = "w";
+    CandSourceWebSuggest.prototype.onInput = function(word) {
+      if (!(word.length > 0)) {
+        return;
+      }
+      this.resetItem();
+      if (word.charAt(1) === " " && word.charAt(0) !== "w") {
+        this.notifyUpdated();
+        return;
+      }
+      return chrome.extension.sendRequest({
+        command: "GetWebSuggest",
+        value: word
+      }, __bind(function(results) {
+        var res, _i, _len;
+        for (_i = 0, _len = results.length; _i < _len; _i++) {
+          res = results[_i];
+          this.addItem({
+            str: res.titleNoFormatting,
+            source: "Web",
+            dscr: res.unescapedUrl,
+            value: res.url
+          });
+        }
+        return this.notifyUpdated();
+      }, this));
+    };
+    return CandSourceWebSuggest;
   })();
 }).call(this);
