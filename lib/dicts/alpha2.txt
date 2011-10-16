@@ -1,0 +1,6919 @@
+y	イットリウム	Yttrium
+x	x-window	エックス	×	X	X端末	Ｘ−ウィンドウ	X-Window	Xウィンドウ・システム	X Window System	Ｘ端末
+w	Tungsten	タングステン
+v	Vanadium	↓	バナジウム
+u	Uranium	ウラン
+t	┴	┠	┰	┥	┻	┣	┤	┯	┷	〒	┬	┝	┫	┨	┳	┸	├
+s	秒	硫黄	Sulfur	エス
+r	アール
+q	¶
+p	ピアノ	P	Phosphorus	piano	リン
+o	Oxygen	○	ο	酸素
+n	窒素	Nitrogen
+m	メートル
+l	リットル	ラウドネス
+k	Potassium	カリウム	キロ
+i	私	Iodine	ヨウ素
+h	水素	Hydrogen	エッチ
+f	フォルテ	フッ素	forte	Flourine	周波数
+d	∂
+c	Ｃ言語	炭素	C	℃	Carbon
+b	β	B	Boron	ベータ	ホウ素
+a	エー	Ａ型	A
+L	£
+K	ケルビン
+A	アンペア	Å
+zr	ジルコニウム	Zirconium
+zn	Zinc	亜鉛
+zl	→
+zk	↑
+zj	↓
+zh	←
+yb	イッテルビウム	Ytterbium
+ya	→	←
+xx	××
+xi	ξ
+xe	キセノン	Xenon
+xc	XConsortium
+wy	ワイオミング	Wyoming
+wv	ウェストバージニア	West Virginia	ウェストヴァージニア
+ws	WS	ワークステーション
+wp	ワープロ
+wm	ウィンドウマネージャー
+wi	ウィスコンシン	Wisconsin
+wg	ワーキンググループ
+wa	Washington	ワシントン
+vt	ヴァーモント	Vermont	バーモント
+vs	ｖｓ．
+vr	バーチャルリアリティー	仮想現実感	バーチャルリアリティ
+vn	ヴァイオリン
+vi	振動インテンシティ
+vc	Ｖｃ	ビレッジセンター	チェロ
+va	ヴァージニア	バージニア	ビオラ	Virginia
+uu	UNIX USER
+ut	ユタ	Utah
+up	↑	アップ
+un	アン
+um	UNIX Magazine
+uk	イギリス
+ui	ユーザインターフェース	ユーザーインターフェース
+tx	テキサス	Texas
+tw	時間荷重
+tv	テレビ
+to	→	━ここまで━	━━━━━ここまで━━━━━	トゥ
+tn	テネシー	Tennessee
+tm	ツリウム	Thulium
+tl	Thalium	タリウム
+ti	Titanium	チタン	テキサスインスツルメンツ
+th	トリウム	Thorium
+tf	伝達関数
+te	Tellurium	テルル
+tc	テクネチウム	Technetium	時定数
+tb	テルビウム	Terbium
+ta	Tantalum	タンタル
+sw	┐	┓
+su	スーパユーザ	スーパーユーザ
+ss	§
+sr	ストロンチウム	ステラジアン	Strontium
+sq	□
+sp	　
+sn	錫	スズ	Tin
+sm	サマリウム	Samarium
+si	Silicon	音響インテンシティ	ケイ素
+sh	Bシェル
+sg	シーボーギウム	シリコン・グラフィックス	Seaborgium
+sf	sforzando	スフォルツァンド
+se	┌	Selenium	セレン	┏
+sd	South Dakota	サウスダコタ	標準偏差	最急降下
+sc	スカンジウム	Scandium	South Carolina	サウスカロライナ
+sb	アンチモン	Antimony
+ru	Ruthenium	ルテニウム
+rt	残響時間
+rn	ラドン	Radon
+ri	ロード・アイランド	ロードアイランド	Rhode Island	繰り返し衝撃音
+rh	ロジウム	Rhodium
+rf	Rutherfordium	ラザホージウム
+re	レニウム	Rhenium	リ
+rb	ルビジウム	Rubidium
+ra	ラジウム	Radium
+qa	Ｑ＆Ａ
+pv	粒子速度
+pu	Plutonium	プルトニウム
+pt	Platinum	白金
+ps	PS.	Ｐ．Ｓ．	ＰＳ．	ポストスクリプト	PostScript	プロセス	ＰｏｓｔＳｃｒｉｐｔ
+pr	プラセオジム	Praseodymium
+pp	ピアニッシモ	pianissimo
+po	ポロニウム	Polonium
+pm	プロメチウム	±	Promethium
+pl	損益計算書	Profit and Loss Statement	Ｐ／Ｌ	パッチレベル
+pi	π	パイ	Π
+pe	プロセッシングエレメント
+pd	パラジウム	Palladium
+pc	PC	パーソナルコンピュータ	パソコン
+pb	Lead	鉛
+pa	ペンシルバニア	Pennsylvania	Protactinium	プロトアクチニウム
+os	オペレーティング・システム	基本ソフトウェア	オペレーティングシステム	Osmian	オスミウム	オペレイティング・システム	OS
+or	Oregon	∨	オレゴン	または
+oo	オジェクト指向	○○	OO	∞	オブジェクト指向	Object-Oriented
+on	オン
+ok	大丈夫	オーケー	Ｏ.Ｋ.	承知しました.	オクラホマ	Oklahoma
+oh	Ohio	オハイオ
+of	オブ
+nz	ニュージーランド
+ny	ニューヨーク	New York	Ｎ.Ｙ.
+nw	┛	┘
+nv	Nevada	ネバダ
+nu	ν
+ns	┃	│	ナショナルセミコンダクタ
+np	Neptunium	ネプツニウム
+no	ノー	No.	ノーベリウム	ナンバー	ＮＯ	Nobelium	番号	Ｎｏ．
+nm	New Mexico	ニューメキシコ
+nk	自然演繹
+nj	New Jersey	ニュージャージー
+ni	Nickel	ニッケル	∋
+nh	ニューハンプシャー	New Hampshire
+ng	ニュースグループ
+ne	Nebraska	ネブラスカ	ネオン	Neon	≠
+nd	North Dakota	Neodymium	ノースダコタ	ネオジム
+nc	ノースカロライナ	North Carolina
+nb	Niobium	ニオブ
+na	Sodium	ナトリウム
+my	マイ
+mw	ミドルウエア
+mu	μ	ムー	ムウ	ミュウ
+mt	Montana	モンタナ	マイトネリウム	Meitnerium	マウント
+ms	ミリ秒	Mississippi	ミシシッピ	ミリセコンド	マイクロソフト
+mr	Ｍｒ．
+mp	メゾピアノ	mezzo piano
+mo	Molybdenum	光磁気ディスク	Missouri	MO	ミズーリ	モリブデン
+mn	マンガン	ミネソタ	Minnesota	Manganese
+mm	ミリメートル
+ml	メーリングリスト	メイリングリスト
+mi	Michigan	ミシガン
+mg	Magnesium	マグネシウム
+mf	mezzo forte	MetaFont	メゾフォルテ
+me	メディカルエレクトロニクス	Maine	メイン
+md	Maryland	メンデレビウム	ミニディスク	メリーランド	Mendelevium
+mb	メガバイト
+ma	Massachusetts	マサチューセッツ
+m3	Ｍ３
+m2	Ｍ２
+m1	M1	Ｍ１
+lu	ルテチウム	Lutetium
+lt	＜
+lr	Lawrencium	ローレンシウム
+lp	LP
+lm	ロードモジュール
+ll	≪
+li	リチウム	Lithium
+lf	ロジカル・フレームワーク
+le	≦
+ld	LD
+la	ランタン	Lanthanum	ルイジアナ	Louisiana
+ky	ケンタッキー	Kentucky
+ks	カンサス	Kansas
+kr	Krypton	クリプトン
+ko	ＫｎｏｃｋＯｕｔ
+km	Ｋｍ
+kk	株式会社	（株）
+kg	Ｋｇ	キログラム
+kb	キロバイト	キーボード
+jv	共同企業体
+jr	ジュニア
+j2	Ｊ２
+ir	Iridium	イリジウム
+ip	IP	IPアドレス
+io	Ｉ／Ｏ	入出力
+in	∈	インディアナ	イン	Indium	インジウム	インチ	Indiana
+il	Illinois	イリノイ
+ih	帰納法の仮定
+if	インターフェース	インタフェース	イフ
+id	アイダホ	識別子	ID	識別子列	Idaho	Ｉｄ	帰納的定義
+ia	アイオワ	Iowa
+hz	Ｈｚ
+hs	ハッシウム	Hassium
+hr	ホルン
+hp	ヒューレット・パッカード	HP
+ho	Holmium	ホルミウム
+hi	Hawaii	ハワイ	ヒューマンインターフェース	ハイ
+hg	Mercury	水銀
+hf	ハフニウム	Hafnium
+he	Helium	ヘリウム
+hd	ハードディスク
+gw	GateWay	ゴールデンウィーク	ゲートウェイ
+gt	＞
+gs	ghostscript
+go	ゴー
+gg	≫
+ge	≧	Germanium	ゲルマニウム
+gd	Gadolinium	ガドリニウム
+gc	グラフィク・コンテキスト	ガーベッジ・コレクション
+gb	ＧＢｙｔｅ
+ga	ジョージア	遺伝的アルゴリズム	Gallium	ガリウム	Georgia
+fw	周波数荷重
+fr	フランシウム	Francium
+fp	フォルテピアノ	forte piano
+fm	フェルミウム	Fermium
+fl	フロリダ	Florida
+fg	フォアグラウンド
+ff	フォルテッシモ	font-family	fortessimo
+fe	Iron	鉄
+fd	フロッピーディスク	FD
+fb	フレームバッファ
+f8	Ｆ８
+f1	１／ｆゆらぎ	Ｆ１
+ex	∃
+ew	─	━
+eu	ユウロピウム	Europium
+es	Einsteinium	アインスタイニウム
+er	Erbium	エルビウム
+eq	≡	＝
+ed	エド
+dy	ジスプロシウム	Dysprosium
+dt	減衰時間
+dq	ドラクエ
+de	Delaware	デラウェア	ド	デ
+dc	District of Columbia	コロンビア	直流
+db	ドブニウム	データベース	Dubnium
+da	↓
+dB	デシベル
+d3	Ｄ３
+d1	Ｄ１
+cu	銅	Copper
+ct	Connecticut	コネティカット
+cs	コントロールシーケンス	コミュニケーションサーバー	control-sequence	コンピュータソフトウェア	Cesium	セシウム	コミュニケーションサーバ	コンピュータサイエンス
+cr	クロム	Chromium	CR
+cp	構成的プログラミング	コストパフォーマンス
+co	コバルト	Colorado	コロラド	株式会社	Cobalt	コ
+cm	センチメートル	Curium	センチ	Ｃｍ	キュリウム	コマーシャル
+cl	ｃｏｍｍｏｎ−ｌｉｓｐ	Chlorine	Common Lisp	塩素
+ci	チェックイン
+ch	チャネル	チャンネル
+cg	コンピュータ・グラフィックス
+cf	カリホルニウム	Californium
+ce	セリウム	Cerium
+cd	CD	キャッシュディスペンサー	Cadmium	カンデラ	コンパクトディスク	カドミウム
+cc	カーボンコピー
+ca	Calcium	カルフォルニア	California	カルシウム
+by	バイ
+bs	貸借対照表	Balance Sheet
+br	臭素	Bromine
+bq	“
+bk	Berkelium	バークリウム
+bi	ビスマス	Bismuth
+bh	Bohrium	ボーリウム
+bg	バックグラウンド
+be	Beryllium	ベリリウム
+ba	バリウム	Barium
+az	Arizona	アリゾナ
+au	金	Gold
+at	＠	アト	Astatine	アット	アスタチン
+as	ヒ素	Arsenic
+ar	アルゴン	人工現実感	アーカンソー	Arkansas	Argon
+ap	アクセスポイント
+am	アメリシウム	Americium
+al	アルミニウム	Aluminum	Alabama	アラバマ
+ak	アラスカ	Alaska
+ai	人工知能	AI
+ag	Silver	銀
+ad	アド
+ac	Actinium	アクチニウム
+a4	Ａ４
+Xi	Ξ
+WS	ワークステーション
+WG	ワーキンググループ
+Ti	Ｔｉ
+TV	テレビ
+TA	ターミナルアダプタ
+RE	正規表現
+Pi	Π
+PS	P.S.
+Oo	◎
+OS	オペレーティングシステム
+OR	論理和	オペレーションズリサーチ
+Nu	Ν
+NY	ニューヨーク
+Mu	Μ
+ML	メーリングリスト	メイリングリスト
+HP	ヒューレット・パッカード
+GW	ゲートウェイ
+DB	データベース
+CS	コミュニケーションサーバ
+CD	コンパクト・ディスク	Compact Disk
+AP	アプリケーション
+zip	〒
+zap	ザップ
+you	ユー
+yhp	横河ヒューレット・パッカード
+yes	イエス
+yen	¥	円
+xps	XPS\(eXpansion Passing Style\)
+wnn	Ｗｎｎ	WNN
+wit	ウィット
+wet	ウェット	ウエット
+wed	水
+web	ウェブ
+way	ウェイ	ウエイ
+wax	ワックス
+von	フォン
+vee	∨
+vax	VAX
+uuu	ウンウンウニウム	Unununium
+uuq	ウンウンクアジウム	Ununquadium
+uuo	ウンウンオクチウム	Ununoctium
+uun	ウンウンニリウム	Ununnilium
+uuh	ウンウンヘキシウム	Ununhexium
+uub	ウンウンビウム	Ununbium
+usr	ユーザー	ユーザ
+use	ユース
+usc	ＵＳＣ大
+uni	ユニ
+uif	ユーザ・インタフェース
+two	ツー
+tug	タグ
+tue	火
+try	トライ
+top	トップ	上
+tom	トム
+toe	トウ
+tit	東工大
+tip	チップ
+tie	タイ
+tia	東北インターネット協議会
+thu	木
+the	ジ	ザ
+tex	\TeX	ＴEＸ	TeX	テック	テフ	ＴｅＸ
+ten	テン	・
+tel	電話番号	TEL	Ｔｅｌ	電話
+tee	ティー
+tea	ティー	ティ
+tcp	ＴＣＰ／ＩＰ	TCP
+tax	タックス
+tau	τ
+tap	タップ
+tag	Ｔａｇ	タグ	た〜く
+tac	TAC
+tab	タブ
+sys	ＳＹＳ５	シス
+svd	特異値分解
+sun	Sun	Ｓｕｎ	ｓｕｎ	ＳＵＮ	日	サン
+sum	∪	サム
+sug	サン・ユーザ・グループ
+sub	サブ	部分
+sty	スタイル
+stk	STk
+src	ソース
+sra	Software Research Associate,Inc.
+spy	スパイ
+sky	スカイ
+skk	Simple Kana to Kanji conversion program	SKK
+ski	スキー
+sin	サイン
+sim	〜
+sig	シグ
+shy	シャイ
+sgi	シリコングラフィックス
+sfz	sforzando	スフォルツァンド
+sex	Ｓ−ｅｘｐｒｅｓｓｉｏｎ	Ｓ式	セックス
+set	集合	セット
+seq	順序機械
+sea	シー
+sds	システムデザインサービス
+sax	サックス
+saw	ソー
+sat	土
+sap	SAP
+san	サン
+run	ラン
+row	ロウ
+rot	ロット
+rom	ロム	ROM	リードオンリ
+rms	Richard M. Stallman	リチャード・Ｍ・ストールマン
+rho	ρ
+red	レッド
+rdb	リレーショナルデータベース	関係データベース
+rcs	RCS
+ray	レイ
+raw	ロー
+rat	ラット
+ram	RAM
+r&d	Ｒ＆Ｄ
+r&b	リズム・アンド・ブルース
+que	キュー
+qic	QIC
+q&a	Ｑ＆Ａ
+put	プット
+pub	パブ
+ptr	ポインタ
+psi	ψ
+pse	主観的等価点
+pro	プロ
+pri	プリ
+prf	原始帰納的関数
+pre	プリ
+ppp	ピアニッシッシモ	pianississimo
+ppm	PPM\(Peater Paul and Mary\)
+pot	ポット
+pop	ポップ
+poo	Parallel Object-Oriented
+pit	ピット
+pin	ピン
+pie	パイ
+pia	ピア
+phi	φ	Φ
+pet	ペット
+per	ペール
+pen	ペン
+pel	ペル
+pds	パブリックドメーンソフトウエア	パブリックドメインソフト
+pcl	PCL	PCL\(Portable Common Loops\)
+pay	ペイ
+pat	パット
+par	改ページ
+pan	パン
+pad	パッド
+out	アウト
+osf	OSF
+os9	ＯＳ９
+orc	オーク
+ope	オペ
+oop	オジェクト指向プログラミング	オブジェクト指向プログラミング
+one	ワン
+old	オールド
+oil	オイル
+oid	オブジェクト識別性
+ohm	Ω	オーム
+off	オフ
+obj	オブジェクト
+nyu	ν
+ntv	日本テレビ
+ntt	NTT
+nsw	┥	┤	┫	┨
+nse	┠	┣	┝	├
+not	ノット	〜	¬
+non	ノン
+no1	Ｎｏ．１
+nko	ｎ個
+nip	ニップ
+nim	ニム
+nil	空リスト
+nif	Ｎｉｆｔｙ
+nic	The Network Information Center
+new	ニュー
+net	ネット	ネットワーク
+neq	≠
+neg	¬
+nec	NEC	日本電気
+mug	マグ
+mud	マッド
+msi	数理システム
+mr2	ＭＲII	ＭＲ
+mos	モス
+mop	MOP	MetaObject Protocol	メタオブジェクトプロトコル
+mon	月
+mol	モル
+mmi	マン・マシン・インタフェース
+mls	最尤推定法
+mle	最尤推定
+mix	ミックス
+mit	MIT
+mis	ミス
+min	ミニマム
+mic	マイク
+mhz	ＭＨｚ
+meg	メガ
+mc2	ＭＣ２
+mc1	ＭＣ１
+max	最大	マックス
+mat	マット
+map	マップ	写像
+man	マン	マニュアル	♂
+mag	マグニチュード
+maf	最小可聴値
+mad	マッド
+mac	マック	Macintosh	Ｍａｃ	マッキントッシュ	Ｍａｃｉｎｔｏｓｈ
+lun	Logical Unit Number
+lse	最小2乗法
+lpf	ローパスフィルタ
+lpc	LPC
+low	ロー
+lot	ロット
+los	ロス・アンゼルス
+lor	∨
+log	ログ
+lip	リップ
+lib	ライブラリ	ライブラリー	リブ
+let	レット
+leq	≦
+leo	レオ
+leg	レッグ
+lcd	液晶
+lbp	レーザビームプリンタ
+lay	レイ
+lap	ラップ
+lan	LAN
+lag	ラグ
+lab	研究室	ラボ
+kmc	京大マイコンクラブ
+kit	キット
+kid	キッド
+kfc	ケンタッキーフライドチキン
+key	キー	キー入力
+kcl	KCL
+kai	χ
+jus	Ｊｕｓ	ＪＵＳ
+joy	ジョイ
+jog	ジョグ
+joe	ジョー
+job	ジョブ
+jig	ジグ
+jew	ユダヤ
+jet	ジェット
+jcc	日本電算	日本電算機
+jam	ジャム
+jal	日航	日本航空
+ivy	アイビー
+iso	ISO
+irq	IRQ
+ips	知的処理システム
+ion	イオン
+int	∫
+inn	イン
+ink	インク
+ing	イング
+inc	Ｉｎｃ．
+imp	⊃
+iff	⊃⊂	必要十分条件	<==>
+ice	アイス	インサーキットエミュレーター	氷
+ibm	アイ・ビー・エム	インターナショナル・ビジネス・マシーンズ・コーポレーション
+i/o	Ｉ／Ｏ
+hue	色調
+hub	ハブ
+htf	頭部伝達関数
+hpf	ハイパスフィルタ
+how	ハウ
+hot	ホット
+hop	ホップ
+hoe	ホー
+hit	ヒット
+hip	ヒップ
+him	境界積分法
+hie	境界積分方程式
+hi8	Ｈｉ８
+hex	ヘックス	十六進数
+hat	ハット
+gym	ジム
+gut	ガット
+gun	ガン
+gum	ゴム	ガム
+gui	GUI	グラフィカルユーザインターフェース
+gpl	GPL
+gom	ゴム
+gnu	GNU
+gmt	GMT	グリニッジ標準時
+gmd	GMD\(German National Research Center for Computer Science\)
+gfp	最大不動点
+get	ゲット	得る
+geq	≧
+gel	ゲル	ジェル
+gcl	GCL
+gcc	Gcc
+gay	ゲイ
+gas	ガス	瓦斯	ガソリン
+gap	ギャップ
+gal	ギャル
+gag	ギャグ
+fun	ファン
+ftp	FTP
+fsf	FSF	Free Software Foundation
+fry	フライ
+fri	金
+fox	フォックス
+fog	フォグ
+fly	フライ	ハエ
+fix	フィクス	修正	フィックス
+fit	フィット
+fft	高速フーリエ変換
+fff	フォルテッシシモ	fortessissimo
+fet	電界効果トランジスタ
+fes	フェス
+fep	フロントエンドプロセッサ
+fem	有限要素法
+fax	ファクシミリ	FAX	ファックス	Ｆａｘ	ファクス
+fan	ファン
+eye	アイ
+exp	エクスポネンシャル
+exa	エクサ
+ews	ワークステーション	┰	┯	エンジニアリング・ワークステーション	┬	┳
+ewn	┴	┻	┷	┸
+eve	イブ	イヴ
+etl	電子技術総合研究所	電総研
+eta	η
+esp	ESP
+esc	エスケープ
+err	エラー
+epi	エピ
+eof	EOF
+end	===================== ここまで ====================	エンド	−−−−−−−−−−−−−−−ここまで−−−−−−−−−−−−−−−	END--cut here--cut here
+elk	Elk
+elf	エルフ
+egg	エッグ
+ear	イヤー	イア
+dvm	分散仮想記憶
+duo	デュオ
+dub	ダブ
+dte	DTE
+dsp	ディジタル信号処理
+dry	ドライ
+dot	ドット	・	．
+dos	DOS
+dog	ドッグ
+doc	ドキュメント
+dna	ＤＮＡ分子
+dma	DMA	Direct Memory Access
+div	÷
+dis	ディス
+dir	ディレクトリ	ディレクトリー
+dip	ディップ
+dim	ディミヌエンド	diminuendo
+dia	ダイヤ	◇
+det	行列式
+dec	DEC
+ddb	演繹データベース	文書データベース
+day	デイ	ディ	デー
+dam	ダム
+dac	Ｄ／Ａコンバータ	Ｄ／Ａ変換
+cup	∪	カップ	コップ
+cue	キュー
+ctc	伊藤忠テクノサイエンス
+cpu	中央処理装置	CPU
+cps	CPS\(Continuation-Passing Style\)
+cov	共分散
+cos	コサイン
+cop	コップ
+com	コン
+co2	ＣＯ2
+cmu	CMU	カーネギーメロン大学
+clx	CLX\(Common Lisp X Interface\)	CLX
+chi	χ
+cds	ＣｄＳ
+cdb	Command Description Block
+ccr	CCR\(Creedence Clearwater Revival\)
+cat	キャット	カット	ネコ
+car	カー
+cap	キャップ	∩
+cad	CAD
+bye	バイ
+bus	バス
+bug	バグ
+bse	Bovine Spongiform Encephalopathy
+bsd	BSD
+boy	ボーイ
+box	■	□	ボックス
+bot	⊥
+bob	ボブ
+bnf	BNF\(Backus-Naur Form\)
+bit	ビット
+bio	バイオ
+bin	ビン	バイナリ
+bim	境界積分法
+big	ビッグ
+bid	ビッド
+bib	参考文献
+bem	境界要素法	ベム
+bed	ベッド
+bdd	二分決定グラフ
+bbc	BBC
+bay	ベイ
+bat	バット
+bar	−	‖	バー	｜
+bag	バッグ
+bad	バッド
+axe	アックス	アクス
+att	ＡＴ＆Ｔ
+atm	自動預貯金機	自動現金取り扱い機
+art	アート
+arm	アーム
+arc	アーク
+apo	アポ
+any	何か
+ano	アノ
+ann	アン
+and	および	アンド	かつ	∧	&	＆
+anc	アクティブノイズコントロール
+amp	アンプ	アンプリファイア
+ama	アマ
+alt	アルト
+all	∀	オール
+air	エア
+aid	エイド
+age	エージ
+adt	抽象データ型	ADT(Abstruct Data Type\)
+add	アッド
+adc	Ａ／Ｄコンバータ
+ada	Ada
+acm	米国計算機学会
+ace	エース
+YHP	横河ヒューレット・パッカード
+XML	Extensible Markup Language
+WW2	第二次世界大戦	太平洋戦争	大東亜戰爭
+WW1	第一次世界大戦	歐州大戰
+W3C	The World Wide Web Consortium
+Tau	Τ
+TDL	東京ディズニーランド
+SPA	Specality Store Retailer of Private Label Apparel	製造小売業
+SFO	サンフランシスコ
+SAX	The Simple API for event-based XML parsing
+Rho	Ρ
+RSI	Repetitive Strain Injury	反復運動過多損傷
+RPG	ロールプレイングゲーム
+RPC	Remote Procedure Call
+RDB	関係データベース
+Psi	Ψ
+Phi	Φ
+POA	Portable Object Adapter
+OMG	the Object Management Group
+NTT	日本電信電話
+NRT	成田
+NFS	Network File System
+NEC	日本電気
+MSA	マイクロソフトウェアアソシエイツ	マイクロソフトウェア　アソシエイツ	Micro Software Associates	日米相互防衛援助協定
+MPT	マルチポートトランシーバー
+LPF	ローパス・フィルタ
+Joe	ジョー
+JIP	日本電子計算
+ISO	国際標準化機構
+IDL	Interface Definition Language
+ICU	国際基督教大学
+IBM	アイ・ビー・エム	日本アイ・ビー・エム株式会社
+GUI	グラフィカルユーザインタフェース
+GPL	GNU General Public License
+GHQ	General Headquarters	連合国軍総司令部	総司令部
+FSF	Free Software Foundation
+FEN	極東放送	Far East Network
+Eve	イブ
+Eta	Η
+DTD	Document Type Definition
+DOM	Document Object Model
+DBA	データベース管理者
+Chi	Χ
+CTC	伊藤忠テクノサイエンス
+CDC	Communication Device Class
+Box	□
+BSE	Bovine Spongiform Encephalopathy
+BKK	バンコク
+BBQ	バーベキュー
+AND	論理積
+ACM	Abstract Control Model
+zoom	ズーム
+zone	ゾーン
+zeta	ζ
+zero	ゼロ	〇	零
+zemi	ゼミ
+yoko	─	━
+yoga	ヨガ
+ydan	Ｙ談
+yard	ヤード
+yank	ヤンク
+yale	エール大学
+xlib	Xlib
+wrap	ラップ
+worm	ワーム
+work	ワーク
+word	ワード
+wool	ウール
+wood	ウッド
+wolf	ウルフ
+with	ウィズ
+wire	ワイヤ	ワイヤー
+wink	ウィンク	Ｗｉｎｋ	ウインク
+wing	ウイング
+wine	ワイン
+wind	ウインド
+win3	Ｗｉｎ３
+wild	ワイルド
+wide	WIDE	ワイド
+whip	ホイップ
+west	ウエスト
+week	ウィーク
+wear	ウェア
+wave	ウェーブ	波	ウエーブ
+wars	ウォーズ
+warp	ワープ
+ware	ウエア	ウェア	Ｗａｒｅ
+wall	ウォール
+walk	ウォーク
+wait	ウェイト	ウエイト
+wais	ウェイズ
+volt	ボルト
+visa	ビザ
+view	ビュー	Ｖｉｅｗ
+vhll	VHLL\(Very High Level Language\)
+vest	ベスト
+vent	ベント
+veil	ベール
+vega	ベガ
+vale	ヴェール
+uucp	UUCP
+user	ユーザー	ユーザ	USER
+unix	ユニックス	UNIX
+unit	単位	ユニット
+uniq	ユニーク
+undo	アンドゥ
+typo	タイポ
+type	タイプ	型
+twin	ツイン
+turn	ターン
+turk	トルコ	土耳古
+tune	チューン
+tuna	ツナ
+tube	チューブ
+tuba	チューバ
+true	正
+troy	トロイ
+tron	トロン
+trip	トリップ
+trio	トリオ
+trim	トリム
+trie	トライ
+tree	ツリー
+tray	トレー	トレイ
+trap	トラップ
+trad	トラッド
+town	タウン
+tour	ツアー
+tool	ツール
+tone	トーン
+tk80	ＴＫ８０
+tire	タイヤ	タイア
+tips	ティップス
+tiny	タイニー
+time	タイム	時間
+tile	タイル
+tick	ティック
+thin	シン
+thai	タイ
+text	テクスト	テキスト	文字列	教科書
+test	テスト	試験
+term	用語	ターム
+tera	テラ
+tent	テント
+temp	テンポラリ	temporary
+tema	テーマ
+tele	テレ
+tech	テク	テック
+team	チーム
+taxy	タクシー
+taxi	タクシー
+tate	┃	│
+task	タスク
+tape	テープ	テイプ
+tank	タンク
+talk	トーク
+tale	テール
+take	テイク
+tail	テール	テイル
+tack	タック
+sysv	ＳｙｓＶ
+sync	シンク
+syan	シアン
+swap	スワップ
+swan	スワン
+sun4	Ｓｕｎ４
+sun3	Ｓｕｎ３
+suit	スーツ	スート
+stud	スタッド
+stub	スタブ
+stop	ストップ
+stew	シチュー
+step	ステップ	ステップ応答	ステップ関数
+star	STAR	☆	＊	スター	★
+ss10	ＳＰＡＲＣステーション１０
+sqrt	√
+spur	シュプール
+spot	スポット
+spin	スピン
+spec	スペック	仕様
+span	スパン
+spam	スパム
+soup	スープ
+soul	ソウル
+sort	ソート
+sony	ソニー
+song	ソング
+solo	ソロ
+sole	ソール	ソウル
+soft	ソフトウェア	ソフト
+sofa	ソファ
+soda	ソーダ
+soap	ソープ
+snow	スノー
+snob	スノッブ
+snap	スナップ
+smog	スモッグ
+slow	スロー
+slot	スロット
+slit	スリット
+slip	スリップ
+slim	スリム
+slax	スラックス
+slam	スラム
+skip	スキップ
+skid	スキッド
+skew	スキュー
+size	サイズ
+site	サイト
+sine	サイン
+silk	シルク
+sign	サイン	署名
+sift	シフト
+side	サイド
+sicp	ＳＩＣＰ\(Structure and Interpretation of Computer Programs\)
+sice	計測自動制御学会
+shut	シャット
+show	ショウ	ショー
+shot	ショット
+shop	ショップ
+shoe	シュー
+ship	シップ
+sgml	SGML
+sexy	セクシー
+sexp	S式
+sera	セラ
+send	センド
+semi	セミ	ゼミ	セミナー
+self	Self	セルフ
+sega	セガ
+seen	シーン
+seek	シーク
+seed	シード
+sect	セクト
+seat	シート
+seal	シール
+scsi	SCSI	Small Computer System Interface
+scan	スキャン
+sbdd	共有二分決定グラフ
+save	セーブ
+sasi	SASI	Shugart Associates System Interface
+sans	サン
+sand	サンド
+sale	セール
+sail	セール
+sage	セージ
+safe	セーフ
+sade	サド侯爵	サド	Donation Alphonse Francois de Sade	Marquis de Sade
+sack	ザック
+rush	ラッシュ
+rune	ルーン
+rule	ルール	規則
+ruff	ラフ
+ruby	紅玉	ルビ	ルビー
+rose	ローズ
+rope	ロープ
+root	スーパーユーザ	√	ルート	根
+roop	ループ
+room	ルーム
+roof	ルーフ
+rome	ローマ
+roma	ローマ	羅馬
+roll	ロール
+rock	ロック
+robo	ロボ
+road	ロード
+risk	リスク
+risc	RISC	リスク
+rion	リオン
+ring	リング
+rims	京都大学数理解析研究所	数理解析研究所
+riec	東北大通研	東北大学電気通信研究所	電気通信研究所
+ride	ライド
+rics	計算機科学研究所
+rich	リッチ
+rice	ライス
+rest	レスト
+reno	Ｒｅｎｏ
+reel	リール
+redo	リドゥ
+rear	リヤ
+real	リアル
+read	リード
+rate	レート
+rash	ラッシュ
+rare	レア
+rank	ランク
+rana	ラナ
+ramp	ランプ
+rain	レイン
+rail	レイル	レール
+rack	ラック
+race	レース
+quot	クウォート
+quiz	クイズ
+quit	クイット
+push	プッシュ
+pure	ピュア
+punk	パンク
+pump	ポンプ
+pulp	パルプ
+pull	プル
+ptex	pTeX
+psys	サイズ	PSY・S
+ps/#	ＰＳ／２	ＰＳ／５５
+prog	プログラム
+proc	プロシジャ
+post	ポスト	〒
+pose	ポーズ
+port	ポート
+pops	ポップス
+poor	プア
+pool	プール	Parallel Object-Oriented Language
+pony	ポニー
+pong	ポン
+pond	£
+poly	ポリ
+poll	ポール
+pole	ポール
+pola	ポーラ
+plus	＋	プラス
+plug	プラグ
+plot	プロット
+play	プレー	プレイ
+plan	プラン
+pipe	パイプ
+pint	ピント
+pink	ピンク
+ping	ピング	ピン
+pine	パイン
+pill	ピル
+pico	ピコ
+pick	ピック
+peta	ペタ
+peru	ペルー
+perp	┴
+perl	Perl	Ｐｅｒｌ
+pene	ペネ
+peer	ピア
+peak	ピーク
+pcat	ＰＣ／ＡＴ
+pc98	ＰＣ９８
+paul	ポール
+path	パス
+pass	パス
+part	パート
+park	パーク
+para	パラ
+papa	パパ
+pane	ペイン
+palm	パーム
+pair	ペア
+pain	パン
+paid	ペイド
+page	頁	ページ
+pack	パック
+pace	ペース
+over	オーバ	オーバー
+oven	オーブン
+oval	オーバル	楕円
+oslo	オスロ
+orix	オリックス
+open	オープン	開
+opal	蛋白石	オパール
+oopl	OOPL
+oodl	OODL
+oodb	オブジェクト指向データベース
+only	オンリー
+ogre	オウガ	オーガ
+nuts	ナッツ
+null	ヌル	NULL	ナル
+nude	ヌード
+nten	Ｎ点
+nsug	日本サンユーザーズグループ
+nsew	┿	╂	╋	┼
+nrzi	NRZI
+nova	ノバ	ノヴァ
+note	ノート
+nose	ノーズ
+norm	ノルム
+noon	ヌーン
+noel	Ｎｏёｌ
+node	ノード	節点
+nine	ナイン
+nike	ナイキ
+nick	ニック
+nice	ニース	ナイス
+nicd	NiCd
+next	NeXT	ネクスト	ＮｅＸＴ
+news	ニューズ	ネットニュース	ニュース	ＮｅＷＳ
+nest	ネスト
+ness	ネス
+neon	ネオン
+nega	ネガ
+neck	ネック
+near	ニア
+navi	ナビ	Ｎａｖｉ
+nasa	NASA
+nano	ナノ
+nami	〜
+name	名	ネーム	名称	名前
+nail	ネイル
+mute	ミュート
+mule	Mule
+mrna	ｍ-ＲＮＡ
+move	ムーブ
+more	モア
+moon	ムーン
+mood	ムード
+mono	モノクロ	モノ
+monk	モンク
+mole	モル
+mode	モード
+miss	ミス
+miri	ミリ
+mips	MIPS
+mint	ミント
+mini	ミニ
+mine	マイン
+mind	マインド
+mimd	MIMD
+mill	ミル
+milk	ミルク
+mile	マイル
+mild	マイルド
+mike	マイク
+mick	ミック
+mexp	M式
+meta	メタ
+mesh	メッシュ
+menu	メニュー
+mens	メンズ
+memo	メモ	φ\(\._\.\)
+melt	メルト
+mega	メガ
+meat	ミート
+mbps	Ｍｂｐｓ
+math	∪	∈	∂	≡	≪	∨	≫	∀	⊥	⊆	⊂	⇒	∋	∩	≒	∧	∇	∃	⇔	⊇	∠	⊃	¬
+mate	メイト
+mast	マスト
+mass	マス
+mask	仮面	マスク
+mary	メアリー
+marx	マルクス
+maru	〇	○	◎	●
+mart	マー	マート
+mars	マーズ
+mark	マルク	マーク
+mama	ママ
+mall	モール
+make	メイク	メーク
+main	メーン	メイン
+mail	メール	〒	メイル	手紙
+maga	マガ
+made	メイド
+mach	Mach	マッハ	Ｍａｃｈ
+mace	メイス
+m17n	多言語化	multilingualization
+lute	リュート
+lupe	ルーペ
+luna	ＬＵＮＡ	Ｌｕｎａ
+lump	ランプ
+lucy	ルーシー
+luck	ラック
+love	ラブ	ラヴ
+loud	ラウド
+lost	ロスト
+loss	ロス
+lose	ルーズ
+lord	ロード
+loop	ループ
+look	ルック
+long	ロング
+logo	ロゴ
+loft	Ｌｏｆｔ
+lode	ロード
+lock	施錠	ロック
+loan	ローン
+load	ロード
+live	ライブ	ライヴ
+lite	Ｌｉｔｅ
+list	リスト
+lisp	Ｌｉｓｐ	リスプ	Lisp
+lion	ライオン
+link	リンク
+line	ライン	＿	------------------------------------------------------------------	‾	---------------------------------------------------------------------------
+lime	ライム
+like	ライク
+lift	リフト
+life	ライフ
+liar	Ｌｉａｒ
+less	レス
+lens	レンズ
+lego	レゴ
+left	レフト	左	←
+leak	リーク
+leaf	リーフ
+lead	リード
+last	ラスト
+lang	ラング
+lane	レーン
+land	∧	ランド
+lamp	ランプ
+lady	レディ	レディー
+lack	ラック
+korg	コルグ
+kome	※
+know	ノウ
+knot	ノット	節
+knob	ノブ
+knee	ニー
+kiwi	キウイ
+kiss	キス	キッス	×××
+king	キング
+kind	カインド
+kilo	キロ
+kill	キル
+kiki	キキ
+kids	キッズ
+kick	キック
+kern	カーン
+keep	キープ
+kara	〜
+kant	カント
+just	ジャスト
+junk	ジャンク
+jump	ジャンプ
+jtex	jTeX
+jsme	日本機械学会
+joke	ジョーク
+join	ジョイン
+john	ヨハネ	ジョン
+jnic	日本ネットワークインフォメーションセンター
+jinx	ジンクス
+jeep	ジープ
+jazz	ジャズ
+jasj	日本音響学会
+jane	ジェーン
+jack	ジャック
+item	項目	アイテム
+iron	アイアン
+iraq	イラク
+iowa	アイオワ
+iota	ι
+inst	インスト
+info	インフォ
+indo	インド
+inch	吋	インチ
+idol	アイドル
+idle	アイドル
+idic	Ｉ-ｄｉｃ
+idea	アイデア	アイディア
+icot	新世代コンピュータ開発機構	新世代コンピュータ技術開発機構
+icon	アイコン
+hurd	Hurd
+hunk	ハンク
+hung	ハング
+huge	ヒュージ
+hrtf	頭部伝達関数	頭部音響伝達関数
+hour	アワー
+host	ホスト
+hose	ホース
+horn	ホーン	ホルン
+hope	ホープ
+hook	フック
+homo	ホモ
+home	ホーム
+hole	ホール
+hold	ホールド
+hint	ヒント
+hill	ヒル
+high	ハイ
+hide	非表示	ハイド
+hero	ヒーロー
+here	ヒア
+herb	ハーブ
+help	ヘルプ
+heel	ヒール
+heat	ヒート
+hear	ヒア
+heap	ヒープ
+heal	ヒール
+head	ヘッド
+hawk	ホーク
+hash	ハッシュ
+harp	ハープ
+hard	ハードウェア	ハード
+hang	ハング
+hand	ハンド
+hall	ホール
+half	ハーフ
+hair	ヘア
+hack	ハック
+gyro	ジャイロ
+guts	ガッツ
+guam	グァム
+gsis	情報科学研究科
+grip	グリップ
+grid	グリッド
+grey	グレー	グレイ
+gray	グレイ
+gram	グラム
+grab	グラブ
+gpan	Ｇパン
+good	グー	グッド
+gong	ゴング
+golf	ゴルフ
+gold	ゴールド
+goal	ゴール
+gnus	ｇｎｕｓ	GNUS	Gnus	Ｇｎｕｓ
+glue	グルー
+girl	ガール
+gina	GINA\(the Generic Interactive Application\)
+gile	ガイル
+giga	ギガ
+gift	ギフト
+gear	ギヤ	ギア
+gate	ゲート
+gang	ギャング
+game	ゲーム
+gala	ギャラ
+gain	ゲイン
+fuse	ヒューズ
+funk	ファンク
+fund	ファンド
+full	フル	一杯
+fuji	フジ
+from	━ここから━	━━━━━ここから━━━━━
+fret	フレット
+free	フリー
+foul	ファール
+form	フォーム
+fork	フォーク
+fore	フォア
+ford	フォード
+foot	フット
+fool	フール
+food	フード
+font	フォント
+folk	フォーク
+fold	フォールド
+flow	フロー
+flop	フロップ
+flip	フリップ
+flex	フレックス
+flat	♭	フラット
+flap	フラップ
+flag	フラッグ	フラグ
+fizz	フィズ
+fish	フィッシュ
+firm	ファーム
+fire	ファイア	ファイアー
+film	フィルム
+fill	フィル
+file	ファイル
+fifo	先入れ先出し
+feet	フィート
+feel	フィール
+feed	フィード
+fast	ファースト	ファスト
+fame	Ｆａｍｅ
+fair	フェアー	フェア
+fail	フェイル	失敗
+fade	フェード
+fact	ファクト
+face	フェース	\:\-\(	\:\-P	\:\-B	フェイス	\(\_o\_\)	\:\-\<	X\-\(
+expo	エキスポ
+exit	イグジット
+exec	実行
+evil	エビル
+ever	エバー
+even	イーブン
+eros	エロス
+elec	エレキ
+edit	編集	エディト	エディット
+edge	エッジ
+eden	エデン
+ecip	情報処理教育センター
+echo	エコー
+easy	イージー
+east	Ｅａｓｔ	イースト
+dvvm	大域的仮想仮想記憶
+dunk	ダンク
+dump	ダンプ
+dumb	ダム
+duet	デュエット
+duct	ダクト
+dual	デュアル
+drum	ドラム
+drug	ドラッグ
+drop	ドロップ
+dron	Ｄ論
+drip	ドリップ
+draw	ドロー
+drag	ドラッグ
+down	ダウン	↓
+dots	…	‥
+door	ドア
+dood	演繹オジェクト指向データベース
+dome	ドーム
+doll	ドル
+doek	ズック
+dock	ドック
+disk	ディスク	DISK
+dish	ディッシュ
+disc	ディスク
+dirt	ダート
+diff	ディフ
+diet	ダイエット
+dial	ダイアル	ダイヤル
+desk	デスク
+desc	記述子
+depo	デポ
+demo	デモ版	デモ
+dema	デマ
+deep	ディープ
+deck	デック	デッキ
+deci	デシ
+deca	デカ
+deal	ディール
+dead	デッド
+dbms	データベース管理システム	DBMS
+date	デート
+data	データ	データー
+dash	ダッシュ	—
+dart	ダート
+dark	ダーク
+dahl	ダール
+cuty	キューティー
+cute	キュート
+curl	カール
+cult	カルト
+cube	キューブ
+cuba	キューバ
+cray	クレイ
+cost	コスト
+corn	コーン
+cork	コルク
+core	コア
+cord	コード
+copy	コピー
+coop	コープ
+cool	クール
+cook	コック	クック
+cons	コンス
+comp	コンプ
+comb	コム
+cold	コールド
+cola	コーラ
+coin	コイン
+coil	コイル
+code	コード
+coda	コーダ
+coco	ＣｏＣｏ
+coat	コート
+clue	クルー
+club	倶楽部	クラブ
+clos	CLOS\(Common Lisp Object System\)	CLOS
+clip	クリップ
+city	シティ
+cisc	CISC
+chro	クロ
+chop	チョップ
+chip	チップ
+chef	シェフ
+chat	チャット
+char	キャラ	キャラクタ
+chan	チャン
+cesp	CESP	CESP\(Common Extended Self-contained Prolog\)
+cent	セント	¢
+cell	セル
+cdot	・
+cctu	大型計算機センター
+cats	キャッツ
+cast	キャスト
+casl	CASL
+cash	キャッシュ
+case	ケース	CASE
+carp	カープ
+care	ケア
+card	カード
+capa	キャパ
+camp	キャンプ
+call	コール
+cake	ケーキ
+cage	ケージ
+cafe	カフェ
+cady	キャディー
+byte	Ｂｙｔｅ	バイト
+busy	ビジー	ビジィ
+bush	ブッシュ
+bump	バンプ
+bull	ブル
+bulk	バルク
+buil	ビル
+bsdi	BSDI
+brow	ブロウ
+boxp	ボックス／ポインタ
+bowl	ボウル
+boss	ボス
+bore	ボア
+bord	ボード
+boot	ブート
+boom	ブーム
+bool	ブール
+book	Book	ブック
+bone	ボーン
+bomb	ボム
+bold	ボールド
+boke	ボケ
+bohm	ベーム
+body	ボディ	ボデー
+boat	ボート
+blue	ブルー
+blow	ブロー
+bldg	ビル
+bite	バイト
+bird	バード	トリ
+bind	バインド
+bill	ビル
+bike	バイク	オートバイ
+biff	ビフ
+bias	バイアス
+beta	β	ベータ	β版
+best	ベスト
+bend	ベンド
+belt	ベルト
+bell	ベル
+beit	バイト
+beer	ビア	麦酒	ビール
+beep	ビープ
+beem	ビーム
+beef	ビーフ
+beat	ビート
+beam	ビーム
+bday	バースディ
+baud	ボー
+bath	バス
+bass	バス	ベース
+bash	バッシュ
+base	基底	ベース
+bare	ベア
+bank	バンク
+bang	バン
+band	バンド	Ｔｈｅ Ｂａｎｄ	The Band
+ball	ボール
+baka	バカ
+back	バック
+bach	Ｂａｃｈ	バッハ
+baby	ベイビィ	ベイビー	ベビー
+babs	バブス
+axon	Ａｘｏｎ
+aval	アバール
+auto	オート
+atto	アト
+atom	原子式	アトム
+atok	ATOK	Ａｔｏｋ
+asia	亜細亜	アジア
+arts	アーツ
+army	アーミー
+aria	アリア
+argo	アルゴ
+area	エリア	域	空間
+arch	アーチ
+arab	アラブ首長国連邦	アラブ
+aqua	アクア
+appi	安比
+anti	アンチ
+ansi	ANSI
+amen	Ａ面
+alto	アルト
+akcl	AKCL	AKCL\(Austin Kyoto Common Lisp\)
+aist	奈良先端科学技術大学院大学	奈良先端
+aids	エイズ	後天性免疫不全症候群
+agit	アジト
+afro	アフロ
+adam	アダム
+adac	アドバンスド・データ・コントロールズ
+acid	アシッド
+abec	アベック
+Zeta	Ζ
+Vega	ベガ
+Sony	ソニー
+Rose	ローズ
+Rana	ラナ
+RISC	Restricted Instruction Set Computer	限定命令セット計算機
+R246	玉川通り	２４６号線	国道２４６号線	厚木街道
+Mary	メアリ
+Mars	マーズ
+Mach	マッハ
+Lucy	ルーシー
+Kiki	キキ
+John	ジョン
+Jane	ジェーン
+JISU	日本工業標準調査会
+JICC	ＪＩＣＣ出版
+Iota	Ι
+IDFT	逆離散フーリエ変換
+HTML	Hyper Text Markup Language
+GLPL	GNU Library Public License
+Evil	エビル
+Euro	ユーロ
+Dick	ディック
+DBMS	dbms
+Crea	クレア
+CISC	複雑命令セット計算機	Complex Instruction Set Computer
+Biff	ビフ
+Beta	Β
+Benz	ベンツ
+Bach	バッハ
+Adam	アダム
+AIDS	エイズ	後天性免疫不全症候群
+ziggy	Ｚｉｇｇｙ
+zetta	ゼタ
+zepto	ゼプト
+zelda	ゼルダの伝説	ゼルダ
+yumin	ユーミン
+youth	ユース
+young	ヤング
+yotta	ヨタ
+yocto	ヨクト
+yield	イールド
+yapoo	ヤプー
+yacht	ヨット
+xview	Ｘｖｉｅｗ
+xpost	クロスポスト
+xlisp	ＸＬｉｓｐ	XLisp
+xerox	ゼロックス
+write	書き込み	ライト
+wowow	WOWOW
+worst	ワースト
+world	ワールド
+works	ワークス
+woman	ウーマン
+witch	ウィッチ
+wired	ワイヤード
+wiper	ワイパー
+wings	ウィングス
+winch	ウィンチ
+width	幅
+whole	ホール
+white	ホワイト
+where	ただし
+wheel	ホイール
+wedge	∧
+water	ウォーター
+watch	ウォッチ
+walsh	ウォルッシュ
+waist	ウェスト
+wagon	ワゴン
+wafer	ウエーハ	ウェファ	ウェーハ
+volkl	Ｖｏｌｋｌ
+voice	ボイス
+vocal	ヴォーカル	ボーカル
+vista	ビスタ
+virus	ウィルス	ビールス
+viola	ヴィオラ
+vinyl	ビニール
+villa	ビラ
+video	ビデオ	ヴィデオ
+venus	ヴィーナス
+vdots	：
+vdash	├
+valvu	バルブ
+valve	バルブ	ヴァルヴ
+value	バリュー	Ｖａｌｕｅ	ヴァリュー	値
+valid	ヴァリッド	バリッド	恒真
+ux386	ＵＸ３８６
+uturn	Ｕターン
+utnet	UTnet
+users	ユーザーズ
+urban	アーバン
+upper	アッパー
+unmap	アンマップ
+union	∪	共有体	ユニオン	共用体
+unify	単一化	ユニファイ
+under	アンダー
+ultra	ウルトラ
+twist	ツイスト
+tweed	ツイード
+tutor	チューター	チュータ
+turbo	ターボ
+tuple	タプル
+tuner	チューナ	チューナー
+tulip	チューリップ
+trust	トラスト
+trunk	トランク
+trump	トランプ
+truck	トラック
+troff	ティーロフ
+trick	トリック
+trial	トライアル
+triad	トライアド
+trend	トレンド
+trash	トラッシュ
+trans	トランス
+tramp	トランプ
+trade	トレード
+track	トラック
+trace	トレイス	トレース
+tower	タワー
+towel	タオル
+tough	タフ
+touch	タッチ
+total	トータル
+torus	トーラス
+toppe	トッピー
+topic	トピック
+tools	ツールス
+toner	トナー
+tonal	トーナル
+tokyo	トーキョー
+token	トークン
+toile	トイレ
+toeic	TOEIC	トーイック
+title	タイトル
+titan	Ｔｉｔａｎ	タイタン
+tirol	チロル
+times	×	タイムズ
+timer	タイマー	タイマ
+tilde	〜
+tilda	チルダ
+tight	タイト
+tiger	タイガー
+tiara	ティアラ
+thyme	タイム
+three	スリー
+third	３ｒｄ	サード	第3要素
+thief	シーフ
+thick	シック
+theta	θ
+theme	テーマ
+thema	テーマ
+texel	テクセル
+texas	テキサス	テキサス大学
+tempo	テンポ
+tcpip	ＴＣＰ／ＩＰ
+tains	テインズ	TAINS
+taboo	タブー
+table	テーブル	表
+sysop	シスオペ
+sysad	シスアド
+synth	シンセ
+synch	シンク
+sympo	シンポ
+sylph	シルフ
+sword	ソード
+swiss	スイス
+swing	スウィング
+sweet	スイート	スウィート
+sweep	スウィープ	スイープ
+sweat	スウェット
+susie	スージー
+super	スーパー	スーパ
+sunos	SunOS	ＳｕｎＯＳ
+suits	スーツ
+suite	スィーツ
+sugar	シュガー
+style	スタイル
+stuff	スタッフ
+study	スタディ
+strip	ストリップ
+strap	ストラップ
+stove	ストーブ	ストーヴ
+story	ストーリー	ストーリ
+storm	ストーム
+store	ストア
+stone	ストーン
+stoic	ストイック
+stock	ストック
+still	スチール	スチル
+stick	スティク	スティック
+steps	ステップス
+steer	ステア
+steel	スチール
+steak	ステーキ
+stdin	標準入力
+state	ステイト	ステート
+start	スタート
+stand	スタンド
+stamp	スタンプ
+stall	ストール
+stake	ステーキ
+stage	ステージ
+staff	スタッフ
+stack	スタック
+sseki	Ｓ席
+spray	スプレー
+sport	スポーツ
+spoon	スプーン
+spool	スプール
+splus	Splus
+split	スプリット
+splay	スプレー
+spike	スパイク
+spice	スパイス
+spell	スペル
+speed	すぴーど	スピード
+spark	スパーク
+spare	スペア
+sparc	Sparc	スパーク
+spain	Ｓｐａｉｎ	スペイン
+spade	スペイド	スペード
+space	□	　	スペイス	スペース
+sound	サウンド
+sonic	ソニック
+sonar	ソナー
+solid	ソリッド
+socks	ソックス
+snoop	スヌープ
+snake	スネーク
+snack	スナック
+smile	\(_ _\)	B\-\)	%\-\)	%\-}	＼＼\(^_^\)／／	:-\(	スマイル	\^_\^	\(\^_\^\)	\(\*_\*\)	:->	:-\)	\(\^o\^\)	:-<	\^\^\)
+smart	スマート
+small	スモール
+slump	スランプ
+slope	スロープ
+slime	スライム
+slide	スライド
+slice	スライス
+sleep	スリープ
+slave	スレーブ
+slash	／	スラッシュ
+slack	スラック
+skirt	スカート
+skill	スキル
+skier	スキーヤー
+skate	スケート
+sitar	シタール
+siren	サイレン	セイレーン
+sigma	σ	シグマ	Σ
+sibip	シビップ
+short	ショート
+shoot	シュート
+shoes	シューズ
+shock	ショック
+shirt	シャツ
+shime	〆
+shift	シフト
+shell	シェル
+sheet	シート
+sheat	シート
+shear	シアー
+sharp	♯	＃	シャープ
+share	シェア
+shape	シェープ
+shaft	シャフト
+seven	セブン
+setup	セットアップ
+serif	セリフ
+serge	サージ
+seoul	ソウル
+sense	センス
+seiko	セイコー
+seeds	シーズ
+sedan	セダン
+secom	セコム
+scuba	スクーバ	スキューバ
+screw	スクリユー
+scrap	スクラップ
+scott	スコット
+scort	スコート
+score	スコア
+scope	スコープ
+scola	スコラ
+scene	シーン
+scale	スケール	スケイル
+saver	セーバー	セーバ
+sandy	サンディー
+sally	サリー
+sales	セールス
+salad	サラダ
+saber	セイバー	サーベル
+rummy	ラミー
+ruler	ルーラ
+ruled	ルールド
+rugby	ラグビー
+royal	ロイヤル
+route	ルート
+round	ラウンド
+rough	ラフ
+rouge	ルージュ
+roots	ルーツ
+ronde	輪舞	ロンド
+roman	ロマン	ローマ字	ローマン
+rogue	ローグ
+robot	ロボット
+robin	ロビン
+robby	ロビー
+rival	ライバル	ライヴァル
+rinse	リンス
+ringo	リンゴ
+rigid	リジッド
+right	ライト	→	右
+rifle	ライフル
+rider	ライダー
+ricoh	リコー
+richo	リコー
+retry	リトライ
+reset	リセット
+reply	返信	リプライ	返事
+renta	レンタ
+remix	リミックス
+relay	リレー
+relax	リラックス
+refer	リファー
+ready	レディ
+reach	リーチ
+ravel	ラベル
+range	レンジ	範囲
+randy	ランディー
+rally	ラリー
+raise	レイズ
+radio	ラジオ	ラヂオ	レイディオ
+radar	レーダー
+racer	レーサー
+r6000	Ｒ６０００
+quote	クオート	クウォート	”	クォート	『』	クォウト	“
+quota	クオータ	クォータ
+quick	クイック	クィック
+queue	キュー
+quest	クエスト
+query	キュエリ	問合せ	クエリ
+queen	クイーン	クィーン
+quate	クウェート
+quark	クォーク
+purge	パージ
+puppy	パピー
+punch	パンチ
+pulse	パルス
+psych	サイク
+proxy	プロキシ
+proof	証明	プルーフ
+probe	プローブ
+prism	プリズム
+print	プリント
+prime	プライム
+pride	プライド
+price	プライス
+press	プレス
+power	パワー
+pound	ポンド	£	パウンド
+pouch	ポーチ
+posix	POSIX
+popup	ポップアップ
+poppy	ポピー
+poker	ポーカー
+point	点	ポイント	・
+plumi	±
+plind	プリンディ
+plaza	プラザ
+plate	プレート
+plant	プラント
+plane	プレーン
+plain	プレーン	プレイン
+place	プレース	プレイス
+pizza	ピザ
+pixel	ピクセル
+pivot	ピボット
+pitch	ピッチ
+pinky	ピンキー
+pinch	ピンチ
+pilot	パイロット
+pigma	ピグマ
+piece	ピース
+piano	ピアノ
+photo	フォト
+phone	フォン	ホン
+phase	フェイズ	フェーズ
+petri	ペトリ
+peter	ピーター	ピョートル	ペーター
+perma	パーマ
+penny	ペニー
+pekoe	ペコー
+pedal	ペダル
+pearl	パール	真珠
+peano	ペアノ
+peaky	ピーキー
+peach	ピーチ
+peace	ピース
+pdp11	ＰＤＰ１１
+pause	ポーズ
+pauch	パウチ
+patty	パティ
+patio	パティオ
+patch	パッチ
+paste	ペースト	貼り付け
+party	パーティ	パーティー
+parts	パーツ
+parse	パーズ	パース
+paris	パリ
+paper	論文	ペーパー
+pants	パンツ
+pansy	パンジー
+panku	パンク
+panic	パニック
+panel	パネル
+panda	パンダ
+pamph	パンフ
+paint	ペンキ	ペイント
+pager	ページャ	ページャー
+owner	オウナー	オーナー	オーナ
+outer	アウター
+other	その他
+oscar	オスカー
+orion	オリオン
+organ	オルガン
+oread	オレアード
+order	オーダ	オーダー
+orche	オケ
+opera	オペラ	歌劇
+ontek	オンテック
+onoff	オン・オフ
+onair	オンエア
+omron	OMRON	立石電機	オムロン
+omnis	オムニス
+omega	Ω	オメガ	ω
+olive	オリーブ
+ogata	Ｏ型
+odeon	オデオン
+octet	オクテット
+ocean	オーシャン
+occam	オッカム
+oasis	オアシス
+nymph	ニンフ
+nroff	エヌロフ
+novel	ノベル
+noteq	≠
+notch	ノッチ
+north	ノース
+norma	ノルマ
+noisy	ノイジー	ノイズィ
+noise	ノイズ
+nikon	ニコン
+nihil	ニヒル
+night	ナイト
+nifty	ＮＩＦＴＹ	Ｎｉｆｔｙ	ニフティ
+neuro	ニューロ
+needs	ニーズ
+nanao	ナナオ
+namco	ナムコ
+naive	ナイーブ
+naiad	ナイアード
+mutex	ミューテックス
+music	♭	∬	ミュージック	∫	♪
+multi	マルチ
+msdos	ＭＳ−ＤＯＳ	MS-DOS
+movie	ムーヴィー	ムービー
+mouse	マウス
+mount	マウント
+motor	モーター	モータ
+motif	Motif	Ｍｏｔｉｆ	モティーフ
+motel	モーテル
+morph	モーフィング	モーフ
+moral	モラル
+moore	ムーア
+money	マネー
+monet	モネ
+monad	モナド
+moire	モアレ
+modem	モデム
+model	モデル
+modal	モーダル
+mocha	モカ
+mixer	ミキサー	ミキサ
+minus	−	マイナス	—
+minor	マイナー	マイナ
+milli	ミリ
+miles	マイルス
+micro	μ	ミクロ	マイクロ
+micom	マイコン
+miami	マイアミ
+metro	メトロ	東京都立大学
+meter	メータ	メーター	メートル
+metal	メタル
+messe	メッセ
+merry	メリー
+merit	メリット
+merge	マージ
+melon	メロン
+melby	メルビー
+media	ミーディア	メディア
+medal	メダル
+mecha	メカ
+matic	マチック
+match	マッチ
+mario	マリオ
+marie	マリー
+march	マーチ
+maple	メイプル
+manna	マンナ
+mania	マニア
+mambo	マンボ
+maker	メーカ	メーカー
+major	メジャー	メイジャー	メージャ
+magma	マグマ
+magic	マジック
+mafia	マフィア
+macro	マクロ
+lupin	ルパン
+lunch	ランチ
+lucky	ラッキー	Ｌｕｃｋｙ
+lucid	Lucid	Ｌｕｃｉｄ
+lotus	ロータス
+lotte	ロッテ
+lopez	ロペス
+loose	ルース	ルーズ
+looks	ルックス
+logos	ロゴス
+logon	ログオン
+login	ログイン
+logic	論理	∨	∀	ロジック	∧	∃	⊃	¬
+lodge	ロッジ
+local	局所	ローカル
+lobby	ロビー
+livre	£
+liver	レバー
+litre	リットル	リッタ
+linux	Linux
+linus	ライナス
+liner	ライナー
+limit	リミット
+light	ライト
+libro	リブロ
+lever	レバー
+level	レベル	レヴェル
+lemon	レモン	檸檬
+lemma	補題	レンマ	Lemma
+legal	リーガル
+leave	リーブ
+lease	リース
+ldots	...
+lazer	レーザー
+layer	レイヤ
+latin	ラテン
+latex	\LaTeX	ＬAＴEＸ	LaTeX	ＬａＴｅＸ
+latch	ラッチ
+laser	レーザー	レーザ
+large	ラージ
+lance	ランス
+label	レーベル	ラベル
+kterm	KTerm
+kodak	コダック
+koala	コアラ	こあら
+known	ノウン
+knock	ノック
+knife	ナイフ
+kiosk	キオスク
+kenya	ケニア
+kenny	ケニー
+keith	キース
+kbyte	キロバイト
+kawai	カワイ
+kappa	κ	Ｋａｐｐａ	カッパ
+jwave	Ｊ−ＷＡＶＥ
+junet	JUNET
+jumbo	ジャンボ
+julia	ジュリア
+juice	ジュース
+judge	ジャッジ
+joker	ジョーカー
+joint	ジョイント
+jimny	ジムニー
+jimmy	ジミー
+jesus	ジーザス	イエス	イエズス
+jenny	ジェニー
+jelly	ゼリー
+jeans	ジーンズ
+jazzy	ジャジー
+japan	日本	ジャパン
+james	ジェームス
+jaist	北陸先端大	北陸先端科学技術大学院大学	Japan Advanced Institute of Science and Technology	JAIST	ジャイスト
+jacob	ヤコブ
+j3100	Ｊ３１００
+ivory	アイヴォリー
+italy	イタリア
+isaac	アイザック	イサク
+irony	アイロニー
+intro	イントロ
+inter	インタ	インター
+intel	インテル	Intel
+input	入力	インプット
+inode	iノード	ｉノード
+inner	インナー
+infra	インフラ
+india	インド
+index	インデクス	インデックス
+imply	→	⊃
+imode	iモード
+image	イメージ
+ieice	電子情報通信学会
+idiom	イディオム
+ideal	イデアル
+ibmpc	ＩＢＭ-ＰＣ
+hyper	ハイパー
+hydra	ヒュドラ	ヒドラ
+humor	ユーモア
+human	ヒューマン
+house	ハウス
+hough	ハフ
+hotel	ホテル
+hoshi	☆	★
+horse	ホース
+honey	ハニー
+honda	ホンダ
+holon	ホロン
+hoare	ホーア
+hitom	ハイタム
+hihat	ハイハット
+hertz	ヘルツ
+henry	ヘンリー
+hello	ハロー
+hedge	ヘッジ
+hecto	ヘクト
+heavy	ヘビー
+heart	ハート	ハツ
+hatch	ハッチ
+harry	ハリー
+harpy	ハルピュイア	ハーピー
+happy	ハッピー
+hanoi	ハノイ
+handy	ハンディ
+hands	ハンズ
+gypsy	ジプシー
+gunnm	銃夢
+guile	ガイル
+guide	ガイド
+guest	ゲスト
+guard	ガード
+group	グループ
+grimm	グリム
+green	グリーン
+greek	μ	ξ	κ	η	θ	σ	ギリシャ	γ	ε	π	β	δ	ω	ψ	ν	ο	λ	τ	φ	ι	ρ	ζ	α	υ	χ
+great	グレート
+graph	グラフ
+grape	グレープ
+grand	グランド
+grade	グレード
+grace	グレース
+gould	グールド
+goods	グッズ
+godel	ゲーデル
+gnome	ノーム
+glyph	グリフ
+glove	グローヴ
+glenn	グレン
+glass	硝子	グラス	ガラス
+girls	ガールズ
+ghost	ゴースト
+genre	ジャンル
+genom	ゲノム
+gauss	ガウス
+gauge	ゲージ
+gamma	γ	γ版
+gamer	ゲーマー
+fuzzy	ファジィ	ファジー
+funky	ファンキー
+fruit	フルーツ	フルート
+frown	⌒
+front	フロント
+fried	フライド
+fresh	フレッシュ
+frege	フレーゲ
+freak	フリーク
+franz	ｆｒａｎｚ	Ｆｒａｎｚ
+franc	フラン
+frame	フレイム	フレーム
+forum	フォーラム
+forte	フォルテ
+force	フォース
+fools	フールズ
+foods	フーズ
+fodor	フォドー
+focus	フォーカス
+flute	フルート
+flush	フラッシュ
+floyd	フロイド
+floor	フロアー	フロア
+float	浮動小数点数	フロート
+flash	フラッシュ
+flame	フレーム
+flake	フレーク
+flail	フレイル
+fixed	フィクスト
+first	ファースト	第1要素	１ｓｔ
+final	ファイナル
+filer	ファイラー	ファイラ
+fight	ファイト
+field	フィールド
+fiber	ファイバー	ファイバ
+fever	フィーバー
+fetch	フェッチ
+ferry	フェリー
+fence	フェンス
+femto	フェムト
+fazzy	ファジィ
+faure	フォーレ
+fault	フォールト	フォルト
+fatal	フェイタル
+fanin	ファンイン
+false	誤	偽
+faint	フェイント
+fader	フェイダー
+facom	ファコム
+extra	エクストラ	エキストラ
+exist	∃
+event	イベント	イヴェント
+eunos	ユーノス
+euler	オイラー
+etude	エチュード
+ether	イーサ
+essay	エッセイ	エッセィ
+esher	エッシャー
+error	エラーメッセージ	エラー
+erica	エリカ
+equiv	≡	⇔
+equal	＝	イコール
+epson	エプソン
+epock	エポック
+epoch	エポック
+entry	エントリ	エントリー
+enter	エンター
+enjoy	エンジョイ
+enbug	エンバグ
+empty	エンプティ	エンプティー
+email	E-mail	電子メール	電子メイル
+emacs	イーマックス	ｅｍａｃｓ	Emacs	Ｅｍａｃｓ	Editing MACroS
+elvis	エルビス
+elite	エリート
+elisp	EmacsLisp	Emacs Lisp
+eject	イジェクト
+eight	エイト
+egypt	エジプト
+edwin	エドウィン
+eason	イーソン
+earth	アース
+dwarf	ドワーフ
+dummy	ダミー
+dryad	ドリアード	ドライアド
+drive	ドライブ	ドライヴ
+drink	ドリンク
+drill	ドリル
+drift	ドリフト
+drier	ドライヤー
+dress	ドレス
+dream	ドリーム
+drama	ドラマ
+drake	ドレーク
+drain	ドレイン	ドレン／ベント	ドレン
+draft	ドラフト
+dozen	ダース
+doors	ドアーズ
+dolby	ドルビー
+dogma	ドグマ
+dodge	ドッジ
+diver	ダイバー
+disco	ディスコ
+dirty	ダーティ
+dirac	ディラク
+diode	ダイオード
+devil	デビル
+delta	δ	デルタ
+delft	デルフト
+delay	ディレイ	ディレー
+decca	デッカ
+decay	ディケイ
+debut	デビュー
+debug	デバッグ	ディバッグ
+death	デス
+davis	デービス
+dashv	┤
+dance	ダンス
+daisy	デイジー	Ｄａｉｓｙ
+cyric	サイクロトロンＲＩ
+cyclo	サイクロ
+cycle	サイクル
+cyber	サイバー
+cutie	キューティー
+cusco	クスコ
+curve	カーヴ	カーブ
+curry	カレー	カリー
+curot	キュロット
+crush	クラッシュ
+crown	クラウン
+cross	┿	╂	×	╋	┼	クロス
+cresc	クレッシェンド	crescendo
+cream	クリーム
+crazy	クレイジー
+crash	クラッシュ
+crane	クレーン
+craft	クラフト
+crack	クラック
+cover	カバー
+court	コート
+count	カウント
+cosmo	コスモ
+corns	コーンズ
+cooky	クッキー
+conic	コニック
+cones	コーンズ
+compo	コンポ
+compe	コンペ
+compa	コンパ
+commu	コミ
+comma	，	カンマ	、	コンマ
+comic	コミック
+combo	コンボ
+combi	コンビ
+color	色	カラー
+colon	コロン
+cohen	コーヘン
+coder	コーダー
+cocoa	ココア
+cobol	COBOL
+coart	コート
+coach	コーチ
+cmucl	CMU-CL
+close	クローズ
+clone	クローン
+clock	クロック
+clisp	CLISP
+clint	クリント
+clime	クライム
+click	クリック
+clear	クリア
+clean	クリーン
+class	クラス
+clash	クラッシュ	クラシュ
+clamp	クランプ
+claim	クレーム
+civic	シビック
+chute	シュート
+chunk	チャンク
+chord	コード
+choke	チョーク
+choco	チョコ
+china	チャイナ
+chime	チャイム
+child	子	チャイルド
+chief	チーフ
+chess	チェス
+cheko	チェコ
+cheer	チア
+cheek	チーク
+check	チェック
+chech	チェコ
+cheap	チープ
+chart	チャート
+charm	チャーム
+chari	チャリ
+chara	キャラ
+chaos	カオス
+chair	チェア
+chain	チェイン	チェーン
+centi	センチ
+cello	チェロ
+cdrom	ＣＤ−ＲＯＭ	CD-ROM
+cdots	…
+catch	キャッチ
+casio	カシオ
+cashe	キャッシュ
+carte	カルテ
+carry	カレー	キャリー
+carib	カリブ
+cargo	カーゴ
+cards	トランプ
+canon	キャノン	キヤノン	カノン
+canne	カンヌ
+candy	キャンディ
+caddy	キャディ
+cache	キャッシュ
+cable	ケーブル
+cabin	キャビン
+burst	バースト
+burma	ビルマ
+build	ビルド
+buggy	バギー
+brush	ブラシ
+brown	ブラウン
+broad	ブロード
+brian	ブライアン
+break	ブレーキ	ブレイク	ブレーク
+brass	ブラス
+brand	ブランド
+brake	ブレーキ
+brain	ブレーン	ブレイン
+brace	ブレース
+boyer	ボイヤー
+boxer	ボクサー
+borel	ボレル
+boots	ブーツ
+booth	ブース
+boost	ブースト
+boole	ブール
+books	ブックス
+booby	ブービー
+bonus	ボーナス
+board	ボード
+blues	ブルース	ブルーズ
+block	ブロック
+blink	ブリンク
+blind	ブラインド
+blend	ブレンド
+blank	ブランク
+blain	ブレーン
+blade	ブレード
+black	ブラック
+bison	Bison
+bible	バイブル
+bgata	Ｂ型
+betty	ベティ
+bench	ベンチ
+begin	BEGIN--cut here--cut here	===================== ここから ====================	−−−−−−−−−−−−−−−ここから−−−−−−−−−−−−−−−	ビギン
+beach	ビーチ
+bazar	バザー
+bayes	ベイズ
+batsu	×
+batch	バッチ
+basis	基礎
+basic	ベーシック
+badge	バッジ
+axiom	公理
+award	アワード
+auger	オーガ
+audio	オーディオ
+atari	アタリ
+astem	京都高度技術研究所	アステム
+astec	アステック
+assoc	アソック
+asset	アセット	遺産
+ascii	アスキー	ASCII
+arrow	↑	→	⇒	↓	←	⇔
+array	アレイ	配列	アレー
+armor	アーマー
+arity	アリティ
+arena	アリーナ
+apron	エプロン
+apply	アプライ
+appli	アプリ
+apple	Ａｐｐｌｅ	アップル
+apart	アパート
+anode	アノード
+annex	アネックス
+anime	アニメ
+anima	アニマ
+angle	アングル	∠
+angel	エンジェル
+andes	アンデス
+amalg	Ц
+alpha	アルファ	α
+alpen	アルペン
+alone	アロン	アローン
+align	アライン
+alien	エイリアン
+alice	アリス
+alias	エイリアス	エーリアス	エリアス
+algol	アルゴル
+alfee	アルフィー
+aleph	アレフ
+album	アルバム
+alarm	アラーム
+ahead	アヘッド
+aging	エージング
+agent	エージェント	エイジェント
+agata	Ａ型
+after	アフター
+adult	アダルト
+adpcm	ADPCM法
+adobe	Ａｄｏｂｅ
+admin	アドミン
+adlib	アドリブ
+adhoc	アドホック
+actor	アクター
+acryl	アクリル
+abyss	アビス
+about	アバウト
+abort	アボート
+XEROX	ゼロックス
+Venus	ビィーナス	ビーナス
+Toppe	トッピー
+Tibet	チベット
+Theta	θ	Θ
+Sigma	Σ
+Sibip	シビップ
+Sandy	サンディー
+Sally	サリー
+Saint	聖
+Robin	ロビン
+Peter	ピーター	ピョートル	ペーター
+Patty	パティ
+Omega	Ω
+Milky	ミルキー
+Miami	マイアミ
+Melby	メルビー
+Mario	マリオ
+Marie	マリ	マリー
+Lynch	リンチ
+Linus	ライナス
+Laura	ローラ
+Kodak	コダック
+Knuth	クヌース
+Katze	カッツェ
+Kappa	Κ
+Julie	ジュリー
+Jimmy	ジミー
+Jenny	ジェニー
+James	ジェームス
+Henry	ヘンリー
+Guile	ガイル
+Grimm	グリム
+Greek	Ω	Υ	Μ	Ζ	Ξ	Α	Χ	Γ	Ο	Θ	Τ	Ρ	Δ	Κ	Π	Φ	Ν	Β	Ψ	Λ	Ι	Σ	Η	Ε
+Gamma	Γ
+Egypt	エジプト
+Delta	Δ
+Daffy	ダフィー
+CORBA	Common Object Request Broker Architecture
+Brown	ブラウン
+Booby	ブービー
+Beryl	ベリル
+Atena	アテナ
+April	エイプリル
+Alpha	Α
+ALFEE	アルフィー
+zoomin	ズームイン
+zombie	ゾンビ
+zephyr	ゼファー
+zepher	ゼファー
+zaurus	ザウルス
+yogurt	ヨーグルト
+yellow	イェロー	イエロー
+yarder	ヤーダ
+yamaha	ヤマハ
+yakult	ヤクルト
+writer	ライタ	ライター
+wrench	レンチ
+worpro	ワープロ
+worker	ワーカー
+woogie	ウギ
+wonder	ワンダー
+wizard	ウィザード
+wiring	ワイヤリング
+winter	ウィンター
+winker	ウィンカー
+window	ウインドー	ウインドウ	ウィンドウ
+wiener	ウィナー
+widget	ウィジェット	Widget	ウィジット
+whisky	ウイスキー	ウィスキー
+weight	ウェイト
+wegner	ウェゲナー	ウェグナー
+weekly	ウィークリー
+watson	ワトソン
+wangel	ワンゲル
+walker	ウォーカー
+wakeup	ウェイクアップ
+waiver	ウェーバー
+waiter	ウェイター
+wagner	ワグナー
+wacoal	ワコール
+wa-pro	ワープロ
+volume	ボリューム	ヴォリューム
+volley	バレー
+visual	ビジュアル
+vision	ビジョン	視覚	ヴィジョン
+virgin	ヴァージン
+violin	ヴァイオリン
+viewer	ビューア	ビューワ	ビューアー
+victor	ビクター
+verify	ベリファイ
+ventri	ベンチュリ
+vendor	ベンダ	ヴェンダー	ベンダー
+vender	ベンダ	ベンダー
+vector	ベクタ	ベクター	ベクトル
+valley	バレー
+valken	ヴァルケン
+utopia	ユートピア
+userid	ユーザid
+upward	アップワード
+upload	アップロード
+uplink	アップリンク
+updown	アップダウン
+update	アップデイト	アップデート
+upcall	アップコール
+untied	アンタイド
+unlock	アンロック
+unload	アンロード
+united	ユナイテッド
+unisys	ユニシス
+unison	ユニゾン
+unisol	ユニソル
+unique	ユニーク
+unfair	アンフェア
+undine	ウンディーネ
+undead	アンデッド
+umount	アンマウント
+ultima	ウルティマ
+typing	タイピング
+tuxedo	タキシード
+turkey	トルコ
+turing	テューリング	チューリング
+tupple	タプル
+tunnel	トンネル
+tuning	チューニング	テューニング
+tucker	タッカー
+trunks	トランクス
+tricky	トリッキー
+trendy	トレンディー
+trendo	トレンド
+travel	トラベル	トラヴェル
+trancy	トランシー
+tracer	トレーサ
+toyota	トヨタ
+torque	トルク
+topten	トップテン
+toppan	トッパン
+topics	トピックス
+tomato	トマト
+toilet	トイレ	トイレット
+tohoku	東北大学	東北	東北地方
+toggle	トグル
+tissue	ティッシュ
+timing	タイミング
+timely	タイムリー
+tigers	タイガース
+ticket	チケット	切符
+thrill	スリル
+thread	スレッド
+thomas	トマス
+theory	セオリー
+thanks	サンクス
+tetris	テトリス
+tester	テスター
+terror	テロ
+tenten	・・・	…
+tensor	テンソル
+tennis	テニス
+tenkey	テンキー
+tenant	テナント
+tektro	テクトロ
+teflon	テフロン
+techno	テクノ
+teapot	ティーポット
+target	ターゲット
+tannin	タンニン
+tandem	タンデム
+talker	トーカ
+talent	タレント
+tactic	タクティック
+tackle	タックル
+tablet	タブレット
+tabaco	タバコ
+system	システム
+syslab	シスラボ
+synthe	シンセ
+syntax	シンタクス	シンタックス
+synaps	シナプス
+symbol	シンボル
+switch	スィッチ	スイッチ
+sweden	スウェーデン
+survey	サーベイ
+supset	⊃
+supply	サプライ
+sunnet	ＳｕｎＮｅｔ
+sunday	サンデー
+summer	サマー
+suffix	添字	拡張子	サフィックス
+suesan	スーザン
+subset	⊂	サブセット
+subnet	サブネット
+submap	サブマップ
+studio	スタジオ
+struct	構造体	ストラクト
+stroke	ストローク
+strobe	ストローブ
+stripe	ストライプ
+string	ストリング	文字列
+strike	ストライク	ストライキ
+strict	ストリクト
+stress	ストレス
+street	ストリート
+stream	ストリーム
+stones	ストーンズ
+stolon	ストロン
+stokes	ストークス
+steven	スティーブン
+stereo	ステレオ
+stepup	ステップアップ
+steady	ステディ
+stdout	標準出力
+status	ステイタス	ステータス
+static	スタティック	静的
+stance	スタンス
+stable	ステーブル
+square	■	□	スクェア
+sprite	スプライト
+spring	スプリング
+sprice	スプライス
+spread	スプレッド
+sports	スポーツ新聞	スポーツ
+sponge	スポンジ
+spline	スプライン
+splice	スプライス
+spirit	スピリット
+spiral	スパイラル
+spider	スパイダー
+speedy	スピーディ
+speech	スピーチ
+sparse	スパース
+spacer	スペーサー
+soviet	ソヴィエト	ソ連
+source	ソース
+sophia	ソフィア
+sonata	ソナタ
+solver	ソルバ
+solist	ソリスト
+sofmap	ソフマップ
+socket	ソケット
+social	ソシアル	ソーシャル	ソーシアル
+soccer	サッカー
+soarer	ソアラ
+snoopy	スヌーピー
+smooth	スムース	スムーズ
+smoker	スモーカー
+smiley	:-\)
+slowly	スローリー
+slogan	スローガン
+slider	スライダー
+slicer	スライサ
+sleigh	スレー
+sleeve	スリーヴ
+slacks	スラックス
+skolem	スコーレム
+sketch	スケッチ
+sizing	サイジング
+single	シングル
+singer	シンガー
+simple	シンプル
+simbox	シミュレーション・ボックス
+silvia	シルヴィア
+silver	シルバー
+signal	シグナル
+shower	シャワー
+shorts	ショーツ
+shirts	シャツ
+shield	シールド
+sheets	シーツ
+sheena	シーナ
+shaver	シェーバー
+shared	シェアード
+shadow	シャドウ	シャドー
+sexual	性的
+severe	シビア
+server	サーバ	サーバー	サーヴァ
+series	シリーズ
+serial	シリアル
+sensor	センサー	センサ
+senior	シニア
+seller	セラー
+select	セレクト
+seidel	ザイデル
+secure	セキュア
+sector	セクタ	セクター
+second	第2要素	秒	セカント	セカンド
+season	シーズン
+searle	サール
+search	探索	サーチ
+scroll	スクロール
+script	スクリプト
+screen	スクリーン
+scotch	Ｓｃｏｔｃｈ	スコッチ
+school	スクール
+scheme	スキーム	Scheme
+schema	スキーマ
+scaler	スカラー
+scalar	スカラー	スケーラ	スカラ
+sandal	サンダル
+samuel	サミュエル
+sample	サンプル
+salmon	サーモン
+salary	サラリー
+saison	セゾン
+sailor	セーラー
+sailer	セイラー
+sadist	嗜虐的趣味者	サディスト	加虐趣味者
+sadism	サディズム	加虐淫乱症	加虐趣味	嗜虐的趣味
+saddle	サドル
+russia	щ	н	ь	с	ю	ч	п	т	е	р	э	и	а	ё	л	ф	ш	ロシア	ц	м	д	г	к	я	в	х	й	з	ж	露西亜	о	ы	魯西亜	у	ъ	б
+runner	ランナー
+rumble	Ｒｕｍｂｌｅ	ランブル
+rubber	ラバー
+rs232c	ＲＳ−２３２Ｃ
+router	ルーター	ルータ
+rotary	ロータリー
+rosser	ロッサー
+rossby	ロスビー
+romaji	ローマ字
+roller	ローラー
+roland	ローランド
+rocket	ロケット
+rock'n	ロックン
+robust	ロバスト
+robert	ロバート	ロベルト
+rlogin	リモートログイン
+rimnet	リムネット
+ribbon	リボン
+rhythm	リズム
+revise	リヴァイズ
+review	レビュー	リヴュー	リビュー	レヴュー
+return	リターン	復帰
+retire	リタイア
+retail	リテイル
+resume	レジューム	レジュメ
+result	リザルト
+resort	リゾート
+resize	リサイズ
+rescan	リスキャン
+repost	リポスト
+report	リポート	レポート
+replay	リプレイ
+repeat	リピート	々
+rental	レンタル
+rename	リネーム
+remove	リムーブ
+remote	リモート
+remark	リマーク
+remake	リメイク	リメーク
+reload	リロード
+reject	リジェクト
+regret	リグレット
+regist	レジスト
+region	リージョン
+regexp	正規表現
+refuse	拒否
+reform	リフォーム
+refine	リファイン
+refill	リフィル
+refile	リフィル	リファイル
+reduce	リデュース
+redial	リダイアル
+record	レコード
+recall	リコール
+reboot	リブート
+readme	README
+reader	リーダー	リーダ
+raster	ラスタ	ラスター
+ranger	レンジャー
+random	ランダム
+raggae	レゲエ
+radian	ラジアン
+radial	ラジアル
+racket	ラケット
+rabbit	ラビット
+puzzle	パズル
+purple	パープル
+purist	ピュアリスト
+public	パブリック
+psycho	サイコ
+provia	プロビア
+proves	┣	├
+propto	∝
+proper	プロパー
+prompt	プロンプト
+prolog	プロログ	Ｐｒｏｌｏｇ
+progre	プログレ
+profit	利潤
+priori	プライオリ
+prince	プリンス	プリンスホテル
+priest	プリースト
+pretty	プリティ
+preset	プリセット
+prefix	プレフィクス	プレフィックス	プリフィクス
+prefab	プレハブ
+preamp	プリアンプ
+prasma	プラズマ
+prague	プラハ
+pragma	プラグマ
+powder	パウダー
+postit	ポストイット	ポウストイット
+poster	ポスタ	ポスター
+polish	ポーランド
+poling	ポーリング
+policy	ポリシー
+poland	ポーランド
+pocket	ポケット
+plugin	プラグイン
+pleats	プリーツ
+please	プリーズ
+player	プレイヤー	プレーヤー	プレイヤ	プレーヤ
+platon	プラトン
+plasma	プラズマ	プラズマ電子工学
+planet	プラネット
+pixmap	ピックスマップ
+pitinn	ＰｉｔＩｎｎ
+piston	ピストン
+pistol	ピストル
+pickup	ピックアップ
+phrase	フレーズ
+phonon	フォノン
+permil	‰
+period	Ｐｅｒｉｏｄ	ピリオド	．
+pepper	ペパー
+people	ピープル
+peking	北京
+payoff	ペイオフ
+pavlov	パヴロフ
+patron	パトロン
+patrol	パトロール
+patcar	パトカー
+pastel	パステル
+passwd	パスワード
+pascal	パスカル
+parser	パーザ	パーザー
+parsec	パーセク
+parody	パロディ	パロディー
+parity	パリティ
+parade	パレード
+palpal	パルパル
+pallet	パレット
+palace	パレス
+paging	ページング
+pagein	ページイン
+packet	パケット
+oxygen	酸素	オキシジェン
+oxford	オックスフォード
+output	出力	アウトプット
+outlaw	アウトロー
+otacky	オタッキー
+oscilo	オシロ
+origin	オリジン
+oricon	オリコン
+oregon	オレゴン
+orange	おれんじ	オレンジ
+option	オプション
+online	オンライン
+onchip	オンチップ
+offset	オフセット
+offrec	オフレコ
+office	オフィス
+octave	オクターブ
+object	オブジェクト
+number	ナンバ	番号	ナンバー
+nuance	ニュアンス
+nqueen	Ｎクィーン
+notify	ノーティファイ
+norway	ノルウェイ	ノルウェー	諾威
+norman	ノルマン
+normal	正常	ノーマル
+njigen	ｎ次元
+nipper	ニッパー
+nikoli	ニコリ
+nickel	ニッケル
+newton	ニュートン
+newage	ニューエージ
+neuron	ニューロン
+neural	ニューラル	Ｎｅｕｒａｌ
+netone	ネットワン
+netbsd	netBSD
+nepoch	NEpoch
+nemacs	Ｎｅｍａｃｓ	ＮＥｍａｃｓ	NEmacs	ｎｅｍａｃｓ
+nector	ネクター
+nebula	ネビュラ
+navier	ナビア
+nature	Ｎａｔｕｒｅ
+native	ネーティブ	ネイティブ	ネイティヴ
+narrow	ナロー
+naming	ネーミング
+mypace	マイペース
+musium	ミュージアム
+munich	ミュンヘン
+muller	ミュラー
+mugcup	マグカップ
+ms-dos	MS-DOS
+mozart	モーツァルト
+motion	モーション
+mothra	モスラ
+mother	マザー
+moscow	モスクワ
+mosaic	モザイク
+morris	モーリス
+monoid	モノイド
+monkey	モンキー
+mongol	モンゴル
+monday	月曜日
+moment	モーメント
+modulo	モジュロ
+module	モデュール	モジュール
+modify	モディファイ
+modern	モダン
+mockup	モックアップ
+mobile	モビール	モービル	モバイル
+mixing	ミキシング
+mister	ミスター
+mirror	ミラー
+milner	ミルナー
+milage	マイレッジ
+middle	ミドル
+micron	ミクロン
+mickey	ミッキー
+mexico	メキシコ
+metric	メトリック
+method	メソッド
+merrit	メリット
+mentor	メンター
+mental	メンタル
+memory	メモリー	メモリ
+member	メンバ	メンバー
+melody	メロディー	メロディ
+meitec	メイテック
+medley	メドレー
+medium	ミディアム
+mayday	メーデー
+matrix	マトリクス	行列	マトリックス
+master	マスタ	修士	マスター
+masoch	ザッヘル＝マゾッホ	マゾッホ	マゾ
+masker	マスカ	マスカー
+maskee	マスキー	マスキ
+masked	マスクト
+mascot	マスコット
+martin	マーティン
+martha	マーサ
+markup	マークアップ
+markov	マルコフ遷移	マルコフ	マルコフ過程
+market	マーケット
+marker	マーカー	マーカ
+margin	マージン
+marble	マーブル
+mapped	マップド
+manual	マニュアル
+mantle	マントル
+manner	マナー
+maniac	マニアック
+manage	マネージ
+mallow	マロウ
+makeup	メーキャップ
+majong	麻雀
+maison	メゾン
+mailer	メーラー	メイラー	メイラ
+mahler	マーラー
+magnet	マグネット
+lowtom	ロータム
+lowend	ローエンド
+lounge	ラウンジ
+lookup	ルックアップ
+lonely	ロンリィ
+london	ロンドン
+logout	ログアウト
+logoff	ログオフ
+logger	ロガー
+locker	ロッカー
+locate	ロケート
+locale	ロケール	ロカール
+loader	ローダ	ローダー
+living	リビング
+little	リトル
+litter	リッター	リットル
+listup	リストアップ
+listen	リッスン
+lisper	Ｌｉｓｐｅｒ	ｌｉｓｐｅｒ
+linker	リンカ	リンカー
+linked	リンクト
+lineup	ラインアップ
+linear	リニア
+letter	手紙	レター
+lesson	レッスン
+lennon	レノン
+length	レングス
+league	リーグ
+leader	リーダー	リーダ
+layout	レイアウト
+layman	レイマン
+lawson	ローソン	Ｌａｗｓｏｎ
+larmen	ラーメン
+laputa	ラピュタ
+laptop	ラップトップ
+lambda	λ	λ-算法	ラムダ
+kubota	クボタ
+kripke	クリプケ
+kobold	コボルド
+knight	ナイト
+kleene	クリーネ
+kittel	キッテル
+keytop	キートップ
+keypad	キーパッド
+keymap	キーマップ
+kernel	カーネル
+keeper	キーパー
+keemun	キーマン
+kalman	カルマン
+junior	ジュニア
+jungle	ジャングル
+jumper	ジャンパー	ジャンパ
+julian	ジュリアン
+joypad	ジョイパッド
+joseph	ジョーゼフ	ヨセフ
+jordan	ジョルダン
+jlatex	jLaTeX
+jitter	ジッタ	ジッター
+jigsaw	ジグソー
+jasper	碧玉
+jargon	ジャーゴン
+jacobi	ヤコビ
+jacket	ジャケット
+italic	イタリック
+italia	イタリア
+israel	イスラエル
+island	アイランド
+iosome	アイソメ
+intern	インターン
+insoft	インソフト
+inside	インサイド
+insert	インサート
+inline	インライン
+inlane	インレーン
+inkjet	インクジェット
+indian	インディアン
+indent	インデント
+income	インカム
+ince-j	日本騒音制御工学会
+impose	インポーズ
+import	インポート
+impact	インパクト
+illust	イラスト
+ignore	イグノア
+iconic	アイコン化
+icetea	アイスティ
+icebox	アイスボックス
+hyphen	ハイフン	‐
+hybrid	ハイブリッド
+hunter	ハンター
+hungup	ハングアップ
+humour	ユーモア
+hudson	ハドソン	波怒村
+horror	ホラー
+hopper	ホッパー
+homing	ホーミング
+holmes	ホームズ
+holder	ホルダ	ホルダー
+hockey	ホッケー
+hobbit	Ｈｏｂｂｉｔ	ホビット
+hitter	ヒッター
+hireso	ハイレゾ
+hilton	ヒルトン
+hilite	ハイライト
+hiking	ハイキング
+hiding	ハイディング
+hiband	ＨｉＢａｎｄ
+hexard	ヘキサード
+hetero	ヘテロジニアス	ヘテロ
+hermit	エルミット
+herman	エルマン
+helper	ヘルパー	ヘルパ
+helmet	ヘルメット
+helium	ヘリウム
+height	高さ	ハイト
+hebrew	ヘブライ
+heater	ヒーター
+health	ヘルス
+header	ヘッダー	ヘッダ
+hazard	ハザード
+hawaii	ハワイ
+harrop	ハロップ
+hardle	ハードル
+hankel	ハンケル
+hangup	ハングアップ
+hangul	ハングル
+hanger	ハンガー
+handle	ハンドル
+hammer	ハンマー	ハンマ
+hacker	ハッカー
+gustav	グスタフ
+gunner	ガンナー
+guitar	ギター
+ground	グラウンド	グランド
+groove	グルーヴ
+greece	ギリシア
+gothic	ゴシック
+gossip	ゴシップ
+gosign	ゴーサイン
+gordon	ゴードン
+golfer	ゴルファー
+golden	ゴールデン
+goedel	ゲーデル
+global	グローバル
+glider	グライダー
+giants	ジャイアンツ
+german	ドイツ
+george	ジョージ
+genome	ゲノム
+geller	ゲラー
+gather	ギャザー
+garnet	ガーネット
+garden	ガーデン
+garage	ガレージ
+gammon	ギャモン
+gamest	ゲーメスト
+gamble	ギャンブル
+galley	ゲラ
+galaxy	ギャラクシー
+gadget	ガジェット
+future	フューチャー	フューチャ
+fusion	フュージョン
+fujitv	フジテレビ
+fruits	フルーツ
+friend	フレンド
+fresco	Fresco
+french	フランス語	フレンチ
+freeze	フリーズ
+fraser	フレーザー
+france	仏蘭西	佛蘭西	フランス
+forval	フォーバル
+format	形式	フォーマット
+formal	フォーマル	形式的
+forest	フォレスト
+forcus	フォーカス
+forall	∀
+footer	フッタ
+follow	フォロウ	フォロー
+folder	フォルダー	フォルダ
+flying	フライング
+flower	フラワー
+floppy	フロッピ	フロッピィ	フロッピー
+flight	フライト
+flavor	Flavor	Ｆｌａｖｏｒ	フレイヴァー
+flange	フランジ
+fisher	フィッシャー
+finish	フィニッシュ
+finger	フィンガー
+finder	ファインダ
+filter	フィルター	フィルタ
+fillin	フィルイン
+fillet	フィレット
+filing	ファイリング
+figure	フィギュアー	フィギュア
+fiance	フィアンセ
+fender	フェンダー
+feller	フェラー
+feeder	フィーダ
+fanout	ファンアウト
+family	ファミリ	ファミリー
+factor	ファクター
+extent	エクステント
+expose	エクスポーズ
+export	エキスポート	エクスポート
+expire	エクスパイア
+expert	エキスパート
+expand	イクスパンド	拡張
+exists	∃
+exceed	エクシード
+europe	歐州	ヨーロッパ	歐羅巴	欧羅巴	欧州
+europa	歐州	歐羅巴	欧羅巴	欧州
+euclid	ユークリッド
+ethnic	エスニック
+eskimo	エスキモー
+escort	エスコート
+escher	エッシャー
+escape	エスケープ
+erotic	エロティック
+ergode	エルゴード
+equity	エクイティ
+entity	エンティティ
+englar	エングラー
+engine	エンジン
+energy	エナジー	エネルギー
+ending	エンディング
+endian	エンディアン
+encore	アンコール
+encode	エンコード	符号化
+enamel	エナメル
+enable	イネーブル
+emboss	エンボス
+emblem	エンブレム
+eleven	イレブン
+elegie	エレジー
+egoist	エゴイスト
+egoism	エゴイズム
+effect	イフェクト	エフェクト
+edward	エドワード
+editor	エディタ	エディター
+edbeta	ＥＤベータ
+dynamo	ダイナモ
+duskin	ダスキン
+duplex	デュプレクス
+dunlop	ダンロップ
+dumper	ダンパー
+dubble	ダブル
+drocer	ドローサー
+driver	ドライバー	ドライバ	ドライヴァ
+driven	ドリブン
+drawer	ドロワ
+dragon	ドラゴン
+downto	↓
+double	ダブル
+dotted	ドッティド
+dorian	ドリアン
+doping	ドーピング
+domino	ドミノ
+domani	ドマーニ
+domain	ドメイン	ドメーン
+dollar	＄	ダラー	ドル
+doctor	博士課程	博士	医者	ドクター
+diving	ダイビング	ダイヴィング
+disney	ディズニー
+direct	ダイレクト
+dipole	ダイポール
+dinner	ディナー
+dining	ダイニング
+digest	ダイジェスト
+diesel	ディーゼル
+dialup	ダイアルアップ
+dialog	ダイアログ
+dialin	ダイアルイン
+device	デヴァイス	デバイス
+deutch	ドイツ
+detect	発見する	ディテクト
+detach	デタッチ
+design	デザイン
+desert	デザート
+depend	ディペンド
+depart	デパート
+denver	デンヴァー
+denied	拒否された
+demand	デマンド
+demacs	Ｄｅｍａｃｓ
+deluxe	デラックス
+delete	デリート
+define	デファイン
+defect	ディフェクト
+decres	decrescendo	デクレッシェンド
+decode	復号化	デコード
+deamon	デーモン
+dealer	ディーラー	ディーラ
+dasein	ダーザイン
+darwin	ダーウィン
+dancer	ダンサー
+damper	ダンパー
+damage	ダメージ
+dagger	ダガー	‡	†
+daemon	デーモン
+cymbal	シンバル
+cyclic	サイクリック
+cyborg	サイボーグ
+cutter	カッター
+cutoff	カットオフ
+custom	カスタム
+cursor	カーサ	カーソル
+curses	カーセス
+cupple	カップル
+cruise	クルーズ
+credit	クレジット
+create	クリエイト	クリエート
+crayon	クレヨン
+course	コース
+cource	コース
+coupon	クーポン
+couple	カップル
+coucou	クク
+cosmos	コスモス
+cosine	コサイン
+corpus	コーパス
+corona	コロナ
+corner	┏	┗	┘	┐	└	┛	┌	コーナー	┓
+coprod	Ц
+copper	カッパー
+copier	コピア
+cooler	クーラー
+cookie	クッキー
+contac	コンタック
+config	コンフィギュレーション	コンフィグ
+condor	コンドル
+comtec	コムテック
+common	共通	コモン
+commit	コミット
+comics	コミックス
+comedy	喜劇	コメディー
+column	コラム	カラム
+colour	カラー
+coffee	珈琲	コーヒー
+coding	コーディング
+codeka	コード化
+clutch	クラッチ
+closet	クローゼット
+closer	クローザ
+closed	クローズド
+clinic	クリニック
+climax	クライマックス
+client	クライアント
+clause	クローズ
+circus	サーカス
+circle	●	サークル	◎	○
+cinema	シネマ
+church	チャーチ
+christ	キリスト	クライスト
+chorus	コーラス
+chopin	ショパン
+chonbo	チョンボ
+chombo	チョンボ
+choice	チョイス
+cherry	チェリー
+cheque	チェック
+cheese	チーズ
+charge	チャージ
+change	チェンジ
+chance	チャンス
+ceylon	セイロン
+centre	センター
+center	センター	センタ
+cellar	セルラー
+celica	セリカ
+celery	セロリ
+casual	カジュアル
+castle	キャッスル
+caster	キャスター
+casino	カジノ
+carter	カーター
+carrot	キャロット
+carpet	カーペット
+carlos	カルロス
+carina	カリーナ
+career	キャリア
+carbon	カーボン
+capcom	カプコン
+canvas	キャンバス
+cannon	キャノン
+candle	キャンドル
+cancel	キャンセル
+canada	カナダ
+campus	キャンパス
+camera	カメラ
+camber	キャンバー
+calpis	カルピス
+callus	カルス
+caller	呼出し側
+calbee	カルビー
+caesar	シーザー	カエサル
+caddie	キャディ	キャディー
+bypath	バイパス
+bypass	バイパス
+buzzer	ブザー
+button	ボタン
+butter	バター
+buster	バスター
+burner	バーナー
+burger	バーガー
+bureau	ビューロー
+bundle	バンドル
+bumper	バンパー
+bugfix	バグフィクス	バグフィックス
+buffle	バッフル
+buffer	作業域	バッファ	バッファー
+bucket	バケット	バケツ
+bubbly	バブリー
+bubble	バブル
+browse	ブラウズ
+bronze	ブロンズ
+bridge	ブリッジ
+bridal	ブライダル
+breath	ブレス
+brazil	ブラジル
+brandy	ブランデー
+branch	ブランチ
+brahms	ブラームス
+boyish	ボーイッシュ
+boxing	ボクシング
+bottom	⊥	ボトム	底	下
+bottle	ボトル
+boston	ボストン大学	ボストン
+border	ボーダー
+borden	ボーデン
+booker	ブッカー
+boogie	ブギー	ブギ
+bonnet	ボンネット
+bomber	ボンバー
+boiler	ボイラー	ボイラ
+boiled	ボイルド
+bochum	ボッフム
+blouse	ブラウス
+bitnet	BITNET	ビットネット
+bitmap	ビットマップ
+bishop	ビショップ
+binder	バインダ
+binary	バイナリ	バイナリー
+bikini	ビキニ
+bigtex	BigTeX
+bigmac	ビッグマック
+bibtex	BibTeX
+bianca	ビアンカ
+bezier	ベジエ
+better	ベター
+bessel	ベッセル
+berlin	ベルリン
+benson	ベンソン
+bender	ベンダ	ベンダー
+behind	ビハインド
+beauty	ビューティ
+beaker	ビーカー
+beagle	ビーグル
+bazaar	バザール
+battle	バトル
+batter	バッター
+batman	バットマン
+basket	バスケット
+barter	バーター
+barron	バロン
+barium	バリウム
+barber	バーバー
+banner	バナー
+banana	バナナ
+ballet	バレエ
+ballad	バラード
+bagdad	バグダッド
+baffle	バッフル	バフル
+backup	バックアップ
+automa	オートマ
+austin	オースチン
+attack	アタック
+attach	アタッチ
+atopie	アトピー
+atomic	アトミック
+atkins	アトキンス
+athome	アットホーム
+athena	Ａｔｈｅｎａ	Athena
+assign	アサイン	割り当て
+assert	アサート
+aspect	アスペクト
+asimov	アシモフ	アジモフ
+artist	アーティスト
+around	アラウンド
+arcade	アーケード
+arbeit	バイト	アルバイト
+arabia	アラビア
+approx	〜
+applet	アプレット
+append	アペンド
+appeal	アピール
+apollo	アポロ
+answer	アンサ
+anklet	アンクレット
+anketo	アンケート
+anchor	アンカー
+analog	アナログ
+amount	アマウント
+amoeba	アメーバ
+amazon	アマゾン
+alpine	アルパイン
+almond	アーモンド
+allied	アライド
+alfred	アルフレッド
+alcove	アルコーブ
+albeit	アルバイト
+aircon	エアコン
+agenda	アジェンダ	会議事項
+africa	アフリカ
+affine	アフィン
+advise	アドバイス
+advice	アドバイス	アドヴァイス
+actual	アクチュアル
+active	アクティヴ	アクティブ
+action	アクション
+access	アクセス
+accept	アクセプト
+accent	アクセント
+abroad	ＡＢｒｏａｄ
+abgata	ＡＢ型
+Yapoos	ヤプーズ
+Watson	ワトソン
+Unisys	ユニシス
+Turing	チューリング
+Sweden	スウェーデン
+Suesan	スーザン
+Square	□
+Sheena	シーナ
+Scotch	スコッチ
+Sappho	サッフォー
+Russia	Щ	Д	Ы	Ф	Ю	Ч	Р	Е	Ь	Э	Ц	О	Г	Х	Ё	А	С	К	Л	Н	П	М	Я	У	И	Ъ	Ш	З	Й	В	Ж	Б	Т
+Robert	ロバート	ロベルト
+Norway	ノルウェー
+Norman	ノルマン
+Neuman	ヤーノッシュ・フォン・ノイマン	フォン・ノイマン	ノイマン
+Mickey	ミッキー
+Martin	マーティン
+Martha	マーサ
+London	ロンドン
+Lolita	ロリータ
+Lambda	λ	Λ
+Julian	ジュリアン
+Indian	インディアン
+Hudson	ハドソン
+Giants	ジャイアンツ
+George	ジョージ
+Europa	ヨーロッパ
+Eskimo	エスキモー
+Edward	エドワード
+Disney	ディズニー
+Dagger	ダガー
+Claire	クレール
+Christ	キリスト
+Chanel	シャネル
+Carter	カーター
+Calbee	カルビー
+Caesar	シーザー	カエサル
+Bezier	ベジエ
+Barium	バリウム
+Audrey	オードリー
+Arbeit	アルバイト
+zoomout	ズームアウト
+zooming	ズーミング
+zapping	ザッピング
+zabadak	ザバダック
+xwindow	Ｘウィンドウ
+writing	ライティング
+wrapper	ラッパー
+working	ワーキング
+wiredor	ワイヤードオア
+winterp	WINTERP\(Widget Interpreter\)
+winning	ウィニング
+windows	ウインドウズ	Windows
+whistle	ホイッスル
+whiskey	ウヰスキー	ウィスキー
+western	ウェスタン
+wenders	ヴェンダース
+weekday	ウィークデイ
+wedding	ウェディング
+webster	ウェブスター
+wavelet	ウェーブレット
+washlet	ワォシュレット
+warning	警告	ワーニング	ウォーニング
+walkman	ウォークマン
+waiting	ウェイティング
+waikiki	ワイキキ
+voltage	ボルテージ
+voicing	ヴォイシング
+vocoder	ボコーダ
+vjebeta	VJE-β
+vitamin	ビタミン
+virtual	ヴァーチャル	仮想	バーチャル
+vietnam	ベトナム
+vibrato	ビブラート
+veteran	ベテラン	ヴェテラン
+version	バージョン	ヴァージョン	版
+verbose	冗長な
+venture	ベンチャー	ベンチャ
+variety	ヴァリエティ	バラエティ	ヴァラエティ
+vanvogt	ヴァン=ヴォークト
+vanilla	バニラ
+vampire	バンパイヤ
+vaccine	ワクチン
+utility	ユーティリティー	ユーティリティ
+upsilon	υ
+uplight	アップライト
+upgrade	アップグレード
+updater	アップデータ
+uparrow	↑
+unparse	アンパーズ
+unmount	アンマウント
+unitary	ユニタリ
+unimaga	UNIX Magazine	ユニマガ
+uniform	ユニフォーム
+unifier	ユニファイア
+unicorn	ユニコーン
+unhappy	アンハッピー
+twisted	ツイステッド
+twinbee	ツインビー
+tvtokyo	テレビ東京
+turbine	タービン
+tugjump	タグジャンプ
+tshirts	Ｔシャツ
+trumpet	トランペット
+trouble	トラブル
+trivial	トリビアル
+tritech	トライテック
+trigger	トリガー	トリガ
+transit	トランジット
+trainer	トレーナ	トレイナ	トレイナー
+traffic	トラフィック	トラヒック
+trading	トレーディング
+tractor	トラクタ
+tracing	トレーシング
+touring	ツーリング
+toronto	トロント大学
+toprank	トップランク
+topping	トッピング
+topnote	トップノート
+topdown	トップダウン
+toolkit	ツールキット
+toolbar	ツールバー
+tonight	トゥナイト
+tobacco	タバコ
+toaster	トースタ
+timeout	タイムアウト
+tiffany	ティファニー
+tifanny	ティファニー
+thunder	サンダー
+through	スルー
+thomson	トムソン
+theater	シアター
+texture	テクスチャ	テキスチャ
+textual	テクスチュアル
+texinfo	Texinfo
+testset	テストセット
+testing	テスティング
+tension	テンション
+telesis	テレシス
+telecom	テレコム
+teenage	ティーンエイジ
+technic	テクニック
+tasking	タスキング
+tapping	タッピング
+talking	トーキング
+t-shirt	Ｔシャツ
+systems	システムズ
+system5	システム５
+synergy	シナジー
+synapse	シナプス
+symlink	シンボリックリンク
+sweeper	スイーパー
+sweater	セーター
+swapper	スワッパ
+swapout	スワップアウト
+suspend	サスペンド
+surface	サーフェイス	サーフェス
+support	サポート
+sunview	ＳｕｎＶｉｅｗ
+suntory	サントリー
+sunkist	サンキスト
+summary	サマリ
+suggest	サジェスト
+subtype	サブタイプ
+subnote	サブノート
+submenu	サブメニュー
+subject	サブジェクト
+subgoal	サブゴール
+sturges	スタージェス
+studium	スタジアム
+strings	ストリングス
+storage	ストーレジ	ストレージ
+stopper	ストッパー
+stopbit	ストップビット
+sticker	ステッカー
+stephen	スティーブン
+steivie	スティービー
+station	ステーション	ステイション
+startup	スタートアップ
+starter	スターター
+squeeze	スクイズ
+spooler	スプーラ
+sponsor	スポンサー
+spoiler	スポイラー
+spirits	スピリッツ
+spinics	スピニクス
+spindle	スピンドル
+spencer	スペンサー
+speedup	スピードアップ
+spector	スペクトル
+special	特殊形式	スペシャリティ	スペシャル
+speaker	スピーカ	スピーカー
+spanish	スペイン語
+spacing	スペーシング
+sorting	ソーティング
+soprano	ソプラノ
+soliton	ソリトン
+solaris	Solaris	ソラリス	Ｓｏｌａｒｉｓ
+society	ソサエティー	ソサエティ
+sneaker	スニーカー
+slipper	スリッパ
+sliding	スライディング
+slicing	スライシング
+slender	スレンダー
+skyline	スカイライン
+skylark	すかいら〜く
+skiware	スキーウェア
+skelton	スケルトン
+skating	スケーティング
+singles	シングルズ
+silicon	シリコン
+sigmoid	シグモイド関数	シグモイド
+shuttle	シャトル
+shutter	シャッター
+shuffle	シャッフル	シャフル
+shoebox	シューボックス
+shining	シャイニング
+shikaku	■	□
+sherbet	シャーベット
+shelter	シェルター
+shattle	シャトル
+sharing	シェアリング
+shaping	シェイピング
+shapeup	シェイプアップ
+shannon	シャノン
+shanghi	シャンハイ	上海
+shampoo	シャンプー
+shading	シェーディング
+setting	セッティング
+session	セッション
+service	サーヴィス	サービス
+serious	シリアス
+sequent	シークエント	シーケント
+sensing	センシング
+seminor	セミナー
+seminar	セミナー	ゼミ	セミナ
+sellers	セラーズ
+seismic	サイスミック
+segment	セグメント
+section	§	セクション
+seattle	シアトル
+seafood	シーフード
+scratch	スクラッチ
+science	サイエンス
+scheffe	シェッフェ
+scanner	スキャナ	スキャナー
+scandal	スキャンダル
+scaling	スケーリング
+sausage	ソーセージ
+saphire	サファイア	青玉
+santafe	サンタフェ
+sankaku	▲	△
+sampler	サンプラー
+russian	ロシア語
+russell	ラッセル
+runtime	ランタイム
+running	ランニング
+ruleset	ルールセット
+royalty	ローヤリティ
+routing	ルーティング
+routine	ルーティン	ルーチン
+romania	ルーマニア
+romance	ロマンス
+rolling	ローリング
+roaster	ロースター
+ro-maji	ローマ字
+rimshot	リムショット
+riemann	リーマン
+richard	リチャード
+rewrite	リライト
+revival	リヴァイヴァル	リバイバル
+reverse	リバース
+retract	レトラクト
+restore	リストア
+restart	リスタート
+resolve	リゾルブ
+reserve	リザーブ
+requiem	レクイエム
+request	要求	リクエスト
+replace	リプレース
+renewal	リニューアル
+remocon	リモコン
+release	リリース
+regular	レギュラー
+refresh	リフレシュ	リフレッシュ
+refrain	リフレイン
+referee	レフェリー
+reducer	レデューサ
+recycle	リサイクル
+recruit	リクルート
+recover	リカバー
+receive	レシーブ
+receipt	レシート
+rebuild	リビルド
+rebound	リバウンド
+rebirth	リバース
+rebecca	レベッカ
+reality	リアリティ
+reading	リーディング
+readers	リーダーズ
+ranking	ランキング
+ragtime	ラグタイム
+quartet	カルテット
+quality	クオリティ
+pyramid	ピラミッド
+puncher	パンチャー
+pumpkin	南瓜	パンプキン
+pumping	パンピング
+pudding	プリン
+publish	パブリッシュ
+prowres	プロレス
+proteon	プロテオン	Ｐｒｏｔｅｏｎ
+protein	プロテイン	タンパク質
+protect	プロテクト
+propose	プロポーズ
+promote	プロモート
+project	プロジェクト
+program	プログラム	算譜
+profile	プロファイル	プロフィール
+product	プロダクト
+produce	プロデュース
+procyon	プロキオン
+process	プロセス	処理
+private	プライベート
+privacy	プライバシー	プライヴァシー
+printer	プリンタ	プリンター
+primary	プライマリ
+preview	プレビュー	プレヴュー
+present	プレゼント
+prepaid	プリペイド
+prelude	プレリュード
+preload	プレロード	プリロード
+predump	プリダンプ
+powerup	パワーアップ
+posting	ポスティング
+postdoc	ポストドク
+porting	ポーティング
+popular	ポピュラー
+polymer	ポリマー	重合体
+polygon	ポリゴン
+polydor	ポリドール
+polling	ポーリング
+poisson	ポアソン
+pointer	ポインタ	ポインター
+plotter	プロッタ	プロッター
+playing	プレイング	プレーイング
+playboy	プレイボーイ
+plastic	プラスチック
+planter	プランター
+planner	プランナー	プランナ
+planing	プランニング
+pitcher	ピッチャー
+pioneer	パイオニア
+pinball	ピンボール
+picture	ピクチャー
+picking	ピッキング
+pianist	ピアニスト
+phoenix	フェニックス
+phasing	フェイズィング
+permill	‰
+perfect	パーフェクト
+percent	％	パーセント
+pentium	ペンティアム	Pentium
+penrose	ペンローズ
+pennant	ペナント
+penname	ペンネーム
+penguin	ペンギン
+pending	ペンディング
+pendant	ペンダント
+penalty	ペナルティ	ペナルティー
+pegasus	ペガサス
+peanuts	ピーナッツ
+pcmodel	ＰＣモデル
+payload	ペイロード
+pattern	パタン	パターン
+pastral	パストラル
+passive	パッシブ
+passing	パッシング
+pasocon	パソコン
+pasocom	パーソナルコンピュータ	パソコン
+partner	パートナ	パートナー
+partial	∂	パーシャル
+parsley	パセリ
+parsing	パージング
+parking	パーキング
+paradox	パラドクス	パラドックス
+panning	パンニング
+panflet	パンフレット
+paneler	パネラー
+pandora	パンドーラー	パンドラ
+palmtop	パームトップ
+palette	パレット
+pajamas	パジャマ
+pageout	ページアウト
+pageone	ページワン
+padding	パディング	パッディング
+packing	パッキング
+package	パッケージ
+pacific	パシフィック
+overlay	オーバレイ
+overlap	オーバーラップ	オーバラップ
+ovation	オヴェイション
+outline	アウトライン
+outlane	アウトレーン
+outdoor	アウトドア
+othello	オセロ
+orifice	オリフィス
+orchard	オーチャード
+options	オプションズ
+optical	オプティカル
+operant	オペラント
+operand	オペランド
+opening	オープニング
+opecode	オペコード
+ontario	オンタリオ
+onboard	オンボード
+omnibus	オムニバス
+omicron	ο
+olympus	オリンパス
+olympic	オリンピック
+olympas	オリンパス
+offreco	オフレコ
+offline	オフライン
+offense	オフェンス
+odyssey	オデュッセイア	オデッセイ
+octopus	オクトパス
+ocarina	オカリナ
+ocalina	オカリナ
+nyquist	ナイキスト
+notouch	ノータッチ
+nonbank	ノンバンク
+nomadic	ノマディック
+nobrand	ノーブランド
+nighter	ナイター
+nielsen	ニールセン
+newyork	ニューヨーク
+newwave	ニューウェーヴ
+newtech	ニューテック
+neutral	ニュートラル
+neumann	ノイマン型	ノイマン
+network	ネットワーク
+netware	NetWare	ネットウェア
+nettalk	ＮＥＴｔａｌｋ
+netnews	ネットニュース
+netmask	ネットマスク
+netlist	ネットリスト
+nesting	ネスティング
+nervous	ナーバス
+necktie	ネクタイ
+natural	ナチュラル
+mystery	ミステリ	ミステリー
+mutable	ミュータブル
+musical	ミュージカル
+muffler	マフラー
+mounter	マウンタ
+motrola	モトローラ	Ｍｏｔｏｒｏｌａ
+morning	モーニング
+moretti	モレッティ
+montage	モンタージュ
+monster	モンスター
+monomer	単量体
+monitor	モニター	モニタ
+moduler	モジュラー
+modular	モジュラ	モジュラー
+mistery	ミステリー
+mission	ミッション
+missile	ミサイル
+misshit	ミスヒット
+miscast	ミスキャスト
+miranda	ミランダ
+miracle	ミラクル
+minutia	マニューシャ
+minolta	ミノルタ
+minimum	最小	最小値	ミニマム
+minicom	ミニコン
+mineral	ミネラル
+milktea	ミルクティ
+mileage	マイレッジ
+migrate	マイグレイト	マイグレート	移送
+michael	マイケル
+metrics	メトリックス
+metalic	メタリック
+message	メッセージ
+mermaid	マーメイド
+mercury	マーキュリー	メルクリウス
+menubar	メニューバー	メニュー・バー
+menthol	メンソール	薄荷脳
+members	メンバーズ
+melodia	メロディア
+meeting	ミーティング	会議
+medical	メディカル
+maximum	最大値	最大
+matroid	マトロイド
+massage	マッサージ
+masking	マスキング
+mascara	マスカラ
+maryann	メリーアン	メアリーアン
+marking	マーキング
+marcica	マーシカ
+mapping	マッピング
+mansion	マンション
+manshon	マンション
+manager	マネージャー	マネジャ	マネージャ
+mailing	メイリング	メーリング
+mailbox	メールボックス
+mahjong	マージャン
+magzine	マガジン
+magical	マジカル
+magenta	マゼンタ
+madonna	マドンナ
+macross	マクロス
+machine	マシーン	計算機	マシン
+loyalty	ローヤリティ
+lowpass	ローパス
+logical	ロジカル
+logging	ログィング	ロギング
+logfile	ログファイル
+lockout	ロックアウト
+locking	ロッキング
+locator	ロケータ
+loading	ローディング
+lithium	リチウム
+literal	リテラル
+listing	リスティング
+listbox	リストボックス
+linkage	リンケージ
+lingual	リンガル
+limiter	リミッター	リミッタ
+limited	リミテッド
+lighter	ライター
+license	ライセンス
+licence	ライセンス
+library	ライブラリ	ライブラリー
+liberty	リバティ
+lexical	レキシカル
+lespaul	レスポール
+leghorn	レグホーン
+lecture	レクチャ	レクチャー
+leaving	リービング
+leather	レザー
+leaison	リエゾン
+layered	レイヤード
+laydock	レイドック
+laundry	ランドリー
+lattice	ラチス	ラティス
+latency	レイテンシ	レイテンシー
+lasalle	ラサール	ラ・サール
+laplace	ラプラス
+lantern	ランタン
+landing	ランディング
+lambert	ランバート
+knuckle	ナックル
+knowhow	ノウハウ
+kitchen	キッチン
+kingdom	キングダム
+kickoff	キックオフ
+keyword	キーワード
+keycode	キーコード
+keybind	キーバインド
+kenwood	ケンウッド	Ｋｅｎｗｏｏｄ
+karaoke	カラオケ
+kanakan	仮名漢字変換
+justify	ジャスティファイ
+jupiter	ジュピター
+jukebox	ジュークボックス
+jperiod	．
+journal	ジャーナル
+jogging	ジョギング
+jenkins	ジェンキンズ
+jbibtex	jBibTeX
+jazzfes	ジャズフェス
+jarrett	ジャレット
+ireland	アイルランド
+invoice	インボイス	インヴォイス
+inverse	インバース	インヴァース
+invalid	無効な	インバリッド	誤った
+integra	インテグラ
+integer	整数	インテジャ
+instant	インスタント
+install	インストール
+insider	インサイダー
+inpulse	インパルス
+initial	イニシャル
+inhouse	インハウス
+include	∋	∈	インクルード	epsilon
+impulse	インパルス
+implies	ならば	→	⇒	⊃
+implied	⊂
+imaging	イメージング
+iconify	アイコニファイ
+hunting	ハンティング
+humming	ハミング
+huffman	ハフマン
+hubbard	ハバード
+howling	ハウリング
+hospice	ホスピス
+hopkins	ホプキンス
+homerun	ホームラン
+homedir	ホームディレクトリ
+holland	オランダ
+holiday	ホリデイ	ホリデー
+history	ヒストリー	ヒストリ
+hilight	ハイライト
+hilevel	ハイレベル
+hilbert	ヒルベルト
+highway	ハイウェイ
+highend	ハイエンド
+heroism	ヒロイズム
+heroine	ヒロイン
+helical	ヘリカル
+heights	ハイツ
+hearing	ヒアリング
+healthy	ヘルシー
+heading	ヘッディング
+harvard	ハーバード
+harrier	ハリヤー
+harmony	ハーモニー
+hanning	ハニング
+handoff	ハンドオフ
+handler	ハンドラ
+hamming	ハミング
+hamburg	ハンブルグ
+hacking	ハッキング
+growing	グローイング
+gripper	グリッパー
+griffin	グリフィン
+grayout	グレイアウト
+grapple	グラップル
+graphic	グラフィック	グラフィク
+grammar	グラマー
+gradius	グラディウス
+gradeup	グレイドアップ	グレードアップ
+gourmet	グルメ
+goddard	ゴッダード
+giraffu	ジラフ
+gesture	ジェスチャー
+gestalt	ゲシュタルト
+germany	ドイツ
+georgia	ジョージア
+gentzen	ゲンツェン
+genetic	ジェネティック
+generic	ジェネリック
+general	ジェネラル
+gateway	ゲートウェイ
+garbage	ガーベッジ	ガベージ	ガーベージ
+gambler	ギャンブラー
+gallery	ギャラリー
+gacchan	ガッチャン
+fujitsu	富士通
+franken	フランケン
+fractal	フラクタル
+fourier	フーリエ
+forword	フォワード
+forward	フォワード
+formula	論理式
+formant	ホルマント
+fontset	フォントセット
+folding	フォールディング
+foghorn	フォグホーン
+flutter	フラッタ
+florida	フロリダ
+flipper	フリッパー
+flatter	フラッタ
+fitting	フィッティング
+fitness	フィットネス
+finland	フィンランド
+finesse	フィネス
+finance	ファイナンス
+fileset	ファイルセット
+fighter	ファイター
+fiction	フィクション
+fiancee	フィアンセ
+feynman	ファインマン
+festiva	フェスティヴァ
+ferrite	フェライト
+feeling	フィーリング
+feature	フィーチャー	フィーチャ
+fashion	ファッション
+faraday	ファラデー
+fantasy	ファンタジー
+fanclub	ファンクラブ
+famicon	ファミコン
+famicom	ファミコン
+failure	フェイリュア
+eyebrow	アイブロウ
+extract	エキス
+express	エクスプレス
+execute	エグゼキュート
+excelan	エクセラン
+evening	イブニング
+essence	エッセンス
+erector	エレクター
+epsilon	∋	∈	イプシロン	ε
+episode	エピソード
+entropy	エントロピー
+enqueue	エンキュー
+enquete	アンケート
+enhance	エンハンス
+english	イングリッシュ	英吉利	イギリス
+england	イングランド	イギリス
+enduser	エンドユーザ
+endless	エンドレス
+encount	エンカウント
+encoder	エンコーダー	エンコーダ
+emurate	エミュレート
+emulate	エミュレート	イミュレート
+emotion	エモーション
+element	エレメント
+elegant	エレガント
+electro	エレクトロ
+effects	エフェクツ
+edition	エディション
+economy	エコノミー
+ecology	エコロジー
+earring	イアリング
+dynamic	ダイナミック
+dungeon	ダンジョン
+duchamp	デュシャン
+dubbing	ダビング
+drunker	ドランカー
+drumset	ドラムセット
+drummer	ドラマー
+dribble	ドリブル
+drawing	ドローイング
+drawers	ズロース
+drastic	ドラスティック
+dracula	ドラキュラ
+doppler	ドップラ
+dolphin	ドルフィン	イルカ
+docment	ドキュメント
+docking	ドッキング
+display	ディスプレー	ディスプレイ
+diskman	ディスクマン
+discuss	ディスカス
+discman	ディスクマン
+discard	ディスカード
+disable	ディゼーブル	ディスエーブル
+dilemma	ジレンマ
+digital	デジタル	ディジタル	Digital
+diatone	ダイアトーン
+diamond	◆	ダイヤモンド	ダイアモンド	ダイヤ	◇	金剛石
+dialing	ダイアリング
+diagram	ダイアグラム
+develop	デベロップ
+deutsch	ドイツ語	ドイツ
+detroit	デトロイト
+destroy	デストロイ	破壊する
+desktop	デスクトップ
+derived	デライブド
+dequeue	デキュー
+deposit	デポジット
+denmark	デンマーク
+demerit	デメリット
+delayed	ディレイド
+degrade	デグレード
+defence	ディフェンス
+default	デフォルト	ディフォールト	ディフォルト	デファルト	省略
+defacto	デファクト
+decoder	デコーダ	デコーダー
+decimal	十進数
+debussy	ドビュッシー
+ddagger	‡
+dcircle	◎
+davinci	ダ・ヴィンチ	ダヴィンチ
+dataset	データセット
+dancing	ダンシング
+cutting	カッティング
+cuticle	クチクラ
+cushion	クッション
+curtain	カーテン
+current	カレント
+currect	カレント
+curling	カーリング
+culture	カルチャー
+crystal	クリスタル	水晶
+cruiser	クルーザー
+cripper	クリッパー
+crimson	クリムゾン
+cracker	クラッカー
+country	カントリー
+counter	カウンタ	カウンター
+correct	正確な
+corolla	カローラ
+cornell	コーネル
+copymap	コピーマップ
+cooling	クーリング
+coolbox	クールボックス
+cooking	クッキング
+convert	変換	コンバート	コンヴァート
+conveni	コンビニ
+control	制御	コントロール
+contour	コンター	コンタ
+context	コンテキスト	コンテクスト
+contest	コンテスト
+content	コンテント
+contact	コンタクト
+consume	コンシューム
+consult	コンサルト
+console	コンソール
+consent	コンセント
+connect	コネクト	接続
+concise	簡明な
+concert	コンサート
+concept	コンセプト
+compose	コンポーズ
+complex	コンプレックス
+compile	コンパイル
+compati	コンパチ
+compact	コンパクト
+comment	コメント
+command	コマンド
+comiket	コミ	コミケ
+comical	コミカル
+college	カレッジ
+collect	コレクト
+codeset	コードセット
+coconut	ココナツ
+cockpit	コックピット
+cocaine	コカイン
+coaster	コースター
+cmdline	コマンドライン
+cluster	クラスター	クラスタ
+closure	閉包	クロージャ
+closeup	クローズアップ
+cleanup	クリーンアップ
+cleaner	クリーナー
+classic	クラシック
+claidha	クレイダ
+citizen	シチズン
+circuit	サーキット
+chopper	チョッパー
+choking	チョーキング
+chinese	チャイニーズ
+chimera	キメラ	キマイラ
+chiller	チラー
+chicken	チキン
+chicago	シカゴ
+checkin	チェック・イン	チェックイン
+checker	チェッカー	チェッカ
+cheaper	チーパー
+chassis	シャーシ
+charter	チャーター	チャータ
+charlie	チャーリー
+charity	チャリティ
+charger	チャージャー
+chapter	チャプター
+chaotic	カオス的
+channel	チャネル	チャンネル
+changer	チェンジャー
+chamber	チャンバー
+chalaza	カラザ
+ceramic	セラミック
+cepheus	ケフェウス
+century	センチュリー
+catcher	キャッチャー
+catalog	カタログ
+casette	カセット
+cascade	カスケード
+carrier	キャリア
+carlton	カールトン
+caramel	キャラメル
+capture	キャプチャー	キャプチャ	取込
+caption	キャプション
+captain	キャプテン
+capsule	カプセル
+capital	キャピタル
+canopus	カノープス
+canasta	カナスタ
+caltech	カルテック
+calorie	カロリー
+callose	カロース
+caldina	カルディナ
+cadence	ケイデンス
+caching	キャッシング
+cabinet	キャビネット
+cabbage	キャベツ
+cabaret	キャバレー
+buncher	バンチャ
+builtin	ビルトイン
+buildin	ビルドイン
+builder	ビルダー	ビルダ
+buglist	バグリスト
+bubbule	バブル
+brushup	ブラッシュアップ
+browzer	ブラウザ
+browser	ブラウザ
+brouter	ブルータ
+brother	ブラザー
+british	イギリス
+breaker	ブレーカ	ブレーカー
+bracket	ブラケット
+bowling	ボーリング	ボウリング
+bourbon	バーボン
+bouquet	ブーケ
+borland	ボーランド
+boolean	ブーリアン	ブーリアン関数
+booking	ブッキング
+bondage	ボンデージ
+bodycon	ボディコン
+blushup	ブラッシュアップ
+blueday	ブルーデイ
+blowser	ブラウザ
+blaster	ブラスター
+bizerre	ビザール
+biotope	ビオトープ
+binoche	ビノシュ
+binding	ビンディング	バインディング
+bigblue	ビッグブルー
+bigband	ビッグバンド
+bidding	ビディング
+bestten	ベストテン
+berkley	バークレイ	バークレー
+bending	ベンディング
+bellken	Ｂｅｌｌ研
+belgium	ベルギー
+beerken	ビール券
+because	∵
+beatles	ビートルズ
+batting	バッティング
+battery	バッテリ	バッテリー
+bassoon	バスーン
+bassist	ベーシスト
+barrior	バリア
+barrier	バリア
+baroque	バロック
+bargain	バーゲン
+barcode	バーコード
+barbara	バーバラ
+banking	バンキング
+bangkok	バンコク
+bandman	バンドマン
+bandana	バンダナ
+balloon	バルーン
+ballard	バラード
+balcony	バルコニー
+balance	バランス
+backlog	バックログ
+backing	バッキング
+backend	バックエンド
+backano	バックアノ
+average	アベレージ
+auction	オークション
+atelier	アトリエ
+asphalt	アスファルト
+article	アーティクル
+arrange	アレンジ
+arpegio	アルペジオ
+archive	アーカイヴ	アーカイブ
+arbitor	アービター
+arbiter	アービタ
+appoint	アポイント
+apparel	アパレル
+antique	アンティーク
+antenna	アンテナ
+anritsu	アンリツ
+anntena	アンテナ
+animism	アニミズム
+angeles	エンジェルス
+anarchy	アナーキー
+analyst	アナリスト
+analogy	アナロジー
+anaheim	アナハイム
+amnesty	アムネスティ
+ameteur	アマチュア
+america	亜米利加	アメリカ
+amenity	アメニティ
+amateur	アマチュア
+amadeus	アマデウス
+allpass	オールパス
+allergy	アレルギー	アレルギ
+allegro	アレグロ
+allback	オールバック
+alcohol	アルコール
+airmail	エアメール
+advisor	アドヴァイザー
+adviser	アドバイザ	アドバイザー
+advance	アドバンス
+adopter	アダプタ
+address	アドレス
+adaptor	アダプタ
+adapter	アダプター	アダプタ
+account	アカウント
+academy	アカデミー
+ability	アビリティ
+Zoisite	ゾイサイト
+Vietnam	ベトナム
+Upsilon	Υ
+Toronto	トロント
+Ritchie	リッチー
+Richard	リチャード
+Philips	フィリップス
+Peanuts	ピーナッツ
+Omicron	Ο
+Olympic	オリンピック
+Minerva	ミネルヴァ
+Michael	マイケル
+Mercury	マーキュリー	メルクリウス
+Marcica	マーシカ
+Kunzite	クンツァイト
+Jupiter	ジュピター
+Jadeite	ジェダイト
+Hungary	ハンガリー
+Harvard	ハーバード
+Goddard	ゴダール
+Giraffu	ジラフ
+Franken	フランケン
+Fourier	フーリエ
+Epsilon	Ε
+Diamond	◇
+Claudel	クローデル
+Charlie	チャーリー
+Camille	カミーユ
+Barbara	バーバラ
+America	アメリカ
+wrapping	ラッピング
+workshop	ワークショップ
+workload	ワークロード
+workflow	ワークフロー
+workbook	ワークブック
+workarea	ワークエリア
+wizardry	ウイザードリィ	ウィザードリィ
+wishbone	ウィッシュボーン
+wireless	ワイヤレス
+wildcard	ワイルドカード
+wideshow	ワイドショウ
+whiteday	ホワイトデイ
+wellness	ウェルネス
+weakning	水増し
+watching	ウォッチング
+watchdog	ウォッチドッグ
+waitress	ウェイトレス
+vonnegut	ヴォネガット
+vocalist	ヴォーカリスト
+vitamine	ビタミン
+vitality	ヴァイタリティ	バイタリティ
+violence	バイオレンス
+viewport	ビューポート
+videotex	ビデオテックス
+victoria	ビクトリア
+vertical	垂直	垂直方向
+velocity	ヴェロシティ
+variable	ヴァリアブル	変数
+usermode	ユーザモード
+unparser	アンパーザ	アンパーザー
+unixfair	ＵＮＩＸフェアー
+unformat	アンフォーマット
+ultraman	ウルトラマン
+twilight	トワイライト
+tutorial	チュートリアル
+truffaut	トリュフォー
+truetype	ＴｒｕｅＴｙｐｅ
+trimming	トリミング
+trigraph	三連文字
+triangle	▲	▽	トライアングル	▼	△
+traverse	トラバース
+traveler	トラベラー
+trasport	トランスポート
+transmit	転送
+transfer	転送	トランスファー
+training	トレーニング
+tradeoff	トレードオフ
+traction	トラクション
+tracking	トラッキング
+torerant	トレラント
+topology	トポロジー
+toplevel	トップレベル
+tonality	トーナリティ
+tolerant	トレラント
+together	トゥギャザー
+toeplitz	テプリッツ
+titlebar	タイトルバー
+timezone	タイムゾーン
+timecard	タイムカード
+thriling	スリリング
+thompson	トンプソン
+thailand	タイ
+textfile	テキストファイル
+testmail	テストメール
+testcase	テストケース
+terminal	端末	ターミナル
+temporal	テンポラル
+templete	テンプレート
+template	テンプレート	テンプレイト
+teletype	テレタイプ
+teleport	テレポート
+telemark	テレマーク
+teenager	ティーンエージャー
+teaching	ティーチング
+tableaux	タブロー
+syndrome	シンドローム
+symphony	シンフォニー
+symbolic	シンボリック
+syllabus	シラバス
+swimming	スィミング	スウィミング	スイミング
+swapping	スワッピング
+suspense	サスペンス
+survival	サバイバル
+surround	サラウンド
+supseteq	⊇
+suppress	サプレス
+supplier	サプライア
+superset	⊃
+superman	スーパーマン
+supercom	スパコン
+sunshine	サンシャイン
+sunmusic	サン・ミュージック
+sunglass	サングラス
+suitcase	スーツケース
+subtitle	サブタイトル
+subshell	サブシェル
+subseteq	⊆
+submodel	サブモデル
+subgroup	サブグループ
+subgraph	サブグラフ
+subclass	サブクラス
+subblock	サブブロック
+studless	スタッドレス
+striping	ストライピング
+streamer	ストリーマ
+strategy	ストラテジ
+straight	ストレイト	ストレート
+storming	ストーミング
+stepsize	ステップサイズ
+stepping	ステッピング
+steering	ステアリング
+startrek	スタートレック
+starting	スターティング
+stanford	スタンフォード大学	スタンフォード
+standard	スタンダード	標準
+stallman	ストールマン
+srilanka	スリランカ
+springer	シュリンガー・フェアラーク
+spinlock	スピンロック
+spelling	スペリング
+spectrum	スぺクトラム	スペクトラム`	スペクトル	スペクトラム
+spectral	スペクトラル	スペクトル
+specific	スペシフィック
+spanning	スパニング
+southern	サザン
+sonynews	ＳＯＮＹ ＮＥＷＳ
+sonogram	ソノグラム
+solution	ソリューション
+solenoid	ソレノイド
+softwear	ソフトウェア
+software	ソフトウェア	ソフトウエア
+softball	ソフトボール
+socrates	ソクラテス
+snooping	スヌーピング
+snobbism	スノビズム
+snatcher	スナッチャー
+snapshot	スナップショット
+slowstep	スローステップ
+slowness	スローネス
+skinship	スキンシップ
+skinning	スキニング
+skeleton	スケルトン
+sinusoid	サイン曲線
+simulate	シミュレイト	シミュレート
+shutdown	シャットダウン
+shredder	シュレッダ
+showroom	ショウルーム
+shopping	ショッピング
+shooting	シューティング
+shocking	ショッキング
+shiftkey	シフト・キー
+shiftjis	シフトＪＩＳ
+shepherd	シェパード
+shanghai	上海	シャンハイ
+setminus	＼
+sequence	シーケンス	シークェンス	シークエンス
+seqencer	シーケンサー
+separate	セパレート
+sentence	センテンス
+seminorm	セミノルム
+semester	セメスター
+selector	セレクタ
+selecter	セレクタ
+security	セキュリティ	セキュリティー
+searcher	サーチャ
+seamless	シームレス
+scramble	スクランブル
+sclereid	スクレレイド
+schumann	シューマン
+schemata	スキーマタ
+schedule	スケジュール
+scenario	シナリオ
+scanline	スキャンライン
+scalable	スケイラブル	スケーラブル
+sandwich	サンドイッチ
+sandiego	サン・ディエゴ
+sampling	サンプリング
+salesman	セールスマン
+rotation	ローテーション
+rosemary	ローズマリー
+romantic	ロマンティック
+rollback	ロールバック
+rockband	ロックバンド
+robotics	ロボティックス
+roadshow	ロードショウ
+ribosome	リボソーム
+reynolds	レイノルズ
+revision	リビジョン
+reviewer	レビューアー	レビューア
+reusable	リユーザブル
+retrieve	リトリーブ
+retainer	リテイナー
+response	レスポンス	リスポンス
+responce	レスポンス
+resource	リソース
+resolver	リゾルバ	レゾルバ
+reserved	リザーブド
+research	リサーチ
+reporter	レポーター
+repeater	リピータ
+renumber	レナンバ
+rentacar	レンタカー
+relocate	リロケート
+relation	リレーション
+reharsal	リハーサル
+register	レジ	レジスタ	レジスター
+regional	リージョナル
+redouble	リダブル
+redirect	リダイレクト
+recovery	リカバリー	リカバリ	レカバリ
+recordya	レコード屋
+recorder	レコーダー	レコーダ
+receiver	リシーバ	レシーバ
+realtime	リアルタイム
+readonly	リードオンリー
+readable	リーダブル
+reaction	リアクション
+rayleigh	レイリー
+radiobox	ラジオボックス
+radiator	ラジエータ
+queueing	キューイング
+question	？	質問	クエスチョン
+quantize	クォンタイズ
+pulldown	プルダウン
+provider	プロバイダ
+protocol	プロトコル
+protocal	プロトコル
+proposal	プロポーザル
+property	プロパティ
+prologue	プロローグ
+progress	進行
+profiler	プロファイラ
+products	プロダクツ
+producer	プロデューサー
+priority	プライオリティ
+printout	プリントアウト
+princess	プリンセス
+pressure	プレッシャー
+preprint	プレプリント
+prefetch	プリフェッチ
+preamble	プリアンブル
+powerful	パワフル
+positive	ポジティヴ
+position	ポジション
+portugal	ポルトガル
+portrait	ポートレート
+portable	ポータブル
+polyline	ポリライン
+polaroid	ポラロイド
+pointing	ポインティング
+playmode	プレイモード
+playgirl	プレイガール
+platinum	プラチナ
+platform	プラットフォーム	プラットホーム
+planning	プランニング
+plankton	プランクトン
+pitching	ピッチング
+pipeline	パイプライン
+pinpoint	ピンポイント
+pingpong	ピンポン
+physical	フィジカル
+phrasing	フレイジング
+personal	パーソナル
+persocom	パソコン
+periodic	ピリオディック
+pentouch	ペンタッチ
+pentagon	ペンタゴン
+penlight	ペンライト
+peephole	ピープホール
+pedantic	ペダンティック
+patlabor	パトレイバー
+patchkit	パッチキット
+password	パスワード
+passport	パスポート
+passcode	パスコード
+pasadena	パサデナ
+parsifal	パルシファル
+paranoia	偏執病	パラノイア	偏執狂
+parallel	パラレル	‖
+paradise	パラダイス
+paradigm	パラダイム
+paperjam	ペーパージャム
+panorama	パノラマ
+panelist	パネリスト
+pamphlet	パンフレット
+palabora	パラボーラ
+pakistan	パキスタン
+pairwise	ペアワイズ
+pagesize	ページサイズ
+padstack	パッドスタック
+pachinko	パチンコ
+overview	オーバービュー
+overspec	オーバースペック
+override	オーバーライド
+overload	オーバーロード
+overhead	オーバヘッド	オーバーヘッド
+overflow	オーバーフロー
+overcoat	オーバーコート
+outsider	アウトサイダー
+orthodox	オーソドックス
+orignial	オリジナル
+original	オリジナル
+oriented	オリエンテッド
+oriental	オリエンタル
+organize	オーガナイズ
+optional	オプショナル
+optimize	最適化	オプティマイズ
+operator	演算子	オペレーター	オペレータ
+openlook	ＯｐｅｎＬｏｏｋ
+ondemand	オンデマンド
+olympiad	オリンピック
+official	オフィシャル
+observer	オブザーバー	オブザーバ
+numerics	ニューメリックス
+notequal	≠
+notebook	ノートブック
+notation	ノウテイション
+nosleeve	ノースリーヴ
+nonsense	ナンセンス	ナンセンス！
+nihilist	ニヒリスト
+nihilism	ニヒリズム
+nickname	ニックネーム
+nicholas	ニコラス
+newsfeed	ニュースフィード
+newmedia	ニューメディア
+netscape	ネットスケープ
+negative	ネガティブ	ネガティヴ
+nautilus	ノーチラス
+national	ナショナル
+narrator	ナレーター
+musician	ミュージシャン
+multiset	マルチセット
+multiple	マルチプル
+mounting	マウンティング
+mountain	マウンテン
+motorola	Motorola	モトローラ
+morrison	モリソン
+monotone	モノトーン
+monorail	モノレール
+monopoly	モノポリー
+monopole	モノポール
+monochro	モノクロ
+momentum	モーメント	モーメント項
+modifier	モディファイア
+moderate	モデレート	モデレイト	モデラート
+modeling	モデリング
+modeline	モードライン
+modeless	モードレス
+modality	モダリティ
+mnemonic	ニーモニック
+misstype	ミスタイプ
+mismatch	ミスマッチ
+minority	マイノリティ
+minidisk	ミニディスク
+midnight	ミッドナイト
+michigan	ミシガン
+metaphor	メタファー
+metafont	メタフォント
+metadata	メタデータ
+memorial	メモリアル
+meltdown	メルトダウン
+melodius	メロディアス
+megademo	メガデモ
+mediator	メディエータ
+mechanic	メカニック
+mccarthy	McCarthy	マッカーシー	ＭｃＣａｒｔｈｙ
+matching	マッチング
+masscomp	マスコンプ
+maryland	メリーランド
+marshall	マーシャル
+marathon	マラソン
+mapentry	マップエントリ
+manpower	マンパワー
+manicure	マニキュア
+mandrill	マンドリル
+makefile	Makefile	メークファイル
+maillist	メイルリスト
+magnetic	マグネチック
+magazine	マガジン
+magagine	マガジン
+macaroni	マカロニ
+lunchset	ランチセット
+loudness	ラウドネス
+lotteria	ロッテリア
+loopback	ループバック
+longword	ロングワード
+lockmode	ロックモード
+lockfile	ロックファイル
+location	ロケーション
+locality	ローカリティ
+loadable	ローダブル
+livelock	ライブロック
+literacy	リテラシ	リテラシー
+listener	リスナー
+lipstick	リップスティック
+lipliner	リップライナー
+lipbrush	リップブラシ
+lilliput	リリパット
+lifework	ライフワーク
+lifetime	ライフタイム
+learning	ラーニング	学習
+lavender	ラベンダー
+launcher	ランチャ
+lastboss	ラスボス
+language	ランゲージ
+lagrange	ラグランジュ
+labeling	ラベリング	ラベル付け
+kirkland	カークランド
+kickback	キックバック
+keytouch	キータッチ
+keyboard	キーボード
+kentucky	ケンタッキー
+jurassic	ジュラシック
+joystick	ジョイスティック
+jazzlife	ジャズライフ
+japanese	ジャパニーズ
+isotonic	アイソトニック
+isolator	アイソレータ
+inverter	インバーター	インバータ
+intranet	イントラネット
+interval	インタバル	インターバル
+interpol	インターポール
+internet	Ｉｎｔｅｒｎｅｔ	インターネット	インタネット
+internal	インターナル
+interact	インタラクト
+integral	∬	∫
+instance	インスタンス
+inlining	インライニング
+injector	インジェクター
+informed	インフォームド
+informal	インフォーマル
+infinity	∞
+indicial	インディシャル
+indexing	インデクシング
+inactive	インアクティブ
+imagemap	イメージマップ
+illusion	イリュージョン
+illinois	イリノイ
+identity	アイデンティティー	アイデンティティ
+icecream	アイスクリーム
+humanism	ヒューマニズム
+hotplate	ホット・プレート
+hotpants	ホットパンツ
+hostname	ホスト名	ホストネーム
+hostdata	ホストデータ
+horizont	ホリゾント
+honolulu	ホノルル
+hongkong	香港
+homesick	ホームシック
+homeroom	ホームルーム
+homepage	ホームページ
+homeless	ホームレス
+hologram	ホログラム
+hivision	ハイビジョン
+hightech	ハイテク
+herbrand	エルブラン
+helpdesk	ヘルプデスク
+hardware	ハードウェア
+hardrock	ハードロック
+hardlink	ハードリンク
+harddisk	ハードディスク
+hardcopy	ハードコピー
+happyend	ハッピーエンド
+handling	ハンドリング
+handbook	ハンドブック
+hamilton	ハミルトン
+hadamard	アダマール
+guidance	ガイダンス
+guardian	ガーディアン
+grouping	グルーピング
+graphics	グラフィックス	グラフィクス
+graphica	グラフィカ
+granular	グラニュラー
+graduate	大学院生
+gradient	グラディエント
+goteborg	イェテボリ
+goodyear	グッドイアー
+good-bye	グッド・バイ
+goldberg	ゴールドバーグ	ゴールドベルグ
+godzilla	ゴジラ
+geomtory	ジオメトリ
+geometry	ジオメトリ
+generate	ジェネレート
+gaussian	ガウシアン
+gasoline	ガソリン
+garfield	ガーフィールド
+g-theory	Ｇ−理論
+function	関数	ファンクション	機能
+fulltime	フルタイム
+fullpath	フルパス
+fullname	フルネーム
+frontier	フロンティア
+frontend	フロントエンド
+friendly	フレンドリ
+fretless	フレットレス
+freeware	フリーウェア
+freesoft	フリーソフト
+freepage	フリーページ
+freelist	フリーリスト
+freehand	フリーハンド
+freedial	フリーダイアル
+fragment	フラグメント
+fourball	フォアボール
+footwork	フットワーク
+footnote	¶
+football	フットボール
+fontpath	フォントパス
+fontlist	フォントリスト
+follower	フォロワー
+floating	浮動小数点数	フローティング
+flipflop	フリップロップ	フリップフロップ
+flexible	柔軟な	フレキシブル
+firmware	ファームウェア
+firewall	ファイアウォール
+finalize	ファイナライズ
+filtered	フィルタード
+filename	ファイル名	ファイルネーム
+filemenu	ファイル・メニュー
+fieldmap	フィールドマップ
+festival	フェスティバル
+feminism	フェミニズム
+feferman	フェファーマン
+feedback	フィードバック
+fastfood	ファストフード
+fantasic	ファンタジック
+eyeliner	アイライナー
+external	エクスターナル
+extender	エクステンダ
+expander	エクスパンダ
+exercise	エクササイズ	Ｅｘｅｒｃｉｓｅ
+exective	エグゼクティブ
+exciting	エキサイティング
+exchange	エクスチェンジ
+evaluate	評価する
+ethiopia	エチオピア
+ethernet	イーサネット
+estrogen	エストロゲン
+esquimau	エスキモー
+escargot	エスカルゴ
+escalate	エスカレート
+equality	イクアリティ
+epipolar	エピポーラ
+epilogue	エピローグ
+envelope	エンベロープ
+ensemble	アンサンブル
+enhanced	エンハンスド
+engineer	エンジニア
+energish	エネルギッシュ
+endpoint	エンドポイント
+encoding	エンコーディング
+emurater	エミュレータ
+emulator	エミュレータ	イミュレイタ	エミュレーター	イミュレータ
+emphasis	強調
+elevator	エレベーター
+electron	エレクトロン
+electric	エレクトリック
+electone	エレクトーン
+einstein	アインシュタイン
+effector	エフェクター	イフェクタ	エフェクタ
+echoback	エコーバック
+eastwood	イーストウッド
+earphone	イヤフォン	イアフォン
+earlgrey	アールグレイ
+dynamite	ダイナマイト
+dynamism	ダイナミズム
+dynamics	ダイナミックス	ダイナミクス
+dynabook	ダイナブック
+duration	デュレイション
+drumsolo	ドラムソロ
+drumming	ドラミング
+dressing	ドレッシング
+dramatic	ドラマティック
+dragging	ドラッギング
+downtown	ダウンタウン
+download	ダウンロード
+doughnut	ドーナツ
+dortmund	ドルトムント
+doorbell	ドアベル
+dominion	ドミニオン
+dominant	ドミナント
+dogmatic	ドグマチック
+dogfight	ドッグファイト
+document	文書	ドキュメント
+distance	ディスタンス
+dispatch	ディスパッチ
+diskless	ディスクレス
+diskette	ディスケット
+discount	ディスカウント
+director	ディレクター
+dilation	ダイレーション
+dijkstra	ダイクストラ
+diatonic	ダイアトニック
+dialogue	ダイアログ
+detector	ディテクタ
+designer	デザイナー
+describe	ディスクライブ
+demotape	デモテープ
+demorgan	ド・モルガン
+delivery	デリバリー
+delicate	デリケート
+defender	ディフェンダー
+decorate	デコレート
+decoding	デコーディング
+decision	デシジョン
+debugger	デバッガー	デバッガ	ディバッガ
+deadlock	デッドロック
+deadline	デッドライン
+datebase	データベース
+datatype	データタイプ
+datashow	データショウ
+datapack	データパック
+datalink	データリンク
+datagram	データグラム
+dataflow	データフロー
+datafile	データファイル
+database	データベース
+cyrillic	щ	н	ь	с	ю	ч	п	т	е	р	э	и	а	ё	л	ф	ш	ц	д	м	г	к	я	в	ж	з	й	х	о	ы	у	б	ъ
+cynnamon	シナモン
+cylinder	シリンダ	シリンダー
+cylindar	シリンダー
+customer	カスタマー	カスタマ
+currying	カリー化
+currency	カレンシ
+critical	クリティカル
+creative	クリエイティヴ
+cracking	クラッキング
+coverage	カバレッジ	カバレージ
+coupling	カップリング
+coriolis	コリオリ
+coretime	コアタイム
+coredump	コアダンプ
+copyback	コピーバック
+convolve	コンヴォルヴ
+contrast	コントラスト
+contract	コントラクト
+continue	コンティニュー
+contents	コンテンツ
+consumer	コンシューマー	コンシュマー
+constant	コンスタント
+consider	コンシダー
+conscell	コンスセル
+confocal	コンフォーカル
+conflict	競合	衝突	コンフリクト
+concrete	コンクリート
+concorde	コンコルド
+concerto	コンチェルト
+computer	コンピューター	コンピュータ
+compress	コンプレス
+compound	コンパウンド
+composer	コンポーザ	コンポーザー
+complete	コンプリート
+compiler	コンパイラー	コンパイラ
+commerce	コマース
+comedian	コメディアン
+comeback	カムバック
+columbia	コロンビア
+colormap	カラーマップ
+colorful	カラフル
+colorbox	カラーボックス
+colorado	コロラド
+coherent	コヒーレント
+codesign	コデザイン
+codeless	コードレス
+cocacola	コカコーラ
+clipping	クリッピング
+cleaning	クリーニング
+cinnamon	シナモン
+chemical	ケミカル
+checksum	チェックサム
+checkout	チェックアウト	チェック・アウト
+checking	チェッキング
+checkers	チェッカーズ
+charming	チャーミング
+champion	チャンピオン	チャンピォン
+chalmers	チャルマース
+cepstrum	ケプストラム
+cepstral	ケプストラル
+catholic	カトリック
+category	範疇	カテゴリ	カテゴリー
+catalyst	カタリスト
+cassette	カセット
+casiopea	カシオペア
+cartrige	カートリッジ
+carriage	キャリッジ
+carnival	カーニバル
+carnegie	カーネギーメロン大学	カーネギー
+careless	ケアレス
+cardioid	カーディオイド
+cardigan	カーディガン
+carboxyl	カルボキシル
+capacity	キャパシティ
+canceler	キャンセラ
+campaign	キャンペーン
+callsign	コールサイン
+callback	コールバック
+calender	カレンダ
+calendar	カレンダー	カレンダ
+calculus	カルキュラス
+cachable	キャッシャブル
+bytecode	バイトコード
+business	ビジネス
+bushbaby	ブッシュベイビー
+buserror	Ｂｕｓ Ｅｒｒｏｒ
+bundling	バンドリング
+bulletin	ブリテン
+built-in	ビルトイン
+building	ビル	ビルディング	ビルヂング
+bufferin	バファリン
+buffered	バッファード
+browsing	ブラウジング
+brothers	ブラザーズ
+bridging	ブリッジング
+breaking	ブレーキング
+boutique	ブティック
+bounding	バウンディング
+boundary	バウンダリ
+bottomup	ボトムアップ
+bookmart	ブックマート
+bookmark	ブックマーク
+bodybuil	ボディビル
+bluewave	ブルーウェーブ
+bluenote	ＢｌｕｅＮｏｔｅ
+blocking	ブロッキング
+blackbox	ブラックボックス
+bitimage	ビットイメージ
+bitfield	ビットフィールド	ビット場
+birthday	バースディ
+binaural	バイノーラル
+berkeley	バークレー
+benedict	ベネディクト
+bellcore	ベルコア
+beginner	ビギナー
+bayesian	ベイジアン
+baudrate	ボーレート
+basename	ベースネーム
+baseline	ベースライン
+baseball	ベースボール
+baricade	バリケード
+bandpass	バンドパス
+bacteria	バクテリア
+backward	バックワード
+backpack	バックパック
+backfire	バックファイア
+backbone	バックボーン
+backband	バックバンド
+b-spline	Ｂ−スプライン
+automata	オートマトン
+autoload	オートロード
+autobike	オートバイ
+audition	オーディション
+athletic	アスレチック
+asterisk	アスタリスク
+assembly	アセンブリ
+assemble	アセンブル
+asbestos	アスベスト
+arranger	アレンジャー
+argument	引数	アーギュメント
+archiver	アーカイバ
+aquacise	アクアサイズ
+approach	アプローチ
+appendix	付録	アペンディックス
+aphorism	アフォリズム
+announce	アナウンス
+angstrom	Å	オングストローム
+analyzer	アナライザ	アナライザー
+analysis	アナリシス
+analogue	アナログ
+analizer	アナライザ
+amethyst	紫水晶	アメジスト	紫石英
+american	アメリカン
+alphabet	アルファベット
+alminium	アルミニウム
+allocate	アロケート
+allnight	オールナイト
+allinone	オールインワン
+akapella	アカペラ	ア・カペラ
+aircheck	エアチェック
+aiexpert	ＡＩエキスパート
+aerobics	エアロビクス
+advisory	アドバイザリ	アドバイサリ	アドヴァイザリ
+advanced	アドバンスト	アドバンスド
+adaptive	アダプティヴ
+activity	アクティビティ
+activate	アクティベート
+accident	アクシデント
+accessor	アクセサ
+academic	アカデミック
+academia	アカデミア
+abstract	抽象	アブストラクト
+abnormal	アブノーマル
+Sylpheed	シルフィード
+Stallman	ストールマン
+Polaroid	ポラロイド
+Palabora	パラボーラ
+Nijmegen	ナイメヘン
+Newsweek	ニューズウィーク
+Nephrite	ネフライト
+Nausicaa	ナウシカ
+Motorola	モトローラ
+Macaroni	マカロニ
+Lilliput	リリパット
+Lebesgue	ルベーグ
+Lagrange	ラグランジュ
+Internet	インターネット
+Esquimau	エスキモー
+Cyrillic	Щ	Д	Н	Ы	Ф	Ю	Ч	Р	Е	Ь	Э	Ц	П	О	Г	Х	Ё	А	М	Я	У	И	Ъ	Ш	З	Й	В	С	К	Ж	Б	Л	Т
+Budapest	ブダペスト
+Bonjours	ボンジュール
+Berkeley	バークレー
+Benedict	ベネディクト
+B-spline	Ｂ−スプライン
+yajirushi	→	↑	↓	←
+xterminal	Ｘ端末
+writeonly	ライトオンリー
+workspace	ワークスペース
+worksheet	ワークシート
+workbench	ワークベンチ
+woodshole	ウッズホール
+wineglass	ワイングラス
+windowing	ウインドウィング
+well-done	ウェルダン
+wavefront	ウェーブフロント
+waterfall	ウォータフォール
+vulunteer	ボランティア
+volunteer	ボランティア
+visualize	ビジュアライズ
+viewpoint	ビューポイント
+videotape	ビデオテープ
+versionup	ヴァージョンアップ	バージョンアップ
+vectorchi	ベクトル値
+variation	バリエーション
+valentine	バレンタイン
+unrolling	アンローリング
+universal	ユニバーサル
+uninstall	アンインストール
+unifiable	ユニファイアブル
+underline	アンダーライン
+underfull	アンダーフル
+underflow	アンダーフロー
+unbalance	アンバランス
+twistpair	ツイストペア
+turnstyle	┣	├
+turnstile	┣	├
+tunneling	トネリング	トンネリング
+try&error	トライ＆エラー
+trondheim	トロンヘイム
+trinitron	トリニトロン
+transport	トランスポート
+translate	トランスレート
+trademark	トレードマーク
+trade-off	トレードオフ
+topdomain	トップドメイン
+tolerance	トレランス
+timestamp	タイムスタンプ
+timeshift	タイムシフト
+timescale	タイムスケール
+tiananmen	天安門
+thrilling	スリリング
+threshold	閾値	スレッシュホールド
+thrashing	スラッシング
+thesaurus	シソーラス
+therefore	∴
+textfield	テキストフィールド
+terrorist	テロリスト
+territory	テリトリー
+terminate	ターミネイト	ターミネート
+tentative	試験的
+temporary	テンポラリ
+telephone	テレホン	テレフォン
+telemeter	テレメーター	テレメータ
+technique	テクニック
+technical	テクニカル
+tautology	トートロジー
+taskforce	タスクフォース
+systollic	シストリック
+syntactic	シンタクティック
+symposium	シンポジウム
+swizzling	シズリング
+switching	スイッチング
+supporter	サポーター
+superuser	スーパユーザ	スーパーユーザー	スーパーユーザ
+supersize	スーパーサイズ
+suitscase	スーツケース
+subsystem	サブシステム
+subscript	サブスクリプト
+subscribe	サブスクライブ
+submaster	サブマスター
+submarine	サブマリン
+subheader	サブヘッダ
+subdomain	サブドメイン	サブドメーン
+structure	ストラクチャ	ストラクチャー
+stopwatch	ストップウォッチ
+stockholm	ストックホルム
+stiffness	スチフネス
+statusbar	ステータスバー
+statement	ステイトメント	ステートメント	文
+stateless	ステートレス
+statefull	ステートフル
+standards	スタンダーズ
+stainless	ステンレス
+stackable	スタッカブル
+squashing	スカッシング関数
+sprinkler	スプリンクラー
+sportsman	スポーツマン
+spinglass	スピングラス
+spielberg	スピルバーグ
+spiderman	スパイダーマン
+specifier	指示子
+spaghetti	スパゲッティ	スパゲッティー
+sommelier	ソムリエ
+soloalbum	ソロアルバム
+smoothing	スムージング
+smalltalk	SmallTalk	Ｓｍａｌｌｔａｌｋ	Smalltalk
+slapstick	スラップスティック
+situation	シチュエーション
+singleton	シングルトン
+singapore	シンガポール
+simulator	シミュレーター	シミュレイタ	シミュレータ
+signature	シグニチャ	シグネイチャー	シグネチャー	シグネチャ	シグナチャー
+shuffling	シャッフリング
+shootdown	シュートダウン
+shareware	シェアウェア
+shadowing	シャドウイング
+seventeen	セヴンティーン
+serialize	シリアライズ
+sequencer	シーケンサー	シーケンサ
+separator	セパレータ
+semophore	セマフォ
+semicolon	セミコロン
+semblance	センブランス
+semaphore	セマフォー	セマフォ
+semantics	意味	セマンティクス
+selection	セレクション
+secondary	セカンダリー	セカンダリ
+scrollbar	スクロールバー
+screening	スクリーニング
+schematic	スケマティック
+scheduler	スケジューラー	スケジューラ
+saxophone	サクソフォン
+satellite	サテライト
+santacruz	サンタ・クルーズ
+sandwitch	サンドイッチ
+salaryman	サラリーマン
+sacrifice	サクリファイス
+runlength	ランレングス
+romantist	ロマンチスト
+romancing	ロマンシング
+rockrigde	ロックリッジ
+rockridge	ロックリッジ
+rochester	ロチェスター
+roadracer	ロードレーサー
+righthand	ライトハンド
+retrieval	検索
+resonance	レゾナンス
+rendition	レンディション
+rendering	レンダリング
+removable	リムーバブル
+reinstall	リインストール
+rehearsal	リハーサル
+reflector	反射鏡	リフレクター
+reference	リファレンス	参照型	参考文献
+reentrant	リエントラント
+reduction	リダクション
+redribbon	レッドリボン
+redisplay	リディスプレイ
+recursive	再帰的	リカーシブ
+recursion	リカージョン
+recruiter	リクルーター
+recording	レコーディング
+recompile	リコンパイル
+reception	レセプション
+reasoning	リーズニング
+reachable	リーチャブル
+randomize	ランダマイズ
+quotation	クォーテーション
+quartette	カルテット
+publicity	パブリシティ	公告	宣伝
+psersonal	パーソナル
+prototype	プロトタイプ
+protected	プロテクテッド
+promotion	プロモーション
+projector	プロジェクタ	プロジェクター
+projecter	プロジェクタ
+processor	プロセッサ
+procedure	プロシジャ	手続き	プロシージャ
+principal	プリンシパル
+primitive	プリミティブ	プリミティヴ
+previewer	プレヴュア	プレビュアー	プレビューア
+prelocate	プリロケート
+predicate	プレディケイト	述語	プレディケート
+precision	プレシジョン
+practical	プラクティカル
+poweruser	パワーユーザ
+powerbook	パワーブック
+potential	ポテンシャル
+portfolio	ポートフォリオ
+portatone	ポータトーン
+popupmenu	ポップアップメニュー	ポップアップ・メニュー
+polyphony	ポリフォニー
+plusminus	プラスマイナス	±
+plototype	プロトタイプ
+planetary	プラネタリー
+pipeorgan	パイプオルガン
+pinknoise	ピンクノイズ
+pineapple	パイナップル
+phononics	フォノニクス
+pheromone	フェロモン
+pesrsonal	パーソナル
+personnel	パーソネル
+partition	パーティション
+paritybit	パリティビット
+paramount	パラマウント
+parameter	引数	パラメータ	パラメター	パラメーター	パラメタ
+paragraph	¶	パラグラフ
+paperback	ペーパーバック
+pagetable	ページテーブル
+pagefault	ページフォールト
+packaging	パッケージング
+overwrite	オーバライト	オーバーライト
+overdrive	オーバードライブ
+organizer	オーガナイザ
+orchestra	オーケストラ
+optimizer	オプティマイザ
+operation	オペレーション	操作
+operating	オペレーティング
+openhouse	オープンハウス
+oolongtea	ウーロン茶
+oldenburg	オルデンブルグ
+oilheater	オイルヒーター
+offroader	オフローダー
+occlusion	オクルージョン
+numbering	ナンバリング
+normalize	ノーマライズ
+noisiness	ノイジネス
+nocomment	ノーコメント
+newsspool	ニューススプール
+newsgroup	ニュースグループ
+newohtani	ニューオータニ
+newmexico	ニューメキシコ州立大学
+newjersey	Ｎｅｗ−Ｊｅｒｓｅｙ
+newcastle	ニューキャッスル大学
+neuralnet	ニューラルネット	ＮｅｕｒａｌＮｅｔ
+networker	ネットワーカー
+negotiate	ネゴシエート
+navigator	ナビゲーター
+narration	ナレーション
+namevalue	ネームヴァリュー
+namespace	ネームスペース
+multiuser	マルチユーザー
+multitask	マルチタスク
+multiscan	マルチスキャン
+multirate	マルチレート
+multichip	マルチチップ
+multicast	マルチキャスト
+multibyte	マルチバイト
+moonlight	ムーンライト
+monograph	モノグラフ
+moderator	モデレータ
+modelling	モデリング
+mode-line	モードライン
+mirroring	ミラーリング
+minitower	ミニタワー
+miniskirt	ミニスカート
+milestone	マイルストーン
+mildseven	マイルドセブン
+migration	マイグレーション	移送	マイグレイション
+microsoft	マイクロソフト
+microchip	マイクロチップ
+metronome	メトロノーム
+metaltape	メタルテープ
+metalevel	メタレベル
+messageid	メッセージＩｄ
+memoryset	メモリセット
+melodious	メロディアス
+megadrive	メガドライブ
+mechanism	メカニズム
+measuring	メジャリング
+mcculloch	マッカロー
+maternity	マタニティ
+mastering	マスタリング
+massmedia	マスメディア
+masochist	嗜虐的趣味者	マゾヒスト	被虐趣味者
+masochism	被虐淫乱症	被虐趣味	嗜虐的趣味	マゾヒズム
+martinlof	マーティンレーフ
+marketing	マーケティング
+mansfield	マンスフィールド
+mannequin	マネキン	マヌカン
+manifesto	マニフェスト
+mainframe	メインフレーム
+macintosh	マッキントッシュ
+macadamia	マカデミア
+lovestory	ラブ・ストーリー
+lovehotel	ラヴホテル
+losalamos	ロス・アラモス
+lookahead	ルックアヘッド
+logistics	ロジスティクス
+localtime	ローカルタイム
+livehouse	ライヴハウス
+listening	リスニング
+linkfield	リンクフィールド
+lettering	レタリング
+leftarrow	←
+laserdisk	レーザーディスク
+laserdisc	レーザーディスク
+laplacian	ラプラシアン
+landscape	ランドスケープ
+kronecker	クロネッカー
+knowledge	ナレッジ
+kirchhoff	キルヒホッフ
+keystroke	キーストローク
+judgement	ジャッジメント
+josephson	ジョセフソン
+jingiskan	ジンギスカン
+jazzpiano	ジャズピアノ
+itriangle	▼
+iterative	逐次型
+irregular	イレギュラー
+inversion	インヴァージョン
+inventory	インベントリ
+invention	インヴェンション
+invariant	インヴァリアント
+interview	インタヴュー	インタビュー
+interrupt	インタラプト
+interrace	インターレース
+interpret	インタープリト
+interlock	インターロック	インタロック
+interface	インタフェイス	インターフェイス	インターフェース	インタフェース
+intercept	インターセプト	インタセプト
+interbank	インターバンク
+intensive	インテンシブ
+intensity	インテンシティ
+integrity	完全	インテグリティ
+integrate	インテグレート
+installer	インストーラ
+inspector	インスペクタ
+insertion	インサーション
+innocence	イノセンス
+initiator	イニシエータ
+inflation	インフレーション
+induction	帰納法	インダクション
+indonesia	インドネシア
+indicator	インジケータ
+indexmode	インデックスモード
+increment	インクリメント
+incentive	インセンティブ
+implement	インプリメント
+impedance	インピーダンス
+imitation	イミテーション
+imbalance	インバランス
+idiomatic	イディオマティック
+hypertext	ハイパーテキスト
+hypercube	ハイパーキューブ
+hypercard	ハイパーカード
+hurricane	ハリケーン
+humanlike	ヒューマンライク
+honeymoon	ハネムーン
+hitchcock	ヒッチコック
+histogram	ヒストグラム
+highlight	ハイライト
+heuristic	ヒューリスティック
+helmholtz	ヘルムホルツ
+headphone	ヘッドホン	ヘッドフォン
+hatchback	ハッチバック
+harvester	ハーベスタ
+harmonize	ハーモナイズ
+hardcover	ハードカバー
+happening	ハプニング
+handshake	ハンドシェイク
+hamburger	ハンバーガー
+hambacker	ハムバッカー
+guitarist	ギタリスト
+guitaramp	ギターアンプ
+guideline	ガイドライン
+groupware	グループウェア
+greenwich	グリニッジ
+graphical	グラフィカル
+grandprix	グランプリ
+glasswool	グラスウール
+gentleman	ゼントルマン
+generator	ジェネレータ
+gatearray	ゲートアレイ
+fullscore	フルスコア
+fullrange	フルレンジ
+fullcolor	フルカラー
+full-time	フルタイム
+francisco	フランシスコ
+franchise	フランチャイズ
+framework	フレームワーク
+forwarder	フォーワーダ
+formatter	フォーマッタ
+formation	フォーメーション
+formalize	フォーマライズ
+footprint	フットプリント
+folkdance	フォークダンス
+focusmode	フォーカスモード
+flowgraph	フローグラフ
+flowchart	フロウチャート	フローチャート
+floorplan	フロアプラン
+firstname	ファーストネーム
+fingering	フィンガリング
+filtering	フィルタリング
+fibonacci	フィボナッチ
+fetishism	フェティシズム
+facsimile	ファクシミリ
+eyeshadow	アイシャドウ
+extension	エクステンション
+executive	エクゼクティブ
+exception	例外
+excellent	エクセレント
+evolution	発展
+evergreen	エバーグリーン
+evaluator	エバリュエータ
+etiquette	エチケット
+essential	エッセンシャル
+escalator	エスカレーター	エスカレータ
+eroticism	エロチシズム
+equalizer	イコライザ
+epicurean	エピキュリアン
+endorphin	エンドルフィン
+encounter	エンカウンター
+enclosure	エンクロージャ
+emulation	エミュレーション
+emacslisp	EmacsLisp	Emacs Lisp
+elocution	エロキューション
+elemental	エレメンタル
+edinburgh	エディンバラ
+economist	エコノミスト
+eccentric	エキセントリック
+easyorder	イージーオーダー
+duplicate	デュープリケート	デュプリケート	デュプリケイト
+dummyhead	ダミーヘッド	だみーへっど
+downarrow	↓
+doughnuts	ドーナツ
+dithering	ディザリング
+dispencer	ディスペンサ
+dirichlet	ディリクレ
+directory	ディレクトリィ	デイレクトリー	ディレクトリー	ディレクトリ
+directive	ディレクティブ
+dimension	ディメンション	ディメンジョン
+diagnosis	ダイアグノーシス
+developer	デベロッパー	デベロッパ
+destroyer	破壊者	デストロイヤー
+democracy	デモクラシー
+demension	ヂメンジョン
+deltarule	δルール
+delimiter	デリミタ
+delayline	ディレイライン
+decrement	デクリメント
+debugging	デバッギング
+datastore	データストア
+datasheet	データシート
+dataglove	データグローブ
+cyclotron	サイクロトロン
+cyberpunk	サイバーパンク
+customize	カスタム化	カスタマイズ
+cursorkey	カーソルキー
+crossword	クロスワード
+crosstalk	クロストーク
+crosspost	クロスポスト
+croissant	クロワッサン
+countdown	カウントダウン
+counselor	カウンセラー
+copyright	コピーライト
+cooperate	コーポレート
+coolerbox	クーラーボックス
+convertor	コンバータ
+converter	コンバータ
+controler	コントローラ
+container	コンテナ
+construct	コンストラクト
+consensus	コンセンサス
+connector	コネクタ
+connecter	コネクタ
+configure	コンフィギュア
+conductor	コンダクタ
+condition	コンディション
+condenser	コンデンサ	コンデンサー
+concealer	コンシーラー
+computing	コンピューティング
+composite	コンポジット
+component	コンポーネント
+companion	コンパニオン
+community	コミュニティ
+communist	共産主義者	コミュニスト
+commodore	コモドール
+committer	コミッタ	コミッター
+committee	コミッティ
+commander	コマンダー
+columella	コルメラ
+collision	コリージョン	コリジョン
+collector	コレクター	コレクタ
+coherency	コヒレンシ	コヒーレンシ
+coherence	コヒーレンス
+codebooks	コードブックス
+cocostore	ＣｏＣＯストア
+clipboard	クリップボード
+clickable	クリッカブル
+clavinova	クラビノーバ
+classmate	クラスメイト
+christmas	クリスマス
+christian	クリスチャン
+chordname	コードネーム
+chocolate	チョコレート
+checkmate	チェックメイト
+chebyshev	チェビチェフ
+chartfile	チャートファイル
+character	キャラクタ	キャラクター
+chameleon	カメレオン
+challenge	チャレンジ
+centering	センタリング
+cellulose	セルロース
+catalogue	カタログ
+cartridge	カートリッジ
+cartesian	カルテジアン
+carstereo	カーステレオ
+carpenter	カーペンター
+canonical	カノニカル
+canceller	キャンセラ
+cameraman	カメラマン
+cambridge	ケンブリッジ
+butterfly	バタフライ
+busmaster	バスマスタ
+bulldozer	ブルドーザ
+bugreport	バグレポート
+buffering	バッファリング
+brunswick	ブランズウィック
+broadcast	ブロードキャスト
+bresenham	ブレゼンハム
+breakdown	ブレークダウン
+brassband	ブラスバンド
+bootstrap	ブートストラップ
+boltzmann	ボルツマン
+blueglass	ブルーグラス
+blueberry	ブルーベリー
+bluebacks	ブルーバックス
+blackhole	ブラックホール
+bit-field	ビットフィールド
+bilingual	バイリンガル
+bigendian	ビッグエンディアン
+bestalbum	ベストアルバム
+benchmark	ベンチマーク
+beginners	ビギナーズ
+beethoven	ベートーヴェン	ベートーベン
+batchsize	バッチサイズ
+batchfile	バッチファイル
+bandwidth	バンド幅
+bandscore	バンドスコア
+balsamico	バルサミコ
+balancing	バランシング
+badminton	バドミントン
+backtrack	バックトラック
+backtrace	バックトレース
+backspace	バックスペース
+backslash	＼	バックスラッシュ
+backquote	バッククオート
+backchain	バックチェイン
+available	利用可能	使用可能
+autoraise	オートレイズ
+automount	オートマウント
+automaton	オートマトン
+automatic	オートマチック
+autobacks	オートバックス
+authorize	オーソライズ
+authority	オーソリティ
+authoring	オーサリング
+australia	オーストラリア
+audiology	オージオロジ
+attribute	アトリビュート	属性
+attractor	アトラクター	アトラクタ
+attention	アテンション
+asymmetry	アシンメトリー
+assistant	アシスタント
+assembler	アセンブラ
+asistance	アシスタンス
+aristotle	アリストテレス
+arbitrage	アービトラージ
+aquafresh	アクアフレッシュ
+antithese	アンチテーゼ
+anthology	アンソロジー
+anonymous	アノニマス
+announcer	アナウンサー
+annealing	アニーリング
+animation	アニメーション
+anchorman	アンカーマン
+analizing	アナライジング
+amusement	アミューズメント
+amsterdam	アムステルダム
+alternate	オルタネイト
+alphatron	アルファトロン
+allocator	アロケータ
+alligator	アリゲーター
+alignment	アライメント	アラインメント
+algorithm	アルゴリズム	算法
+agitpunkt	アジト
+aggregate	アグリゲート
+afternoon	アフタヌーン
+afterfive	アフターファイブ
+aftercare	アフターケア
+adventure	アドベンチャー
+advantage	アドバンテージ
+admission	アドミッション
+actuality	アクチュアリティ
+accoustic	アクースティック
+accordion	アコーディオン
+accessory	アクセサリー	アクセサリ
+abduction	アブダクション
+Valentine	バレンタイン
+Tiananmen	天安門
+Singapore	シンガポール
+Microsoft	マイクロソフト
+Manhattan	マンハッタン
+Itriangle	▽
+Hungarian	ハンガリアン
+Elizabeth	エリザベス
+Edinburgh	エディンバラ
+Christmas	クリスマス
+Chlamydia	クラミジア
+Australia	オーストラリア
+xerography	ゼログラフィ
+workingset	ワーキングセット
+workaround	ワークアラウンド
+whitenoise	ホワイトノイズ
+whiteboard	ホワイトボード
+waterproof	ウォータープルーフ
+washington	ワシントン
+vocabulary	語彙	ヴォキャブラリィ	ヴォキャブラリ	ボキャブラリ
+version-up	バージョンアップ
+versailles	ヴェルサイユ	ベルサイユ
+usersguide	ユーザーズガイド
+underscore	アンダースコア
+ubiquitous	ユービキタス
+typography	タイポグラフィ
+typewriter	タイプライタ
+typesetter	タイプセッタ
+twin-peaks	ツイン・ピークス
+turingtest	チューリングテスト
+trumpoline	トランポリン
+triathlete	トライアスリート
+transputer	トランスピュータ
+translator	トランスレータ
+translater	トランスレータ
+transistor	トランジスタ
+transducer	トランスジューサ
+tranceiver	トランシーバ
+tournament	トーナメント
+totipotent	トティポテント
+throughput	スループット
+thebestten	ザ・ベストテン
+textwidget	テキスト・ウィジット
+terminator	ターミネータ	ターミネイタ	ターミネーター
+tenniswear	テニスウェア
+television	テレビ	テレビジョン
+telemarker	テレマーカー
+technology	テクノロジー
+systemcall	システムコール
+systematic	システマティック
+synthesize	シンセサイズ
+suspension	サスペンション
+supervisor	スーパバイザ
+superseteq	⊇
+superclass	スーパクラス
+superascii	ＳｕｐｅｒＡｓｃｉｉ
+suggestion	サジェスチョン
+substitute	置換
+subroutine	サブルーチン
+subprogram	サブプログラム
+subprocess	サブプロセス
+subpattern	サブパターン
+subnetwork	サブネットワーク
+subnetting	サブネッティング
+subliminal	サブリミナル
+subaddress	サブアドレス
+stylesheet	スタイルシート
+styleguide	スタイルガイド
+stewardess	スチュワーデス
+stereotype	ステレオタイプ
+standalone	スタンドアローン
+stackframe	スタックフレーム
+sportsfair	スポーツフェアー
+sportsclub	スポーツクラブ
+spider-man	スパイダーマン
+specialist	スペシャリスト
+sourcefile	ソースファイル
+sourcecode	ソースコード
+simulation	シミュレイション	シミュレーション
+silhouette	シルエット
+shortscale	ショートスケール
+sequential	シーケンシャル
+sequencial	シーケンシャル
+scheduling	スケジューリング
+saturation	彩度
+salamander	サラマンドラ	サラマンダ	サラマンダー
+roundrobin	ラウンドロビン
+rossbywave	ロスビー波
+rightarrow	→
+restaurant	レストラン
+resolution	リゾリューション
+repository	リポジトリ
+relational	リレーショナル
+regulation	レギュレーション
+reflective	リフレクティブ
+reflection	リフレクション
+referencer	リファレンサ
+recreation	レクリエーション
+reassemble	リアセンブル
+reasonable	リーズナブル
+rasterfile	ラスターファイル
+randomized	ランダマイズド
+quantifier	コンティファイア
+pushbutton	プッシュボタン
+publishing	パブリッシング
+protestant	プロテスタント
+protection	プロテクション
+proportion	プロポーション
+propaganda	プロパガンダ
+programmer	プログラマ	プログラマー
+progamming	プログラミング
+production	プロダクション
+processing	プロセッシング
+proceeding	プロシーディング	プロスィーディング
+procedural	プロシジュアル
+preinstall	プレインストール
+preference	プレファレンス	プリファレンス
+preemptive	プリエンプティブ
+preemption	プリエンプション
+prealocate	プリアロケート
+potatochip	ポテトチップ
+postscript	ポストスクリプト
+postmaster	ポストマスター	ポストマスタ
+portasound	ポータサウンド
+persistent	永続
+permission	パーミッション
+percussion	パーカッション
+perceptron	パーセプトロン
+percentage	パーセンテージ
+pedophilia	ペドフィリア
+passphrase	パスフレーズ
+paraphrase	パラフレーズ
+parametric	パラメトリック
+pantograph	パンタグラフ
+optionmenu	オプションメニュー
+operations	オペレーションズ
+openwindow	OpenWindow
+one-to-one	一対一
+occurrence	オカレンス
+occupation	職業
+npcomplete	ＮＰ-完全
+noiselevel	ノイズレベル
+niftyserve	ニフティサーブ
+newzealand	ニュージーランド
+newssystem	ニュースシステム
+newsserver	ニュースサーバー
+newsreader	ニュースリーダー
+newsletter	ニュースレター	ニューズレター
+neuralware	ＮｅｕｒａｌＷａｒｅ
+networking	ネットワーキング
+navigation	ナビゲーション
+naturalist	ナチュラリスト
+nameserver	ネームサーバ	ネームサーバー
+nailenamel	ネイルエナメル
+mysterious	ミステリアス
+multitrack	マルチトラック
+multiplier	マルチプライヤ
+multimodal	マルチモーダル
+multimedia	マルチメディア
+multilevel	マルチレベル
+multiagent	マルチエージェント	マルチエイジェント
+motivation	モチベーション
+montecarlo	モンテカルロ	モンテカルロ法
+monochrome	モノクロ
+monitoring	モニタリング
+modulation	モジュレーション
+modularity	モジュラリティ
+minibuffer	ミニバッファ
+middleware	ミドルウエア
+microphone	マイクロフォン	マイクロホン
+messagebox	メッセージボックス
+memorandum	メモランダム	メモ
+membership	メンバーシップ	メンバシップ
+mechanical	メカニカル
+mcgrawhill	マグロウヒル
+mayonnaise	マヨネーズ
+marionette	マリオネット
+manipulate	マニピュレイト
+mandelbrot	マンデルブロート
+management	マネージメント	マネジメント
+mainwindow	メーンウインドー	メインウインドー
+mainmemory	メインメモリ
+mailsystem	メールシステム
+mailserver	メイルサーバ
+mailreader	メールリーダー
+loveletter	ラブレター
+loadmodule	ロードモジュール
+limitcycle	リミットサイクル
+leadership	リーダーシップ
+laytracing	レイトレーシング
+laymantype	レイマン型
+ladyborden	レディボーデン
+kolmogorov	コルモゴロフ
+keybinding	キーバインディング
+johnlennon	ジョンレノン
+jazzchorus	ジャズコーラス
+invitation	インビテーション
+investment	インベストメント
+invalidate	インバリデート
+intrinsics	イントリンシックス
+intonation	イントネーション
+internoise	インターノイズ
+interleave	インタリーブ	インターリーブ
+interferon	インターフェロン
+instrument	インスツルメント
+instructor	インストラクター
+initiative	イニシアティブ
+initialize	イニシャライズ
+industrial	インダストリアル
+inductance	インダクタンス
+indication	インディケーション
+indexation	インデクセーション
+impression	インプレッション
+identifier	アイデンティファイア	識別子
+hypermedia	ハイパーメディア
+horizontal	水平	水平方向
+holography	ホログラフィー
+highvision	ハイビジョン
+highschool	ハイスクール
+heuristics	ヒューリスティクス
+helicopter	ヘリコプター
+headerfile	ヘッダーファイル	ヘッダファイル
+hardwiring	ハードワイアリング
+grandpiano	グランドピアノ
+gothenburg	イェテボリ
+goldenweek	ゴールデンウィーク
+generalist	ジェネラリスト
+gamecenter	ゲームセンター
+functional	汎関数
+frontglass	フロントガラス
+foundation	ファウンデーション	ファンデーション
+forwarding	フォワーディング
+formatting	フォーマッティング
+foreground	フォアグラウンド
+fontserver	フォントサーバー
+flying-pan	フライパン
+floppydisk	フロッピィディスク
+fleamarket	フリーマーケット
+firstclass	ファースト・クラス
+filterbank	フィルタバンク
+filesystem	ファイルシステム
+fileserver	ファイルサーバー
+filehandle	ファイルハンドル
+fellowship	フェローシップ
+expression	式	イクスプレッション
+expiration	エクスパイレーション
+exhibition	エキシビジョン
+etherboard	イーサーボード
+errorcheck	エラーチェック
+enterprise	エンタープライズ
+entailment	→
+enableware	イネーブルウェア
+elementary	エレメンタリー
+electronic	エレクロニック
+electrical	エレクトリカル
+dupulicate	デュプリケート
+distortion	ディストーション
+dispatcher	ディスパッチャ
+disneyland	ディズニーランド
+discussion	ディスカッション
+disconnect	ディスコネクト
+directmail	ダイレクトメール
+dictionary	ディクショナリ	辞書
+destructor	デストラクタ	消滅子	ディストラクタ
+descriptor	記述子	ディスクリプタ
+descripter	記述子
+deposerver	デポサーバー
+dependency	ディペンデンシ
+decoration	デコレーション
+deallocate	デアロケイト
+dataserver	データサーバー
+dataobject	データオブジェクト
+customizer	カスタマイザ
+customized	カスタマイズド
+curriculum	カリキュラム
+creditcard	クレジットカード
+cornflakes	コーンフレーク
+coordinate	座標	コーディネート
+conversion	変換	コンバージョン	コンヴァージョン
+convention	コンベンション	コンヴェンション
+controller	コントローラ
+consulting	コンサルティング
+consultant	コンサルタント
+const-prog	構成的プログラミング
+consortium	コンソーシアム
+connection	コネクション
+conference	コンファレンス
+concurrent	コンカレント
+compuserve	コンピューサーブ
+compressor	コンプレッサ
+completion	コンプリーション
+compatible	コンパチブル	コンパチ	互換
+comparator	コンパレータ
+compaction	コンパクション
+commitment	コミットメント
+commercial	コマーシャル
+commentout	コメントアウト
+combinator	コンビネータ
+collection	コレクション
+clustering	クラスタリング
+classifier	クラシファイア
+clampmeter	クランプメーター
+christamas	クリスマス
+cheesecake	チーズケーキ
+checkpoint	チェックポイント
+charleston	チャールストン
+challenger	チャレンジャー
+cathereine	キャサリン
+categorize	カテゴライズ
+casebycase	ケースバイケース
+cardwindow	カードウインドー
+cardreader	カードリーダ
+carburetor	キャブ	キャブレター
+capability	ケーパビリティ
+california	カリフォルニア	カルフォルニア
+breakpoint	ブレイクポイント	ブレークポイント
+bottomline	ボトムライン
+bottleneck	ボトルネック
+boardlevel	ボードレベル
+blindtouch	ブラインドタッチ
+blackrider	ブラックライダー
+blackmagic	ブラックマジック
+binarydump	バイナリダンプ
+bestseller	ベストセラー
+bankbutton	バンクボタン
+backpacker	バックパッカー
+backnumber	バックナンバー
+backmirror	バックミラー
+background	背景	バックグラウンド
+backgammon	バックギャモン
+automation	オートメーション
+auditorium	オーディトリアム
+attractive	アトラクティブ
+attraction	アトラクション
+attenuator	アッテネータ
+astroscope	アストロスコープ
+associates	アソシエイツ
+assignment	アサインメント	代入
+articulate	アーティキュレイト
+armacology	アロマコロジー
+aquamarine	アクアマリン	藍玉
+annotation	アノテーション
+allocation	アロケーション	割り当て
+aggressive	アグレッシブ
+aerogramme	エアログラム
+admittance	アドミタンス
+administer	アドミニスター
+addressing	アドレッシング	アドレシング
+adaptation	アダプテーション
+actualtime	アクチュアルタイム
+accounting	アカウンティング
+accesstime	アクセスタイム
+acceptable	アクセプタブル
+Versailles	ヴェルサイユ	ベルサイユ
+Sailormoon	セーラームーン
+Jamiroquai	ジャミロクワイ
+zarathustra	ツァラトゥストラ
+workstation	ワークステーション
+usersmanual	ユーザーズマニュアル
+untouchable	アンタッチャブル
+unification	ユニフィケーション
+typographer	タイポグラファ
+transversal	トランスバーサル
+transparent	トランスペアレント	透過
+translation	トランスレーション
+transceiver	トランシーバ	トランシーバー
+transaction	トランザクション
+topological	トポロジカル
+throughtput	スループット
+synthesizer	シンセサイザ
+synchronous	シンクロナス
+susceptance	サセプタンス
+superscaler	スーパースケーラ
+superscalar	スーパスカラ	スーパースケーラ
+superoption	スーパーオプション
+supermarket	スーパーマーケット
+suntoryhall	サントリーホール
+subtraction	サブトラクション
+stackobject	スタック・オブジェクト
+spreadsheet	スプレッドシート
+spectrogram	スペクトログラム
+shroedinger	シュレーディンガー
+shellscript	シェルスクリプト
+seveneleven	セブンイレブン
+serendipity	セレンディピティー
+sensational	センセーショナル
+selfservice	セルフサービス
+sectionning	セクショニング
+scrap&build	スクラップ＆ビルド
+scandinavia	スカンジナビア
+scalewindow	スケールウインドー
+scalability	スケイラビリティ	スケーラビリティ
+roomservice	ルームサービス
+roleplaying	ロールプレイング
+reservation	リザベーション
+replication	レプリケーション
+replacement	リプレースメント
+rendez-vous	ランデヴー
+relocatable	リロケータブル
+redirection	リダイレクション
+recruitment	リクルートメント
+recognition	認識
+reacitivate	リアクティベート
+radiobutton	ラジオボタン
+radiobotton	ラジオボタン
+publication	パブリケイション
+prototyping	プロトタイピング
+propagation	プロパゲーション
+promiscuous	プロミスカス
+programming	プログラミング
+programmers	プログラマーズ
+programable	プログラマブル
+proceedings	プロシーディングス
+prettyprint	プリティプリント
+preemmptive	プリエンプティブ
+postprocess	ポストプロセス
+positioning	ポジショニング
+portability	ポータビリティ
+polymorphic	ポリモルフィック	多相型
+perspective	パースペクティブ
+personality	パーソナリティ
+performance	パフォーマンス	パーフォーマンス
+partnership	パートナーシップ
+overloading	オーバーローディング
+osciloscope	オシロスコープ
+originality	オリジナリティ
+orientation	オリエンテイション	オリエンテーション
+orientalism	オリエンタリズム
+orchardhall	オーチャードホール
+opticalflow	オプティカルフロー
+operational	オペレーショナル
+operability	オペラビリティ
+openwindows	ＯｐｅｎＷｉｎｄｏｗｓ
+observation	オブザベーション
+notchfilter	ノッチフィルタ
+nonmaskable	ノンマスカブル
+newsstation	ニュースステーション
+newfrontier	ニューフロンティア
+neuromancer	ニューロマンサー
+nettopology	ネット・トポロジー
+netdatabase	ネットデータベース
+negotiation	ネゴシエーション
+nearlyequal	≒
+nationalism	ナショナリズム
+multiwindow	マルチウィンドウ
+multithread	マルチスレッド
+multitalker	マルチトーカ
+multiserver	マルチサーバ
+multiplexor	マルチプレクサ
+multiplexer	マルチプレクサ
+mousecursor	マウスカーソル
+mousebutton	マウスボタン
+mothreboard	マザーボード
+motherboard	マザーボード
+monitormode	モニタモード
+misspicking	ミスピッキング
+microkernel	マイクロカーネル
+methodology	メソドロジ
+memberscard	メンバーズカード
+manipulator	マニピュレータ
+man-machine	マン-マシン
+maintenance	メインテナンス	メンテナンス
+mainroutine	メインルーチン
+mailinglist	メーリングリスト	メイリングリスト
+mailaddress	メールアドレス
+maharanobis	マハラノビス
+mahalanobis	マハラノビス
+machineroom	マシンルーム
+loudspeaker	ラウドスピーカ
+localminima	ローカルミニマ	局所的最良解
+lifeservice	ライフサービス
+leaderalbum	リーダーアルバム
+laserwriter	ＬａｓｅｒＷｒｉｔｅｒ	レーザーライタ
+labelwidget	ラベル・ウィジット
+keysequence	キーシーケンス
+interviewer	インタヴュアー
+interrupter	インタラプター
+interpreter	インタープリータ	インタプリタ	インタープリタ
+interactive	インタラクティヴ	インタラクティブ
+interaction	インタラクション
+intelligent	インテリジェント
+integration	インテグレーション
+instruments	インスツルメンツ
+instruction	インストラクション
+institution	インスティテューション
+instantiate	具体化	インスタンシエート
+inspiration	インスピレーション
+insensitive	インセンシティブ
+inheritance	インヘリタンス
+information	インフォメーション	情報
+independent	インディペンデント
+indentation	字下げ	インデンテイション	インデンテーション
+incremental	インクリメンタル
+implication	⊃
+implementor	インプリメンタ
+imagewindow	イメージウインドー
+hyphenation	ハイフネーション
+holographic	ホログラフィック
+healthcheck	ヘルスチェック
+guitarsynth	ギターシンセ
+grapefruits	グレープフルーツ
+georgemason	ジョージ・メイソン大学
+functionkey	ファンクションキー
+fullinstall	フルインストール
+frustration	フラストレーション
+framebuffer	フレームバッファ
+filepointer	ファイルポインタ
+feedforward	フィードフォワード
+feasibility	フィージビリティ
+fashionable	ファッショナブル
+exponential	エクスポネンシャル
+exclamation	感嘆符
+errorsignal	エラーシグナル
+errordialog	エラー・ダイアログ
+entertainer	エンターティナー
+engineering	エンジニアリング
+encapsulate	カプセル化
+electronics	エレクトロニクス
+dramaturgie	ドラマツルギー
+doublecount	ダブルカウント
+doubleclick	ダブルクリック
+doctorcheck	ドクターチェック
+distributor	ディストリビュータ
+disassemble	ディスアセンブル
+destination	デスティネーション	デスティネイション	ディスティネーション
+cybernetics	サイバネティクス
+correlation	コリレーション
+copyonwrite	コピーオンライト
+coprocessor	コプロセッサ
+coordinator	コーディネータ	コーディネーター
+convolution	コンヴォリューション
+convenience	コンビニエンス
+contraction	コントラクション
+constructor	構築子	コンストラクタ
+consistency	コンシステンシ
+conductance	コンダクタンス
+concurrency	コンカレンシー
+concerthall	コンサートホール
+computation	コンピュテーション
+compression	コンプレッション
+compilation	コンピ	コンピレイション
+communicate	コミュニケート
+commandline	コマンドライン
+combination	コンビネーション
+collectcall	コレクトコール
+coincidence	コインシデンス
+classiclife	クラシックライフ
+challenging	チャレンジング
+caterpillar	キャタピラ
+categorical	カテゴリカル
+capacitance	キャパシタンス
+calibration	キャリブレーション
+bytecompile	バイトコンパイル
+butterworth	バタワース
+businessman	ビジネスマン
+bridgestone	ブリジストン
+associative	アソシアティブ	アソシエイティブ
+association	アソシエーション
+arrangement	アレンジメント
+arbitration	アービトレーション
+apprication	アプリケーション
+appointment	アポイントメント
+application	アプリケーション	アプリケイション	応用
+anachronism	アナクロ
+ambivalence	アンビバレンス
+alternative	オルタナティヴ
+agriculture	アグリカルチャー
+accelerator	アクセル	アクセラレータ
+accelerando	アチェレランド
+abstraction	アブストラクション
+Los_Angeles	ロサンゼルス
+Deutschland	独逸	ドイツ
+Constantine	コンスタンチン
+workinggroup	ワーキンググループ
+wirewrapping	ワイヤラッピング
+windowsystem	ウィンドウシステム
+weddingdress	ウェディングドレス
+washingtondc	ワシントンＤＣ
+unrecognized	識別不能
+unixmagazine	ＵＮＩＸマガジン
+uniprocessor	ユニプロセッサ
+tranquilizer	トランキライザ
+togglebutton	トグルボタン
+symboliclink	シンボリック・リンク
+subdirectory	サブディレクトリ
+storethrough	ストアスルー
+stackpointer	スタック・ポインタ
+sportscenter	スポーツセンター
+sophisticate	ソフィスティケート
+slidermemory	スライダーメモリ
+segmentation	セグメンテーション
+sectionalism	セクショナリズム
+sanfrancisco	サン・フランシスコ	サンフランシスコ
+resourcefile	リソースファイル
+registration	レジストレーション
+reactivation	リアクティベーション
+proportional	プロポーショナル
+programmable	プログラマブル
+professional	プロフェッショナル
+processorset	プロセッサセット
+presentation	プレゼンテイション	プレゼンテーション
+preprocessor	プリプロセッサ
+powerspector	パワースペクトル
+polymorphism	ポリモルフィズム
+philadelphia	フィラデルフィア
+partitioning	パーティショニング
+pagingdaemon	ページングデーモン
+overcomplete	オーバコンプリート
+outplacement	アウトプレースメント
+oscilloscope	オシロスコープ
+optionbutton	オプション・ボタン
+onlinemanual	オンラインマニュアル
+objectshikou	オブジェクト指向
+northwestern	ノースウェスタン
+neuroscience	ニューロサイエンス
+networkadmin	ネットワークアドミン
+minicomputer	ミニコンピュータ	ミニコン
+microsystems	マイクロシステムズ
+metropolitan	メトロポリタン
+metamorphose	メタモルフォーゼ
+memorymapped	メモリマップド
+masturbation	マスターベーション
+manipulation	マニピュレーション
+maintainance	メンテナンス
+mailing-list	メイリングリスト
+localization	ローカリゼーション
+layoutsystem	レイアウトシステム
+laserprinter	レーザープリンタ
+laboratories	ラボラトリーズ
+ionicchannel	イオニック・チャンネル
+invitational	インヴィテイショナル
+invalidation	インバリデーション
+introduction	イントロダクション	導入
+intersection	∩
+interpretive	インタプリティブ
+internetwork	インターネットワーク
+intellectual	インテレクチュアル
+insufficient	不足	不充分
+instrumental	インスツルメンタル
+installation	インストレーション
+informatique	アンフォルマティーク
+inflationary	インフレ	インフレーショナリ
+illustration	イラストレーション
+illumination	イリュミネイション
+housekeeping	ハウスキーピング
+happytalking	ハッピートーキング
+handkerchief	ハンカチーフ	ハンカチ
+globalmemory	グローバルメモリ
+geopotential	ジオポテンシャル
+friedchicken	フライドチキン
+freesoftware	フリーソフトウェア	フリーソフトウエア
+frankenstein	フランケンシュタイン
+formatstring	フォーマットストリング
+expertsystem	エキスパート・システム
+eventhandler	イベントハンドラ
+errormessage	エラーメッセージ
+entrepreneur	アントレプレナー
+encyclopedia	百科事典	エンサイクロペディア
+encapsulator	エンカプスレータ
+downsampling	ダウンサンプリング
+distribution	ディストリビューション
+displacement	ディスプレイスメント
+differential	デフ	ディファレンシャル
+devicedriver	デバイスドライバ	デバイスドライバー
+denotational	デノテーショナル
+demonstrator	デモンストレータ
+customizable	カスタマイザブル
+conventional	コンヴェンショナル	コンベンショナル
+contribution	コントリビューション
+continuation	コンティニュエーション	継続
+consultation	コンサルテーション
+conservatory	コンセルヴァトーリ
+connectivity	コネクティビティ
+concentrator	コンセントレータ	コンセントレーター
+communicator	コミュニケーター
+commissioner	コミッショナー
+circumscribe	サーカムスクライブ
+championship	チャンピオンシップ
+cellinstance	セルインスタンス
+cancellation	キャンセレーション
+bytecompiler	バイトコンパイラ
+byte-compile	バイトコンパイル
+blockdiagram	ブロックダイアグラム
+backtracking	バックトラッキング
+availability	アベイラビリティ
+aromatherapy	アロマセラピー
+architecture	アーキテクチャー	アーキテクチャ
+announcement	アナウンスメント
+amortization	アモチゼーション
+agribusiness	アグリビジネス
+aerodynamics	エアロダイナミクス
+accidentally	アクシデンタリ
+Frankenstein	フランケンシュタイン
+windowmanager	ウィンドウマネージャ
+vulnerability	ヴァルネラビリティ
+visualization	ビジュアライゼーション
+userinterface	ユーザインタフェース	ユーザーインターフェース
+turingmachine	チューリングマシン
+transactional	トランザクショナル
+thetelevision	ザ・テレビジョン
+synchronizing	シンクロナイジング
+symbolic-link	シンボリック・リンク
+supercomputer	スーパーコンピューター	スーパーコンピュータ
+specification	スペシフィケーション
+softwarestack	ソフトウェア・スタック
+signalhandler	シグナルハンドラ
+scatterometer	スキャトロメーター
+scalingfactor	スケーリングファクター
+san-francisco	サンフランシスコ
+radio-casette	ラジカセ
+procedurecall	プロシジャコール	プロシジャ・コール
+printerbuffer	プリンタバッファ
+potentiometer	ポテンショメータ
+postersession	ポスターセッション
+polypropylene	ポリプロピレン
+parameterized	パラメタライズド
+parameterfile	パラメーターファイル
+paradigmshift	パラダイム・シフト
+neuroethology	ニューロエソロジー
+neurocomputer	ニューロコンピュータ
+neuralnetwork	ニューラルネットワーク
+multicomputer	マルチコンピュータ
+microcomputer	マイクロコンピュータ
+meistersinger	マイスタージンガー
+maskedspector	マスクトスペクトル
+machinevision	マシン・ビジョン	マシンビジョン
+justification	ジャスティフィケーション
+isoparametric	アイソパラメトリック
+international	インターナショナル
+inprovisation	インプロヴァイゼィション
+homedirectory	ホームディレクトリ
+heterogeneous	ヘテロジニアス
+graphmatching	グラフマッチング
+geneticsystem	ジェネティックシステム
+free-software	フリーソフトウェア
+fragmentation	フラグメンテーション
+establishment	設立
+entertainment	エンターテインメント
+encapsulation	エンカプセレーション	エンカプシュレーション
+dolbysurround	ドルビーサラウンド
+documentation	ドキュメンテーション
+discriminator	ディスクリミネータ
+demonstration	デモンストレーション
+deconvolution	デコンボリューション
+customization	カスタマイゼーション
+connectionist	コネクショニスト
+connectionism	コネクショニズム
+configuration	コンフィギュレーション	コンフィグレーション
+computermusic	コンピュータミュージック
+compileoption	コンパイルオプション
+compatibility	コンパチ	コンパチビリティ
+communication	コミュニケーション
+checkerplayer	チェッカープレイヤー
+challengealbe	チャレンジブル
+certification	サーティフィケーション
+byte-compiler	バイトコンパイラ
+bulletinboard	ブレティンボード
+benchmarktask	ベンチマーク・タスク
+advertisement	アド
+administrator	アドミニストレータ
+addessability	アドレッサビリティ
+word-processor	ワードプロセッサ	ワープロ
+systollicarray	シストリックアレイ
+scrolledwindow	スクロール・ウィンドー
+romancingstone	ロマンシングストーン
+rehabilitation	機能回復訓練	リハビリテーション
+realtimesystem	リアルタイムシステム
+officecomputer	オフコン
+objectoriented	オブジェクトオリエンテッド
+neurocomputing	ニューロコンピューティング
+multiprocessor	マルチプロセッサ
+motionfeedback	モーションフィードバック
+microprocessor	マイクロプロセッサ
+merrychristmas	メリークリスマス
+kroneckerdelta	クロネッカーのデルタ
+interfaceboard	インターフェースボード
+infrastructure	インフラストラクチャ	インフラストラクチャー	インフラ
+implementation	インプリメンテイション	インプリメンテーション
+guitarmagazine	ギターマガジン
+groupingeffect	グルーピング・エフェクト
+globaldatafile	グローバルデータファイル
+faulttolerancy	フォルトトレランシ
+faulttolerance	フォールトトレランス
+discrimination	ディスクリミネーション
+databasesystem	データベース・システム
+computervision	コンピュータービジョン	コンピュータビジョン
+classification	分類	クラスフィケーション
+administration	アドミニストレーション
+accountability	アカンタビリティ
+troubleshooting	トラブルシューティング
+resourcemanager	リソースマネージャ
+programmability	プログラマビリティ
+patternmatching	パターン・マッチング
+paneldiscussion	パネルディスカッション
+operatingsystem	オペレーティングシステム
+office-computer	オフコン
+liveunderthesky	ライヴ・アンダー・ザ・スカイ
+internetworking	インターネットワーキング
+circumscription	サーカムスクリプション
+backpropagation	バックプロパゲーション
+singersongwriter	シンガーソングライター
+parameterization	パラメタリゼーション
+oxygen-destroyer	オキシジェン・デストロイヤー	水中酸素破壊剤
+northwesternuniv	ノースウェスタン大学
+multitalkernoise	マルチトーカノイズ
+logicprogramming	ロジック・プログラミング
+familyrestaurant	ファミリーレストラン
+discommunication	ディスコミュニケーション
+computer-science	コンピュータサイエンス
+applicationmodal	アプリケーションモーダル
+personal-computer	パソコン
+geneticalgorithms	ジェネティックアルゴリズム
+computer-software	コンピュータソフトウェア
+commandlineoption	コマンドラインオプション
+patternrecognition	パターン認識
+operationsresearch	オペレーションズ リサーチ
+graphicalinterface	グラフィカル・インターフェイス
+counterpropagation	カウンタープロパゲーション
+connectionistmodel	コネクショニストモデル
+applicationcontext	アプリケーションコンテキスト
+defaultresourcefile	デフォルトリソースファイル
