@@ -57,6 +57,7 @@
       RestoreTab: sendToBackground,
       FocusNextCandidate: triggerInsideContent,
       FocusPrevCandidate: triggerInsideContent,
+      TriggerReadabilityRedux: sendToBackground,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };

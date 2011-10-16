@@ -55,6 +55,7 @@ class g.CommandExecuter
         RestoreTab            : sendToBackground
         FocusNextCandidate    : triggerInsideContent
         FocusPrevCandidate    : triggerInsideContent
+        TriggerReadabilityRedux : sendToBackground
         Escape                : escape
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent

@@ -285,6 +285,14 @@
       }).start();
       return true;
     },
+    reqTriggerReadabilityRedux: function(req) {
+      return chrome.tabs.getSelected(null, function(tab) {
+        return chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
+          type: "render",
+          tab_id: tab.id
+        });
+      });
+    },
     init: function() {
       var $WA;
       this.tabHistory = (new g.TabHistory).init();

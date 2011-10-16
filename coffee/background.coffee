@@ -15,6 +15,7 @@ g.bg =
             )
         )
 
+
     getSettings : (msg, response) ->
         sendMsg = {}
         sendMsg.name = msg.name
@@ -197,6 +198,14 @@ g.bg =
                 sendResponse msg
         }).start()
         true
+
+    reqTriggerReadabilityRedux : (req) ->
+        chrome.tabs.getSelected( null, (tab)->
+            chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
+                type   : "render"
+                tab_id : tab.id
+            })
+        )
 
     init : ->
         @tabHistory = (new g.TabHistory).init()

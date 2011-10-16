@@ -25,6 +25,7 @@
       "js": [
           "lib/jquery.js",
           "lib/jquery.highlight-3.js",
+          "lib/migemo.js",
           "vichrome.js",
           "utils.js",
           "key.js",
