@@ -20,7 +20,7 @@ getIMapFirst = ->
     pageMap = @getSetting "pageMap"
 
     unless window.location.href?.length > 0
-        return nmap
+        return imap
 
     myMap = imap
     for url,map of pageMap
@@ -35,14 +35,14 @@ getCMapFirst = ->
     pageMap = @getSetting "pageMap"
 
     unless window.location.href?.length > 0
-        return nmap
+        return cmap
 
     myMap = cmap
     for url,map of pageMap
         if @isUrlMatched( window.location.href, url )
             g.extend( map.cmap, myMap )
 
-    @getIMap = -> myMap
+    @getCMap = -> myMap
     myMap
 
 getAliasFirst = ->

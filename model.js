@@ -26,7 +26,7 @@
     imap = g.object(this.getSetting("keyMappingInsert"));
     pageMap = this.getSetting("pageMap");
     if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
-      return nmap;
+      return imap;
     }
     myMap = imap;
     for (url in pageMap) {
@@ -45,7 +45,7 @@
     cmap = g.object(this.getSetting("keyMappingCommand"));
     pageMap = this.getSetting("pageMap");
     if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
-      return nmap;
+      return cmap;
     }
     myMap = cmap;
     for (url in pageMap) {
@@ -54,7 +54,7 @@
         g.extend(map.cmap, myMap);
       }
     }
-    this.getIMap = function() {
+    this.getCMap = function() {
       return myMap;
     };
     return myMap;
