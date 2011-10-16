@@ -53,10 +53,18 @@ class g.NormalSearcher
             commandBox.addInputUpdateListener( (word) => @updateInput(word) )
         this
 
-    getOption : -> @opt
+    getOption : ->
+        ret = g.object( @opt )
+        if @opt.useMigemo and @word.length < @opt.minMigemoLength
+            ret.useMigemo = false
+        ret
 
     highlight : (word) ->
-        $(document.body).highlight( word, {ignoreCase : @opt.ignoreCase} )
+        opt = @getOption()
+        $(document.body).highlight( word, {
+            ignoreCase : opt.ignoreCase
+            useMigemo  : opt.useMigemo
+        })
 
     getCurIndex : -> @curIndex
 
@@ -72,6 +80,9 @@ class g.NormalSearcher
 
     fix : (word) ->
         if not @opt.incSearch or word.length < @opt.minIncSearch or @word != word
+            if @opt.useMigemo and word.length < @opt.minMigemoLength
+                @opt.useMigemo = false
+            @word = word
             @searchAndHighlight( word )
             if @getResultCnt() == 0
                 g.view.setStatusLineText( "no matches" )
@@ -84,13 +95,16 @@ class g.NormalSearcher
                 else
                     @curIndex = 0
             @moveTo( @curIndex )
+        else
+            @word = word
 
-        @word = word
         chrome.extension.sendRequest(
             command : "PushSearchHistory"
             value   : @word
         )
 
+        span = @getResult( @getCurIndex() )
+        span?.closest("a").get(0)?.focus()
         @fixed = true
 
     moveTo : (pos) ->
@@ -101,7 +115,11 @@ class g.NormalSearcher
                 span.addClass('vichrome-highlightFocus')
                 span.scrollTo()
                 g.view.setStatusLineText( (pos+1) + " / " + @getResultCnt() )
+                if @fixed
+                    g.view.blurActiveElement()
+                    span.closest("a").get(0)?.focus()
         else g.logger.e("out of searchResults length", pos)
+
 
     goNext : (reverse) ->
         forward = (@opt.backward == reverse)
@@ -142,13 +160,8 @@ class g.NormalSearcher
 
 class g.LinkTextSearcher extends g.NormalSearcher
     highlight : (word) ->
-        $("a").highlight( word, {ignoreCase : @getOption().ignoreCase} )
-
-    moveTo : (pos) ->
-        super pos
-        if @fixed then @getResult( pos )?.closest("a").get(0).focus()
-
-    fix : (word) ->
-        super word
-        span = @getResult( @getCurIndex() )
-        span?.closest("a").get(0).focus()
+        opt = @getOption()
+        $("a").highlight( word, {
+            ignoreCase : opt.ignoreCase
+            useMigemo  : opt.useMigemo
+        })

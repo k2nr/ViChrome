@@ -20,6 +20,8 @@
       "wrapSearch": true,
       "incSearch": true,
       "ignoreCase": true,
+      "useMigemo": false,
+      "minMigemoLength": 3,
       "minIncSearch": 2,
       "ignoredUrls": ["http*://mail.google.com/*", "http*://www.google.co*/reader/*", "http*://docs.google.com/*", "http*://www.google.com/calendar/*"],
       "commandBoxAlign": "Left-Bottom",

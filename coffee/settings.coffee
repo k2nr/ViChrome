@@ -19,6 +19,8 @@ g.SettingManager =
         "wrapSearch"              : true
         "incSearch"               : true
         "ignoreCase"              : true
+        "useMigemo"               : false
+        "minMigemoLength"         : 3
         "minIncSearch"            : 2
         "ignoredUrls"             : [
             "http*://mail.google.com/*"

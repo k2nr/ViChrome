@@ -74,11 +74,19 @@
       return this;
     };
     NormalSearcher.prototype.getOption = function() {
-      return this.opt;
+      var ret;
+      ret = g.object(this.opt);
+      if (this.opt.useMigemo && this.word.length < this.opt.minMigemoLength) {
+        ret.useMigemo = false;
+      }
+      return ret;
     };
     NormalSearcher.prototype.highlight = function(word) {
+      var opt;
+      opt = this.getOption();
       return $(document.body).highlight(word, {
-        ignoreCase: this.opt.ignoreCase
+        ignoreCase: opt.ignoreCase,
+        useMigemo: opt.useMigemo
       });
     };
     NormalSearcher.prototype.getCurIndex = function() {
@@ -97,7 +105,12 @@
       return (_ref = this.sortedResults[cnt]) != null ? _ref.value : void 0;
     };
     NormalSearcher.prototype.fix = function(word) {
+      var span, _ref;
       if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
+        if (this.opt.useMigemo && word.length < this.opt.minMigemoLength) {
+          this.opt.useMigemo = false;
+        }
+        this.word = word;
         this.searchAndHighlight(word);
         if (this.getResultCnt() === 0) {
           g.view.setStatusLineText("no matches");
@@ -112,23 +125,34 @@
           }
         }
         this.moveTo(this.curIndex);
+      } else {
+        this.word = word;
       }
-      this.word = word;
       chrome.extension.sendRequest({
         command: "PushSearchHistory",
         value: this.word
       });
+      span = this.getResult(this.getCurIndex());
+      if (span != null) {
+        if ((_ref = span.closest("a").get(0)) != null) {
+          _ref.focus();
+        }
+      }
       return this.fixed = true;
     };
     NormalSearcher.prototype.moveTo = function(pos) {
-      var span;
+      var span, _ref;
       if (this.getResultCnt() > pos) {
         span = this.getResult(pos);
         if (span != null) {
           $('span').removeClass('vichrome-highlightFocus');
           span.addClass('vichrome-highlightFocus');
           span.scrollTo();
-          return g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
+          g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
+          if (this.fixed) {
+            g.view.blurActiveElement();
+            return (_ref = span.closest("a").get(0)) != null ? _ref.focus() : void 0;
+          }
         }
       } else {
         return g.logger.e("out of searchResults length", pos);
@@ -184,22 +208,12 @@
       LinkTextSearcher.__super__.constructor.apply(this, arguments);
     }
     LinkTextSearcher.prototype.highlight = function(word) {
+      var opt;
+      opt = this.getOption();
       return $("a").highlight(word, {
-        ignoreCase: this.getOption().ignoreCase
+        ignoreCase: opt.ignoreCase,
+        useMigemo: opt.useMigemo
       });
-    };
-    LinkTextSearcher.prototype.moveTo = function(pos) {
-      var _ref;
-      LinkTextSearcher.__super__.moveTo.call(this, pos);
-      if (this.fixed) {
-        return (_ref = this.getResult(pos)) != null ? _ref.closest("a").get(0).focus() : void 0;
-      }
-    };
-    LinkTextSearcher.prototype.fix = function(word) {
-      var span;
-      LinkTextSearcher.__super__.fix.call(this, word);
-      span = this.getResult(this.getCurIndex());
-      return span != null ? span.closest("a").get(0).focus() : void 0;
     };
     return LinkTextSearcher;
   })();

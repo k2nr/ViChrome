@@ -279,7 +279,9 @@
         wrap: g.model.getSetting("wrapSearch"),
         ignoreCase: g.model.getSetting("ignoreCase"),
         incSearch: g.model.getSetting("incSearch"),
+        useMigemo: g.model.getSetting("useMigemo"),
         minIncSearch: g.model.getSetting("minIncSearch"),
+        minMigemoLength: g.model.getSetting("minMigemoLength"),
         backward: backward_
       };
       align = g.model.getSetting("commandBoxAlign");

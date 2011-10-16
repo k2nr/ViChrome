@@ -110,6 +110,7 @@
     initInputNumber("commandWaitTimeOut");
     initInputNumber("minIncSearch");
     initInputNumber("commandBoxWidth");
+    initInputNumber("minMigemoLength");
     initInputText("fModeAvailableKeys");
     initCheckBox("disableAutoFocus");
     initCheckBox("smoothScroll");
@@ -117,6 +118,7 @@
     initCheckBox("wrapSearch");
     initCheckBox("incSearch");
     initCheckBox("ignoreCase");
+    initCheckBox("useMigemo");
     initDropDown("commandBoxAlign");
     $('[name="newTabPage"][value="' + settings.defaultNewTab + '"]').attr('checked', true);
     $('[name="newTabPage"]').change(function() {
