@@ -1,5 +1,5 @@
 (function() {
-  var escape, g, sendToBackground, triggerInsideContent;
+  var escape, g, sendToBackground, solveAlias, triggerInsideContent;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -19,15 +19,28 @@
   escape = function(com) {
     return triggerInsideContent("Escape");
   };
+  solveAlias = function(alias) {
+    var aliases, command;
+    aliases = g.model.getAlias();
+    alias = aliases[alias];
+    while (alias != null) {
+      command = alias;
+      alias = aliases[alias];
+    }
+    return command;
+  };
   g.CommandExecuter = (function() {
     function CommandExecuter() {}
-    CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "NMap", "IMap", "Alias", "OpenNewWindow", "RestoreTab"];
+    CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "RestoreTab"];
     CommandExecuter.prototype.commandTable = {
       Open: triggerInsideContent,
       OpenNewTab: triggerInsideContent,
       CloseCurTab: sendToBackground,
+      CloseAllTabs: sendToBackground,
       MoveToNextTab: sendToBackground,
       MoveToPrevTab: sendToBackground,
+      MoveToFirstTab: sendToBackground,
+      MoveToLastTab: sendToBackground,
       NMap: sendToBackground,
       IMap: sendToBackground,
       Alias: sendToBackground,
@@ -58,11 +71,19 @@
       FocusNextCandidate: triggerInsideContent,
       FocusPrevCandidate: triggerInsideContent,
       TriggerReadabilityRedux: sendToBackground,
+      ShowTabList: triggerInsideContent,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };
     CommandExecuter.prototype.get = function() {
       return this.command;
+    };
+    CommandExecuter.prototype.setDescription = function(description) {
+      this.description = description;
+      return this;
+    };
+    CommandExecuter.prototype.getDescription = function() {
+      return this.description;
     };
     CommandExecuter.prototype.set = function(command, times) {
       if (this.command != null) {
@@ -75,7 +96,7 @@
       return this;
     };
     CommandExecuter.prototype.parse = function() {
-      var aliases, i, _ref;
+      var command, i, _ref;
       if (!this.command) {
         throw "invalid command";
       }
@@ -88,9 +109,9 @@
           this.args.splice(i, 1);
         }
       }
-      aliases = g.model.getAlias();
-      if (aliases[this.args[0]]) {
-        this.args = aliases[this.args[0]].split(' ').concat(this.args.slice(1));
+      command = solveAlias(this.args[0]);
+      if (command != null) {
+        this.args = command.split(' ').concat(this.args.slice(1));
       }
       if (this.commandTable[this.args[0]]) {
         return this;

@@ -4,17 +4,21 @@
   g = this;
   g.bg = {
     tabHistory: null,
-    moveTab: function(offset) {
+    moveTab: function(offset, start) {
       return chrome.tabs.getAllInWindow(null, function(tabs) {
         var nTabs;
         nTabs = tabs.length;
         return chrome.tabs.getSelected(null, function(tab) {
           var idx;
-          idx = tab.index + offset;
+          if (start != null) {
+            idx = start + offset;
+          } else {
+            idx = tab.index + offset;
+          }
           if (idx < 0) {
-            idx = nTabs - 1;
+            idx = nTabs + (idx % nTabs);
           } else if (idx >= nTabs) {
-            idx = 0;
+            idx = idx % nTabs;
           }
           return chrome.tabs.update(tabs[idx].id, {
             selected: true
@@ -147,11 +151,52 @@
         return chrome.tabs.remove(tab.id);
       });
     },
-    reqMoveToNextTab: function() {
-      return this.moveTab(1);
+    reqCloseAllTabs: function(req) {
+      var arg, only, _i, _len, _ref;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
+        switch (arg) {
+          case "--only":
+            only = true;
+        }
+      }
+      return chrome.tabs.getAllInWindow(null, function(tabs) {
+        return chrome.tabs.getSelected(null, function(selected) {
+          var tab, _j, _len2, _results;
+          _results = [];
+          for (_j = 0, _len2 = tabs.length; _j < _len2; _j++) {
+            tab = tabs[_j];
+            _results.push(!(only && selected.id === tab.id) ? chrome.tabs.remove(tab.id) : void 0);
+          }
+          return _results;
+        });
+      });
     },
-    reqMoveToPrevTab: function() {
-      return this.moveTab(-1);
+    reqMoveToNextTab: function(req) {
+      var _ref;
+      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
+        if (req.args[0] < 0) {
+          return;
+        }
+        return this.moveTab(parseInt(req.args[0]) - 1, 0);
+      } else {
+        return this.moveTab(1);
+      }
+    },
+    reqMoveToPrevTab: function(req) {
+      var _ref;
+      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
+        return this.moveTab(-parseInt(req.args[0]));
+      } else {
+        return this.moveTab(-1);
+      }
+    },
+    reqMoveToFirstTab: function(req) {
+      return this.moveTab(0, 0);
+    },
+    reqMoveToLastTab: function(req) {
+      return this.moveTab(-1, 0);
     },
     reqRestoreTab: function(req) {
       return this.tabHistory.restoreLastClosedTab();
@@ -194,6 +239,14 @@
       };
       sendResponse(msg);
       return true;
+    },
+    reqTriggerReadabilityRedux: function(req) {
+      return chrome.tabs.getSelected(null, function(tab) {
+        return chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
+          type: "render",
+          tab_id: tab.id
+        });
+      });
     },
     reqPushSearchHistory: function(req) {
       var history, idx;
@@ -285,13 +338,11 @@
       }).start();
       return true;
     },
-    reqTriggerReadabilityRedux: function(req) {
-      return chrome.tabs.getSelected(null, function(tab) {
-        return chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
-          type: "render",
-          tab_id: tab.id
-        });
+    reqGetTabList: function(req, sendResponse) {
+      chrome.tabs.getAllInWindow(null, function(tabs) {
+        return sendResponse(tabs);
       });
+      return true;
     },
     init: function() {
       var $WA;

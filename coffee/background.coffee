@@ -2,15 +2,20 @@ g = this
 
 g.bg =
     tabHistory : null
-    moveTab : (offset) ->
+    moveTab : (offset, start) ->
         chrome.tabs.getAllInWindow( null, (tabs) ->
             nTabs = tabs.length
             chrome.tabs.getSelected(null, (tab) ->
-                idx = tab.index + offset
+                if start?
+                    idx = start + offset
+                else
+                    idx = tab.index + offset
+
                 if idx < 0
-                    idx = nTabs - 1
+                    idx = nTabs + (idx % nTabs)
                 else if idx >= nTabs
-                    idx = 0
+                    idx = idx % nTabs
+
                 chrome.tabs.update( tabs[idx].id, selected:true )
             )
         )
@@ -85,8 +90,34 @@ g.bg =
     reqCloseCurTab : ->
         chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
 
-    reqMoveToNextTab : -> @moveTab( 1 )
-    reqMoveToPrevTab : -> @moveTab( -1 )
+    reqCloseAllTabs : (req) ->
+        for arg in req.args then switch arg
+            when "--only" then only = true
+
+        chrome.tabs.getAllInWindow( null, (tabs) ->
+            chrome.tabs.getSelected(null, (selected) ->
+                for tab in tabs
+                    unless only and selected.id == tab.id
+                        chrome.tabs.remove( tab.id )
+            )
+        )
+
+    reqMoveToNextTab : (req) ->
+        if req.args?[0]?
+            if req.args[0] < 0 then return
+            @moveTab( parseInt( req.args[0] ) - 1, 0 )
+        else
+            @moveTab( 1 )
+
+    reqMoveToPrevTab : (req) ->
+        if req.args?[0]?
+            @moveTab( -parseInt( req.args[0] ) )
+        else
+            @moveTab( -1 )
+
+    reqMoveToFirstTab : (req) -> @moveTab( 0, 0 )
+    reqMoveToLastTab  : (req) -> @moveTab( -1, 0 )
+
     reqRestoreTab    : (req) -> @tabHistory.restoreLastClosedTab()
 
     reqNMap : (req, sendResponse) ->
@@ -122,6 +153,15 @@ g.bg =
         sendResponse msg
 
         true
+
+    reqTriggerReadabilityRedux : (req) ->
+        chrome.tabs.getSelected( null, (tab)->
+            chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
+                type   : "render"
+                tab_id : tab.id
+            })
+        )
+
 
     reqPushSearchHistory : (req) ->
         unless req.value? then return
@@ -199,13 +239,11 @@ g.bg =
         }).start()
         true
 
-    reqTriggerReadabilityRedux : (req) ->
-        chrome.tabs.getSelected( null, (tab)->
-            chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
-                type   : "render"
-                tab_id : tab.id
-            })
+    reqGetTabList : (req, sendResponse) ->
+        chrome.tabs.getAllInWindow( null, (tabs) ->
+            sendResponse tabs
         )
+        true
 
     init : ->
         @tabHistory = (new g.TabHistory).init()

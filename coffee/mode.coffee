@@ -135,6 +135,17 @@ class g.Mode
         g.model.setPageMark()
         g.view.focusInput( 0 )
 
+    reqShowTabList : ->
+        sources = [
+            new g.CandSourceTabs
+        ]
+        executer = (new g.CommandExecuter)
+                   .set("MoveToNextTab")
+                   .setDescription("TabList")
+
+        g.model.enterCommandMode( executer, sources )
+
+
     req_ChangeLogLevel : (args) ->
         if not args or args.length < 1 then return
 
@@ -271,7 +282,10 @@ class g.CommandMode extends g.Mode
         align = g.model.getSetting("commandBoxAlign")
         width = g.model.getSetting("commandBoxWidth")
         if @executer?
-            g.view.setStatusLineText @executer.get()
+            if @executer.getDescription()?
+                g.view.setStatusLineText @executer.getDescription()
+            else
+                g.view.setStatusLineText @executer.get()
 
         candBox = (new g.CandidateBox)
         if @sources? then for source in @sources

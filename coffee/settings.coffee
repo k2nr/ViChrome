@@ -76,6 +76,8 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
             "x"       : "CloseCurTab"
             "n"       : "NextSearch"
             "N"       : "PrevSearch"
+            "gt"      : "MoveToNextTab"
+            "gT"      : "MoveToPrevTab"
             "<C-l>"   : "MoveToNextTab"
             "<C-h>"   : "MoveToPrevTab"
             "r"       : "ReloadTab"
@@ -119,6 +121,16 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
             "ot"     : "OpenNewTab"
             "help"   : "OpenNewTab http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual"
             "map"    : "NMap"
+            "tabe"   : "OpenNewTab"
+            "tabn"   : "MoveToNextTab"
+            "tabp"   : "MoveToPrevTab"
+            "tabN"   : "MoveToPrevTab"
+            "tabr"   : "MoveToFirstTab"
+            "tabl"   : "MoveToLastTab"
+            "tabc"   : "CloseCurTab"
+            "tabo"   : "CloseAllTabs --only"
+            "tabs"   : "ShowTabList"
+            "q"      : "CloseAllTabs"
 
         "pageMap"    : {}
 

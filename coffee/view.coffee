@@ -401,7 +401,7 @@ class g.CandidateSource
         this
 
     addItem : (item) ->
-        @items.push( item ) if @items.length < @maxItems
+        @items.push( item ) if @items.length < @maxItems or @maxItems < 0
         this
 
     resetItem : ->
@@ -435,11 +435,15 @@ class g.CandidateSource
 
 class g.CandSourceCommand extends g.CandidateSource
     id : "Command"
+    constructor : (@maxItems=-1) ->
+        super(@maxItems)
+
     onInput : (word) ->
         unless word.length > 0 then return
         @resetItem()
+        word = word.toUpperCase()
         for com,method of g.CommandExecuter::commandTable
-            if com.toUpperCase().slice( 0, word.length ) == word.toUpperCase()
+            if com.toUpperCase().slice( 0, word.length ) == word
                 @addItem(
                     str    : com
                     source : "Command"
@@ -450,11 +454,14 @@ class g.CandSourceCommand extends g.CandidateSource
 
 class g.CandSourceAlias extends g.CandidateSource
     id : "Alias"
+    constructor : (@maxItems=-1) ->
+        super(@maxItems)
     onInput : (word) ->
         unless word.length > 0 then return
         @resetItem()
+        word = word.toUpperCase()
         for alias, com of g.model.getAlias()
-            if alias.toUpperCase().slice( 0, word.length ) == word.toUpperCase()
+            if alias.toUpperCase().slice( 0, word.length ) == word
                 @addItem(
                     str    : alias
                     source : "Alias"
@@ -508,8 +515,8 @@ class g.CandSourceBookmark extends g.CandidateSource
 
 class g.CandSourceSearchHist extends g.CandidateSource
     id : "SearchHistory"
-    constructor : ->
-        super()
+    constructor : (@maxItems) ->
+        super( @maxItems )
         chrome.extension.sendRequest( {
             command : "GetSearchHistory"
         }, (msg) => @history = msg.value.reverse() )
@@ -518,8 +525,9 @@ class g.CandSourceSearchHist extends g.CandidateSource
         unless @history? then return
 
         @resetItem()
+        word = word.toUpperCase()
         for hist in @history
-            if hist.toUpperCase().slice( 0, word.length ) == word.toUpperCase()
+            if hist.toUpperCase().slice( 0, word.length ) == word
                 @addItem(
                     str    : hist
                     source : "Search History"
@@ -574,4 +582,29 @@ class g.CandSourceWebSuggest extends g.CandidateSource
                 )
             @notifyUpdated()
         )
+
+class g.CandSourceTabs extends g.CandidateSource
+    id : "Tabs"
+    constructor : (@maxItems=-1) ->
+        chrome.extension.sendRequest( {
+            command : "GetTabList"
+        }, (@tabs) => )
+        super( @maxItems )
+
+    onInput : (word) ->
+        unless @tabs? then return
+
+        @resetItem()
+        word = word.toUpperCase()
+        for tab in @tabs
+            a = tab.title.toUpperCase()
+            if tab.title.toUpperCase().indexOf( word ) >= 0
+                @addItem(
+                    str    : tab.title
+                    source : ""
+                    dscr   : "index:" + (tab.index+1)
+                    value  : "" + (tab.index+1)
+                )
+
+        @notifyUpdated()
 

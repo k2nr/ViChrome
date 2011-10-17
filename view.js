@@ -503,7 +503,7 @@
       return this;
     };
     CandidateSource.prototype.addItem = function(item) {
-      if (this.items.length < this.maxItems) {
+      if (this.items.length < this.maxItems || this.maxItems < 0) {
         this.items.push(item);
       }
       return this;
@@ -549,20 +549,22 @@
   })();
   g.CandSourceCommand = (function() {
     __extends(CandSourceCommand, g.CandidateSource);
-    function CandSourceCommand() {
-      CandSourceCommand.__super__.constructor.apply(this, arguments);
-    }
     CandSourceCommand.prototype.id = "Command";
+    function CandSourceCommand(maxItems) {
+      this.maxItems = maxItems != null ? maxItems : -1;
+      CandSourceCommand.__super__.constructor.call(this, this.maxItems);
+    }
     CandSourceCommand.prototype.onInput = function(word) {
       var com, method, _ref;
       if (!(word.length > 0)) {
         return;
       }
       this.resetItem();
+      word = word.toUpperCase();
       _ref = g.CommandExecuter.prototype.commandTable;
       for (com in _ref) {
         method = _ref[com];
-        if (com.toUpperCase().slice(0, word.length) === word.toUpperCase()) {
+        if (com.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: com,
             source: "Command",
@@ -576,20 +578,22 @@
   })();
   g.CandSourceAlias = (function() {
     __extends(CandSourceAlias, g.CandidateSource);
-    function CandSourceAlias() {
-      CandSourceAlias.__super__.constructor.apply(this, arguments);
-    }
     CandSourceAlias.prototype.id = "Alias";
+    function CandSourceAlias(maxItems) {
+      this.maxItems = maxItems != null ? maxItems : -1;
+      CandSourceAlias.__super__.constructor.call(this, this.maxItems);
+    }
     CandSourceAlias.prototype.onInput = function(word) {
       var alias, com, _ref;
       if (!(word.length > 0)) {
         return;
       }
       this.resetItem();
+      word = word.toUpperCase();
       _ref = g.model.getAlias();
       for (alias in _ref) {
         com = _ref[alias];
-        if (alias.toUpperCase().slice(0, word.length) === word.toUpperCase()) {
+        if (alias.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: alias,
             source: "Alias",
@@ -667,8 +671,9 @@
   g.CandSourceSearchHist = (function() {
     __extends(CandSourceSearchHist, g.CandidateSource);
     CandSourceSearchHist.prototype.id = "SearchHistory";
-    function CandSourceSearchHist() {
-      CandSourceSearchHist.__super__.constructor.call(this);
+    function CandSourceSearchHist(maxItems) {
+      this.maxItems = maxItems;
+      CandSourceSearchHist.__super__.constructor.call(this, this.maxItems);
       chrome.extension.sendRequest({
         command: "GetSearchHistory"
       }, __bind(function(msg) {
@@ -681,10 +686,11 @@
         return;
       }
       this.resetItem();
+      word = word.toUpperCase();
       _ref = this.history;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         hist = _ref[_i];
-        if (hist.toUpperCase().slice(0, word.length) === word.toUpperCase()) {
+        if (hist.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: hist,
             source: "Search History",
@@ -762,5 +768,41 @@
       }, this));
     };
     return CandSourceWebSuggest;
+  })();
+  g.CandSourceTabs = (function() {
+    __extends(CandSourceTabs, g.CandidateSource);
+    CandSourceTabs.prototype.id = "Tabs";
+    function CandSourceTabs(maxItems) {
+      this.maxItems = maxItems != null ? maxItems : -1;
+      chrome.extension.sendRequest({
+        command: "GetTabList"
+      }, __bind(function(tabs) {
+        this.tabs = tabs;
+      }, this));
+      CandSourceTabs.__super__.constructor.call(this, this.maxItems);
+    }
+    CandSourceTabs.prototype.onInput = function(word) {
+      var a, tab, _i, _len, _ref;
+      if (this.tabs == null) {
+        return;
+      }
+      this.resetItem();
+      word = word.toUpperCase();
+      _ref = this.tabs;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        tab = _ref[_i];
+        a = tab.title.toUpperCase();
+        if (tab.title.toUpperCase().indexOf(word) >= 0) {
+          this.addItem({
+            str: tab.title,
+            source: "",
+            dscr: "index:" + (tab.index + 1),
+            value: "" + (tab.index + 1)
+          });
+        }
+      }
+      return this.notifyUpdated();
+    };
+    return CandSourceTabs;
   })();
 }).call(this);

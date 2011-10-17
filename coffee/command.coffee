@@ -7,12 +7,23 @@ triggerInsideContent = (com, args) -> g.model.triggerCommand "req#{com}", args
 
 escape = (com) -> triggerInsideContent "Escape"
 
+solveAlias = (alias) ->
+    aliases = g.model.getAlias()
+    alias = aliases[alias]
+    while alias?
+        command = alias
+        alias = aliases[alias]
+    command
+
+
 class g.CommandExecuter
     commandsBeforeReady : [
         "OpenNewTab"
         "CloseCurTab"
         "MoveToNextTab"
         "MoveToPrevTab"
+        "MoveToFirstTab"
+        "MoveToLastTab"
         "NMap"
         "IMap"
         "Alias"
@@ -24,8 +35,11 @@ class g.CommandExecuter
         Open                  : triggerInsideContent
         OpenNewTab            : triggerInsideContent
         CloseCurTab           : sendToBackground
+        CloseAllTabs          : sendToBackground
         MoveToNextTab         : sendToBackground
         MoveToPrevTab         : sendToBackground
+        MoveToFirstTab        : sendToBackground
+        MoveToLastTab         : sendToBackground
         NMap                  : sendToBackground
         IMap                  : sendToBackground
         Alias                 : sendToBackground
@@ -56,11 +70,14 @@ class g.CommandExecuter
         FocusNextCandidate    : triggerInsideContent
         FocusPrevCandidate    : triggerInsideContent
         TriggerReadabilityRedux : sendToBackground
+        ShowTabList           : triggerInsideContent
         Escape                : escape
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
 
     get : -> @command
+    setDescription : (@description) -> this
+    getDescription : -> @description
     set : (command, times) ->
         if @command? then @command += " " else @command = ""
         @command += command
@@ -78,9 +95,9 @@ class g.CommandExecuter
             if @args[i].length == 0
                 @args.splice( i, 1 )
 
-        aliases = g.model.getAlias()
-        if aliases[ @args[0] ]
-            @args = aliases[ @args[0] ].split(' ').concat( @args.slice(1) )
+        command = solveAlias( @args[0] )
+        if command?
+            @args = command.split(' ').concat( @args.slice(1) )
 
         if @commandTable[ @args[0] ]
             return this

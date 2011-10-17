@@ -193,6 +193,12 @@
       g.model.setPageMark();
       return g.view.focusInput(0);
     };
+    Mode.prototype.reqShowTabList = function() {
+      var executer, sources;
+      sources = [new g.CandSourceTabs];
+      executer = (new g.CommandExecuter).set("MoveToNextTab").setDescription("TabList");
+      return g.model.enterCommandMode(executer, sources);
+    };
     Mode.prototype.req_ChangeLogLevel = function(args) {
       if (!args || args.length < 1) {
         return;
@@ -378,7 +384,11 @@
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
       if (this.executer != null) {
-        g.view.setStatusLineText(this.executer.get());
+        if (this.executer.getDescription() != null) {
+          g.view.setStatusLineText(this.executer.getDescription());
+        } else {
+          g.view.setStatusLineText(this.executer.get());
+        }
       }
       candBox = new g.CandidateBox;
       if (this.sources != null) {
