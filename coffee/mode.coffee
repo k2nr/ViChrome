@@ -14,16 +14,19 @@ class g.Mode
 
         if interactive or bookmark or history
             com = "Open " + urls.join(' ')
+            executer = new g.CommandExecuter
             if search
                 com += " g"
                 sources = [
                     new g.CandSourceGoogleSuggest
                 ]
             else if bookmark
+                executer.setDescription("Open Bookmark")
                 sources = [
                     new g.CandSourceBookmark
                 ]
             else if history
+                executer.setDescription("Open History")
                 sources = [
                     new g.CandSourceHistory
                 ]
@@ -34,7 +37,9 @@ class g.Mode
                     new g.CandSourceBookmark(3)
                     new g.CandSourceHistory(3)
                 ]
-            g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
+
+            executer.set(com)
+            g.model.enterCommandMode(executer, sources)
             return
         else if search
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1"
@@ -54,16 +59,19 @@ class g.Mode
 
         if interactive or bookmark or history
             com = "OpenNewTab " + words.join(' ')
+            executer = new g.CommandExecuter
             if search
                 com += " g"
                 sources = [
                     new g.CandSourceGoogleSuggest
                 ]
             else if bookmark
+                executer.setDescription("Open Bookmark")
                 sources = [
                     new g.CandSourceBookmark
                 ]
             else if history
+                executer.setDescription("Open History")
                 sources = [
                     new g.CandSourceHistory
                 ]
@@ -74,7 +82,9 @@ class g.Mode
                     new g.CandSourceBookmark(3)
                     new g.CandSourceHistory(3)
                 ]
-            g.model.enterCommandMode((new g.CommandExecuter).set(com), sources)
+
+            executer.set(com)
+            g.model.enterCommandMode(executer, sources)
         else if search
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1"
             urls = []

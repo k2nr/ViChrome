@@ -154,7 +154,7 @@ g.bg =
 
         true
 
-    reqTriggerReadabilityRedux : (req) ->
+    reqReadability : (req) ->
         chrome.tabs.getSelected( null, (tab)->
             chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
                 type   : "render"
@@ -244,6 +244,15 @@ g.bg =
             sendResponse tabs
         )
         true
+    reqOpenOptionPage : (req) ->
+        for arg in req.args then switch arg
+            when "-k","--key" then key = true
+        req = {}
+        req.args = []
+        url = chrome.extension.getURL("options.html")
+        url += "#keymapping" if key
+        req.args.push url
+        @reqOpenNewTab( req )
 
     init : ->
         @tabHistory = (new g.TabHistory).init()
@@ -259,4 +268,12 @@ g.bg =
                     sendResponse()
             else g.logger.e("INVALID command!:", req.command)
         )
+
+        storedVersion = localStorage.version
+        unless storedVersion? and storedVersion == g.VICHROME_VERSION
+            req = {}
+            req.args = []
+            req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
+            @reqOpenNewTab( req )
+            localStorage.version = g.VICHROME_VERSION
 

@@ -1,4 +1,7 @@
 #vichromebox {
+    outline: none;
+    border: none;
+    border-radius: 0px;
     background : none;
     position: fixed;
     padding: 0;
@@ -174,25 +177,31 @@
     margin: 0px 0px;
 }
 
-.vichrome-candtext {
+#vichromecandtext {
+    background : none;
+    outline: none;
+    border: none;
+    border-radius: 0px;
+    height: 22px;
+    float : left;
+}
+
+.vichrome-candstr {
     text-align: left;
     color: #d3d3d3;
     line-height: 22px;
-    height: 22px;
     min-width : 70px;
+    font-size: 16px;
     padding-left : 5px;
     padding-right : 0px;
     padding-top : 0px;
     padding-bottom : 0px;
     margin: 0px 0px;
-    font-size: 16px;
-    float : left;
 }
 
 .vichrome-canddscr {
     text-align: left;
     color: #bbf;
-    height: 22px;
     line-height: 25px;
     font-size: 12px;
     padding-left: 10px;
@@ -200,7 +209,6 @@
     padding-top : 0px;
     padding-bottom : 0px;
     margin: 0px 0px;
-    float : left;
 }
 
 .vichrome-canditemfocused {

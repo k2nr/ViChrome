@@ -119,6 +119,7 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
         "aliases"    :
             "o"      : "Open"
             "ot"     : "OpenNewTab"
+            "opt"    : "OpenOptionPage"
             "help"   : "OpenNewTab http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual"
             "map"    : "NMap"
             "tabe"   : "OpenNewTab"

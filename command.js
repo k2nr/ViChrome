@@ -70,8 +70,9 @@
       RestoreTab: sendToBackground,
       FocusNextCandidate: triggerInsideContent,
       FocusPrevCandidate: triggerInsideContent,
-      TriggerReadabilityRedux: sendToBackground,
+      Readability: sendToBackground,
       ShowTabList: triggerInsideContent,
+      OpenOptionPage: sendToBackground,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };

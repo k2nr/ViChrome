@@ -14,7 +14,7 @@
     Mode.prototype.exit = function() {};
     Mode.prototype.enter = function() {};
     Mode.prototype.reqOpen = function(args) {
-      var arg, bookmark, com, history, interactive, search, sources, url, urls, _i, _len;
+      var arg, bookmark, com, executer, history, interactive, search, sources, url, urls, _i, _len;
       urls = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -38,17 +38,21 @@
       }
       if (interactive || bookmark || history) {
         com = "Open " + urls.join(' ');
+        executer = new g.CommandExecuter;
         if (search) {
           com += " g";
           sources = [new g.CandSourceGoogleSuggest];
         } else if (bookmark) {
+          executer.setDescription("Open Bookmark");
           sources = [new g.CandSourceBookmark];
         } else if (history) {
+          executer.setDescription("Open History");
           sources = [new g.CandSourceHistory];
         } else {
           sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
         }
-        g.model.enterCommandMode((new g.CommandExecuter).set(com), sources);
+        executer.set(com);
+        g.model.enterCommandMode(executer, sources);
       } else if (search) {
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1";
         return window.open(url, "_self");
@@ -57,7 +61,7 @@
       }
     };
     Mode.prototype.reqOpenNewTab = function(args) {
-      var arg, bookmark, com, history, interactive, search, sources, url, urls, words, _i, _len;
+      var arg, bookmark, com, executer, history, interactive, search, sources, url, urls, words, _i, _len;
       words = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -81,17 +85,21 @@
       }
       if (interactive || bookmark || history) {
         com = "OpenNewTab " + words.join(' ');
+        executer = new g.CommandExecuter;
         if (search) {
           com += " g";
           sources = [new g.CandSourceGoogleSuggest];
         } else if (bookmark) {
+          executer.setDescription("Open Bookmark");
           sources = [new g.CandSourceBookmark];
         } else if (history) {
+          executer.setDescription("Open History");
           sources = [new g.CandSourceHistory];
         } else {
           sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
         }
-        return g.model.enterCommandMode((new g.CommandExecuter).set(com), sources);
+        executer.set(com);
+        return g.model.enterCommandMode(executer, sources);
       } else if (search) {
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1";
         urls = [];

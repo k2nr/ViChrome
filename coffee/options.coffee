@@ -122,9 +122,16 @@ $(document).ready( ->
 )
 
 $(document).ready(->
-    $('ul.navbar li:first').addClass('navbar-item-selected').show()
     $('#page-container > div').hide()
-    $('#general').show()
+    page = /#.*$/.exec(window.location.href)
+    if page?
+        page = page[0]
+    else
+        page = '#general'
+
+    $("ul.navbar li:has(a[href=\"#{page}\"])").addClass('navbar-item-selected').show()
+    $(page).show()
+    console.log(page)
 
     $('ul.navbar li:not(.navbar-item-separator)').click( ->
         $('ul.navbar li').removeClass('navbar-item-selected')

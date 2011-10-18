@@ -73,6 +73,7 @@ class g.Surface
     activeStatusLine : ->
         @statusLine.removeClass( 'vichrome-statuslineinactive' )
         @statusLine.show()
+        @attach( @statusLine )
 
         if @slTimeout
             clearTimeout( @slTimeout )
@@ -90,6 +91,7 @@ class g.Surface
             @slTimeout = undefined
 
         @statusLine.html("").hide()
+        @statusLine.detach()
         this
 
     setStatusLineText : (text, timeout) ->
@@ -301,9 +303,9 @@ class g.CandidateBox
 
     makeItemLine : (src, id, item) ->
         line = $("<div id=\"vichromecanditem\" source=\"#{src}\" num=\"#{id}\" />")
-        text = $("<div class=\"vichrome-candtext\" />").html( item.str )
-        dscr = $("<div class=\"vichrome-canddscr\" />").html( item.dscr )
-        srcType = $("<div class=\"vichrome-canddscr\" />").html( item.source )
+        text = $("<div id=\"vichromecandtext\" class=\"vichrome-candstr\" />").html( item.str )
+        dscr = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html( item.dscr )
+        srcType = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html( item.source )
         line.append( text ).append( srcType ).append( dscr )
         if item.value?
             line.attr("value", item.value)

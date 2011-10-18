@@ -144,9 +144,17 @@
     }, onSettings);
   });
   $(document).ready(function() {
-    $('ul.navbar li:first').addClass('navbar-item-selected').show();
+    var page;
     $('#page-container > div').hide();
-    $('#general').show();
+    page = /#.*$/.exec(window.location.href);
+    if (page != null) {
+      page = page[0];
+    } else {
+      page = '#general';
+    }
+    $("ul.navbar li:has(a[href=\"" + page + "\"])").addClass('navbar-item-selected').show();
+    $(page).show();
+    console.log(page);
     return $('ul.navbar li:not(.navbar-item-separator)').click(function() {
       var tab;
       $('ul.navbar li').removeClass('navbar-item-selected');

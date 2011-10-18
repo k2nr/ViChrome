@@ -100,6 +100,7 @@
     Surface.prototype.activeStatusLine = function() {
       this.statusLine.removeClass('vichrome-statuslineinactive');
       this.statusLine.show();
+      this.attach(this.statusLine);
       if (this.slTimeout) {
         clearTimeout(this.slTimeout);
         this.slTimeout = void 0;
@@ -116,6 +117,7 @@
         this.slTimeout = void 0;
       }
       this.statusLine.html("").hide();
+      this.statusLine.detach();
       return this;
     };
     Surface.prototype.setStatusLineText = function(text, timeout) {
@@ -368,9 +370,9 @@
     CandidateBox.prototype.makeItemLine = function(src, id, item) {
       var dscr, line, srcType, text;
       line = $("<div id=\"vichromecanditem\" source=\"" + src + "\" num=\"" + id + "\" />");
-      text = $("<div class=\"vichrome-candtext\" />").html(item.str);
-      dscr = $("<div class=\"vichrome-canddscr\" />").html(item.dscr);
-      srcType = $("<div class=\"vichrome-canddscr\" />").html(item.source);
+      text = $("<div id=\"vichromecandtext\" class=\"vichrome-candstr\" />").html(item.str);
+      dscr = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.dscr);
+      srcType = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.source);
       line.append(text).append(srcType).append(dscr);
       if (item.value != null) {
         line.attr("value", item.value);

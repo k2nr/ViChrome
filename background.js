@@ -240,7 +240,7 @@
       sendResponse(msg);
       return true;
     },
-    reqTriggerReadabilityRedux: function(req) {
+    reqReadability: function(req) {
       return chrome.tabs.getSelected(null, function(tab) {
         return chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
           type: "render",
@@ -344,8 +344,28 @@
       });
       return true;
     },
+    reqOpenOptionPage: function(req) {
+      var arg, key, url, _i, _len, _ref;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
+        switch (arg) {
+          case "-k":
+          case "--key":
+            key = true;
+        }
+      }
+      req = {};
+      req.args = [];
+      url = chrome.extension.getURL("options.html");
+      if (key) {
+        url += "#keymapping";
+      }
+      req.args.push(url);
+      return this.reqOpenNewTab(req);
+    },
     init: function() {
-      var $WA;
+      var $WA, req, storedVersion;
       this.tabHistory = (new g.TabHistory).init();
       g.SettingManager.init();
       $WA = crocro.webAi;
@@ -353,7 +373,7 @@
       this.cWSrch.ready(__bind(function() {
         return this.gglLoaded = true;
       }, this));
-      return chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
+      chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
         if (this["req" + req.command]) {
           if (!this["req" + req.command](req, sendResponse)) {
             return sendResponse();
@@ -362,6 +382,14 @@
           return g.logger.e("INVALID command!:", req.command);
         }
       }, this));
+      storedVersion = localStorage.version;
+      if (!((storedVersion != null) && storedVersion === g.VICHROME_VERSION)) {
+        req = {};
+        req.args = [];
+        req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
+        this.reqOpenNewTab(req);
+        return localStorage.version = g.VICHROME_VERSION;
+      }
     }
   };
 }).call(this);
