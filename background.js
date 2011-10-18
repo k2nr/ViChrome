@@ -383,13 +383,13 @@
         }
       }, this));
       storedVersion = localStorage.version;
-      if (!((storedVersion != null) && storedVersion === g.VICHROME_VERSION)) {
+      if ((storedVersion != null) && storedVersion !== g.VICHROME_VERSION) {
         req = {};
         req.args = [];
         req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
         this.reqOpenNewTab(req);
-        return localStorage.version = g.VICHROME_VERSION;
       }
+      return localStorage.version = g.VICHROME_VERSION;
     }
   };
 }).call(this);

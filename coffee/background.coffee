@@ -270,10 +270,11 @@ g.bg =
         )
 
         storedVersion = localStorage.version
-        unless storedVersion? and storedVersion == g.VICHROME_VERSION
+        if storedVersion? and storedVersion != g.VICHROME_VERSION
             req = {}
             req.args = []
             req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
             @reqOpenNewTab( req )
-            localStorage.version = g.VICHROME_VERSION
+
+        localStorage.version = g.VICHROME_VERSION
 

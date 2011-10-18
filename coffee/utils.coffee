@@ -1,5 +1,5 @@
 g = this
-g.VICHROME_VERSION = "0.5.2"
+g.VICHROME_VERSION = "0.6.0"
 
 g.object = (obj) ->
     F = ->
