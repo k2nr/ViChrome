@@ -93,6 +93,7 @@ onSettings = (msg) ->
     initCheckBox    "ignoreCase"
     initCheckBox    "useMigemo"
     initDropDown    "commandBoxAlign"
+    initDropDown    "searchEngine"
 
     $('[name="newTabPage"][value="'+settings.defaultNewTab+'"]')
     .attr( 'checked', true )

@@ -13,8 +13,36 @@
     function Mode() {}
     Mode.prototype.exit = function() {};
     Mode.prototype.enter = function() {};
+    Mode.prototype.enterInteractiveOpen = function(baseCom, opt) {
+      var dscr, executer, sources;
+      dscr = baseCom;
+      sources = [];
+      if (opt.bookmark) {
+        dscr += " Bookmark";
+        sources.push(new g.CandSourceBookmark);
+      }
+      if (opt.history) {
+        dscr += " History";
+        sources.push(new g.CandSourceHistory);
+      }
+      if (opt.web) {
+        dscr += " Web";
+        sources.push(new g.CandSourceWebSuggest);
+      }
+      if (!opt.bookmark && !opt.history && !opt.web) {
+        if (opt.search) {
+          baseCom += " g";
+          dscr += " Google Search";
+          sources = [new g.CandSourceGoogleSuggest];
+        } else {
+          sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
+        }
+      }
+      executer = (new g.CommandExecuter).setDescription(dscr).set(baseCom);
+      return g.model.enterCommandMode(executer, sources);
+    };
     Mode.prototype.reqOpen = function(args) {
-      var arg, bookmark, com, executer, history, interactive, search, sources, url, urls, _i, _len;
+      var arg, bookmark, com, history, interactive, opt, search, url, urls, web, _i, _len;
       urls = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -24,6 +52,9 @@
             break;
           case "-b":
             bookmark = true;
+            break;
+          case "-w":
+            web = true;
             break;
           case "-h":
             history = true;
@@ -36,32 +67,24 @@
             urls.push(arg);
         }
       }
-      if (interactive || bookmark || history) {
-        com = "Open " + urls.join(' ');
-        executer = new g.CommandExecuter;
-        if (search) {
-          com += " g";
-          sources = [new g.CandSourceGoogleSuggest];
-        } else if (bookmark) {
-          executer.setDescription("Open Bookmark");
-          sources = [new g.CandSourceBookmark];
-        } else if (history) {
-          executer.setDescription("Open History");
-          sources = [new g.CandSourceHistory];
-        } else {
-          sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
-        }
-        executer.set(com);
-        g.model.enterCommandMode(executer, sources);
+      if (interactive || bookmark || history || web) {
+        opt = {
+          bookmark: bookmark,
+          history: history,
+          web: web,
+          search: search
+        };
+        com = "Open" + urls.join(' ');
+        return this.enterInteractiveOpen(com, opt);
       } else if (search) {
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1";
-        return window.open(url, "_self");
+        return g.view.open(url, "_self");
       } else {
-        return window.open(urls[0], "_self");
+        return g.view.open(urls[0], "_self");
       }
     };
     Mode.prototype.reqOpenNewTab = function(args) {
-      var arg, bookmark, com, executer, history, interactive, search, sources, url, urls, words, _i, _len;
+      var arg, bookmark, com, history, interactive, opt, search, url, urls, web, words, _i, _len;
       words = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -71,6 +94,9 @@
             break;
           case "-b":
             bookmark = true;
+            break;
+          case "-w":
+            web = true;
             break;
           case "-h":
             history = true;
@@ -83,23 +109,15 @@
             words.push(arg);
         }
       }
-      if (interactive || bookmark || history) {
+      if (interactive || bookmark || history || web) {
+        opt = {
+          bookmark: bookmark,
+          history: history,
+          web: web,
+          search: search
+        };
         com = "OpenNewTab " + words.join(' ');
-        executer = new g.CommandExecuter;
-        if (search) {
-          com += " g";
-          sources = [new g.CandSourceGoogleSuggest];
-        } else if (bookmark) {
-          executer.setDescription("Open Bookmark");
-          sources = [new g.CandSourceBookmark];
-        } else if (history) {
-          executer.setDescription("Open History");
-          sources = [new g.CandSourceHistory];
-        } else {
-          sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
-        }
-        executer.set(com);
-        return g.model.enterCommandMode(executer, sources);
+        return this.enterInteractiveOpen(com, opt);
       } else if (search) {
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1";
         urls = [];
@@ -129,24 +147,36 @@
       return g.view.scrollBy(g.model.getSetting("scrollPixelCount", 0));
     };
     Mode.prototype.reqPageHalfDown = function() {
-      return g.view.scrollBy(0, window.innerHeight / 2);
+      return g.view.scrollHalfPage({
+        hor: 0,
+        ver: 1
+      });
     };
     Mode.prototype.reqPageHalfUp = function() {
-      return g.view.scrollBy(0, -window.innerHeight / 2);
+      return g.view.scrollHalfPage({
+        hor: 0,
+        ver: -1
+      });
     };
     Mode.prototype.reqPageDown = function() {
-      return g.view.scrollBy(0, window.innerHeight);
+      return g.view.scrollHalfPage({
+        hor: 0,
+        ver: 2
+      });
     };
     Mode.prototype.reqPageUp = function() {
-      return g.view.scrollBy(0, -window.innerHeight);
+      return g.view.scrollHalfPage({
+        hor: 0,
+        ver: -2
+      });
     };
     Mode.prototype.reqGoTop = function() {
       g.model.setPageMark();
-      return g.view.scrollTo(window.pageXOffset, 0);
+      return g.view.goTop();
     };
     Mode.prototype.reqGoBottom = function() {
       g.model.setPageMark();
-      return g.view.scrollTo(window.pageXOffset, document.body.scrollHeight - window.innerHeight);
+      return g.view.goBottom();
     };
     Mode.prototype.reqBackHist = function() {
       return g.view.backHist();
@@ -435,22 +465,23 @@
       return this;
     };
     FMode.prototype.hit = function(i) {
-      var primary;
+      var primary, target;
       primary = false;
-      if (this.hints[i].target.is('a')) {
+      target = $(this.hints[i].target);
+      if (target.is('a')) {
         primary = this.opt.newTab;
         if (!this.opt.continuous) {
           g.model.enterNormalMode();
         }
       } else {
-        this.hints[i].target.focus();
-        if (g.util.isEditable(this.hints[i].target.get(0))) {
+        target.focus();
+        if (g.util.isEditable(target.get(0))) {
           g.model.enterInsertMode();
         } else {
           g.model.enterNormalMode();
         }
       }
-      return g.util.dispatchMouseClickEvent(this.hints[i].target.get(0), primary, false, false);
+      return g.util.dispatchMouseClickEvent(target.get(0), primary, false, false);
     };
     FMode.prototype.isValidKey = function(key) {
       if (key.length !== 1) {
@@ -523,7 +554,7 @@
       return Math.ceil(Math.log(candiNum) / Math.log(this.keys.length));
     };
     FMode.prototype.enter = function() {
-      var div, elem, links, that, x, y, _i, _len, _ref;
+      var div, elem, hint, i, j, k, key, links, offset, _i, _len, _len2, _ref;
       this.currentInput = "";
       this.hints = [];
       this.keys = "";
@@ -537,34 +568,25 @@
       }
       this.keys = g.model.getSetting("fModeAvailableKeys");
       this.keyLength = this.getKeyLength(links.length);
-      that = this;
-      links.each(function(i) {
-        var j, k, key;
+      for (i = 0, _len = links.length; i < _len; i++) {
+        elem = links[i];
         key = '';
-        j = that.keyLength;
+        j = this.keyLength;
         k = i;
         while (j--) {
-          key += that.keys.charAt(k % that.keys.length);
-          k /= that.keys.length;
+          key += this.keys.charAt(k % this.keys.length);
+          k /= this.keys.length;
         }
-        that.hints[i] = {};
-        that.hints[i].offset = $(this).offset();
-        that.hints[i].key = key;
-        that.hints[i].target = $(this);
-        return $(this).addClass('vichrome-fModeTarget');
-      });
+        this.hints[i] = {};
+        this.hints[i].key = key;
+        this.hints[i].target = elem;
+        $(elem).addClass('vichrome-fModeTarget');
+      }
       _ref = this.hints;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        elem = _ref[_i];
-        x = elem.offset.left - 7;
-        y = elem.offset.top - 7;
-        if (x < 0) {
-          x = 0;
-        }
-        if (y < 0) {
-          y = 0;
-        }
-        div = $('<span id="vichromehint" />').css("top", y).css("left", x).html(elem.key);
+      for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
+        hint = _ref[_i];
+        offset = hint.target._offset_;
+        div = $('<span id="vichromehint" />').css("top", offset.top - 7).css("left", offset.left - 7).html(hint.key);
         $(document.body).append(div);
       }
       return g.view.setStatusLineText('f Mode : ');
@@ -577,23 +599,26 @@
   })();
   $.extend($.expr[':'], {
     _visible: function(elem) {
-      var offset, winH, winLeft, winTop, winW, _ref, _ref2;
+      var offset, winH, winLeft, winTop, winW;
       winLeft = window.pageXOffset;
       winTop = window.pageYOffset;
       winH = window.innerHeight;
       winW = window.innerWidth;
       offset = $(elem).offset();
+      if (winTop > offset.top || winTop + winH < offset.top) {
+        return false;
+      }
+      if (winLeft > offset.left || offset.left > winLeft + winW) {
+        return false;
+      }
       if ($.expr[':'].hidden(elem)) {
         return false;
       }
       if ($.curCSS(elem, 'visibility') === 'hidden') {
         return false;
       }
-      if ((winLeft <= (_ref = offset.left) && _ref <= winLeft + winW) && (winTop <= (_ref2 = offset.top) && _ref2 <= winTop + winH)) {
-        return true;
-      } else {
-        return false;
-      }
+      elem._offset_ = offset;
+      return true;
     }
   });
 }).call(this);

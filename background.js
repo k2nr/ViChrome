@@ -35,18 +35,19 @@
       } else {
         sendMsg.value = g.SettingManager.get(msg.name);
       }
-      return response(sendMsg);
+      response(sendMsg);
+      return true;
     },
     setSettings: function(msg, response) {
-      return g.SettingManager.set(msg.name, msg.value);
+      g.SettingManager.set(msg.name, msg.value);
+      return false;
     },
     reqSettings: function(msg, response) {
       if (msg.type === "get") {
-        this.getSettings(msg, response);
+        return this.getSettings(msg, response);
       } else if (msg.type === "set") {
-        this.setSettings(msg, response);
+        return this.setSettings(msg, response);
       }
-      return true;
     },
     getDefaultNewTabPage: function() {
       switch (g.SettingManager.get("defaultNewTab")) {
@@ -59,7 +60,7 @@
       }
     },
     reqOpenNewTab: function(req) {
-      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref, _results;
+      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref;
       urls = [];
       focus = true;
       pinned = false;
@@ -82,23 +83,22 @@
       len = urls.length;
       if (len === 0) {
         url = this.getDefaultNewTabPage();
-        return chrome.tabs.create({
+        chrome.tabs.create({
           url: url,
           selected: focus,
           pinned: pinned
         });
       } else {
-        _results = [];
         for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
           url = urls[_j];
-          _results.push(chrome.tabs.create({
+          chrome.tabs.create({
             url: url,
             selected: focus,
             pinned: pinned
-          }));
+          });
         }
-        return _results;
       }
+      return false;
     },
     reqOpenNewWindow: function(req) {
       var arg, focus, pop, urls, _i, _len, _ref;
@@ -122,7 +122,7 @@
         }
       }
       if (pop) {
-        return chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.getSelected(null, function(tab) {
           if (urls.length === 0) {
             return chrome.windows.create({
               focused: focus,
@@ -140,16 +140,18 @@
         if (urls.length === 0) {
           urls = this.getDefaultNewTabPage();
         }
-        return chrome.windows.create({
+        chrome.windows.create({
           url: urls,
           focused: focus
         });
       }
+      return false;
     },
     reqCloseCurTab: function() {
-      return chrome.tabs.getSelected(null, function(tab) {
+      chrome.tabs.getSelected(null, function(tab) {
         return chrome.tabs.remove(tab.id);
       });
+      return false;
     },
     reqCloseAllTabs: function(req) {
       var arg, only, _i, _len, _ref;
@@ -161,7 +163,7 @@
             only = true;
         }
       }
-      return chrome.tabs.getAllInWindow(null, function(tabs) {
+      chrome.tabs.getAllInWindow(null, function(tabs) {
         return chrome.tabs.getSelected(null, function(selected) {
           var tab, _j, _len2, _results;
           _results = [];
@@ -172,6 +174,7 @@
           return _results;
         });
       });
+      return false;
     },
     reqMoveToNextTab: function(req) {
       var _ref;
@@ -179,27 +182,32 @@
         if (req.args[0] < 0) {
           return;
         }
-        return this.moveTab(parseInt(req.args[0]) - 1, 0);
+        this.moveTab(parseInt(req.args[0]) - 1, 0);
       } else {
-        return this.moveTab(1);
+        this.moveTab(1);
       }
+      return false;
     },
     reqMoveToPrevTab: function(req) {
       var _ref;
       if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
-        return this.moveTab(-parseInt(req.args[0]));
+        this.moveTab(-parseInt(req.args[0]));
       } else {
-        return this.moveTab(-1);
+        this.moveTab(-1);
       }
+      return false;
     },
     reqMoveToFirstTab: function(req) {
-      return this.moveTab(0, 0);
+      this.moveTab(0, 0);
+      return false;
     },
     reqMoveToLastTab: function(req) {
-      return this.moveTab(-1, 0);
+      this.moveTab(-1, 0);
+      return false;
     },
     reqRestoreTab: function(req) {
-      return this.tabHistory.restoreLastClosedTab();
+      this.tabHistory.restoreLastClosedTab();
+      return false;
     },
     reqNMap: function(req, sendResponse) {
       var msg;
@@ -241,12 +249,13 @@
       return true;
     },
     reqReadability: function(req) {
-      return chrome.tabs.getSelected(null, function(tab) {
+      chrome.tabs.getSelected(null, function(tab) {
         return chrome.extension.sendRequest("jggheggpdocamneaacmfoipeehedigia", {
           type: "render",
           tab_id: tab.id
         });
       });
+      return false;
     },
     reqPushSearchHistory: function(req) {
       var history, idx;
@@ -263,6 +272,7 @@
         history.shift();
       }
       localStorage.setItem("_searchHistory", JSON.stringify(history));
+      return false;
     },
     reqGetSearchHistory: function(req, sendResponse) {
       var history, msg;

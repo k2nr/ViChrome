@@ -4,12 +4,12 @@ getNMapFirst = ->
     nmap    = g.object( @getSetting "keyMappingNormal" )
     pageMap = @getSetting "pageMap"
 
-    unless window.location.href?.length > 0
+    unless g.view.getHref()?.length > 0
         return nmap
 
     myMap = nmap
     for url,map of pageMap
-        if @isUrlMatched( window.location.href, url )
+        if @isUrlMatched( g.view.getHref(), url )
             g.extend( map.nmap, myMap )
 
     @getNMap = -> myMap
@@ -19,12 +19,12 @@ getIMapFirst = ->
     imap    = g.object( @getSetting "keyMappingInsert" )
     pageMap = @getSetting "pageMap"
 
-    unless window.location.href?.length > 0
+    unless g.view.getHref()?.length > 0
         return imap
 
     myMap = imap
     for url,map of pageMap
-        if @isUrlMatched( window.location.href, url )
+        if @isUrlMatched( g.view.getHref(), url )
             g.extend( map.imap, myMap )
 
     @getIMap = -> myMap
@@ -34,12 +34,12 @@ getCMapFirst = ->
     cmap    = g.object( @getSetting "keyMappingCommand" )
     pageMap = @getSetting "pageMap"
 
-    unless window.location.href?.length > 0
+    unless g.view.getHref()?.length > 0
         return cmap
 
     myMap = cmap
     for url,map of pageMap
-        if @isUrlMatched( window.location.href, url )
+        if @isUrlMatched( g.view.getHref(), url )
             g.extend( map.cmap, myMap )
 
     @getCMap = -> myMap
@@ -49,12 +49,12 @@ getAliasFirst = ->
     aliases = g.object( @getSetting "aliases" )
     pageMap = @getSetting "pageMap"
 
-    unless window.location.href?.length > 0
+    unless g.view.getHref()?.length > 0
         return nmap
 
     myAlias = aliases
     for url,map of pageMap
-        if @isUrlMatched( window.location.href, url )
+        if @isUrlMatched( g.view.getHref(), url )
             g.extend( map.alias, myAlias )
 
     @getAlias = -> myAlias
@@ -197,7 +197,7 @@ g.model =
         urls = @getSetting "ignoredUrls"
 
         for url in urls
-            if @isUrlMatched window.location.href, url
+            if @isUrlMatched g.view.getHref(), url
                 g.logger.d "matched ignored list"
                 return false
         true

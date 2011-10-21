@@ -10,13 +10,15 @@
   };
   g = this;
   $.fn.extend({
-    isWithinScreen: function() {
-      var offset, padding;
+    isWithinScreen: function(padding) {
+      var offset;
+      if (padding == null) {
+        padding = 10;
+      }
       offset = $(this).offset();
       if (offset == null) {
         return false;
       }
-      padding = 10;
       if (offset.left + padding > window.pageXOffset + window.innerWidth || offset.left - padding < window.pageXOffset) {
         return false;
       }
@@ -81,20 +83,39 @@
       return $(this);
     }
   });
+  $.extend($.expr[':'], {
+    scrollable: function(elem) {
+      var overflow;
+      overflow = $.curCSS(elem, 'overflow');
+      switch (overflow) {
+        case "auto":
+        case "scroll":
+          return true;
+      }
+      return false;
+    }
+  });
   g.Surface = (function() {
     function Surface() {}
     Surface.prototype.init = function() {
       var align, alignClass, width;
+      this.topWin = window.top;
+      this.focusedWin = window.top;
       align = g.model.getSetting("commandBoxAlign");
       width = g.model.getSetting("commandBoxWidth");
       alignClass = "vichrome-statusline" + align;
       this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass(alignClass).width(width);
       this.hideStatusLine();
       this.attach(this.statusLine);
+      $(document.body).click(__bind(function(e) {
+        var _ref;
+        this.scrollee = $(e.target).closest(":scrollable").get(0);
+        return (_ref = this.scrollee) != null ? _ref : this.scrollee = window;
+      }, this));
       return this.initialized = true;
     };
     Surface.prototype.attach = function(w) {
-      $(document.body).append(w);
+      $(this.topWin.document.body).append(w);
       return this;
     };
     Surface.prototype.activeStatusLine = function() {
@@ -152,6 +173,15 @@
       $(document.body).scrollBy(x, y, 20);
       return this;
     };
+    Surface.prototype.scrollHalfPage = function(a) {
+      var block;
+      if (!this.initialized) {
+        return this;
+      }
+      block = this.focusedWin.innerHeight / 2;
+      this.scrollBy(block * a.hor, block * a.ver);
+      return this;
+    };
     Surface.prototype.scrollTo = function(x, y) {
       if (!this.initialized) {
         return this;
@@ -163,22 +193,46 @@
       if (!this.initialized) {
         return this;
       }
-      window.history.back();
+      this.topWin.history.back();
       return this;
     };
     Surface.prototype.forwardHist = function() {
       if (!this.initialized) {
         return this;
       }
-      window.history.forward();
+      this.topWin.history.forward();
       return this;
     };
     Surface.prototype.reload = function() {
       if (!this.initialized) {
         return this;
       }
-      window.location.reload();
+      this.topWin.location.reload();
       return this;
+    };
+    Surface.prototype.open = function(url, a) {
+      if (!this.initialized) {
+        return this;
+      }
+      this.topWin.open(url, a);
+      return this;
+    };
+    Surface.prototype.goTop = function() {
+      if (!this.initialized) {
+        return this;
+      }
+      this.scrollTo(this.focusedWin.pageXOffset, 0);
+      return this;
+    };
+    Surface.prototype.goBottom = function() {
+      if (!this.initialized) {
+        return this;
+      }
+      this.scrollTo(this.focusedWin.pageXOffset, this.focusedWin.document.body.scrollHeight - this.focusedWin.innerHeight);
+      return this;
+    };
+    Surface.prototype.getHref = function() {
+      return window.top.location.href;
     };
     Surface.prototype.blurActiveElement = function() {
       var _ref;

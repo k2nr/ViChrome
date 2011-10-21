@@ -1,11 +1,10 @@
 g = this
 
 $.fn.extend {
-    isWithinScreen : ->
+    isWithinScreen : (padding=10)->
         offset = $(@).offset()
         unless offset? then return false
 
-        padding = 10
         if offset.left + padding > window.pageXOffset + window.innerWidth or \
            offset.left - padding < window.pageXOffset
             return false
@@ -51,8 +50,20 @@ $.fn.extend {
         return $(@)
 }
 
+$.extend( $.expr[':'],
+    scrollable : (elem) ->
+        overflow = $.curCSS(elem, 'overflow')
+        switch overflow
+            when "auto","scroll" then return true
+
+        false
+)
+
 class g.Surface
     init : ->
+        @topWin = window.top
+        @focusedWin = window.top
+
         align = g.model.getSetting "commandBoxAlign"
         width = g.model.getSetting "commandBoxWidth"
         alignClass = "vichrome-statusline" + align
@@ -64,10 +75,15 @@ class g.Surface
 
         @hideStatusLine()
         @attach( @statusLine )
+
+        $(document.body).click( (e)=>
+            @scrollee = $(e.target).closest(":scrollable").get(0)
+            @scrollee ?= window
+        )
         @initialized = true
 
     attach : (w) ->
-        $(document.body).append( w )
+        $(@topWin.document.body).append( w )
         this
 
     activeStatusLine : ->
@@ -117,6 +133,13 @@ class g.Surface
         $(document.body).scrollBy(x, y, 20)
         this
 
+    scrollHalfPage : (a) ->
+        unless@initialized then return this
+        block = @focusedWin.innerHeight / 2
+        @scrollBy( block * a.hor, block * a.ver )
+        this
+
+
     scrollTo : (x, y) ->
         unless @initialized then return this
 
@@ -126,19 +149,35 @@ class g.Surface
     backHist : ->
         unless @initialized then return this
 
-        window.history.back()
+        @topWin.history.back()
         this
 
     forwardHist : ->
         unless @initialized then return this
-        window.history.forward()
+        @topWin.history.forward()
         this
 
     reload : ->
         unless @initialized then return this
 
-        window.location.reload()
+        @topWin.location.reload()
         this
+    open : (url, a)->
+        unless @initialized then return this
+        @topWin.open(url, a)
+        this
+    goTop : ->
+        unless @initialized then return this
+        @scrollTo( @focusedWin.pageXOffset, 0 )
+        this
+
+    goBottom : ->
+        unless @initialized then return this
+        @scrollTo( @focusedWin.pageXOffset, @focusedWin.document.body.scrollHeight - @focusedWin.innerHeight )
+        this
+
+    getHref : ->
+        window.top.location.href
 
     blurActiveElement : ->
         unless @initialized then return this

@@ -120,6 +120,7 @@
     initCheckBox("ignoreCase");
     initCheckBox("useMigemo");
     initDropDown("commandBoxAlign");
+    initDropDown("searchEngine");
     $('[name="newTabPage"][value="' + settings.defaultNewTab + '"]').attr('checked', true);
     $('[name="newTabPage"]').change(function() {
       if ($(this).is(':checked')) {

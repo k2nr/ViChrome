@@ -145,4 +145,4 @@ g.util.benchmark = (cb, text) ->
     cb()
 
     text or= ""
-    g.logger.d(text+"::benchmark result:#{ (getCurrentTime() - start) }ms" )
+    g.logger.e(text+"::benchmark result:#{ (getCurrentTime() - start) }ms" )

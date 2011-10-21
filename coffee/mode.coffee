@@ -3,32 +3,25 @@ g = this
 class g.Mode
     exit  : ->
     enter : ->
-    reqOpen : (args) ->
-        urls = []
-        for arg in args then switch arg
-            when "-i" then interactive = true
-            when "-b" then bookmark    = true
-            when "-h" then history     = true
-            when "-g","g"  then search      = true
-            else urls.push arg
+    enterInteractiveOpen : (baseCom, opt)->
+        dscr = baseCom
+        sources = []
+        if opt.bookmark
+            dscr += " Bookmark"
+            sources.push(new g.CandSourceBookmark)
+        if opt.history
+            dscr += " History"
+            sources.push(new g.CandSourceHistory)
+        if opt.web
+            dscr += " Web"
+            sources.push(new g.CandSourceWebSuggest)
 
-        if interactive or bookmark or history
-            com = "Open " + urls.join(' ')
-            executer = new g.CommandExecuter
-            if search
-                com += " g"
+        if !opt.bookmark and !opt.history and !opt.web
+            if opt.search
+                baseCom += " g"
+                dscr += " Google Search"
                 sources = [
                     new g.CandSourceGoogleSuggest
-                ]
-            else if bookmark
-                executer.setDescription("Open Bookmark")
-                sources = [
-                    new g.CandSourceBookmark
-                ]
-            else if history
-                executer.setDescription("Open History")
-                sources = [
-                    new g.CandSourceHistory
                 ]
             else
                 sources = [
@@ -38,53 +31,52 @@ class g.Mode
                     new g.CandSourceHistory(3)
                 ]
 
-            executer.set(com)
-            g.model.enterCommandMode(executer, sources)
-            return
+        executer = (new g.CommandExecuter).setDescription(dscr).set(baseCom)
+        g.model.enterCommandMode(executer, sources)
+
+    reqOpen : (args) ->
+        urls = []
+        for arg in args then switch arg
+            when "-i" then interactive = true
+            when "-b" then bookmark    = true
+            when "-w" then web         = true
+            when "-h" then history     = true
+            when "-g","g"  then search      = true
+            else urls.push arg
+
+        if interactive or bookmark or history or web
+            opt =
+                bookmark : bookmark
+                history  : history
+                web      : web
+                search   : search
+            com = "Open" + urls.join(' ')
+            @enterInteractiveOpen( com, opt )
         else if search
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1"
-            window.open( url, "_self" )
+            g.view.open( url, "_self" )
 
         else
-            window.open( urls[0], "_self" )
+            g.view.open( urls[0], "_self" )
 
     reqOpenNewTab : (args) ->
         words = []
         for arg in args then switch arg
             when "-i" then interactive = true
             when "-b" then bookmark    = true
+            when "-w" then web         = true
             when "-h" then history     = true
             when "-g","g"  then search      = true
             else words.push arg
 
-        if interactive or bookmark or history
+        if interactive or bookmark or history or web
+            opt =
+                bookmark : bookmark
+                history  : history
+                web      : web
+                search   : search
             com = "OpenNewTab " + words.join(' ')
-            executer = new g.CommandExecuter
-            if search
-                com += " g"
-                sources = [
-                    new g.CandSourceGoogleSuggest
-                ]
-            else if bookmark
-                executer.setDescription("Open Bookmark")
-                sources = [
-                    new g.CandSourceBookmark
-                ]
-            else if history
-                executer.setDescription("Open History")
-                sources = [
-                    new g.CandSourceHistory
-                ]
-            else
-                sources = [
-                    (new g.CandSourceGoogleSuggest(3)).requirePrefix(true)
-                    new g.CandSourceWebSuggest(3)
-                    new g.CandSourceBookmark(3)
-                    new g.CandSourceHistory(3)
-                ]
-
-            executer.set(com)
-            g.model.enterCommandMode(executer, sources)
+            @enterInteractiveOpen( com, opt )
         else if search
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1"
             urls = []
@@ -98,17 +90,17 @@ class g.Mode
     reqScrollUp     : -> g.view.scrollBy(0, -g.model.getSetting "scrollPixelCount")
     reqScrollLeft   : -> g.view.scrollBy(-g.model.getSetting "scrollPixelCount", 0)
     reqScrollRight  : -> g.view.scrollBy(g.model.getSetting "scrollPixelCount", 0)
-    reqPageHalfDown : -> g.view.scrollBy(0, window.innerHeight / 2)
-    reqPageHalfUp   : -> g.view.scrollBy(0, -window.innerHeight / 2)
-    reqPageDown     : -> g.view.scrollBy(0, window.innerHeight)
-    reqPageUp       : -> g.view.scrollBy(0, -window.innerHeight)
+    reqPageHalfDown : -> g.view.scrollHalfPage( hor :  0, ver :  1 )
+    reqPageHalfUp   : -> g.view.scrollHalfPage( hor :  0, ver : -1 )
+    reqPageDown     : -> g.view.scrollHalfPage( hor :  0, ver :  2 )
+    reqPageUp       : -> g.view.scrollHalfPage( hor :  0, ver : -2 )
     reqGoTop : ->
         g.model.setPageMark()
-        g.view.scrollTo( window.pageXOffset, 0 )
+        g.view.goTop()
 
     reqGoBottom : ->
         g.model.setPageMark()
-        g.view.scrollTo( window.pageXOffset, document.body.scrollHeight - window.innerHeight )
+        g.view.goBottom()
 
     reqBackHist    : -> g.view.backHist()
     reqForwardHist : -> g.view.forwardHist()
@@ -321,19 +313,20 @@ class g.FMode extends g.Mode
 
     hit : (i) ->
         primary = false
+        target = $(@hints[i].target)
 
-        if @hints[i].target.is('a')
+        if target.is('a')
             primary = @opt.newTab
             unless @opt.continuous
                 g.model.enterNormalMode()
         else
-            @hints[i].target.focus()
-            if g.util.isEditable( @hints[i].target.get(0) )
+            target.focus()
+            if g.util.isEditable( target.get(0) )
                 g.model.enterInsertMode()
             else
                 g.model.enterNormalMode()
 
-        g.util.dispatchMouseClickEvent @hints[i].target.get(0), primary, false, false
+        g.util.dispatchMouseClickEvent target.get(0), primary, false, false
 
     isValidKey : (key) ->
         unless key.length == 1 then return false
@@ -402,32 +395,23 @@ class g.FMode extends g.Mode
         @keys = g.model.getSetting("fModeAvailableKeys")
         @keyLength = @getKeyLength( links.length )
 
-        that = this
-        links.each( (i) ->
+        for elem,i in links
             key=''
-            j = that.keyLength
-            k = i;
+            j = @keyLength
+            k = i
             while j--
-                key += that.keys.charAt( k % that.keys.length )
-                k /= that.keys.length
+                key += @keys.charAt( k % @keys.length )
+                k /= @keys.length
 
-            that.hints[i]        = {}
-            that.hints[i].offset = $(this).offset()
-            that.hints[i].key    = key
-            that.hints[i].target = $(this)
+            @hints[i]        = {}
+            @hints[i].key    = key
+            @hints[i].target = elem
 
-            $(this).addClass('vichrome-fModeTarget')
-        )
+            $(elem).addClass('vichrome-fModeTarget')
 
-        for elem in @hints
-            x = elem.offset.left - 7
-            y = elem.offset.top  - 7
-            if x < 0 then x = 0
-            if y < 0 then y = 0
-            div = $( '<span id="vichromehint" />' )
-            .css( "top",  y )
-            .css( "left", x )
-            .html(elem.key)
+        for hint in @hints
+            offset = hint.target._offset_
+            div = $( '<span id="vichromehint" />' ).css("top",  offset.top-7).css("left", offset.left-7).html(hint.key)
             $(document.body).append(div)
 
         g.view.setStatusLineText 'f Mode : '
@@ -443,11 +427,17 @@ $.extend( $.expr[':'],
         winH    = window.innerHeight
         winW    = window.innerWidth
         offset  = $(elem).offset()
-        if $.expr[':'].hidden(elem) then return false
-        if $.curCSS(elem, 'visibility') == 'hidden' then return false
-        if winLeft <= offset.left <= winLeft + winW and \
-           winTop  <= offset.top <= winTop + winH
-            return true
-        else
+
+        if winTop > offset.top or winTop + winH < offset.top
             return false
+        if winLeft > offset.left or offset.left > winLeft + winW
+            return false
+
+        if $.expr[':'].hidden(elem)
+            return false
+        if $.curCSS(elem, 'visibility') == 'hidden'
+            return false
+
+        elem._offset_ = offset # for performance improvement
+        true
 )

@@ -31,17 +31,18 @@ g.bg =
             sendMsg.value = g.SettingManager.get msg.name
 
         response sendMsg
+        true
 
-    setSettings : (msg, response) -> g.SettingManager.set( msg.name, msg.value )
+    setSettings : (msg, response) ->
+        g.SettingManager.set( msg.name, msg.value )
+        false
 
     #  Request Handlers
     reqSettings : (msg, response) ->
         if msg.type == "get"
-            @getSettings( msg, response )
+            return @getSettings( msg, response )
         else if msg.type == "set"
-            @setSettings( msg, response )
-
-        true
+            return @setSettings( msg, response )
 
     getDefaultNewTabPage : ->
         switch g.SettingManager.get "defaultNewTab"
@@ -66,6 +67,7 @@ g.bg =
         else
             for url in urls
                 chrome.tabs.create(url : url, selected : focus, pinned : pinned)
+        false
 
     reqOpenNewWindow : (req) ->
         urls  = []
@@ -86,9 +88,11 @@ g.bg =
         else
             if urls.length == 0 then urls = @getDefaultNewTabPage()
             chrome.windows.create( url : urls, focused : focus )
+        false
 
     reqCloseCurTab : ->
         chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
+        false
 
     reqCloseAllTabs : (req) ->
         for arg in req.args then switch arg
@@ -101,6 +105,7 @@ g.bg =
                         chrome.tabs.remove( tab.id )
             )
         )
+        false
 
     reqMoveToNextTab : (req) ->
         if req.args?[0]?
@@ -108,17 +113,26 @@ g.bg =
             @moveTab( parseInt( req.args[0] ) - 1, 0 )
         else
             @moveTab( 1 )
+        false
 
     reqMoveToPrevTab : (req) ->
         if req.args?[0]?
             @moveTab( -parseInt( req.args[0] ) )
         else
             @moveTab( -1 )
+        false
 
-    reqMoveToFirstTab : (req) -> @moveTab( 0, 0 )
-    reqMoveToLastTab  : (req) -> @moveTab( -1, 0 )
+    reqMoveToFirstTab : (req) ->
+        @moveTab( 0, 0 )
+        false
 
-    reqRestoreTab    : (req) -> @tabHistory.restoreLastClosedTab()
+    reqMoveToLastTab  : (req) ->
+        @moveTab( -1, 0 )
+        false
+
+    reqRestoreTab    : (req) ->
+        @tabHistory.restoreLastClosedTab()
+        false
 
     reqNMap : (req, sendResponse) ->
         unless req.args[0]? and req.args[1]? then return
@@ -161,6 +175,7 @@ g.bg =
                 tab_id : tab.id
             })
         )
+        false
 
 
     reqPushSearchHistory : (req) ->
@@ -175,7 +190,7 @@ g.bg =
         history.push( req.value )
         if( history.length > 10 ) then history.shift()
         localStorage.setItem( "_searchHistory", JSON.stringify(history) )
-        return
+        false
 
     reqGetSearchHistory : (req, sendResponse) ->
         history = JSON.parse( localStorage.getItem("_searchHistory") )
@@ -244,6 +259,7 @@ g.bg =
             sendResponse tabs
         )
         true
+
     reqOpenOptionPage : (req) ->
         for arg in req.args then switch arg
             when "-k","--key" then key = true

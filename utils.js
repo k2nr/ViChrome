@@ -178,6 +178,6 @@
     start = getCurrentTime();
     cb();
     text || (text = "");
-    return g.logger.d(text + ("::benchmark result:" + (getCurrentTime() - start) + "ms"));
+    return g.logger.e(text + ("::benchmark result:" + (getCurrentTime() - start) + "ms"));
   };
 }).call(this);

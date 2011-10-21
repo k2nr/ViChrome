@@ -46,10 +46,10 @@ class g.EventHandler
         @model.onFocus e.target
 
     addWindowListeners : ->
-        window.addEventListener("keydown" , ((e) => @onKeyDown(e)) , true)
-        window.addEventListener("keypress" , ((e) => @onKeyPress(e)) , true)
-        window.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
-        window.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
+        document.addEventListener("keydown" , ((e) => @onKeyDown(e)) , true)
+        document.addEventListener("keypress" , ((e) => @onKeyPress(e)) , true)
+        document.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
+        document.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
 
     init : -> @addWindowListeners()
 

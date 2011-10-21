@@ -6,13 +6,13 @@
     var map, myMap, nmap, pageMap, url, _ref;
     nmap = g.object(this.getSetting("keyMappingNormal"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return nmap;
     }
     myMap = nmap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(window.location.href, url)) {
+      if (this.isUrlMatched(g.view.getHref(), url)) {
         g.extend(map.nmap, myMap);
       }
     }
@@ -25,13 +25,13 @@
     var imap, map, myMap, pageMap, url, _ref;
     imap = g.object(this.getSetting("keyMappingInsert"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return imap;
     }
     myMap = imap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(window.location.href, url)) {
+      if (this.isUrlMatched(g.view.getHref(), url)) {
         g.extend(map.imap, myMap);
       }
     }
@@ -44,13 +44,13 @@
     var cmap, map, myMap, pageMap, url, _ref;
     cmap = g.object(this.getSetting("keyMappingCommand"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return cmap;
     }
     myMap = cmap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(window.location.href, url)) {
+      if (this.isUrlMatched(g.view.getHref(), url)) {
         g.extend(map.cmap, myMap);
       }
     }
@@ -63,13 +63,13 @@
     var aliases, map, myAlias, pageMap, url, _ref;
     aliases = g.object(this.getSetting("aliases"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = window.location.href) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return nmap;
     }
     myAlias = aliases;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(window.location.href, url)) {
+      if (this.isUrlMatched(g.view.getHref(), url)) {
         g.extend(map.alias, myAlias);
       }
     }
@@ -241,7 +241,7 @@
       urls = this.getSetting("ignoredUrls");
       for (_i = 0, _len = urls.length; _i < _len; _i++) {
         url = urls[_i];
-        if (this.isUrlMatched(window.location.href, url)) {
+        if (this.isUrlMatched(g.view.getHref(), url)) {
           g.logger.d("matched ignored list");
           return false;
         }

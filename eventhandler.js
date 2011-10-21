@@ -53,16 +53,16 @@
       return this.model.onFocus(e.target);
     };
     EventHandler.prototype.addWindowListeners = function() {
-      window.addEventListener("keydown", (__bind(function(e) {
+      document.addEventListener("keydown", (__bind(function(e) {
         return this.onKeyDown(e);
       }, this)), true);
-      window.addEventListener("keypress", (__bind(function(e) {
+      document.addEventListener("keypress", (__bind(function(e) {
         return this.onKeyPress(e);
       }, this)), true);
-      window.addEventListener("focus", (__bind(function(e) {
+      document.addEventListener("focus", (__bind(function(e) {
         return this.onFocus(e);
       }, this)), true);
-      return window.addEventListener("blur", (__bind(function(e) {
+      return document.addEventListener("blur", (__bind(function(e) {
         return this.onBlur(e);
       }, this)), true);
     };
