@@ -26,7 +26,7 @@
         });
       });
     },
-    getSettings: function(msg, response) {
+    getSettings: function(msg) {
       var sendMsg;
       sendMsg = {};
       sendMsg.name = msg.name;
@@ -35,19 +35,31 @@
       } else {
         sendMsg.value = g.SettingManager.get(msg.name);
       }
-      response(sendMsg);
-      return true;
+      return sendMsg;
     },
     setSettings: function(msg, response) {
       g.SettingManager.set(msg.name, msg.value);
-      return false;
+      return {};
     },
     reqSettings: function(msg, response) {
       if (msg.type === "get") {
-        return this.getSettings(msg, response);
+        response(this.getSettings(msg));
       } else if (msg.type === "set") {
-        return this.setSettings(msg, response);
+        response(this.setSettings(msg));
       }
+      return true;
+    },
+    reqInit: function(msg, response, sender) {
+      var o;
+      o = this.getSettings({
+        name: "all"
+      });
+      o.command = "Init";
+      g.logger.d("frameID " + (this.tabHistory.getFrames(sender.tab)) + " added");
+      o.frameID = this.tabHistory.getFrames(sender.tab);
+      this.tabHistory.addFrames(sender.tab);
+      response(o);
+      return true;
     },
     getDefaultNewTabPage: function() {
       switch (g.SettingManager.get("defaultNewTab")) {
@@ -374,6 +386,37 @@
       req.args.push(url);
       return this.reqOpenNewTab(req);
     },
+    reqTopFrame: function(req, response, sender) {
+      req.frameID = this.tabHistory.getTopFrameID(sender.tab);
+      req.command = req.innerCommand;
+      chrome.tabs.sendRequest(sender.tab.id, req);
+      return false;
+    },
+    reqPassToFrame: function(req, response, sender) {
+      req.command = req.innerCommand;
+      chrome.tabs.sendRequest(sender.tab.id, req);
+      return false;
+    },
+    reqSendToCommandBox: function(req, response, sender) {
+      req.command = req.innerCommand;
+      req.frameID = this.tabHistory.getCommandBoxID(sender.tab);
+      chrome.tabs.sendRequest(sender.tab.id, req);
+      return false;
+    },
+    reqGetCommandTable: function(req, response, sender) {
+      req.frameID = this.tabHistory.getTopFrameID(sender.tab);
+      chrome.tabs.sendRequest(sender.tab.id, req, __bind(function(msg) {
+        return response(msg);
+      }, this));
+      return true;
+    },
+    reqGetAliases: function(req, response, sender) {
+      req.frameID = this.tabHistory.getTopFrameID(sender.tab);
+      chrome.tabs.sendRequest(sender.tab.id, req, __bind(function(msg) {
+        return response(msg);
+      }, this));
+      return true;
+    },
     init: function() {
       var $WA, req, storedVersion;
       this.tabHistory = (new g.TabHistory).init();
@@ -384,12 +427,33 @@
         return this.gglLoaded = true;
       }, this));
       chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
-        if (this["req" + req.command]) {
-          if (!this["req" + req.command](req, sendResponse)) {
+        var frameID, msg;
+        g.logger.d("onRequest command: " + req.command);
+        switch (req.command) {
+          case "NotifyTopFrame":
+            g.logger.d("top frame " + req.frameID);
+            this.tabHistory.setTopFrameID(sender.tab, req.frameID);
             return sendResponse();
-          }
-        } else {
-          return g.logger.e("INVALID command!:", req.command);
+          case "InitCommandFrame":
+            msg = {};
+            frameID = this.tabHistory.getFrames(sender.tab);
+            this.tabHistory.setCommandBoxID(sender.tab, frameID);
+            this.tabHistory.addFrames(sender.tab);
+            g.logger.d("commandBoxFrameID: " + frameID);
+            msg.frameID = frameID;
+            msg.enableCompletion = g.SettingManager.get("enableCompletion");
+            msg.commandBoxWidth = g.SettingManager.get("commandBoxWidth");
+            msg.commandBoxAlign = g.SettingManager.get("commandBoxAlign");
+            msg.commandWaitTimeOut = g.SettingManager.get("commandWaitTimeOut");
+            return sendResponse(msg);
+          default:
+            if (this["req" + req.command]) {
+              if (!this["req" + req.command](req, sendResponse, sender)) {
+                return sendResponse();
+              }
+            } else {
+              return g.logger.e("INVALID command!:", req.command);
+            }
         }
       }, this));
       storedVersion = localStorage.version;

@@ -1,13 +1,6 @@
 (function() {
   var g;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   g = this;
   $.fn.extend({
     isWithinScreen: function(padding) {
@@ -98,15 +91,17 @@
   g.Surface = (function() {
     function Surface() {}
     Surface.prototype.init = function() {
-      var align, alignClass, width;
-      this.topWin = window.top;
-      this.focusedWin = window.top;
+      var align, path;
       align = g.model.getSetting("commandBoxAlign");
-      width = g.model.getSetting("commandBoxWidth");
-      alignClass = "vichrome-statusline" + align;
-      this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass(alignClass).width(width);
+      this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass("vichrome-statusline" + align).width(g.model.getSetting("commandBoxWidth"));
       this.hideStatusLine();
       this.attach(this.statusLine);
+      if (typeof top !== "undefined" && top !== null) {
+        path = chrome.extension.getURL("commandbox.html");
+        this.iframe = $("<iframe src=\"" + path + "\" id=\"vichrome-commandframe\" sandbox=\"allow-scripts\" seamless />");
+        $(document.body).append(this.iframe);
+        this.iframe.hide();
+      }
       $(document.body).click(__bind(function(e) {
         var _ref;
         this.scrollee = $(e.target).closest(":scrollable").get(0);
@@ -115,7 +110,7 @@
       return this.initialized = true;
     };
     Surface.prototype.attach = function(w) {
-      $(this.topWin.document.body).append(w);
+      $(typeof top !== "undefined" && top !== null ? top.document.body : void 0).append(w);
       return this;
     };
     Surface.prototype.activeStatusLine = function() {
@@ -178,7 +173,7 @@
       if (!this.initialized) {
         return this;
       }
-      block = this.focusedWin.innerHeight / 2;
+      block = window.innerHeight / 2;
       this.scrollBy(block * a.hor, block * a.ver);
       return this;
     };
@@ -193,46 +188,46 @@
       if (!this.initialized) {
         return this;
       }
-      this.topWin.history.back();
+      window.history.back();
       return this;
     };
     Surface.prototype.forwardHist = function() {
       if (!this.initialized) {
         return this;
       }
-      this.topWin.history.forward();
+      window.history.forward();
       return this;
     };
     Surface.prototype.reload = function() {
       if (!this.initialized) {
         return this;
       }
-      this.topWin.location.reload();
+      window.location.reload();
       return this;
     };
     Surface.prototype.open = function(url, a) {
       if (!this.initialized) {
         return this;
       }
-      this.topWin.open(url, a);
+      window.open(url, a);
       return this;
     };
     Surface.prototype.goTop = function() {
       if (!this.initialized) {
         return this;
       }
-      this.scrollTo(this.focusedWin.pageXOffset, 0);
+      this.scrollTo(window.pageXOffset, 0);
       return this;
     };
     Surface.prototype.goBottom = function() {
       if (!this.initialized) {
         return this;
       }
-      this.scrollTo(this.focusedWin.pageXOffset, this.focusedWin.document.body.scrollHeight - this.focusedWin.innerHeight);
+      this.scrollTo(window.pageXOffset, document.body.scrollHeight - window.innerHeight);
       return this;
     };
     Surface.prototype.getHref = function() {
-      return window.top.location.href;
+      return window.location.href;
     };
     Surface.prototype.blurActiveElement = function() {
       var _ref;
@@ -244,621 +239,13 @@
       }
       return this;
     };
+    Surface.prototype.hideCommandFrame = function() {
+      this.iframe.hide();
+      return window.focus();
+    };
+    Surface.prototype.showCommandFrame = function() {
+      return this.iframe.show();
+    };
     return Surface;
-  })();
-  g.CommandBox = (function() {
-    function CommandBox() {
-      this.inputListeners = [];
-    }
-    CommandBox.prototype.init = function(view, align, width) {
-      var alignClass;
-      this.view = view;
-      this.align = align;
-      this.width = width;
-      alignClass = "vichrome-vichromebox" + this.align;
-      this.box = $('<div id="vichromebox" />').addClass(alignClass).width(this.width);
-      this.input = $('<input type="text" id="vichromeinput" spellcheck="false" value="" />');
-      this.modeChar = $('<div id="vichromemodechar" />');
-      this.inputField = $('<div id="vichromefield" />').append(this.modeChar).append($('<div id="vichromeinput" />').append(this.input));
-      this.box.append(this.inputField);
-      return this;
-    };
-    CommandBox.prototype.addInputUpdateListener = function(fn) {
-      this.inputListeners.push(fn);
-      return this;
-    };
-    CommandBox.prototype.attachTo = function(view) {
-      view.attach(this.box);
-      return this;
-    };
-    CommandBox.prototype.detachFrom = function(view) {
-      view.detach(this.box);
-      if (this.candidateBox != null) {
-        this.candidateBox.stop();
-        this.candidateBox.detachFrom(view);
-      }
-      return this;
-    };
-    CommandBox.prototype.show = function(modeChar, input) {
-      this.input.attr("value", input);
-      this.modeChar.html(modeChar);
-      this.box.show();
-      this.inputField.show();
-      $(document).keyup(__bind(function(e) {
-        var listener, val, _i, _len, _ref;
-        val = this.input.val();
-        if (this.selectedCand === val) {
-          return;
-        }
-        if (this.bfInput !== val && this.isVisible()) {
-          _ref = this.inputListeners;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            listener = _ref[_i];
-            listener(val);
-          }
-        }
-        return this.bfInput = val;
-      }, this));
-      this.view.activeStatusLine();
-      return this;
-    };
-    CommandBox.prototype.hide = function() {
-      if (this.isVisible()) {
-        this.inputField.hide();
-        this.input.blur();
-      }
-      this.box.unbind();
-      return this;
-    };
-    CommandBox.prototype.focus = function() {
-      var _ref;
-      if ((_ref = this.input.get(0)) != null) {
-        _ref.focus();
-      }
-      return this;
-    };
-    CommandBox.prototype.isVisible = function() {
-      return this.inputField.css('display') !== 'none';
-    };
-    CommandBox.prototype.value = function(a) {
-      if (a != null) {
-        return this.input.val(a);
-      } else {
-        return this.input.val();
-      }
-    };
-    CommandBox.prototype.setCandidateBox = function(candBox) {
-      if (!g.model.getSetting("enableCompletion")) {
-        return this;
-      }
-      if (this.candidateBox != null) {
-        this.candidateBox.stop();
-        this.candidateBox.detachFrom(view);
-      }
-      this.candidateBox = candBox.init(this.align, this.width);
-      this.candidateBox.setCommandBox(this);
-      this.candidateBox.attachTo(this.view).show();
-      return this;
-    };
-    CommandBox.prototype.nextCandidate = function() {
-      var focused, _ref;
-      if (this.candidateBox != null) {
-        focused = this.candidateBox.focusNext();
-        this.selectedCand = (_ref = focused.value) != null ? _ref : focused.str;
-        this.value(this.selectedCand);
-      }
-      return this;
-    };
-    CommandBox.prototype.prevCandidate = function() {
-      var focused, _ref, _ref2;
-      if (this.candidateBox != null) {
-        focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
-        this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
-        this.value(this.selectedCand);
-      }
-      return this;
-    };
-    return CommandBox;
-  })();
-  g.CandidateBox = (function() {
-    CandidateBox.prototype.itemHeight = 22;
-    CandidateBox.prototype.winColumns = 20;
-    function CandidateBox() {
-      this.items = {};
-      this.sources = {};
-      this.selectedListeners = [];
-      this.index = 0;
-      this.scrIndex = 0;
-    }
-    CandidateBox.prototype.init = function(align, width) {
-      var alignClass;
-      this.align = align;
-      this.width = width;
-      alignClass = "vichrome-candbox" + this.align;
-      this.box = $('<div id="vichromecandbox" />').addClass(alignClass).css('min-width', this.width);
-      return this;
-    };
-    CandidateBox.prototype.show = function() {
-      this.box.show();
-      return this;
-    };
-    CandidateBox.prototype.hide = function() {
-      this.box.hide();
-      return this;
-    };
-    CandidateBox.prototype.addItem = function(id, item) {
-      this.items[id].push(item);
-      return this;
-    };
-    CandidateBox.prototype.getItemCnt = function() {
-      var items, result, src, _ref;
-      result = 0;
-      _ref = this.items;
-      for (src in _ref) {
-        items = _ref[src];
-        result += items.length;
-      }
-      return result;
-    };
-    CandidateBox.prototype.addSource = function(src) {
-      this.sources[src.id] = src;
-      this.items[src.id] = [];
-      src.addSrcUpdatedListener(__bind(function(items) {
-        this.items[src.id] = items;
-        return this.update(src.id);
-      }, this));
-      return this;
-    };
-    CandidateBox.prototype.attachTo = function(view) {
-      view.attach(this.box);
-      return this;
-    };
-    CandidateBox.prototype.detachFrom = function(view) {
-      view.detach(this.box);
-      return this;
-    };
-    CandidateBox.prototype.resetItem = function() {
-      this.candidates = [];
-      return this;
-    };
-    CandidateBox.prototype.makeItemLine = function(src, id, item) {
-      var dscr, line, srcType, text;
-      line = $("<div id=\"vichromecanditem\" source=\"" + src + "\" num=\"" + id + "\" />");
-      text = $("<div id=\"vichromecandtext\" class=\"vichrome-candstr\" />").html(item.str);
-      dscr = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.dscr);
-      srcType = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.source);
-      line.append(text).append(srcType).append(dscr);
-      if (item.value != null) {
-        line.attr("value", item.value);
-      }
-      return line;
-    };
-    CandidateBox.prototype.update = function(id) {
-      var i, item, _len, _ref;
-      $('#vichromecanditem' + ("[source=" + id + "]")).remove();
-      _ref = this.items[id];
-      for (i = 0, _len = _ref.length; i < _len; i++) {
-        item = _ref[i];
-        this.box.append(this.makeItemLine(id, i, item));
-      }
-      return this;
-    };
-    CandidateBox.prototype.getItem = function(id, num) {
-      return this.items[id][num];
-    };
-    CandidateBox.prototype.scrollTo = function(scrIndex) {
-      this.scrIndex = scrIndex;
-      return this.box.get(0).scrollTop = this.itemHeight * this.scrIndex;
-    };
-    CandidateBox.prototype.scrollDown = function() {
-      if (this.index >= this.scrIndex + this.winColumns) {
-        return this.scrollTo(this.scrIndex + 1);
-      } else if (this.index < this.scrIndex) {
-        return this.scrollTo(this.index);
-      }
-    };
-    CandidateBox.prototype.scrollUp = function() {
-      if (this.index >= this.scrIndex + this.winColumns) {
-        return this.scrollTo(this.getItemCnt() - this.winColumns);
-      } else if (this.index < this.scrIndex) {
-        return this.scrollTo(this.index);
-      }
-    };
-    CandidateBox.prototype.getFocusedValue = function() {
-      return this.focusedValue;
-    };
-    CandidateBox.prototype.setFocusedValue = function(focusedValue) {
-      this.focusedValue = focusedValue;
-    };
-    CandidateBox.prototype.scrollTop = function() {
-      return this.scrollTo(0);
-    };
-    CandidateBox.prototype.scrollBottom = function() {
-      this.scrIndex = 0;
-      return this.box.get(0).scrollTop = 0;
-    };
-    CandidateBox.prototype.removeFocus = function($focused) {
-      $focused.removeClass("vichrome-canditemfocused");
-      return $focused.children().removeClass("vichrome-canditemfocused");
-    };
-    CandidateBox.prototype.setFocus = function($settee) {
-      var val;
-      $settee.addClass("vichrome-canditemfocused");
-      $settee.children().addClass("vichrome-canditemfocused");
-      if ((val = $settee.attr("value"))) {
-        return this.setFocusedValue(val);
-      }
-    };
-    CandidateBox.prototype.focusNext = function() {
-      var $focused, $next;
-      $focused = $("#vichromecanditem.vichrome-canditemfocused");
-      this.removeFocus($focused);
-      $next = $focused.next();
-      this.index++;
-      if ($next.attr("id") !== "vichromecanditem") {
-        this.index = 0;
-        $next = $("#vichromecanditem:first-child").first();
-      }
-      this.scrollDown();
-      this.setFocus($next);
-      return this.getItem($next.attr("source"), parseInt($next.attr("num")));
-    };
-    CandidateBox.prototype.focusPrev = function() {
-      var $focused, $next;
-      $focused = $("#vichromecanditem.vichrome-canditemfocused");
-      this.removeFocus($focused);
-      $next = $focused.prev();
-      this.index--;
-      if ($next.attr("id") !== "vichromecanditem") {
-        $next = $("#vichromecanditem:last-child").last();
-        this.index = this.getItemCnt() - 1;
-      }
-      this.scrollUp();
-      this.setFocus($next);
-      return this.getItem($next.attr("source"), parseInt($next.attr("num")));
-    };
-    CandidateBox.prototype.getFocused = function() {
-      var $focused;
-      $focused = $("#vichromecanditem.vichrome-canditemfocused");
-      return this.getItem($focused.attr("source"), parseInt($focused.attr("num")));
-    };
-    CandidateBox.prototype.onInput = function(word) {
-      var id, src, _ref;
-      if (this.stopped) {
-        return;
-      }
-      _ref = this.sources;
-      for (id in _ref) {
-        src = _ref[id];
-        src.cbInputUpdated(word);
-      }
-    };
-    CandidateBox.prototype.setCommandBox = function(box) {
-      box.addInputUpdateListener(__bind(function(word) {
-        return this.onInput(word);
-      }, this));
-      return this;
-    };
-    CandidateBox.prototype.stop = function() {
-      return this.stopped = true;
-    };
-    return CandidateBox;
-  })();
-  g.CandidateSource = (function() {
-    function CandidateSource(maxItems) {
-      this.maxItems = maxItems != null ? maxItems : 5;
-      this.updatedListeners = [];
-      this.items = [];
-    }
-    CandidateSource.prototype.requirePrefix = function(reqPrefix) {
-      this.reqPrefix = reqPrefix;
-      return this;
-    };
-    CandidateSource.prototype.addSrcUpdatedListener = function(listener) {
-      this.updatedListeners.push(listener);
-      return this;
-    };
-    CandidateSource.prototype.addItem = function(item) {
-      if (this.items.length < this.maxItems || this.maxItems < 0) {
-        this.items.push(item);
-      }
-      return this;
-    };
-    CandidateSource.prototype.resetItem = function() {
-      this.items = [];
-      return this;
-    };
-    CandidateSource.prototype.notifyUpdated = function() {
-      var listener, _i, _len, _ref;
-      _ref = this.updatedListeners;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        listener = _ref[_i];
-        listener(this.items);
-      }
-      return this;
-    };
-    CandidateSource.prototype.cbInputUpdated = function(word) {
-      if (this.timer != null) {
-        clearTimeout(this.timer);
-      }
-      if ((this.prefix != null) && word.charAt(1) === " " && word.charAt(0) !== this.prefix) {
-        g.logger.d("different prefix:" + this.prefix);
-        this.resetItem();
-        this.notifyUpdated();
-        return;
-      }
-      if (this.reqPrefix && (this.prefix != null)) {
-        if (word.length < 2 || word.charAt(1) !== " " || word.charAt(0) !== this.prefix) {
-          this.resetItem();
-          this.notifyUpdated();
-          return;
-        } else {
-          word = word.slice(2);
-        }
-      }
-      return this.timer = setTimeout(__bind(function() {
-        this.timer = null;
-        return typeof this.onInput === "function" ? this.onInput(word) : void 0;
-      }, this), 50);
-    };
-    return CandidateSource;
-  })();
-  g.CandSourceCommand = (function() {
-    __extends(CandSourceCommand, g.CandidateSource);
-    CandSourceCommand.prototype.id = "Command";
-    function CandSourceCommand(maxItems) {
-      this.maxItems = maxItems != null ? maxItems : -1;
-      CandSourceCommand.__super__.constructor.call(this, this.maxItems);
-    }
-    CandSourceCommand.prototype.onInput = function(word) {
-      var com, method, _ref;
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      word = word.toUpperCase();
-      _ref = g.CommandExecuter.prototype.commandTable;
-      for (com in _ref) {
-        method = _ref[com];
-        if (com.toUpperCase().slice(0, word.length) === word) {
-          this.addItem({
-            str: com,
-            source: "Command",
-            dscr: ""
-          });
-        }
-      }
-      return this.notifyUpdated();
-    };
-    return CandSourceCommand;
-  })();
-  g.CandSourceAlias = (function() {
-    __extends(CandSourceAlias, g.CandidateSource);
-    CandSourceAlias.prototype.id = "Alias";
-    function CandSourceAlias(maxItems) {
-      this.maxItems = maxItems != null ? maxItems : -1;
-      CandSourceAlias.__super__.constructor.call(this, this.maxItems);
-    }
-    CandSourceAlias.prototype.onInput = function(word) {
-      var alias, com, _ref;
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      word = word.toUpperCase();
-      _ref = g.model.getAlias();
-      for (alias in _ref) {
-        com = _ref[alias];
-        if (alias.toUpperCase().slice(0, word.length) === word) {
-          this.addItem({
-            str: alias,
-            source: "Alias",
-            dscr: com
-          });
-        }
-      }
-      return this.notifyUpdated();
-    };
-    return CandSourceAlias;
-  })();
-  g.CandSourceHistory = (function() {
-    __extends(CandSourceHistory, g.CandidateSource);
-    function CandSourceHistory() {
-      CandSourceHistory.__super__.constructor.apply(this, arguments);
-    }
-    CandSourceHistory.prototype.id = "WebHistory";
-    CandSourceHistory.prototype.prefix = "h";
-    CandSourceHistory.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      return chrome.extension.sendRequest({
-        command: "GetHistory",
-        value: word
-      }, __bind(function(items) {
-        var item, str, _i, _len;
-        for (_i = 0, _len = items.length; _i < _len; _i++) {
-          item = items[_i];
-          str = item.title ? item.title : item.url;
-          this.addItem({
-            str: str,
-            source: "History",
-            dscr: item.url,
-            value: item.url
-          });
-        }
-        return this.notifyUpdated();
-      }, this));
-    };
-    return CandSourceHistory;
-  })();
-  g.CandSourceBookmark = (function() {
-    __extends(CandSourceBookmark, g.CandidateSource);
-    function CandSourceBookmark() {
-      CandSourceBookmark.__super__.constructor.apply(this, arguments);
-    }
-    CandSourceBookmark.prototype.id = "Bookmark";
-    CandSourceBookmark.prototype.prefix = "b";
-    CandSourceBookmark.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      return chrome.extension.sendRequest({
-        command: "GetBookmark",
-        value: word
-      }, __bind(function(nodes) {
-        var node, _i, _len;
-        for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-          node = nodes[_i];
-          this.addItem({
-            str: node.title,
-            source: "Bookmark",
-            dscr: node.url,
-            value: node.url
-          });
-        }
-        return this.notifyUpdated();
-      }, this));
-    };
-    return CandSourceBookmark;
-  })();
-  g.CandSourceSearchHist = (function() {
-    __extends(CandSourceSearchHist, g.CandidateSource);
-    CandSourceSearchHist.prototype.id = "SearchHistory";
-    function CandSourceSearchHist(maxItems) {
-      this.maxItems = maxItems;
-      CandSourceSearchHist.__super__.constructor.call(this, this.maxItems);
-      chrome.extension.sendRequest({
-        command: "GetSearchHistory"
-      }, __bind(function(msg) {
-        return this.history = msg.value.reverse();
-      }, this));
-    }
-    CandSourceSearchHist.prototype.onInput = function(word) {
-      var hist, _i, _len, _ref;
-      if (this.history == null) {
-        return;
-      }
-      this.resetItem();
-      word = word.toUpperCase();
-      _ref = this.history;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        hist = _ref[_i];
-        if (hist.toUpperCase().slice(0, word.length) === word) {
-          this.addItem({
-            str: hist,
-            source: "Search History",
-            dscr: ""
-          });
-        }
-      }
-      return this.notifyUpdated();
-    };
-    return CandSourceSearchHist;
-  })();
-  g.CandSourceGoogleSuggest = (function() {
-    __extends(CandSourceGoogleSuggest, g.CandidateSource);
-    function CandSourceGoogleSuggest() {
-      CandSourceGoogleSuggest.__super__.constructor.apply(this, arguments);
-    }
-    CandSourceGoogleSuggest.prototype.id = "GoogleSuggest";
-    CandSourceGoogleSuggest.prototype.prefix = "g";
-    CandSourceGoogleSuggest.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      return chrome.extension.sendRequest({
-        command: "GetGoogleSuggest",
-        value: word
-      }, __bind(function(raws) {
-        var raw, value, _i, _len;
-        for (_i = 0, _len = raws.length; _i < _len; _i++) {
-          raw = raws[_i];
-          value = this.reqPrefix ? "g " + raw : raw;
-          this.addItem({
-            str: raw,
-            source: "Google Search",
-            dscr: "",
-            value: value
-          });
-        }
-        return this.notifyUpdated();
-      }, this));
-    };
-    return CandSourceGoogleSuggest;
-  })();
-  g.CandSourceWebSuggest = (function() {
-    __extends(CandSourceWebSuggest, g.CandidateSource);
-    function CandSourceWebSuggest() {
-      CandSourceWebSuggest.__super__.constructor.apply(this, arguments);
-    }
-    CandSourceWebSuggest.prototype.id = "WebSuggest";
-    CandSourceWebSuggest.prototype.prefix = "w";
-    CandSourceWebSuggest.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
-      this.resetItem();
-      if (word.charAt(1) === " " && word.charAt(0) !== "w") {
-        this.notifyUpdated();
-        return;
-      }
-      return chrome.extension.sendRequest({
-        command: "GetWebSuggest",
-        value: word
-      }, __bind(function(results) {
-        var res, _i, _len;
-        for (_i = 0, _len = results.length; _i < _len; _i++) {
-          res = results[_i];
-          this.addItem({
-            str: res.titleNoFormatting,
-            source: "Web",
-            dscr: res.unescapedUrl,
-            value: res.url
-          });
-        }
-        return this.notifyUpdated();
-      }, this));
-    };
-    return CandSourceWebSuggest;
-  })();
-  g.CandSourceTabs = (function() {
-    __extends(CandSourceTabs, g.CandidateSource);
-    CandSourceTabs.prototype.id = "Tabs";
-    function CandSourceTabs(maxItems) {
-      this.maxItems = maxItems != null ? maxItems : -1;
-      chrome.extension.sendRequest({
-        command: "GetTabList"
-      }, __bind(function(tabs) {
-        this.tabs = tabs;
-      }, this));
-      CandSourceTabs.__super__.constructor.call(this, this.maxItems);
-    }
-    CandSourceTabs.prototype.onInput = function(word) {
-      var a, tab, _i, _len, _ref;
-      if (this.tabs == null) {
-        return;
-      }
-      this.resetItem();
-      word = word.toUpperCase();
-      _ref = this.tabs;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        tab = _ref[_i];
-        a = tab.title.toUpperCase();
-        if (tab.title.toUpperCase().indexOf(word) >= 0) {
-          this.addItem({
-            str: tab.title,
-            source: "",
-            dscr: "index:" + (tab.index + 1),
-            value: "" + (tab.index + 1)
-          });
-        }
-      }
-      return this.notifyUpdated();
-    };
-    return CandSourceTabs;
   })();
 }).call(this);

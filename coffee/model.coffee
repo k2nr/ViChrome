@@ -68,6 +68,7 @@ g.model =
     pmRegister   : null
     curMode      : null
     settings     : null
+    frameID      : 0
 
     changeMode   :(newMode) ->
         if @curMode? then @curMode.exit()
@@ -76,7 +77,7 @@ g.model =
 
     init : ->
         @enterNormalMode()
-        @commandManager = new g.CommandManager
+        @commandManager = new g.CommandManager( this, @getSetting "commandWaitTimeOut" )
         @pmRegister     = new g.PageMarkRegister
 
     isReady : -> @initEnabled and @domReady
@@ -107,7 +108,7 @@ g.model =
     enterCommandMode : (executer, sources)->
         mode = new g.CommandMode
         mode.setExecuter( executer ) if executer?
-        mode.setSources(sources) if sources?
+        mode.setSources( sources ) if sources?
 
         g.logger.d "enterCommandMode"
         @cancelSearchHighlight()
@@ -204,9 +205,9 @@ g.model =
 
     handleKey : (msg) -> @commandManager.handleKey msg, @getKeyMapping()
 
-    triggerCommand : (method, args) ->
+    triggerCommand : (method, args, sender) ->
         if @curMode[method]?
-            @curMode[method]( args )
+            @curMode[method]( args, sender )
         else
             g.logger.e "INVALID command!:", method
 
@@ -248,7 +249,13 @@ g.model =
         @onSettings msg
         @disAutoFocus = @getSetting "disableAutoFocus"
         @init()
+        @frameID = msg.frameID
         @initEnabled = true
+        if top?
+            chrome.extension.sendRequest( {
+                command : "NotifyTopFrame"
+                frameID : @frameID
+            } )
         if @domReady then @onDomReady()
 
     onDomReady : ->
@@ -269,6 +276,7 @@ g.model =
             @enterNormalMode()
 
 $(document).ready( ->
+
     g.model.onDomReady()
 )
 

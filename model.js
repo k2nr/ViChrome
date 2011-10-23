@@ -86,6 +86,7 @@
     pmRegister: null,
     curMode: null,
     settings: null,
+    frameID: 0,
     changeMode: function(newMode) {
       if (this.curMode != null) {
         this.curMode.exit();
@@ -95,7 +96,7 @@
     },
     init: function() {
       this.enterNormalMode();
-      this.commandManager = new g.CommandManager;
+      this.commandManager = new g.CommandManager(this, this.getSetting("commandWaitTimeOut"));
       return this.pmRegister = new g.PageMarkRegister;
     },
     isReady: function() {
@@ -251,9 +252,9 @@
     handleKey: function(msg) {
       return this.commandManager.handleKey(msg, this.getKeyMapping());
     },
-    triggerCommand: function(method, args) {
+    triggerCommand: function(method, args, sender) {
       if (this.curMode[method] != null) {
-        return this.curMode[method](args);
+        return this.curMode[method](args, sender);
       } else {
         return g.logger.e("INVALID command!:", method);
       }
@@ -306,7 +307,14 @@
       this.onSettings(msg);
       this.disAutoFocus = this.getSetting("disableAutoFocus");
       this.init();
+      this.frameID = msg.frameID;
       this.initEnabled = true;
+      if (typeof top !== "undefined" && top !== null) {
+        chrome.extension.sendRequest({
+          command: "NotifyTopFrame",
+          frameID: this.frameID
+        });
+      }
       if (this.domReady) {
         return this.onDomReady();
       }

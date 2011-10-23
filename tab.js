@@ -31,12 +31,35 @@
     TabHistory.prototype.addOpenTabItem = function(tab, history) {
       this.openTabs[tab.windowId][tab.id] = {};
       this.openTabs[tab.windowId][tab.id].tab = tab;
+      this.openTabs[tab.windowId][tab.id].frames = 0;
       if (history) {
         return this.openTabs[tab.windowId][tab.id].history = history;
       } else {
         this.openTabs[tab.windowId][tab.id].history = [];
         return this.openTabs[tab.windowId][tab.id].history.push(tab.url);
       }
+    };
+    TabHistory.prototype.setTopFrameID = function(tab, id) {
+      return this.openTabs[tab.windowId][tab.id].topFrame = id;
+    };
+    TabHistory.prototype.getTopFrameID = function(tab) {
+      return this.openTabs[tab.windowId][tab.id].topFrame;
+    };
+    TabHistory.prototype.setCommandBoxID = function(tab, id) {
+      return this.openTabs[tab.windowId][tab.id].comBoxID = id;
+    };
+    TabHistory.prototype.getCommandBoxID = function(tab) {
+      return this.openTabs[tab.windowId][tab.id].comBoxID;
+    };
+    TabHistory.prototype.setFrames = function(tab, frames) {
+      return this.openTabs[tab.windowId][tab.id].frames = frames;
+    };
+    TabHistory.prototype.addFrames = function(tab) {
+      return ++this.openTabs[tab.windowId][tab.id].frames;
+    };
+    TabHistory.prototype.getFrames = function(tab) {
+      var _ref;
+      return (_ref = this.openTabs[tab.windowId][tab.id]) != null ? _ref.frames : void 0;
     };
     TabHistory.prototype.initTabHist = function(winId) {
       return chrome.windows.getAll({

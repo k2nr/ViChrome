@@ -48,10 +48,7 @@ class g.NormalSearcher
 
         return
 
-    init : (@opt, commandBox) ->
-        if @opt.incSearch
-            commandBox.addInputUpdateListener( (word) => @updateInput(word) )
-        this
+    init : (@opt) -> this
 
     getOption : ->
         ret = g.object( @opt )

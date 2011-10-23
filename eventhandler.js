@@ -66,8 +66,49 @@
         return this.onBlur(e);
       }, this)), true);
     };
+    EventHandler.prototype.addExtListener = function() {
+      return chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
+        var a, aliases, com, commands, method, _ref, _ref2;
+        g.logger.d("onRequest command: " + req.command);
+        if ((req.frameID != null) && req.frameID !== g.model.frameID) {
+          g.logger.d("onRequest: different frameID");
+          sendResponse();
+          return;
+        }
+        if (req.command === "GetCommandTable") {
+          commands = [];
+          _ref = g.CommandExecuter.prototype.commandTable;
+          for (com in _ref) {
+            method = _ref[com];
+            commands.push(com);
+          }
+          return sendResponse(commands);
+        } else if (req.command === "GetAliases") {
+          aliases = {};
+          _ref2 = g.model.getAlias();
+          for (a in _ref2) {
+            com = _ref2[a];
+            aliases[a] = com;
+          }
+          return sendResponse(aliases);
+        } else if (req.command === "ExecuteCommand") {
+          g.model.curMode.reqExecuteCommand(req);
+          return sendResponse();
+        } else if (req.command === "NotifyInputUpdated") {
+          g.model.curMode.notifyInputUpdated(req);
+          return sendResponse();
+        } else if (req.command === "NotifySearchFixed") {
+          g.model.curMode.notifySearchFixed(req);
+          return sendResponse();
+        } else {
+          g.model.triggerCommand("req" + req.command, req.args, req.senderFrameID);
+          return sendResponse();
+        }
+      }, this));
+    };
     EventHandler.prototype.init = function() {
-      return this.addWindowListeners();
+      this.addWindowListeners();
+      return this.addExtListener();
     };
     EventHandler.prototype.onInitEnabled = function(msg) {
       this.init();

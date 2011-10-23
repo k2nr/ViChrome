@@ -1,5 +1,5 @@
 (function() {
-  var escape, g, sendToBackground, solveAlias, triggerInsideContent;
+  var escape, g, passToFrame, passToTopFrame, sendToBackground, triggerInsideContent;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -16,21 +16,35 @@
   triggerInsideContent = function(com, args) {
     return g.model.triggerCommand("req" + com, args);
   };
+  passToTopFrame = function(com, args) {
+    return chrome.extension.sendRequest({
+      command: "TopFrame",
+      innerCommand: com,
+      args: args,
+      senderFrameID: g.model.frameID
+    }, g.handler.onCommandResponse);
+  };
+  passToFrame = function(com, args, target) {
+    return chrome.extension.sendRequest({
+      command: "PassToFrame",
+      innerCommand: com,
+      args: args,
+      frameID: target,
+      senderFrameID: g.model.frameID
+    }, g.handler.onCommandResponse);
+  };
   escape = function(com) {
     return triggerInsideContent("Escape");
   };
-  solveAlias = function(alias) {
-    var aliases, command;
-    aliases = g.model.getAlias();
-    alias = aliases[alias];
-    while (alias != null) {
-      command = alias;
-      alias = aliases[alias];
-    }
-    return command;
-  };
   g.CommandExecuter = (function() {
     function CommandExecuter() {}
+    CommandExecuter.prototype.setTargetFrame = function(targetFrame) {
+      this.targetFrame = targetFrame;
+      return this;
+    };
+    CommandExecuter.prototype.getTargetFrame = function() {
+      return this.targetFrame;
+    };
     CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "RestoreTab"];
     CommandExecuter.prototype.commandTable = {
       Open: triggerInsideContent,
@@ -60,7 +74,7 @@
       PrevSearch: triggerInsideContent,
       BackHist: triggerInsideContent,
       ForwardHist: triggerInsideContent,
-      GoCommandMode: triggerInsideContent,
+      GoCommandMode: passToTopFrame,
       GoSearchModeForward: triggerInsideContent,
       GoSearchModeBackward: triggerInsideContent,
       GoLinkTextSearchMode: triggerInsideContent,
@@ -79,6 +93,9 @@
     CommandExecuter.prototype.get = function() {
       return this.command;
     };
+    CommandExecuter.prototype.getArgs = function() {
+      return this.args;
+    };
     CommandExecuter.prototype.setDescription = function(description) {
       this.description = description;
       return this;
@@ -96,6 +113,16 @@
       this.times = times != null ? times : 1;
       return this;
     };
+    CommandExecuter.prototype.solveAlias = function(alias) {
+      var aliases, command;
+      aliases = g.model.getAlias();
+      alias = aliases[alias];
+      while (alias != null) {
+        command = alias;
+        alias = aliases[alias];
+      }
+      return command;
+    };
     CommandExecuter.prototype.parse = function() {
       var command, i, _ref;
       if (!this.command) {
@@ -110,7 +137,7 @@
           this.args.splice(i, 1);
         }
       }
-      command = solveAlias(this.args[0]);
+      command = this.solveAlias(this.args[0]);
       if (command != null) {
         this.args = command.split(' ').concat(this.args.slice(1));
       }
@@ -127,8 +154,12 @@
         return;
       }
       return setTimeout(__bind(function() {
-        while (this.times--) {
-          this.commandTable[com](com, this.args.slice(1));
+        if ((this.targetFrame != null) && this.commandTable[com] !== sendToBackground) {
+          passToFrame(com, this.args.slice(1), this.targetFrame);
+        } else {
+          while (this.times--) {
+            this.commandTable[com](com, this.args.slice(1));
+          }
         }
       }, this), 0);
     };
@@ -136,7 +167,9 @@
   })();
   g.CommandManager = (function() {
     CommandManager.prototype.keyQueue = {
-      init: function() {
+      init: function(model, timeout) {
+        this.model = model;
+        this.timeout = timeout;
         this.a = "";
         this.times = "";
         this.timerId = 0;
@@ -182,17 +215,17 @@
       getNextKeySequence: function() {
         var ret;
         this.stopTimer();
-        if (g.model.isValidKeySeq(this.a)) {
+        if (this.model.isValidKeySeq(this.a)) {
           ret = this.a;
           this.reset();
           return ret;
         } else {
-          if (g.model.isValidKeySeqAvailable(this.a)) {
+          if (this.model.isValidKeySeqAvailable(this.a)) {
             this.startTimer(__bind(function() {
               this.a = "";
               this.times = "";
               return this.waiting = false;
-            }, this), g.model.getSetting("commandWaitTimeOut"));
+            }, this), this.timeout);
           } else {
             g.logger.d("invalid key sequence: " + this.a);
             this.reset();
@@ -201,8 +234,9 @@
         }
       }
     };
-    function CommandManager() {
-      this.keyQueue.init();
+    function CommandManager(model, timeout) {
+      this.model = model;
+      this.keyQueue.init(this.model, timeout);
     }
     CommandManager.prototype.getCommandFromKeySeq = function(s, keyMap) {
       var keySeq;
@@ -222,7 +256,7 @@
     };
     CommandManager.prototype.handleKey = function(msg, keyMap) {
       var com, s, times;
-      s = KeyManager.getKeyCodeStr(msg);
+      s = g.KeyManager.getKeyCodeStr(msg);
       times = this.keyQueue.getTimes();
       com = this.getCommandFromKeySeq(s, keyMap);
       if (!com) {

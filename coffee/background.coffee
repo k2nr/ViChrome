@@ -21,7 +21,7 @@ g.bg =
         )
 
 
-    getSettings : (msg, response) ->
+    getSettings : (msg) ->
         sendMsg = {}
         sendMsg.name = msg.name
 
@@ -30,19 +30,28 @@ g.bg =
         else
             sendMsg.value = g.SettingManager.get msg.name
 
-        response sendMsg
-        true
+        sendMsg
 
     setSettings : (msg, response) ->
         g.SettingManager.set( msg.name, msg.value )
-        false
+        return {}
 
     #  Request Handlers
     reqSettings : (msg, response) ->
         if msg.type == "get"
-            return @getSettings( msg, response )
+            response @getSettings( msg )
         else if msg.type == "set"
-            return @setSettings( msg, response )
+            response @setSettings( msg )
+        true
+
+    reqInit : (msg, response, sender) ->
+        o = @getSettings( name : "all" )
+        o.command = "Init"
+        g.logger.d "frameID #{@tabHistory.getFrames(sender.tab)} added"
+        o.frameID = @tabHistory.getFrames(sender.tab)
+        @tabHistory.addFrames(sender.tab)
+        response o
+        true
 
     getDefaultNewTabPage : ->
         switch g.SettingManager.get "defaultNewTab"
@@ -270,6 +279,37 @@ g.bg =
         req.args.push url
         @reqOpenNewTab( req )
 
+    reqTopFrame : (req, response, sender) ->
+        req.frameID = @tabHistory.getTopFrameID(sender.tab)
+        req.command = req.innerCommand
+        chrome.tabs.sendRequest( sender.tab.id, req )
+        false
+
+    reqPassToFrame : (req, response, sender) ->
+        req.command = req.innerCommand
+        chrome.tabs.sendRequest( sender.tab.id, req )
+        false
+
+    reqSendToCommandBox : (req, response, sender) ->
+        req.command = req.innerCommand
+        req.frameID = @tabHistory.getCommandBoxID(sender.tab)
+        chrome.tabs.sendRequest( sender.tab.id, req )
+        false
+
+    reqGetCommandTable : (req, response, sender) ->
+        req.frameID = @tabHistory.getTopFrameID(sender.tab)
+        chrome.tabs.sendRequest( sender.tab.id, req, (msg) =>
+            response msg
+        )
+        true
+
+    reqGetAliases : (req, response, sender) ->
+        req.frameID = @tabHistory.getTopFrameID(sender.tab)
+        chrome.tabs.sendRequest( sender.tab.id, req, (msg) =>
+            response msg
+        )
+        true
+
     init : ->
         @tabHistory = (new g.TabHistory).init()
         g.SettingManager.init()
@@ -279,10 +319,30 @@ g.bg =
         @cWSrch.ready( => @gglLoaded = true )
 
         chrome.extension.onRequest.addListener( (req, sender, sendResponse) =>
-            if this["req"+req.command]
-                if not this["req"+req.command]( req, sendResponse )
+            g.logger.d "onRequest command: #{req.command}"
+            switch req.command
+                when "NotifyTopFrame"
+                    g.logger.d "top frame #{req.frameID}"
+                    @tabHistory.setTopFrameID(sender.tab, req.frameID)
                     sendResponse()
-            else g.logger.e("INVALID command!:", req.command)
+                when "InitCommandFrame"
+                    msg = {}
+                    frameID = @tabHistory.getFrames(sender.tab)
+                    @tabHistory.setCommandBoxID(sender.tab, frameID)
+                    @tabHistory.addFrames(sender.tab)
+                    g.logger.d "commandBoxFrameID: #{frameID}"
+                    msg.frameID = frameID
+                    msg.enableCompletion = g.SettingManager.get "enableCompletion"
+                    msg.commandBoxWidth  = g.SettingManager.get "commandBoxWidth"
+                    msg.commandBoxAlign  = g.SettingManager.get "commandBoxAlign"
+                    msg.commandWaitTimeOut = g.SettingManager.get "commandWaitTimeOut"
+
+                    sendResponse msg
+                else
+                    if this["req"+req.command]
+                        if not this["req"+req.command]( req, sendResponse, sender )
+                            sendResponse()
+                    else g.logger.e("INVALID command!:", req.command)
         )
 
         storedVersion = localStorage.version

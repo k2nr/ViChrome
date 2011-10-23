@@ -8,27 +8,27 @@ class g.Mode
         sources = []
         if opt.bookmark
             dscr += " Bookmark"
-            sources.push(new g.CandSourceBookmark)
+            sources.push( class : "CandSourceBookmark" )
         if opt.history
             dscr += " History"
-            sources.push(new g.CandSourceHistory)
+            sources.push( class : "CandSourceHistory" )
         if opt.web
             dscr += " Web"
-            sources.push(new g.CandSourceWebSuggest)
+            sources.push( class : "CandSourceWebSuggest" )
 
         if !opt.bookmark and !opt.history and !opt.web
             if opt.search
                 baseCom += " g"
                 dscr += " Google Search"
                 sources = [
-                    new g.CandSourceGoogleSuggest
+                    { class : "CandSourceGoogleSuggest" }
                 ]
             else
                 sources = [
-                    (new g.CandSourceGoogleSuggest(3)).requirePrefix(true)
-                    new g.CandSourceWebSuggest(3)
-                    new g.CandSourceBookmark(3)
-                    new g.CandSourceHistory(3)
+                    { class: "CandSourceGoogleSuggest", num: 3, reqPrefix: true }
+                    { class: "CandSourceWebSuggest", num: 3 }
+                    { class: "CandSourceBookmark", num: 3 }
+                    { class: "CandSourceHistory", num: 3 }
                 ]
 
         executer = (new g.CommandExecuter).setDescription(dscr).set(baseCom)
@@ -41,7 +41,7 @@ class g.Mode
             when "-b" then bookmark    = true
             when "-w" then web         = true
             when "-h" then history     = true
-            when "-g","g"  then search      = true
+            when "-g","g"  then search = true
             else urls.push arg
 
         if interactive or bookmark or history or web
@@ -126,12 +126,14 @@ class g.Mode
         opt = newTab : newTab, continuous : continuous
         g.model.enterFMode( opt )
 
-    reqGoCommandMode : ->
+    reqGoCommandMode : (args, sender) ->
         sources = [
-            new g.CandSourceCommand
-            new g.CandSourceAlias
+            { class : "CandSourceCommand" }
+            { class : "CandSourceAlias" }
         ]
-        g.model.enterCommandMode( null, sources )
+        executer = (new CommandExecuter).setTargetFrame(sender)
+
+        g.model.enterCommandMode( executer, sources )
 
     reqFocusOnFirstInput : ->
         g.model.setPageMark()
@@ -139,7 +141,7 @@ class g.Mode
 
     reqShowTabList : ->
         sources = [
-            new g.CandSourceTabs
+            { class : "CandSourceTabs" }
         ]
         executer = (new g.CommandExecuter)
                    .set("MoveToNextTab")
@@ -177,19 +179,11 @@ class g.InsertMode extends g.Mode
             return false
         true
 
-Commandable =
-    commandBox : null
-    reqFocusNextCandidate : (args) -> @commandBox.nextCandidate()
-    reqFocusPrevCandidate : (args) -> @commandBox.prevCandidate()
-
 class g.SearchMode extends g.Mode
-    constructor : ->
-        g.extend( Commandable, this )
-
     getName : -> "SearchMode"
 
     init : ( searcher_, backward_, opt_ ) ->
-        opt   = opt_ ? {
+        @opt   = opt_ ? {
             wrap         : g.model.getSetting("wrapSearch")
             ignoreCase   : g.model.getSetting("ignoreCase")
             incSearch    : g.model.getSetting("incSearch")
@@ -198,12 +192,7 @@ class g.SearchMode extends g.Mode
             minMigemoLength : g.model.getSetting("minMigemoLength")
             backward     : backward_
         }
-        align = g.model.getSetting("commandBoxAlign")
-        width = g.model.getSetting("commandBoxWidth")
-
-        @commandBox = (new g.CommandBox).init( g.view, align, width )
-
-        @searcher = searcher_.init( opt, this.commandBox )
+        @searcher = searcher_.init( @opt )
         @backward = backward_
         this
 
@@ -213,99 +202,77 @@ class g.SearchMode extends g.Mode
         g.model.enterNormalMode();
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
-        if ctrl or alt or meta then return true
-        event.stopPropagation()
-
-        word = @commandBox.value()
-        if word.length == 0 and ( key == "BS" or key == "DEL" )
-            @cancelSearch()
-            return false
-
-
-        if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
-            return false
-
-        if key == "CR"
-            @searcher.fix( word )
-            g.model.setSearcher( this.searcher )
-            g.model.enterNormalMode()
-            return false
-
-        true
 
     escape : -> @cancelSearch()
 
     enter : ->
-        modeChar = if @backward == true then "?" else "/"
-        candBox = (new g.CandidateBox)
-                  .addSource( new g.CandSourceSearchHist )
+        sources = [
+            { class : "CandSourceSearchHist" }
+        ]
 
-        @commandBox.attachTo( g.view )
-                   .show( modeChar )
-                   .focus()
-                   .setCandidateBox( candBox )
+        msg = {}
+        msg.command  = "SendToCommandBox"
+        msg.innerCommand = "GoSearchMode"
+        msg.sources = sources
+        msg.sender = g.model.frameID
+        msg.modeChar = if @backward == true then "?" else "/"
+        msg.keyMap = g.extendDeep( @getKeyMapping() )
+        msg.aliases = g.extendDeep( g.model.getAlias() )
+        msg.incSearch = @opt.incSearch
+        chrome.extension.sendRequest( msg )
+        g.view.showCommandFrame()
 
-    exit : -> @commandBox.hide().detachFrom( g.view )
+    exit : ->
+        g.view.hideCommandFrame()
+
+    notifyInputUpdated : (msg) ->
+        @searcher.updateInput(msg.word)
+
+    notifySearchFixed : (msg) ->
+        @searcher.fix( msg.word )
+        g.model.setSearcher( this.searcher )
+        g.model.enterNormalMode()
 
     getKeyMapping : -> g.model.getCMap()
 
 class g.CommandMode extends g.Mode
-    constructor : ->
-        g.extend( Commandable, this )
-
     getName : -> "CommandMode"
+    reqExecuteCommand : (req) ->
+        try
+            @executer.set(req.commandLine).parse().execute()
+            g.view.hideStatusLine()
+        catch e
+            g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
+        g.model.enterNormalMode()
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
-        if ctrl or alt or meta then return true
-
-        event.stopPropagation()
-        if @commandBox.value().length == 0 and ( key == "BS" or key == "DEL" )
-            event.preventDefault()
-            g.model.enterNormalMode()
-            g.view.hideStatusLine()
-            return false
-
-        if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
-            return false
-
-        if key == "CR"
-            try
-                @executer ?= new g.CommandExecuter
-                @executer.set( @commandBox.value() ).parse().execute()
-                g.view.hideStatusLine()
-            catch e
-                g.view.setStatusLineText "Command Not Found : "+@executer.get(), 2000
-            g.model.enterNormalMode()
-            return false
-
         true
 
     enter : ->
-        align = g.model.getSetting("commandBoxAlign")
-        width = g.model.getSetting("commandBoxWidth")
         if @executer?
             if @executer.getDescription()?
                 g.view.setStatusLineText @executer.getDescription()
             else
                 g.view.setStatusLineText @executer.get()
 
-        candBox = (new g.CandidateBox)
-        if @sources? then for source in @sources
-            candBox.addSource( source )
+        msg = {}
+        msg.command  = "SendToCommandBox"
+        msg.innerCommand = "GoCommandMode"
+        msg.sources = @sources
+        msg.sender = g.model.frameID
+        msg.modeChar = ':'
+        msg.keyMap = g.extendDeep( @getKeyMapping() )
+        msg.aliases = g.extendDeep( g.model.getAlias() )
+        chrome.extension.sendRequest( msg )
+        g.view.showCommandFrame()
 
-        @commandBox = (new g.CommandBox)
-                      .init( g.view, align, width )
-                      .attachTo( g.view )
-                      .show( ":" )
-                      .focus()
-                      .setCandidateBox( candBox )
     exit : ->
-        @commandBox.hide().detachFrom( g.view )
+        g.view.hideCommandFrame()
 
     getKeyMapping : -> g.model.getCMap()
 
     setExecuter : (@executer) ->
-    setSources  : (@sources) ->
+    setSources : (@sources) ->
 
 class g.FMode extends g.Mode
     getName   : -> "FMode"

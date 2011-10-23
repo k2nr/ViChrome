@@ -1,32 +1,3 @@
-#vichromebox {
-    outline: none;
-    border: none;
-    border-radius: 0px;
-    background : none;
-    position: fixed;
-    padding: 0;
-    margin:  0;
-    height: auto;
-    z-index: 100000;
-}
-
-.vichrome-vichromeboxLeft-Bottom {
-    left:  0px;
-    bottom:20px;
-}
-.vichrome-vichromeboxRight-Bottom {
-    right: 6px;
-    bottom:20px;
-}
-.vichrome-vichromeboxLeft-Top {
-    left:  0px;
-    top:   20px;
-}
-.vichrome-vichromeboxRight-Top {
-    right: 6px;
-    top:   20px;
-}
-
 .vichrome-statuslineLeft-Bottom {
     left:  0px;
     bottom:0px;
@@ -44,70 +15,6 @@
     top:   0px;
 }
 
-.vichrome-candboxLeft-Bottom {
-    left:  0px;
-    bottom:44px;
-}
-.vichrome-candboxRight-Bottom {
-    right: 0px;
-    bottom:44px;
-}
-.vichrome-candboxLeft-Top {
-    left:  0px;
-    top:   44px;
-}
-.vichrome-candboxRight-Top {
-    right: 0px;
-    top:   44px;
-}
-
-#vichromefield {
-    background-color: rgba(50, 50, 50, 0.8);
-    display: none;
-    outline: none;
-    border: none;
-    border-radius: 0px;
-    -webkit-box-shadow: none;
-    line-height: normal;
-    width: 100%;
-    height: 24px;
-    padding: 0px 3px;
-    margin: 0px 0px;
-}
-
-#vichromeinput {
-    background : none;
-    color: #fff;
-    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
-    text-align: left;
-    outline: none;
-    border: none;
-    border-radius: 0px;
-    -webkit-box-shadow: none;
-    width: auto;
-    line-height: 24px;
-    height: 24px;
-    padding: 0px 0px;
-    margin: 0px 0px;
-    font-size: 20px;
-    float : left;
-}
-
-#vichromemodechar {
-    background : none;
-    color: #fff;
-    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
-    text-align: left;
-    line-height: 24px;
-    height: 24px;
-    width: 10px;
-    outline: none;
-    border: none;
-    padding: 0px 0px;
-    margin: 0px 0px;
-    font-size: 20px;
-    float : left;
-}
 
 #vichromestatusline {
     background-color: rgba(50, 50, 50, 0.8);
@@ -145,77 +52,6 @@
     z-index: 99999;
 }
 
-#vichromecandbox {
-    background-color: rgba(50, 50, 50, 0.8);
-    font-family: Calibri, "Lucida Grande", Lucida, Arial, sans-serif;
-    position: fixed;
-    outline: none;
-    text-align: left;
-    color: #fff;
-    border: none;
-    border-radius: 0px;
-    -webkit-box-shadow: none;
-    min-width:  400px;
-    max-height: 440px;
-    overflow: auto;
-    font-size: 14px;
-    padding: 0px 3px;
-    margin: 0px 0px;
-    z-index: 100000;
-}
-
-#vichromecanditem {
-    background : none;
-    outline: none;
-    border: none;
-    border-radius: 0px;
-    line-height: normal;
-    white-space : nowrap;
-    width: 100%;
-    height: 22px;
-    padding: 0px 0px;
-    margin: 0px 0px;
-}
-
-#vichromecandtext {
-    background : none;
-    outline: none;
-    border: none;
-    border-radius: 0px;
-    height: 22px;
-    float : left;
-}
-
-.vichrome-candstr {
-    text-align: left;
-    color: #d3d3d3;
-    line-height: 22px;
-    min-width : 70px;
-    font-size: 16px;
-    padding-left : 5px;
-    padding-right : 0px;
-    padding-top : 0px;
-    padding-bottom : 0px;
-    margin: 0px 0px;
-}
-
-.vichrome-canddscr {
-    text-align: left;
-    color: #bbf;
-    line-height: 25px;
-    font-size: 12px;
-    padding-left: 10px;
-    padding-right : 0px;
-    padding-top : 0px;
-    padding-bottom : 0px;
-    margin: 0px 0px;
-}
-
-.vichrome-canditemfocused {
-    background-color: rgba(240, 240, 240, 0.8) !important;
-    color: #666 !important;
-}
-
 .vichrome-statuslineinactive {
     background-color: rgba(50, 50, 50, 0.8);
 }
@@ -236,4 +72,21 @@
 
 .vichrome-fModeTarget {
     background-color: rgba(255, 255, 160, 0.7);
+}
+
+#vichrome-commandframe {
+    left: 0px;
+    top: 0px;
+    padding: 0;
+    margin:  0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    position: fixed;
+}
+
+iframe[seamless]{
+    background-color: transparent;
+    border: 0px none transparent;
+    overflow: hidden;
 }

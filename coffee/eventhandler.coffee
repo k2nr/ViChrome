@@ -51,7 +51,41 @@ class g.EventHandler
         document.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
         document.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
 
-    init : -> @addWindowListeners()
+    addExtListener : ->
+        chrome.extension.onRequest.addListener( (req, sender, sendResponse) =>
+            g.logger.d "onRequest command: #{req.command}"
+            if req.frameID? and req.frameID != g.model.frameID
+                g.logger.d "onRequest: different frameID"
+                sendResponse()
+                return
+
+            if req.command == "GetCommandTable"
+                commands = []
+                for com,method of g.CommandExecuter::commandTable
+                    commands.push com
+                sendResponse commands
+            else if req.command == "GetAliases"
+                aliases = {}
+                for a,com of g.model.getAlias()
+                    aliases[a] = com
+                sendResponse aliases
+            else if req.command == "ExecuteCommand"
+                g.model.curMode.reqExecuteCommand( req )
+                sendResponse()
+            else if req.command == "NotifyInputUpdated"
+                g.model.curMode.notifyInputUpdated( req )
+                sendResponse()
+            else if req.command == "NotifySearchFixed"
+                g.model.curMode.notifySearchFixed( req )
+                sendResponse()
+            else
+                g.model.triggerCommand( "req#{req.command}", req.args, req.senderFrameID )
+                sendResponse()
+        )
+
+    init : ->
+        @addWindowListeners()
+        @addExtListener()
 
     onInitEnabled : (msg) ->
         @init()

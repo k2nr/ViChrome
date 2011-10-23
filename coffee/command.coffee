@@ -5,18 +5,30 @@ sendToBackground = (com, args) ->
 
 triggerInsideContent = (com, args) -> g.model.triggerCommand "req#{com}", args
 
-escape = (com) -> triggerInsideContent "Escape"
+passToTopFrame = (com, args) ->
+    chrome.extension.sendRequest( {
+        command      : "TopFrame"
+        innerCommand : com
+        args         : args
+        senderFrameID : g.model.frameID
+    }, g.handler.onCommandResponse )
 
-solveAlias = (alias) ->
-    aliases = g.model.getAlias()
-    alias = aliases[alias]
-    while alias?
-        command = alias
-        alias = aliases[alias]
-    command
+passToFrame = (com, args, target) ->
+    chrome.extension.sendRequest( {
+        command      : "PassToFrame"
+        innerCommand : com
+        args         : args
+        frameID      : target
+        senderFrameID : g.model.frameID
+    }, g.handler.onCommandResponse )
+
+escape = (com) -> triggerInsideContent "Escape"
 
 
 class g.CommandExecuter
+    setTargetFrame : (@targetFrame) -> this
+    getTargetFrame : -> @targetFrame
+
     commandsBeforeReady : [
         "OpenNewTab"
         "CloseCurTab"
@@ -59,7 +71,7 @@ class g.CommandExecuter
         PrevSearch            : triggerInsideContent
         BackHist              : triggerInsideContent
         ForwardHist           : triggerInsideContent
-        GoCommandMode         : triggerInsideContent
+        GoCommandMode         : passToTopFrame
         GoSearchModeForward   : triggerInsideContent
         GoSearchModeBackward  : triggerInsideContent
         GoLinkTextSearchMode  : triggerInsideContent
@@ -77,6 +89,7 @@ class g.CommandExecuter
         "_ChangeLogLevel"     : triggerInsideContent
 
     get : -> @command
+    getArgs : -> @args
     setDescription : (@description) -> this
     getDescription : -> @description
     set : (command, times) ->
@@ -87,6 +100,14 @@ class g.CommandExecuter
         @times = times ? 1
         this
 
+    solveAlias : (alias) ->
+        aliases = g.model.getAlias()
+        alias = aliases[alias]
+        while alias?
+            command = alias
+            alias = aliases[alias]
+        command
+
     parse : ->
         unless @command then throw "invalid command"
         @args = @command.split(/\ +/)
@@ -96,7 +117,7 @@ class g.CommandExecuter
             if @args[i].length == 0
                 @args.splice( i, 1 )
 
-        command = solveAlias( @args[0] )
+        command = @solveAlias( @args[0] )
         if command?
             @args = command.split(' ').concat( @args.slice(1) )
 
@@ -109,13 +130,16 @@ class g.CommandExecuter
         unless g.model.isReady() or com in @commandsBeforeReady then return
 
         setTimeout( =>
-            @commandTable[com]( com, @args.slice(1) ) while @times--
+            if @targetFrame? and @commandTable[com] != sendToBackground
+                passToFrame( com, @args.slice(1), @targetFrame )
+            else
+                @commandTable[com]( com, @args.slice(1) ) while @times--
             return
         , 0 )
 
 class g.CommandManager
     keyQueue :
-        init : ->
+        init : (@model, @timeout)->
             @a = ""
             @times = ""
             @timerId = 0
@@ -153,23 +177,23 @@ class g.CommandManager
         getNextKeySequence : ->
             @stopTimer()
 
-            if g.model.isValidKeySeq(@a)
+            if @model.isValidKeySeq(@a)
                 ret = @a
                 @reset()
                 return ret
             else
-                if g.model.isValidKeySeqAvailable(@a)
+                if @model.isValidKeySeqAvailable(@a)
                     @startTimer( =>
                         @a       = ""
                         @times   = ""
                         @waiting = false
-                    , g.model.getSetting "commandWaitTimeOut" )
+                    , @timeout )
                 else
                     g.logger.d "invalid key sequence: #{@a}"
                     @reset()
                 null
 
-    constructor : -> @keyQueue.init()
+    constructor : (@model, timeout) -> @keyQueue.init( @model, timeout )
 
     getCommandFromKeySeq : (s, keyMap) ->
         @keyQueue.queue(s)
@@ -182,7 +206,7 @@ class g.CommandManager
     isWaitingNextKey : -> @keyQueue.isWaiting()
 
     handleKey : (msg, keyMap) ->
-        s     = KeyManager.getKeyCodeStr(msg)
+        s     = g.KeyManager.getKeyCodeStr(msg)
         times = @keyQueue.getTimes()
         com   = @getCommandFromKeySeq( s, keyMap )
 

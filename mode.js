@@ -1,5 +1,5 @@
 (function() {
-  var Commandable, g;
+  var g;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -19,23 +19,48 @@
       sources = [];
       if (opt.bookmark) {
         dscr += " Bookmark";
-        sources.push(new g.CandSourceBookmark);
+        sources.push({
+          "class": "CandSourceBookmark"
+        });
       }
       if (opt.history) {
         dscr += " History";
-        sources.push(new g.CandSourceHistory);
+        sources.push({
+          "class": "CandSourceHistory"
+        });
       }
       if (opt.web) {
         dscr += " Web";
-        sources.push(new g.CandSourceWebSuggest);
+        sources.push({
+          "class": "CandSourceWebSuggest"
+        });
       }
       if (!opt.bookmark && !opt.history && !opt.web) {
         if (opt.search) {
           baseCom += " g";
           dscr += " Google Search";
-          sources = [new g.CandSourceGoogleSuggest];
+          sources = [
+            {
+              "class": "CandSourceGoogleSuggest"
+            }
+          ];
         } else {
-          sources = [(new g.CandSourceGoogleSuggest(3)).requirePrefix(true), new g.CandSourceWebSuggest(3), new g.CandSourceBookmark(3), new g.CandSourceHistory(3)];
+          sources = [
+            {
+              "class": "CandSourceGoogleSuggest",
+              num: 3,
+              reqPrefix: true
+            }, {
+              "class": "CandSourceWebSuggest",
+              num: 3
+            }, {
+              "class": "CandSourceBookmark",
+              num: 3
+            }, {
+              "class": "CandSourceHistory",
+              num: 3
+            }
+          ];
         }
       }
       executer = (new g.CommandExecuter).setDescription(dscr).set(baseCom);
@@ -222,10 +247,17 @@
       };
       return g.model.enterFMode(opt);
     };
-    Mode.prototype.reqGoCommandMode = function() {
-      var sources;
-      sources = [new g.CandSourceCommand, new g.CandSourceAlias];
-      return g.model.enterCommandMode(null, sources);
+    Mode.prototype.reqGoCommandMode = function(args, sender) {
+      var executer, sources;
+      sources = [
+        {
+          "class": "CandSourceCommand"
+        }, {
+          "class": "CandSourceAlias"
+        }
+      ];
+      executer = (new CommandExecuter).setTargetFrame(sender);
+      return g.model.enterCommandMode(executer, sources);
     };
     Mode.prototype.reqFocusOnFirstInput = function() {
       g.model.setPageMark();
@@ -233,7 +265,11 @@
     };
     Mode.prototype.reqShowTabList = function() {
       var executer, sources;
-      sources = [new g.CandSourceTabs];
+      sources = [
+        {
+          "class": "CandSourceTabs"
+        }
+      ];
       executer = (new g.CommandExecuter).set("MoveToNextTab").setDescription("TabList");
       return g.model.enterCommandMode(executer, sources);
     };
@@ -300,26 +336,16 @@
     };
     return InsertMode;
   })();
-  Commandable = {
-    commandBox: null,
-    reqFocusNextCandidate: function(args) {
-      return this.commandBox.nextCandidate();
-    },
-    reqFocusPrevCandidate: function(args) {
-      return this.commandBox.prevCandidate();
-    }
-  };
   g.SearchMode = (function() {
     __extends(SearchMode, g.Mode);
     function SearchMode() {
-      g.extend(Commandable, this);
+      SearchMode.__super__.constructor.apply(this, arguments);
     }
     SearchMode.prototype.getName = function() {
       return "SearchMode";
     };
     SearchMode.prototype.init = function(searcher_, backward_, opt_) {
-      var align, opt, width;
-      opt = opt_ != null ? opt_ : {
+      this.opt = opt_ != null ? opt_ : {
         wrap: g.model.getSetting("wrapSearch"),
         ignoreCase: g.model.getSetting("ignoreCase"),
         incSearch: g.model.getSetting("incSearch"),
@@ -328,10 +354,7 @@
         minMigemoLength: g.model.getSetting("minMigemoLength"),
         backward: backward_
       };
-      align = g.model.getSetting("commandBoxAlign");
-      width = g.model.getSetting("commandBoxWidth");
-      this.commandBox = (new g.CommandBox).init(g.view, align, width);
-      this.searcher = searcher_.init(opt, this.commandBox);
+      this.searcher = searcher_.init(this.opt);
       this.backward = backward_;
       return this;
     };
@@ -340,39 +363,39 @@
       this.searcher.finalize();
       return g.model.enterNormalMode();
     };
-    SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-      var word;
-      if (ctrl || alt || meta) {
-        return true;
-      }
-      event.stopPropagation();
-      word = this.commandBox.value();
-      if (word.length === 0 && (key === "BS" || key === "DEL")) {
-        this.cancelSearch();
-        return false;
-      }
-      if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
-        return false;
-      }
-      if (key === "CR") {
-        this.searcher.fix(word);
-        g.model.setSearcher(this.searcher);
-        g.model.enterNormalMode();
-        return false;
-      }
-      return true;
-    };
+    SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {};
     SearchMode.prototype.escape = function() {
       return this.cancelSearch();
     };
     SearchMode.prototype.enter = function() {
-      var candBox, modeChar;
-      modeChar = this.backward === true ? "?" : "/";
-      candBox = (new g.CandidateBox).addSource(new g.CandSourceSearchHist);
-      return this.commandBox.attachTo(g.view).show(modeChar).focus().setCandidateBox(candBox);
+      var msg, sources;
+      sources = [
+        {
+          "class": "CandSourceSearchHist"
+        }
+      ];
+      msg = {};
+      msg.command = "SendToCommandBox";
+      msg.innerCommand = "GoSearchMode";
+      msg.sources = sources;
+      msg.sender = g.model.frameID;
+      msg.modeChar = this.backward === true ? "?" : "/";
+      msg.keyMap = g.extendDeep(this.getKeyMapping());
+      msg.aliases = g.extendDeep(g.model.getAlias());
+      msg.incSearch = this.opt.incSearch;
+      chrome.extension.sendRequest(msg);
+      return g.view.showCommandFrame();
     };
     SearchMode.prototype.exit = function() {
-      return this.commandBox.hide().detachFrom(g.view);
+      return g.view.hideCommandFrame();
+    };
+    SearchMode.prototype.notifyInputUpdated = function(msg) {
+      return this.searcher.updateInput(msg.word);
+    };
+    SearchMode.prototype.notifySearchFixed = function(msg) {
+      this.searcher.fix(msg.word);
+      g.model.setSearcher(this.searcher);
+      return g.model.enterNormalMode();
     };
     SearchMode.prototype.getKeyMapping = function() {
       return g.model.getCMap();
@@ -382,45 +405,25 @@
   g.CommandMode = (function() {
     __extends(CommandMode, g.Mode);
     function CommandMode() {
-      g.extend(Commandable, this);
+      CommandMode.__super__.constructor.apply(this, arguments);
     }
     CommandMode.prototype.getName = function() {
       return "CommandMode";
     };
-    CommandMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-      var _ref;
-      if (ctrl || alt || meta) {
-        return true;
-      }
-      event.stopPropagation();
-      if (this.commandBox.value().length === 0 && (key === "BS" || key === "DEL")) {
-        event.preventDefault();
-        g.model.enterNormalMode();
+    CommandMode.prototype.reqExecuteCommand = function(req) {
+      try {
+        this.executer.set(req.commandLine).parse().execute();
         g.view.hideStatusLine();
-        return false;
+      } catch (e) {
+        g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
       }
-      if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
-        return false;
-      }
-      if (key === "CR") {
-        try {
-          if ((_ref = this.executer) == null) {
-            this.executer = new g.CommandExecuter;
-          }
-          this.executer.set(this.commandBox.value()).parse().execute();
-          g.view.hideStatusLine();
-        } catch (e) {
-          g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
-        }
-        g.model.enterNormalMode();
-        return false;
-      }
+      return g.model.enterNormalMode();
+    };
+    CommandMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
       return true;
     };
     CommandMode.prototype.enter = function() {
-      var align, candBox, source, width, _i, _len, _ref;
-      align = g.model.getSetting("commandBoxAlign");
-      width = g.model.getSetting("commandBoxWidth");
+      var msg;
       if (this.executer != null) {
         if (this.executer.getDescription() != null) {
           g.view.setStatusLineText(this.executer.getDescription());
@@ -428,18 +431,19 @@
           g.view.setStatusLineText(this.executer.get());
         }
       }
-      candBox = new g.CandidateBox;
-      if (this.sources != null) {
-        _ref = this.sources;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          source = _ref[_i];
-          candBox.addSource(source);
-        }
-      }
-      return this.commandBox = (new g.CommandBox).init(g.view, align, width).attachTo(g.view).show(":").focus().setCandidateBox(candBox);
+      msg = {};
+      msg.command = "SendToCommandBox";
+      msg.innerCommand = "GoCommandMode";
+      msg.sources = this.sources;
+      msg.sender = g.model.frameID;
+      msg.modeChar = ':';
+      msg.keyMap = g.extendDeep(this.getKeyMapping());
+      msg.aliases = g.extendDeep(g.model.getAlias());
+      chrome.extension.sendRequest(msg);
+      return g.view.showCommandFrame();
     };
     CommandMode.prototype.exit = function() {
-      return this.commandBox.hide().detachFrom(g.view);
+      return g.view.hideCommandFrame();
     };
     CommandMode.prototype.getKeyMapping = function() {
       return g.model.getCMap();
