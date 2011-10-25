@@ -313,8 +313,10 @@
     },
     reqGetGoogleSuggest: function(req, sendResponse) {
       if (!this.gglLoaded) {
-        sendResponse([]);
-        return true;
+        return false;
+      }
+      if (this.cWSrch.isExec) {
+        return false;
       }
       this.cWSrch.reset().sgst({
         kw: req.value,
@@ -326,8 +328,10 @@
     },
     reqGetWebSuggest: function(req, sendResponse) {
       if (!this.gglLoaded) {
-        sendResponse([]);
-        return true;
+        return false;
+      }
+      if (this.cWSrch.isExec) {
+        return false;
       }
       this.cWSrch.init({
         type: "web",
@@ -343,8 +347,8 @@
           var i, item, msg, obj, _len;
           if (!res || res.length <= 0) {
             this.cWSrch.cmndsBreak();
-            sendResponse([]);
-            return true;
+            sendResponse();
+            return;
           }
           msg = [];
           for (i = 0, _len = res.length; i < _len; i++) {

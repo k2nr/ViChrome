@@ -384,7 +384,8 @@
       msg.aliases = g.extendDeep(g.model.getAlias());
       msg.incSearch = this.opt.incSearch;
       chrome.extension.sendRequest(msg);
-      return g.view.showCommandFrame();
+      g.view.showCommandFrame();
+      return g.view.setStatusLineText("");
     };
     SearchMode.prototype.exit = function() {
       return g.view.hideCommandFrame();
@@ -430,6 +431,8 @@
         } else {
           g.view.setStatusLineText(this.executer.get());
         }
+      } else {
+        g.view.setStatusLineText("");
       }
       msg = {};
       msg.command = "SendToCommandBox";

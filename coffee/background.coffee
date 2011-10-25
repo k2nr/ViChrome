@@ -222,10 +222,9 @@ g.bg =
         true
 
     reqGetGoogleSuggest : (req, sendResponse) ->
-        unless @gglLoaded
-            sendResponse []
-            return true
+        unless @gglLoaded then return false
 
+        if @cWSrch.isExec then return false
         @cWSrch.reset().sgst({
             kw  : req.value
             res : (res) -> sendResponse res.raw
@@ -233,9 +232,8 @@ g.bg =
         true
 
     reqGetWebSuggest : (req, sendResponse) ->
-        unless @gglLoaded
-            sendResponse []
-            return true
+        unless @gglLoaded then return false
+        if @cWSrch.isExec then return false
         @cWSrch.init({
             type : "web"
             opt  : (obj) ->
@@ -248,8 +246,8 @@ g.bg =
             res : (res) ->
                 if !res or res.length <= 0
                     @cWSrch.cmndsBreak()
-                    sendResponse []
-                    return true
+                    sendResponse()
+                    return
 
                 msg = []
                 for item, i in res

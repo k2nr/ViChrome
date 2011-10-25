@@ -94,12 +94,11 @@
       var align, path;
       align = g.model.getSetting("commandBoxAlign");
       this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass("vichrome-statusline" + align).width(g.model.getSetting("commandBoxWidth"));
-      this.hideStatusLine();
-      this.attach(this.statusLine);
+      this.statusLineVisible = false;
       if (typeof top !== "undefined" && top !== null) {
         path = chrome.extension.getURL("commandbox.html");
         this.iframe = $("<iframe src=\"" + path + "\" id=\"vichrome-commandframe\" sandbox=\"allow-scripts\" seamless />");
-        $(document.body).append(this.iframe);
+        this.attach(this.iframe);
         this.iframe.hide();
       }
       $(document.body).click(__bind(function(e) {
@@ -113,14 +112,18 @@
       $(typeof top !== "undefined" && top !== null ? top.document.body : void 0).append(w);
       return this;
     };
-    Surface.prototype.activeStatusLine = function() {
-      this.statusLine.removeClass('vichrome-statuslineinactive');
-      this.statusLine.show();
-      this.attach(this.statusLine);
+    Surface.prototype.activateStatusLine = function() {
       if (this.slTimeout) {
         clearTimeout(this.slTimeout);
         this.slTimeout = void 0;
       }
+      if (this.statusLineVisible) {
+        return;
+      }
+      this.statusLine.removeClass('vichrome-statuslineinactive');
+      this.attach(this.statusLine);
+      this.statusLine.show();
+      this.statusLineVisible = true;
       return this;
     };
     Surface.prototype.inactiveStatusLine = function() {
@@ -132,13 +135,17 @@
         clearTimeout(this.slTimeout);
         this.slTimeout = void 0;
       }
+      if (!this.statusLineVisible) {
+        return;
+      }
       this.statusLine.html("").hide();
       this.statusLine.detach();
+      this.statusLineVisible = false;
       return this;
     };
     Surface.prototype.setStatusLineText = function(text, timeout) {
+      this.activateStatusLine();
       this.statusLine.html(text);
-      this.activeStatusLine();
       if (timeout) {
         this.slTimeout = setTimeout((__bind(function() {
           return this.statusLine.html("").hide();

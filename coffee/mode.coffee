@@ -221,6 +221,7 @@ class g.SearchMode extends g.Mode
         msg.incSearch = @opt.incSearch
         chrome.extension.sendRequest( msg )
         g.view.showCommandFrame()
+        g.view.setStatusLineText ""
 
     exit : ->
         g.view.hideCommandFrame()
@@ -254,6 +255,8 @@ class g.CommandMode extends g.Mode
                 g.view.setStatusLineText @executer.getDescription()
             else
                 g.view.setStatusLineText @executer.get()
+        else
+            g.view.setStatusLineText ""
 
         msg = {}
         msg.command  = "SendToCommandBox"

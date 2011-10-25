@@ -67,14 +67,12 @@ class g.Surface
                       .addClass( 'vichrome-statuslineinactive' )
                       .addClass( "vichrome-statusline" + align )
                       .width( g.model.getSetting "commandBoxWidth" )
-
-        @hideStatusLine()
-        @attach( @statusLine )
+        @statusLineVisible = false
 
         if top?
             path = chrome.extension.getURL("commandbox.html");
             @iframe = $("<iframe src=\"#{path}\" id=\"vichrome-commandframe\" sandbox=\"allow-scripts\" seamless />")
-            $(document.body).append(@iframe)
+            @attach( @iframe )
             @iframe.hide()
 
 
@@ -85,18 +83,19 @@ class g.Surface
         @initialized = true
 
     attach : (w) ->
-        #$(window.top.document.body).append( w )
         $(top?.document.body).append(w)
         this
 
-    activeStatusLine : ->
-        @statusLine.removeClass( 'vichrome-statuslineinactive' )
-        @statusLine.show()
-        @attach( @statusLine )
-
+    activateStatusLine : ->
         if @slTimeout
             clearTimeout( @slTimeout )
             @slTimeout = undefined
+
+        if @statusLineVisible then return
+        @statusLine.removeClass( 'vichrome-statuslineinactive' )
+        @attach( @statusLine )
+        @statusLine.show()
+        @statusLineVisible = true
 
         this
 
@@ -108,14 +107,16 @@ class g.Surface
         if @slTimeout?
             clearTimeout( @slTimeout )
             @slTimeout = undefined
+        if not @statusLineVisible then return
 
         @statusLine.html("").hide()
         @statusLine.detach()
+        @statusLineVisible = false
         this
 
     setStatusLineText : (text, timeout) ->
+        @activateStatusLine()
         @statusLine.html( text )
-        @activeStatusLine()
 
         if timeout
             @slTimeout = setTimeout ( => @statusLine.html("").hide() ), timeout
