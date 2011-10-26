@@ -107,9 +107,6 @@
         this.reqEscape();
         return;
       }
-      if (g.KeyManager.isNumber(key.code) || g.KeyManager.isAlphabet(key.code)) {
-        return;
-      }
       if (key.code === "CR") {
         if (typeof this.fixedListener === "function") {
           this.fixedListener(this.value());
@@ -218,6 +215,9 @@
       var focused, _ref;
       if (this.candidateBox != null) {
         focused = this.candidateBox.focusNext();
+        if (focused == null) {
+          return this;
+        }
         this.selectedCand = (_ref = focused.value) != null ? _ref : focused.str;
         this.value(this.selectedCand);
       }
@@ -227,6 +227,9 @@
       var focused, _ref, _ref2;
       if (this.candidateBox != null) {
         focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
+        if (focused == null) {
+          return this;
+        }
         this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
         this.value(this.selectedCand);
       }
@@ -390,6 +393,9 @@
     };
     CandidateBox.prototype.focusNext = function() {
       var $focused, $next;
+      if (!(this.getItemCnt() > 0)) {
+        return null;
+      }
       $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.next();
@@ -404,6 +410,9 @@
     };
     CandidateBox.prototype.focusPrev = function() {
       var $focused, $next;
+      if (!(this.getItemCnt() > 0)) {
+        return null;
+      }
       $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.prev();

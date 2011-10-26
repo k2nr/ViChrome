@@ -343,7 +343,7 @@
         type: "web",
         page: 1,
         key: req.value,
-        res: function(res) {
+        res: __bind(function(res) {
           var i, item, msg, obj, _len;
           if (!res || res.length <= 0) {
             this.cWSrch.cmndsBreak();
@@ -360,7 +360,7 @@
             msg.push(obj);
           }
           return sendResponse(msg);
-        }
+        }, this)
       }).start();
       return true;
     },

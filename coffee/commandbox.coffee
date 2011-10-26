@@ -83,9 +83,6 @@ class g.CommandBox
             @reqEscape()
             return
 
-        if g.KeyManager.isNumber(key.code) or g.KeyManager.isAlphabet(key.code)
-            return
-
         if key.code == "CR"
             @fixedListener?( @value() )
             @detachFrom()
@@ -171,6 +168,7 @@ class g.CommandBox
     nextCandidate : ->
         if @candidateBox?
             focused = @candidateBox.focusNext()
+            unless focused? then return this
             @selectedCand = focused.value ? focused.str
             @value( @selectedCand  )
         this
@@ -178,6 +176,7 @@ class g.CommandBox
     prevCandidate : ->
         if @candidateBox?
             focused = @candidateBox?.focusPrev()
+            unless focused? then return this
             @selectedCand = focused.value ? focused.str
             @value( @selectedCand  )
         this
@@ -310,6 +309,7 @@ class g.CandidateBox
             @setFocusedValue( val )
 
     focusNext : ->
+        unless @getItemCnt() > 0 then return null
         $focused = $("#vichromecanditem.vichrome-canditemfocused")
         @removeFocus( $focused )
         $next = $focused.next()
@@ -323,6 +323,7 @@ class g.CandidateBox
         @getItem( $next.attr("source"), parseInt( $next.attr("num") ) )
 
     focusPrev : ->
+        unless @getItemCnt() > 0 then return null
         $focused = $("#vichromecanditem.vichrome-canditemfocused")
         @removeFocus( $focused )
         $next = $focused.prev()

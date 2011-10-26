@@ -243,7 +243,7 @@ g.bg =
             type : "web"
             page : 1
             key : req.value
-            res : (res) ->
+            res : (res) =>
                 if !res or res.length <= 0
                     @cWSrch.cmndsBreak()
                     sendResponse()
