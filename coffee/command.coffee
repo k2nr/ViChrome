@@ -93,7 +93,7 @@ class g.CommandExecuter
     getArgs : -> @args
     setDescription : (@description) -> this
     getDescription : -> @description
-    set : (command, times) ->
+    set : (command, times=1) ->
         if @command? then @command += " " else @command = ""
         @command += command
                     .replace(/^[\t ]*/, "")
@@ -140,7 +140,7 @@ class g.CommandExecuter
 
 class g.CommandManager
     keyQueue :
-        init : (@model, @timeout)->
+        init : (@model, @timeout, @enableMulti=true)->
             @a = ""
             @times = ""
             @timerId = 0
@@ -159,7 +159,7 @@ class g.CommandManager
             @timerId = setTimeout( callback, ms )
 
         queue : (s) ->
-            if s.length == 1 and s.search(/[0-9]/) >= 0 and @a.length == 0
+            if @enableMulti and s.length == 1 and s.search(/[0-9]/) >= 0 and @a.length == 0
                 @times += s
             else
                 @a += s
@@ -194,7 +194,8 @@ class g.CommandManager
                     @reset()
                 null
 
-    constructor : (@model, timeout) -> @keyQueue.init( @model, timeout )
+    constructor : (@model, timeout, enableMulti=true) ->
+        @keyQueue.init( @model, timeout, enableMulti )
 
     getCommandFromKeySeq : (s, keyMap) ->
         @keyQueue.queue(s)

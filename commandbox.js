@@ -1,13 +1,13 @@
 (function() {
-  var commandFixedListener, frameID, g, onRequest, opt, searchFixedListener, searchUpdatedListener, sender, _ref;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var MyCommandManager, commandFixedListener, frameID, g, onRequest, opt, searchFixedListener, searchUpdatedListener, sender, _ref;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
-  };
+  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   if ((_ref = this.vichrome) == null) {
     this.vichrome = {};
   }
@@ -24,6 +24,40 @@
     }
     return command;
   };
+  MyCommandManager = (function() {
+    __extends(MyCommandManager, g.CommandManager);
+    function MyCommandManager(model, timeout) {
+      MyCommandManager.__super__.constructor.call(this, model, timeout, false);
+    }
+    MyCommandManager.prototype.handleKey = function(msg, keyMap) {
+      var args, com, executer, s, _base, _name;
+      s = g.KeyManager.getKeyCodeStr(msg);
+      com = this.getCommandFromKeySeq(s, keyMap);
+      if (!com) {
+        if (this.isWaitingNextKey()) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        return;
+      }
+      switch (com) {
+        case "<NOP>":
+          break;
+        case "<DISCARD>":
+          event.stopPropagation();
+          return event.preventDefault();
+        default:
+          executer = (new g.CommandExecuter).set(com).parse();
+          args = executer.getArgs();
+          if (typeof (_base = this.model)[_name = "req" + args[0]] === "function") {
+            _base[_name](args.slice(1));
+          }
+          event.stopPropagation();
+          return event.preventDefault();
+      }
+    };
+    return MyCommandManager;
+  })();
   g.CommandBox = (function() {
     function CommandBox() {
       this.inputListeners = [];
@@ -37,35 +71,7 @@
       this.inputField = $('div#vichromefield');
       this.box.width(this.width).addClass('vichrome-commandbox' + this.align);
       this.input.val("");
-      this.commandManager = new g.CommandManager(this, opt.commandWaitTimeOut);
-      this.commandManager.handleKey = function(msg, keyMap) {
-        var args, com, executer, s, times, _base, _name;
-        s = g.KeyManager.getKeyCodeStr(msg);
-        times = this.keyQueue.getTimes();
-        com = this.getCommandFromKeySeq(s, keyMap);
-        if (!com) {
-          if (this.isWaitingNextKey()) {
-            event.stopPropagation();
-            event.preventDefault();
-          }
-          return;
-        }
-        switch (com) {
-          case "<NOP>":
-            break;
-          case "<DISCARD>":
-            event.stopPropagation();
-            return event.preventDefault();
-          default:
-            executer = (new g.CommandExecuter).set(com, times).parse();
-            args = executer.getArgs();
-            if (typeof (_base = this.model)[_name = "req" + args[0]] === "function") {
-              _base[_name](args.slice(1));
-            }
-            event.stopPropagation();
-            return event.preventDefault();
-        }
-      };
+      this.commandManager = new MyCommandManager(this, opt.commandWaitTimeOut);
       return this;
     };
     CommandBox.prototype.addInputUpdateListener = function(fn) {
@@ -115,9 +121,6 @@
           this.fixedListener(this.value());
         }
         this.detachFrom();
-        return;
-      }
-      if (key.code.length === 1 && !(key.ctrl || key.alt || key.meta)) {
         return;
       }
       this.commandManager.handleKey(key, this.keyMap);
@@ -608,6 +611,10 @@
         value: word
       }, __bind(function(items) {
         var item, str, _i, _len;
+        if (items == null) {
+          this.notifyUpdated();
+          return;
+        }
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           str = item.title ? item.title : item.url;
@@ -640,6 +647,10 @@
         value: word
       }, __bind(function(nodes) {
         var node, _i, _len;
+        if (nodes == null) {
+          this.notifyUpdated();
+          return;
+        }
         for (_i = 0, _len = nodes.length; _i < _len; _i++) {
           node = nodes[_i];
           this.addItem({
@@ -705,6 +716,10 @@
         value: word
       }, __bind(function(raws) {
         var raw, value, _i, _len;
+        if (raws == null) {
+          this.notifyUpdated();
+          return;
+        }
         for (_i = 0, _len = raws.length; _i < _len; _i++) {
           raw = raws[_i];
           value = this.reqPrefix ? "g " + raw : raw;
@@ -741,6 +756,10 @@
         value: word
       }, __bind(function(results) {
         var res, _i, _len;
+        if (results == null) {
+          this.notifyUpdated();
+          return;
+        }
         for (_i = 0, _len = results.length; _i < _len; _i++) {
           res = results[_i];
           this.addItem({

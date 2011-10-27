@@ -107,6 +107,9 @@
       return this.description;
     };
     CommandExecuter.prototype.set = function(command, times) {
+      if (times == null) {
+        times = 1;
+      }
       if (this.command != null) {
         this.command += " ";
       } else {
@@ -170,9 +173,10 @@
   })();
   g.CommandManager = (function() {
     CommandManager.prototype.keyQueue = {
-      init: function(model, timeout) {
+      init: function(model, timeout, enableMulti) {
         this.model = model;
         this.timeout = timeout;
+        this.enableMulti = enableMulti != null ? enableMulti : true;
         this.a = "";
         this.times = "";
         this.timerId = 0;
@@ -193,7 +197,7 @@
         return this.timerId = setTimeout(callback, ms);
       },
       queue: function(s) {
-        if (s.length === 1 && s.search(/[0-9]/) >= 0 && this.a.length === 0) {
+        if (this.enableMulti && s.length === 1 && s.search(/[0-9]/) >= 0 && this.a.length === 0) {
           this.times += s;
         } else {
           this.a += s;
@@ -237,9 +241,12 @@
         }
       }
     };
-    function CommandManager(model, timeout) {
+    function CommandManager(model, timeout, enableMulti) {
       this.model = model;
-      this.keyQueue.init(this.model, timeout);
+      if (enableMulti == null) {
+        enableMulti = true;
+      }
+      this.keyQueue.init(this.model, timeout, enableMulti);
     }
     CommandManager.prototype.getCommandFromKeySeq = function(s, keyMap) {
       var keySeq;

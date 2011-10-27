@@ -12,6 +12,32 @@ g.CommandExecuter::solveAlias = (alias) ->
             alias = aliases[alias]
         command
 
+class MyCommandManager extends g.CommandManager
+    constructor : (model, timeout)->
+        super( model, timeout, false )
+
+    handleKey : (msg, keyMap) ->
+        s     = g.KeyManager.getKeyCodeStr(msg)
+        com   = @getCommandFromKeySeq( s, keyMap )
+
+        unless com
+            if @isWaitingNextKey()
+                event.stopPropagation()
+                event.preventDefault()
+            return
+
+        switch com
+            when "<NOP>" then return
+            when "<DISCARD>"
+                event.stopPropagation()
+                event.preventDefault()
+            else
+                executer = (new g.CommandExecuter).set( com ).parse()
+                args = executer.getArgs()
+                @model["req"+args[0]]?( args.slice(1) )
+                event.stopPropagation()
+                event.preventDefault()
+
 class g.CommandBox
     constructor : ->
         @inputListeners = []
@@ -23,30 +49,7 @@ class g.CommandBox
         @inputField = $('div#vichromefield' )
         @box.width( @width ).addClass('vichrome-commandbox'+@align)
         @input.val("")
-
-        @commandManager = new g.CommandManager(this, opt.commandWaitTimeOut)
-        @commandManager.handleKey = (msg, keyMap) ->
-            s     = g.KeyManager.getKeyCodeStr(msg)
-            times = @keyQueue.getTimes()
-            com   = @getCommandFromKeySeq( s, keyMap )
-
-            unless com
-                if @isWaitingNextKey()
-                    event.stopPropagation()
-                    event.preventDefault()
-                return
-
-            switch com
-                when "<NOP>" then return
-                when "<DISCARD>"
-                    event.stopPropagation()
-                    event.preventDefault()
-                else
-                    executer = (new g.CommandExecuter).set( com, times ).parse()
-                    args = executer.getArgs()
-                    @model["req"+args[0]]?( args.slice(1) )
-                    event.stopPropagation()
-                    event.preventDefault()
+        @commandManager = new MyCommandManager(this, opt.commandWaitTimeOut)
 
         this
 
@@ -87,9 +90,6 @@ class g.CommandBox
         if key.code == "CR"
             @fixedListener?( @value() )
             @detachFrom()
-            return
-
-        if key.code.length == 1 and not (key.ctrl or key.alt or key.meta)
             return
 
         @commandManager.handleKey key, @keyMap
@@ -456,6 +456,10 @@ class g.CandSourceHistory extends g.CandidateSource
             command : "GetHistory"
             value   : word
         }, (items) =>
+            unless items?
+                @notifyUpdated()
+                return
+
             for item in items
                 str = if item.title then item.title else item.url
                 @addItem(
@@ -478,6 +482,10 @@ class g.CandSourceBookmark extends g.CandidateSource
             command : "GetBookmark"
             value   : word
         }, (nodes) =>
+            unless nodes?
+                @notifyUpdated()
+                return
+
             for node in nodes
                 @addItem(
                     str    : node.title
@@ -522,6 +530,10 @@ class g.CandSourceGoogleSuggest extends g.CandidateSource
             command : "GetGoogleSuggest"
             value   : word
         }, (raws) =>
+            unless raws?
+                @notifyUpdated()
+                return
+
             for raw in raws
                 value = if @reqPrefix then "g "+raw else raw
                 @addItem(
@@ -548,6 +560,10 @@ class g.CandSourceWebSuggest extends g.CandidateSource
             command : "GetWebSuggest"
             value   : word
         }, (results) =>
+            unless results?
+                @notifyUpdated()
+                return
+
             for res in results
                 @addItem(
                     str    : res.titleNoFormatting
