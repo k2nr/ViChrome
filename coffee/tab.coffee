@@ -1,4 +1,5 @@
-g = this
+this.vichrome ?= {}
+g = this.vichrome
 
 class g.TabHistory
     closeHistStack : []
@@ -42,7 +43,7 @@ class g.TabHistory
 
     setupListeners : ->
         chrome.tabs.onRemoved.addListener( (tabId, info) =>
-            logger.d "tab removed id:" + tabId
+            g.logger.d "tab removed id:" + tabId
             if info.isWindowClosing then return
 
             item = @popOpenTabItem( tabId )
@@ -54,19 +55,19 @@ class g.TabHistory
         )
 
         chrome.tabs.onCreated.addListener( (tab) =>
-            logger.d "tab created id:" + tab.id
+            g.logger.d "tab created id:" + tab.id
             @addOpenTabItem tab
         )
 
         chrome.tabs.onAttached.addListener( (tabId, aInfo) =>
-            logger.d "tab attached tab:#{tabId} -> win:#{aInfo.newWindowId}"
+            g.logger.d "tab attached tab:#{tabId} -> win:#{aInfo.newWindowId}"
             chrome.tabs.get( tabId, (tab) =>
                 @addOpenTabItem( tab )
             )
         )
 
         chrome.tabs.onDetached.addListener( (tabId, dInfo) =>
-            logger.d "tab detached tab:#{tabId} <- win:#{dInfo.oldWindowId}"
+            g.logger.d "tab detached tab:#{tabId} <- win:#{dInfo.oldWindowId}"
             @popOpenTabItem tabId
         )
 
@@ -80,7 +81,7 @@ class g.TabHistory
         )
 
         chrome.windows.onCreated.addListener( (win) =>
-            logger.d "win created id:" + win.id
+            g.logger.d "win created id:" + win.id
             @openTabs[win.id] = {}
         )
 

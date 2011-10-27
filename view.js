@@ -1,7 +1,10 @@
 (function() {
-  var g;
+  var g, _ref;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   $.fn.extend({
     isWithinScreen: function(padding) {
       var offset;
@@ -102,9 +105,9 @@
         this.iframe.hide();
       }
       $(document.body).click(__bind(function(e) {
-        var _ref;
+        var _ref2;
         this.scrollee = $(e.target).closest(":scrollable").get(0);
-        return (_ref = this.scrollee) != null ? _ref : this.scrollee = window;
+        return (_ref2 = this.scrollee) != null ? _ref2 : this.scrollee = window;
       }, this));
       return this.initialized = true;
     };
@@ -157,13 +160,13 @@
       return w.detach();
     };
     Surface.prototype.focusInput = function(idx) {
-      var _base, _ref;
+      var _base, _ref2;
       if (!this.initialized) {
         return this;
       }
       if (typeof (_base = $('form input:text:visible')).scrollTo === "function") {
-        if ((_ref = _base.scrollTo().get(0)) != null) {
-          _ref.focus();
+        if ((_ref2 = _base.scrollTo().get(0)) != null) {
+          _ref2.focus();
         }
       }
       return this;
@@ -237,12 +240,12 @@
       return window.location.href;
     };
     Surface.prototype.blurActiveElement = function() {
-      var _ref;
+      var _ref2;
       if (!this.initialized) {
         return this;
       }
-      if ((_ref = document.activeElement) != null) {
-        _ref.blur();
+      if ((_ref2 = document.activeElement) != null) {
+        _ref2.blur();
       }
       return this;
     };

@@ -1,12 +1,15 @@
 (function() {
-  var escape, g, passToFrame, passToTopFrame, sendToBackground, triggerInsideContent;
+  var escape, g, passToFrame, passToTopFrame, sendToBackground, triggerInsideContent, _ref;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
     }
     return -1;
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   sendToBackground = function(com, args) {
     return chrome.extension.sendRequest({
       command: com,
@@ -124,7 +127,7 @@
       return command;
     };
     CommandExecuter.prototype.parse = function() {
-      var command, i, _ref;
+      var command, i, _ref2;
       if (!this.command) {
         throw "invalid command";
       }
@@ -132,7 +135,7 @@
       if (!this.args || this.args.length === 0) {
         throw "invalid command";
       }
-      for (i = _ref = this.args.length - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
+      for (i = _ref2 = this.args.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
         if (this.args[i].length === 0) {
           this.args.splice(i, 1);
         }

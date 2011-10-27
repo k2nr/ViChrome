@@ -1,4 +1,5 @@
-g = this
+this.vichrome ?= {}
+g = this.vichrome
 
 class g.Mode
     exit  : ->
@@ -131,7 +132,7 @@ class g.Mode
             { class : "CandSourceCommand" }
             { class : "CandSourceAlias" }
         ]
-        executer = (new CommandExecuter).setTargetFrame(sender)
+        executer = (new g.CommandExecuter).setTargetFrame(sender)
 
         g.model.enterCommandMode( executer, sources )
 

@@ -1,5 +1,5 @@
 (function() {
-  var g;
+  var g, _ref;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -8,7 +8,10 @@
     child.__super__ = parent.prototype;
     return child;
   };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.NormalSearcher = (function() {
     function NormalSearcher() {}
     NormalSearcher.prototype.buildSortedResults = function() {
@@ -32,8 +35,8 @@
       return this.sortedResults.length;
     };
     NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
-      var i, idx, span, _ref;
-      for (i = 0, _ref = this.getResultCnt() - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+      var i, idx, span, _ref2;
+      for (i = 0, _ref2 = this.getResultCnt() - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
         idx = this.opt.backward ? total - 1 - i : i;
         span = this.getResult(idx);
         if ((span != null) && span.isWithinScreen()) {
@@ -96,11 +99,11 @@
       return this.buildSortedResults();
     };
     NormalSearcher.prototype.getResult = function(cnt) {
-      var _ref;
-      return (_ref = this.sortedResults[cnt]) != null ? _ref.value : void 0;
+      var _ref2;
+      return (_ref2 = this.sortedResults[cnt]) != null ? _ref2.value : void 0;
     };
     NormalSearcher.prototype.fix = function(word) {
-      var span, _ref;
+      var span, _ref2;
       if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
         if (this.opt.useMigemo && word.length < this.opt.minMigemoLength) {
           this.opt.useMigemo = false;
@@ -129,14 +132,14 @@
       });
       span = this.getResult(this.getCurIndex());
       if (span != null) {
-        if ((_ref = span.closest("a").get(0)) != null) {
-          _ref.focus();
+        if ((_ref2 = span.closest("a").get(0)) != null) {
+          _ref2.focus();
         }
       }
       return this.fixed = true;
     };
     NormalSearcher.prototype.moveTo = function(pos) {
-      var span, _ref;
+      var span, _ref2;
       if (this.getResultCnt() > pos) {
         span = this.getResult(pos);
         if (span != null) {
@@ -146,7 +149,7 @@
           g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
           if (this.fixed) {
             g.view.blurActiveElement();
-            return (_ref = span.closest("a").get(0)) != null ? _ref.focus() : void 0;
+            return (_ref2 = span.closest("a").get(0)) != null ? _ref2.focus() : void 0;
           }
         }
       } else {

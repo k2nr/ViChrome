@@ -1,6 +1,9 @@
 (function() {
-  var g, keyCodes, keyIdentifier, shiftWinKeyIdentifier_ja, shiftWinKeyIdentifier_us, util, winKeyIdentifier_ja, winKeyIdentifier_us;
-  g = this;
+  var g, keyCodes, keyIdentifier, shiftWinKeyIdentifier_ja, shiftWinKeyIdentifier_us, util, winKeyIdentifier_ja, winKeyIdentifier_us, _ref;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.key = {};
   g.key.keyCodes = {
     ESC: 27,

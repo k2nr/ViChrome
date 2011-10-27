@@ -1,12 +1,15 @@
 (function() {
-  var g, getAliasFirst, getCMapFirst, getIMapFirst, getNMapFirst;
+  var g, getAliasFirst, getCMapFirst, getIMapFirst, getNMapFirst, _ref;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   getNMapFirst = function() {
-    var map, myMap, nmap, pageMap, url, _ref;
+    var map, myMap, nmap, pageMap, url, _ref2;
     nmap = g.object(this.getSetting("keyMappingNormal"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
       return nmap;
     }
     myMap = nmap;
@@ -22,10 +25,10 @@
     return myMap;
   };
   getIMapFirst = function() {
-    var imap, map, myMap, pageMap, url, _ref;
+    var imap, map, myMap, pageMap, url, _ref2;
     imap = g.object(this.getSetting("keyMappingInsert"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
       return imap;
     }
     myMap = imap;
@@ -41,10 +44,10 @@
     return myMap;
   };
   getCMapFirst = function() {
-    var cmap, map, myMap, pageMap, url, _ref;
+    var cmap, map, myMap, pageMap, url, _ref2;
     cmap = g.object(this.getSetting("keyMappingCommand"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
       return cmap;
     }
     myMap = cmap;
@@ -60,10 +63,10 @@
     return myMap;
   };
   getAliasFirst = function() {
-    var aliases, map, myAlias, pageMap, url, _ref;
+    var aliases, map, myAlias, pageMap, url, _ref2;
     aliases = g.object(this.getSetting("aliases"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
+    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
       return nmap;
     }
     myAlias = aliases;
@@ -121,8 +124,8 @@
       this.searcher = searcher;
     },
     cancelSearchHighlight: function() {
-      var _ref;
-      return (_ref = this.searcher) != null ? _ref.cancelHighlight() : void 0;
+      var _ref2;
+      return (_ref2 = this.searcher) != null ? _ref2.cancelHighlight() : void 0;
     },
     enterNormalMode: function() {
       g.logger.d("enterNormalMode");

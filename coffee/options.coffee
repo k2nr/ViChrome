@@ -1,4 +1,6 @@
-g = this
+this.vichrome ?= {}
+g = this.vichrome
+
 settings = null
 
 setSetting = (name, val, response) ->

@@ -1,5 +1,5 @@
 (function() {
-  var g;
+  var g, _ref;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -8,7 +8,10 @@
     child.__super__ = parent.prototype;
     return child;
   };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.Mode = (function() {
     function Mode() {}
     Mode.prototype.exit = function() {};
@@ -256,7 +259,7 @@
           "class": "CandSourceAlias"
         }
       ];
-      executer = (new CommandExecuter).setTargetFrame(sender);
+      executer = (new g.CommandExecuter).setTargetFrame(sender);
       return g.model.enterCommandMode(executer, sources);
     };
     Mode.prototype.reqFocusOnFirstInput = function() {
@@ -501,10 +504,10 @@
       }
     };
     FMode.prototype.searchTarget = function() {
-      var elem, i, _len, _ref;
-      _ref = this.hints;
-      for (i = 0, _len = _ref.length; i < _len; i++) {
-        elem = _ref[i];
+      var elem, i, _len, _ref2;
+      _ref2 = this.hints;
+      for (i = 0, _len = _ref2.length; i < _len; i++) {
+        elem = _ref2[i];
         if (this.currentInput === elem.key) {
           return i;
         }
@@ -561,7 +564,7 @@
       return Math.ceil(Math.log(candiNum) / Math.log(this.keys.length));
     };
     FMode.prototype.enter = function() {
-      var div, elem, hint, i, j, k, key, links, offset, _i, _len, _len2, _ref;
+      var div, elem, hint, i, j, k, key, links, offset, _i, _len, _len2, _ref2;
       this.currentInput = "";
       this.hints = [];
       this.keys = "";
@@ -589,9 +592,9 @@
         this.hints[i].target = elem;
         $(elem).addClass('vichrome-fModeTarget');
       }
-      _ref = this.hints;
-      for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
-        hint = _ref[_i];
+      _ref2 = this.hints;
+      for (_i = 0, _len2 = _ref2.length; _i < _len2; _i++) {
+        hint = _ref2[_i];
         offset = hint.target._offset_;
         div = $('<span id="vichromehint" />').css("top", offset.top - 7).css("left", offset.left - 7).html(hint.key);
         $(document.body).append(div);

@@ -1,12 +1,15 @@
 (function() {
-  var g, include, levels;
+  var g, include, levels, _ref;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
     }
     return -1;
   };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.VICHROME_VERSION = "0.6.1";
   g.object = function(obj) {
     var F;
@@ -86,7 +89,7 @@
   };
   g.util = {};
   g.util.isEditable = function(target) {
-    var editableList, ignoreList, _ref, _ref2, _ref3;
+    var editableList, ignoreList, _ref2, _ref3, _ref4;
     g.logger.d("isEditable", target);
     ignoreList = ["TEXTAREA"];
     editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
@@ -96,10 +99,10 @@
     if (target.isContentEditable) {
       return true;
     }
-    if (_ref = target.nodeName, __indexOf.call(ignoreList, _ref) >= 0) {
+    if (_ref2 = target.nodeName, __indexOf.call(ignoreList, _ref2) >= 0) {
       return true;
     }
-    if (((_ref2 = target.nodeName) != null ? _ref2.toUpperCase() : void 0) === "INPUT" && (_ref3 = target.type.toUpperCase(), __indexOf.call(editableList, _ref3) >= 0)) {
+    if (((_ref3 = target.nodeName) != null ? _ref3.toUpperCase() : void 0) === "INPUT" && (_ref4 = target.type.toUpperCase(), __indexOf.call(editableList, _ref4) >= 0)) {
       return true;
     }
     return false;

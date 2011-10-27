@@ -1,4 +1,5 @@
-g  = this
+this.vichrome ?= {}
+g = this.vichrome
 
 sendToBackground = (com, args) ->
     chrome.extension.sendRequest {command : com, args : args}, g.handler.onCommandResponse

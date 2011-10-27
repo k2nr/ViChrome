@@ -1,26 +1,29 @@
 (function() {
-  var g;
+  var g, _ref;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.TabHistory = (function() {
     function TabHistory() {}
     TabHistory.prototype.closeHistStack = [];
     TabHistory.prototype.openTabs = {};
     TabHistory.prototype.findOpenTabItem = function(tabId) {
-      var tabs, win, _ref;
-      _ref = this.openTabs;
-      for (win in _ref) {
-        tabs = _ref[win];
+      var tabs, win, _ref2;
+      _ref2 = this.openTabs;
+      for (win in _ref2) {
+        tabs = _ref2[win];
         if (tabs[tabId]) {
           return tabs[tabId];
         }
       }
     };
     TabHistory.prototype.popOpenTabItem = function(tabId) {
-      var result, tabs, win, _ref;
-      _ref = this.openTabs;
-      for (win in _ref) {
-        tabs = _ref[win];
+      var result, tabs, win, _ref2;
+      _ref2 = this.openTabs;
+      for (win in _ref2) {
+        tabs = _ref2[win];
         if (tabs[tabId]) {
           result = tabs[tabId];
           tabs[tabId] = void 0;
@@ -58,8 +61,8 @@
       return ++this.openTabs[tab.windowId][tab.id].frames;
     };
     TabHistory.prototype.getFrames = function(tab) {
-      var _ref;
-      return (_ref = this.openTabs[tab.windowId][tab.id]) != null ? _ref.frames : void 0;
+      var _ref2;
+      return (_ref2 = this.openTabs[tab.windowId][tab.id]) != null ? _ref2.frames : void 0;
     };
     TabHistory.prototype.initTabHist = function(winId) {
       return chrome.windows.getAll({
@@ -71,11 +74,11 @@
           win = wins[_i];
           this.openTabs[win.id] = {};
           _results.push((function() {
-            var _j, _len2, _ref, _results2;
-            _ref = win.tabs;
+            var _j, _len2, _ref2, _results2;
+            _ref2 = win.tabs;
             _results2 = [];
-            for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-              tab = _ref[_j];
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              tab = _ref2[_j];
               _results2.push(this.addOpenTabItem(tab));
             }
             return _results2;
@@ -87,7 +90,7 @@
     TabHistory.prototype.setupListeners = function() {
       chrome.tabs.onRemoved.addListener(__bind(function(tabId, info) {
         var item;
-        logger.d("tab removed id:" + tabId);
+        g.logger.d("tab removed id:" + tabId);
         if (info.isWindowClosing) {
           return;
         }
@@ -100,17 +103,17 @@
         }
       }, this));
       chrome.tabs.onCreated.addListener(__bind(function(tab) {
-        logger.d("tab created id:" + tab.id);
+        g.logger.d("tab created id:" + tab.id);
         return this.addOpenTabItem(tab);
       }, this));
       chrome.tabs.onAttached.addListener(__bind(function(tabId, aInfo) {
-        logger.d("tab attached tab:" + tabId + " -> win:" + aInfo.newWindowId);
+        g.logger.d("tab attached tab:" + tabId + " -> win:" + aInfo.newWindowId);
         return chrome.tabs.get(tabId, __bind(function(tab) {
           return this.addOpenTabItem(tab);
         }, this));
       }, this));
       chrome.tabs.onDetached.addListener(__bind(function(tabId, dInfo) {
-        logger.d("tab detached tab:" + tabId + " <- win:" + dInfo.oldWindowId);
+        g.logger.d("tab detached tab:" + tabId + " <- win:" + dInfo.oldWindowId);
         return this.popOpenTabItem(tabId);
       }, this));
       chrome.tabs.onUpdated.addListener(__bind(function(tabId, info, tab) {
@@ -125,7 +128,7 @@
         }
       }, this));
       chrome.windows.onCreated.addListener(__bind(function(win) {
-        logger.d("win created id:" + win.id);
+        g.logger.d("win created id:" + win.id);
         return this.openTabs[win.id] = {};
       }, this));
       chrome.windows.onRemoved.addListener(__bind(function(winId) {

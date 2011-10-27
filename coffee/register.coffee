@@ -1,4 +1,5 @@
-g = this
+this.vichrome ?= {}
+g = this.vichrome
 
 
 class g.PageMarkRegister

@@ -1,6 +1,9 @@
 (function() {
-  var g;
-  g = this;
+  var g, _ref;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.PageMarkRegister = (function() {
     function PageMarkRegister() {
       this.values = {};

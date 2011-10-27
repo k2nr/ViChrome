@@ -1,7 +1,10 @@
 (function() {
-  var g;
+  var g, _ref;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  g = this;
+  if ((_ref = this.vichrome) == null) {
+    this.vichrome = {};
+  }
+  g = this.vichrome;
   g.bg = {
     tabHistory: null,
     moveTab: function(offset, start) {
@@ -72,13 +75,13 @@
       }
     },
     reqOpenNewTab: function(req) {
-      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref;
+      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref2;
       urls = [];
       focus = true;
       pinned = false;
-      _ref = req.args;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
         switch (arg) {
           case "-b":
           case "--background":
@@ -113,13 +116,13 @@
       return false;
     },
     reqOpenNewWindow: function(req) {
-      var arg, focus, pop, urls, _i, _len, _ref;
+      var arg, focus, pop, urls, _i, _len, _ref2;
       urls = [];
       focus = true;
       pop = false;
-      _ref = req.args;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
         switch (arg) {
           case "-b":
           case "--background":
@@ -166,10 +169,10 @@
       return false;
     },
     reqCloseAllTabs: function(req) {
-      var arg, only, _i, _len, _ref;
-      _ref = req.args;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
+      var arg, only, _i, _len, _ref2;
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
         switch (arg) {
           case "--only":
             only = true;
@@ -189,8 +192,8 @@
       return false;
     },
     reqMoveToNextTab: function(req) {
-      var _ref;
-      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
+      var _ref2;
+      if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
         if (req.args[0] < 0) {
           return;
         }
@@ -201,8 +204,8 @@
       return false;
     },
     reqMoveToPrevTab: function(req) {
-      var _ref;
-      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
+      var _ref2;
+      if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
         this.moveTab(-parseInt(req.args[0]));
       } else {
         this.moveTab(-1);
@@ -371,10 +374,10 @@
       return true;
     },
     reqOpenOptionPage: function(req) {
-      var arg, key, url, _i, _len, _ref;
-      _ref = req.args;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
+      var arg, key, url, _i, _len, _ref2;
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
         switch (arg) {
           case "-k":
           case "--key":
