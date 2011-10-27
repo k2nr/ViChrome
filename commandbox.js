@@ -114,6 +114,9 @@
         this.detachFrom();
         return;
       }
+      if (key.code.length === 1 && !(key.ctrl || key.alt || key.meta)) {
+        return;
+      }
       this.commandManager.handleKey(key, this.keyMap);
     };
     CommandBox.prototype.onKeyDown = function(e) {

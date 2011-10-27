@@ -88,6 +88,9 @@ class g.CommandBox
             @detachFrom()
             return
 
+        if key.code.length == 1 and not (key.ctrl or key.alt or key.meta)
+            return
+
         @commandManager.handleKey key, @keyMap
 
         return
