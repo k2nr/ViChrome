@@ -10,7 +10,7 @@
     this.vichrome = {};
   }
   g = this.vichrome;
-  g.VICHROME_VERSION = "0.6.1";
+  g.VICHROME_VERSION = "0.6.2";
   g.object = function(obj) {
     var F;
     F = function() {};
