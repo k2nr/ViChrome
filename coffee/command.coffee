@@ -2,7 +2,9 @@ this.vichrome ?= {}
 g = this.vichrome
 
 sendToBackground = (com, args) ->
-    chrome.extension.sendRequest {command : com, args : args}, g.handler.onCommandResponse
+    chrome.extension.sendRequest( {command : com, args : args}, (msg) ->
+        g.handler.onCommandResponse msg
+    )
 
 triggerInsideContent = (com, args) -> g.model.triggerCommand "req#{com}", args
 
@@ -41,6 +43,7 @@ class g.CommandExecuter
         "IMap"
         "Alias"
         "OpenNewWindow"
+        "OpenOptionPage"
         "RestoreTab"
     ]
 

@@ -14,7 +14,9 @@
     return chrome.extension.sendRequest({
       command: com,
       args: args
-    }, g.handler.onCommandResponse);
+    }, function(msg) {
+      return g.handler.onCommandResponse(msg);
+    });
   };
   triggerInsideContent = function(com, args) {
     return g.model.triggerCommand("req" + com, args);
@@ -48,7 +50,7 @@
     CommandExecuter.prototype.getTargetFrame = function() {
       return this.targetFrame;
     };
-    CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "RestoreTab"];
+    CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "OpenOptionPage", "RestoreTab"];
     CommandExecuter.prototype.commandTable = {
       Open: triggerInsideContent,
       OpenNewTab: triggerInsideContent,
