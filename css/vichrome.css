@@ -90,3 +90,14 @@ iframe[seamless]{
     border: 0px none transparent;
     overflow: hidden;
 }
+
+.vichrome-barrelroll {
+    -webkit-transition: -webkit-transform 2s ease;
+    -webkit-transform: rotate(360deg);
+    -moz-transition: -moz-transform 2s ease;
+    -moz-transform: rotate(360deg);
+    -o-transition: -o-transform 2s ease;
+    -o-transform: rotate(360deg);
+    transition: transform 2s ease;
+    transform: rotate(360deg);
+}

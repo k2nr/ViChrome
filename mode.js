@@ -276,6 +276,12 @@
       executer = (new g.CommandExecuter).set("MoveToNextTab").setDescription("TabList");
       return g.model.enterCommandMode(executer, sources);
     };
+    Mode.prototype.reqBarrelRoll = function() {
+      $(document.body).addClass('vichrome-barrelroll');
+      return setTimeout(function() {
+        return $(document.body).removeClass('vichrome-barrelroll');
+      }, 2000);
+    };
     Mode.prototype.req_ChangeLogLevel = function(args) {
       if (!args || args.length < 1) {
         return;
@@ -564,7 +570,7 @@
       return Math.ceil(Math.log(candiNum) / Math.log(this.keys.length));
     };
     FMode.prototype.enter = function() {
-      var div, elem, hint, i, j, k, key, links, offset, _i, _len, _len2, _ref2;
+      var div, elem, hint, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref2;
       this.currentInput = "";
       this.hints = [];
       this.keys = "";
@@ -596,7 +602,15 @@
       for (_i = 0, _len2 = _ref2.length; _i < _len2; _i++) {
         hint = _ref2[_i];
         offset = hint.target._offset_;
-        div = $('<span id="vichromehint" />').css("top", offset.top - 7).css("left", offset.left - 7).html(hint.key);
+        top = offset.top - 7;
+        left = offset.left - 7;
+        if (top < 0) {
+          top = 0;
+        }
+        if (left < 0) {
+          left = 0;
+        }
+        div = $('<span id="vichromehint" />').css("top", top).css("left", left).html(hint.key);
         $(document.body).append(div);
       }
       return g.view.setStatusLineText('f Mode : ');

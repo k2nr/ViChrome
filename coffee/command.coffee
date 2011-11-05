@@ -88,6 +88,7 @@ class g.CommandExecuter
         Readability           : sendToBackground
         ShowTabList           : triggerInsideContent
         OpenOptionPage        : sendToBackground
+        BarrelRoll            : triggerInsideContent
         Escape                : escape
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent

@@ -150,6 +150,12 @@ class g.Mode
 
         g.model.enterCommandMode( executer, sources )
 
+    reqBarrelRoll : ->
+        $(document.body).addClass('vichrome-barrelroll')
+        setTimeout( ->
+            $(document.body).removeClass('vichrome-barrelroll')
+        , 2000 )
+
 
     req_ChangeLogLevel : (args) ->
         if not args or args.length < 1 then return
@@ -382,7 +388,11 @@ class g.FMode extends g.Mode
 
         for hint in @hints
             offset = hint.target._offset_
-            div = $( '<span id="vichromehint" />' ).css("top",  offset.top-7).css("left", offset.left-7).html(hint.key)
+            top =  offset.top - 7
+            left = offset.left - 7
+            top = 0 if top < 0
+            left = 0 if left < 0
+            div = $( '<span id="vichromehint" />' ).css("top",  top).css("left", left).html(hint.key)
             $(document.body).append(div)
 
         g.view.setStatusLineText 'f Mode : '

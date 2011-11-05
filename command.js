@@ -92,6 +92,7 @@
       Readability: sendToBackground,
       ShowTabList: triggerInsideContent,
       OpenOptionPage: sendToBackground,
+      BarrelRoll: triggerInsideContent,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };
