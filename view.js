@@ -112,7 +112,9 @@
       return this.initialized = true;
     };
     Surface.prototype.attach = function(w) {
-      $(typeof top !== "undefined" && top !== null ? top.document.body : void 0).append(w);
+      if (typeof top !== "undefined" && top !== null) {
+        $('body').append(w);
+      }
       return this;
     };
     Surface.prototype.activateStatusLine = function() {

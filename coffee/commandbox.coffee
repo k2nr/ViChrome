@@ -48,7 +48,7 @@ class g.CommandBox
         @modeChar  = $( 'div#vichromemodechar' )
         @inputField = $('div#vichromefield' )
         @box.width( @width ).addClass('vichrome-commandbox'+@align)
-        @input.val("")
+        @input.width( @width - @modeChar.width() - 5 ).val("")
         @commandManager = new MyCommandManager(this, opt.commandWaitTimeOut)
 
         this

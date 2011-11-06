@@ -70,7 +70,7 @@
       this.modeChar = $('div#vichromemodechar');
       this.inputField = $('div#vichromefield');
       this.box.width(this.width).addClass('vichrome-commandbox' + this.align);
-      this.input.val("");
+      this.input.width(this.width - this.modeChar.width() - 5).val("");
       this.commandManager = new MyCommandManager(this, opt.commandWaitTimeOut);
       return this;
     };

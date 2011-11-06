@@ -84,7 +84,8 @@ class g.Surface
         @initialized = true
 
     attach : (w) ->
-        $(top?.document.body).append(w)
+        if top?
+            $('body').append(w)
         this
 
     activateStatusLine : ->
