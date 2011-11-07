@@ -590,7 +590,7 @@
         j = this.keyLength;
         k = i;
         while (j--) {
-          key += this.keys.charAt(k % this.keys.length);
+          key = this.keys.charAt(k % this.keys.length) + key;
           k /= this.keys.length;
         }
         this.hints[i] = {};

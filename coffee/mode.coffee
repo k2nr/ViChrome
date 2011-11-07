@@ -377,7 +377,7 @@ class g.FMode extends g.Mode
             j = @keyLength
             k = i
             while j--
-                key += @keys.charAt( k % @keys.length )
+                key = @keys.charAt( k % @keys.length ) + key
                 k /= @keys.length
 
             @hints[i]        = {}
