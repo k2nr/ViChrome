@@ -11,7 +11,7 @@
     }
     EventHandler.prototype.onBlur = function(e) {
       g.logger.d("onBlur", e);
-      return this.model.onBlur();
+      return this.model.onBlur(e.target);
     };
     EventHandler.prototype.onKeyPress = function(e) {
       if (g.model.isInSearchMode() || g.model.isInCommandMode()) {

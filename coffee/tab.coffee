@@ -25,13 +25,13 @@ class g.TabHistory
         else
             @openTabs[tab.windowId][tab.id].history = []
             @openTabs[tab.windowId][tab.id].history.push( tab.url )
-    setTopFrameID : (tab, id) -> @openTabs[tab.windowId][tab.id].topFrame = id
-    getTopFrameID : (tab) -> @openTabs[tab.windowId][tab.id].topFrame
+    setTopFrameID   : (tab, id) -> @openTabs[tab.windowId][tab.id].topFrame = id
+    getTopFrameID   : (tab)     -> @openTabs[tab.windowId][tab.id].topFrame
     setCommandBoxID : (tab, id) -> @openTabs[tab.windowId][tab.id].comBoxID = id
-    getCommandBoxID : (tab) -> @openTabs[tab.windowId][tab.id].comBoxID
-    setFrames : (tab, frames) -> @openTabs[tab.windowId][tab.id].frames = frames
-    addFrames : (tab) -> ++@openTabs[tab.windowId][tab.id].frames
-    getFrames : (tab) -> @openTabs[tab.windowId][tab.id]?.frames
+    getCommandBoxID : (tab)     -> @openTabs[tab.windowId][tab.id].comBoxID
+    setFrames       : (tab, frames) -> @openTabs[tab.windowId][tab.id].frames = frames
+    addFrames       : (tab)     -> ++@openTabs[tab.windowId][tab.id].frames
+    getFrames       : (tab)     -> @openTabs[tab.windowId][tab.id]?.frames
 
     initTabHist : (winId) ->
         chrome.windows.getAll( {populate : true}, (wins) =>

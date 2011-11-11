@@ -16,6 +16,7 @@
       "defaultNewTab": "home",
       "commandWaitTimeOut": 2000,
       "fModeAvailableKeys": "fdsaghjklwertyuiovbcnm",
+      "fModeIgnoreCase": false,
       "disableAutoFocus": false,
       "smoothScroll": false,
       "enableCompletion": true,
@@ -68,6 +69,7 @@
         "b": "Open -b",
         "B": "OpenNewTab -b",
         "''": "BackToPageMark",
+        "<C-ESC>": "GoEmergencyMode",
         "<ESC>": "Escape",
         "<C-[>": "Escape"
       },

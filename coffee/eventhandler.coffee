@@ -6,7 +6,7 @@ class g.EventHandler
 
     onBlur : (e) ->
         g.logger.d "onBlur", e
-        @model.onBlur()
+        @model.onBlur( e.target )
 
     onKeyPress : (e) ->
         if g.model.isInSearchMode() or g.model.isInCommandMode()

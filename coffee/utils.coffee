@@ -36,7 +36,7 @@ g.logLevels =
         FATAL   : 4
         NONE    : 5
 
-g.LOG_LEVEL = g.logLevels.ERROR
+g.LOG_LEVEL = g.logLevels.DEBUG
 
 levels = g.logLevels
 
@@ -53,24 +53,30 @@ g.logger =
     f : (a, o) -> if g.LOG_LEVEL <= g.logLevels.FATAL   then @printLog(a, o)
 
 g.util = {}
+
+editableList = [
+    "TEXT"
+    "PASSWORD"
+    "NUMBER"
+    "SEARCH"
+    "TEL"
+    "URL"
+    "EMAIL"
+    "TIME"
+    "DATETIME"
+    "DATETIME-LOCAL"
+    "DEATE"
+    "WEEK"
+    "COLOR"
+]
+objectList = [
+    "EMBED"
+    "OBJECT"
+    "APPLET"
+]
+
 g.util.isEditable = (target) ->
-    g.logger.d("isEditable", target)
     ignoreList = ["TEXTAREA"]
-    editableList = [
-        "TEXT"
-        "PASSWORD"
-        "NUMBER"
-        "SEARCH"
-        "TEL"
-        "URL"
-        "EMAIL"
-        "TIME"
-        "DATETIME"
-        "DATETIME-LOCAL"
-        "DEATE"
-        "WEEK"
-        "COLOR"
-    ]
     unless target? then return false
 
     if target.isContentEditable then return true
@@ -81,6 +87,13 @@ g.util.isEditable = (target) ->
         return true
 
     return false
+
+g.util.isEmbededObject = (target) ->
+    unless target? then return false
+
+    if target.nodeName in objectList then return true
+    false
+
 
 g.util.getPlatform = ->
     if navigator.userAgent.indexOf("Mac") >= 0

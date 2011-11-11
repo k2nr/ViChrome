@@ -84,6 +84,7 @@
       GoSearchModeBackward: triggerInsideContent,
       GoLinkTextSearchMode: triggerInsideContent,
       GoFMode: triggerInsideContent,
+      GoEmergencyMode: triggerInsideContent,
       FocusOnFirstInput: triggerInsideContent,
       BackToPageMark: triggerInsideContent,
       RestoreTab: sendToBackground,

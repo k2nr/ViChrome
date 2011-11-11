@@ -122,6 +122,7 @@
     initCheckBox("incSearch");
     initCheckBox("ignoreCase");
     initCheckBox("useMigemo");
+    initCheckBox("fModeIgnoreCase");
     initDropDown("commandBoxAlign");
     initDropDown("searchEngine");
     $('[name="newTabPage"][value="' + settings.defaultNewTab + '"]').attr('checked', true);

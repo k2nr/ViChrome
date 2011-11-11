@@ -224,6 +224,9 @@
     Mode.prototype.reqGoLinkTextSearchMode = function() {
       return g.model.enterSearchMode(false, new g.LinkTextSearcher);
     };
+    Mode.prototype.reqGoEmergencyMode = function() {
+      return g.model.enterEmergencyMode();
+    };
     Mode.prototype.reqBackToPageMark = function() {
       return g.model.goPageMark();
     };
@@ -468,6 +471,41 @@
     };
     return CommandMode;
   })();
+  g.EmergencyMode = (function() {
+    __extends(EmergencyMode, g.Mode);
+    function EmergencyMode() {
+      EmergencyMode.__super__.constructor.apply(this, arguments);
+    }
+    EmergencyMode.prototype.getName = function() {
+      return "EmergencyMode";
+    };
+    EmergencyMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
+      if (ctrl || alt || meta) {
+        return true;
+      }
+      if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) {
+        return false;
+      }
+      return true;
+    };
+    EmergencyMode.prototype.enter = function() {
+      return g.view.setStatusLineText("Emergency Mode : &lt;C-ESC&gt; to escape");
+    };
+    EmergencyMode.prototype.exit = function() {
+      return g.view.hideStatusLine();
+    };
+    EmergencyMode.prototype.blur = function(target) {
+      if (g.util.isEmbededObject(target)) {
+        return g.model.enterNormalMode();
+      }
+    };
+    EmergencyMode.prototype.getKeyMapping = function() {
+      return {
+        "<C-ESC>": "Escape"
+      };
+    };
+    return EmergencyMode;
+  })();
   g.FMode = (function() {
     __extends(FMode, g.Mode);
     function FMode() {
@@ -551,6 +589,9 @@
       if (ctrl || alt || meta) {
         return true;
       }
+      if (g.model.getSetting("fModeIgnoreCase")) {
+        key = key.toUpperCase();
+      }
       if (this.isValidKey(key)) {
         event.stopPropagation();
         event.preventDefault();
@@ -573,7 +614,6 @@
       var div, elem, hint, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref2;
       this.currentInput = "";
       this.hints = [];
-      this.keys = "";
       links = $('a:_visible,*:input:_visible,.button:_visible');
       if (links.length === 0) {
         g.view.setStatusLineText("No visible links found", 2000);
@@ -583,6 +623,9 @@
         return;
       }
       this.keys = g.model.getSetting("fModeAvailableKeys");
+      if (g.model.getSetting("fModeIgnoreCase")) {
+        this.keys = this.keys.toUpperCase();
+      }
       this.keyLength = this.getKeyLength(links.length);
       for (i = 0, _len = links.length; i < _len; i++) {
         elem = links[i];

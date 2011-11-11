@@ -1,5 +1,5 @@
 (function() {
-  var g, include, levels, _ref;
+  var editableList, g, include, levels, objectList, _ref;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -56,7 +56,7 @@
     FATAL: 4,
     NONE: 5
   };
-  g.LOG_LEVEL = g.logLevels.ERROR;
+  g.LOG_LEVEL = g.logLevels.DEBUG;
   levels = g.logLevels;
   g.logger = {
     printLog: function(a, o) {
@@ -88,11 +88,11 @@
     }
   };
   g.util = {};
+  editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
+  objectList = ["EMBED", "OBJECT", "APPLET"];
   g.util.isEditable = function(target) {
-    var editableList, ignoreList, _ref2, _ref3, _ref4;
-    g.logger.d("isEditable", target);
+    var ignoreList, _ref2, _ref3, _ref4;
     ignoreList = ["TEXTAREA"];
-    editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
     if (target == null) {
       return false;
     }
@@ -103,6 +103,16 @@
       return true;
     }
     if (((_ref3 = target.nodeName) != null ? _ref3.toUpperCase() : void 0) === "INPUT" && (_ref4 = target.type.toUpperCase(), __indexOf.call(editableList, _ref4) >= 0)) {
+      return true;
+    }
+    return false;
+  };
+  g.util.isEmbededObject = function(target) {
+    var _ref2;
+    if (target == null) {
+      return false;
+    }
+    if (_ref2 = target.nodeName, __indexOf.call(objectList, _ref2) >= 0) {
       return true;
     }
     return false;

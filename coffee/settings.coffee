@@ -13,6 +13,7 @@ g.SettingManager =
         "defaultNewTab"           : "home"
         "commandWaitTimeOut"      : 2000
         "fModeAvailableKeys"      : "fdsaghjklwertyuiovbcnm"
+        "fModeIgnoreCase"         : false
         "disableAutoFocus"        : false
         "smoothScroll"            : false
         "enableCompletion"        : true
@@ -100,6 +101,7 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
             "b"       : "Open -b"
             "B"       : "OpenNewTab -b"
             "''"      : "BackToPageMark"
+            "<C-ESC>" : "GoEmergencyMode"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"
 

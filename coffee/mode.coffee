@@ -109,6 +109,7 @@ class g.Mode
     reqGoSearchModeForward  : -> g.model.enterSearchMode( false )
     reqGoSearchModeBackward : -> g.model.enterSearchMode( true )
     reqGoLinkTextSearchMode : -> g.model.enterSearchMode( false, new g.LinkTextSearcher )
+    reqGoEmergencyMode : -> g.model.enterEmergencyMode()
 
     reqBackToPageMark : ->
         # TODO:enable to go any pagemark, not only unnamed.
@@ -284,6 +285,25 @@ class g.CommandMode extends g.Mode
     setExecuter : (@executer) ->
     setSources : (@sources) ->
 
+class g.EmergencyMode extends g.Mode
+    getName : -> "EmergencyMode"
+
+    prePostKeyEvent : (key, ctrl, alt, meta) ->
+        if ctrl or alt or meta then return true
+        if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
+            return false
+        true
+
+    enter : -> g.view.setStatusLineText "Emergency Mode : &lt;C-ESC&gt; to escape"
+    exit  : -> g.view.hideStatusLine()
+
+    blur  : (target) ->
+        if g.util.isEmbededObject target
+            g.model.enterNormalMode()
+
+    getKeyMapping : ->
+        "<C-ESC>" : "Escape"
+
 class g.FMode extends g.Mode
     getName   : -> "FMode"
     setOption : (@opt) -> this
@@ -344,6 +364,8 @@ class g.FMode extends g.Mode
         if key == "ESC" then return true
         if ctrl or alt or meta then return true
 
+        key = key.toUpperCase() if g.model.getSetting("fModeIgnoreCase")
+
         if @isValidKey( key )
             event.stopPropagation()
             event.preventDefault()
@@ -358,9 +380,8 @@ class g.FMode extends g.Mode
         Math.ceil( Math.log( candiNum ) / Math.log( @keys.length ) )
 
     enter : ->
-        @currentInput = "";
-        @hints        = [];
-        @keys         = "";
+        @currentInput = ""
+        @hints        = []
 
         links = $('a:_visible,*:input:_visible,.button:_visible')
 
@@ -370,6 +391,7 @@ class g.FMode extends g.Mode
             return
 
         @keys = g.model.getSetting("fModeAvailableKeys")
+        @keys = @keys.toUpperCase() if g.model.getSetting("fModeIgnoreCase")
         @keyLength = @getKeyLength( links.length )
 
         for elem,i in links

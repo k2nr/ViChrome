@@ -105,6 +105,9 @@ g.model =
     enterInsertMode : ->
         g.logger.d "enterInsertMode"
         @changeMode new g.InsertMode
+    enterEmergencyMode : ->
+        g.logger.d "enterEmergencyMode"
+        @changeMode new g.EmergencyMode
 
     enterCommandMode : (executer, sources)->
         mode = new g.CommandMode
@@ -127,11 +130,12 @@ g.model =
         g.logger.d "enterFMode"
         @changeMode( (new g.FMode).setOption( opt ) )
 
-    isInNormalMode  : -> @curMode.getName() == "NormalMode"
-    isInInsertMode  : -> @curMode.getName() == "InsertMode"
-    isInSearchMode  : -> @curMode.getName() == "SearchMode"
-    isInCommandMode : -> @curMode.getName() == "CommandMode"
-    isInFMode       : -> @curMode.getName() == "FMode"
+    isInNormalMode    : -> @curMode.getName() == "NormalMode"
+    isInInsertMode    : -> @curMode.getName() == "InsertMode"
+    isInSearchMode    : -> @curMode.getName() == "SearchMode"
+    isInCommandMode   : -> @curMode.getName() == "CommandMode"
+    isInFMode         : -> @curMode.getName() == "FMode"
+    isInEmergencyMode : -> @curMode.getName() == "EmergencyMode"
 
     goNextSearchResult : (reverse) ->
         unless @searcher? then return
@@ -151,7 +155,7 @@ g.model =
         g.view.hideStatusLine()
         unless @isInNormalMode() then @enterNormalMode()
 
-    onBlur : -> @curMode.blur()
+    onBlur : (target) -> @curMode.blur( target )
 
     prePostKeyEvent : (key, ctrl, alt, meta) ->
         @disAutoFocus = false
@@ -229,19 +233,22 @@ g.model =
             when "aliases" then @getAlias = getAliasFirst
 
     onFocus : (target) ->
-        if @isInCommandMode() or @isInSearchMode()
-            g.logger.d "onFocus:current mode is command or search.do nothing"
+        if @isInCommandMode() or @isInSearchMode() or @isInEmergencyMode()
+            g.logger.d "onFocus:nothing should be done in the cur mode"
             return
 
         if @disAutoFocus
             setTimeout( ( => @disAutoFocus = false ) , 500)
             @enterNormalMode()
             g.view.blurActiveElement()
+            return
+
+        if g.util.isEmbededObject target
+            @enterEmergencyMode()
+        else if g.util.isEditable target
+            @enterInsertMode()
         else
-            if g.util.isEditable target
-                @enterInsertMode()
-            else
-                @enterNormalMode()
+            @enterNormalMode()
 
     getKeyMapping : -> @curMode.getKeyMapping()
 

@@ -135,6 +135,10 @@
       g.logger.d("enterInsertMode");
       return this.changeMode(new g.InsertMode);
     },
+    enterEmergencyMode: function() {
+      g.logger.d("enterEmergencyMode");
+      return this.changeMode(new g.EmergencyMode);
+    },
     enterCommandMode: function(executer, sources) {
       var mode;
       mode = new g.CommandMode;
@@ -173,6 +177,9 @@
     isInFMode: function() {
       return this.curMode.getName() === "FMode";
     },
+    isInEmergencyMode: function() {
+      return this.curMode.getName() === "EmergencyMode";
+    },
     goNextSearchResult: function(reverse) {
       if (this.searcher == null) {
         return;
@@ -194,8 +201,8 @@
         return this.enterNormalMode();
       }
     },
-    onBlur: function() {
-      return this.curMode.blur();
+    onBlur: function(target) {
+      return this.curMode.blur(target);
     },
     prePostKeyEvent: function(key, ctrl, alt, meta) {
       this.disAutoFocus = false;
@@ -284,8 +291,8 @@
       }
     },
     onFocus: function(target) {
-      if (this.isInCommandMode() || this.isInSearchMode()) {
-        g.logger.d("onFocus:current mode is command or search.do nothing");
+      if (this.isInCommandMode() || this.isInSearchMode() || this.isInEmergencyMode()) {
+        g.logger.d("onFocus:nothing should be done in the cur mode");
         return;
       }
       if (this.disAutoFocus) {
@@ -293,13 +300,15 @@
           return this.disAutoFocus = false;
         }, this)), 500);
         this.enterNormalMode();
-        return g.view.blurActiveElement();
+        g.view.blurActiveElement();
+        return;
+      }
+      if (g.util.isEmbededObject(target)) {
+        return this.enterEmergencyMode();
+      } else if (g.util.isEditable(target)) {
+        return this.enterInsertMode();
       } else {
-        if (g.util.isEditable(target)) {
-          return this.enterInsertMode();
-        } else {
-          return this.enterNormalMode();
-        }
+        return this.enterNormalMode();
       }
     },
     getKeyMapping: function() {
