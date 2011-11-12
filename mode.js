@@ -654,7 +654,7 @@
           left = 0;
         }
         div = $('<span id="vichromehint" />').css("top", top).css("left", left).html(hint.key);
-        $(document.body).append(div);
+        $('html').append(div);
       }
       return g.view.setStatusLineText('f Mode : ');
     };

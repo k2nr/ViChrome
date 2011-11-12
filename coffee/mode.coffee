@@ -415,7 +415,7 @@ class g.FMode extends g.Mode
             top = 0 if top < 0
             left = 0 if left < 0
             div = $( '<span id="vichromehint" />' ).css("top",  top).css("left", left).html(hint.key)
-            $(document.body).append(div)
+            $('html').append(div)
 
         g.view.setStatusLineText 'f Mode : '
 
