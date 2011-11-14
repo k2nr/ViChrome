@@ -10,7 +10,7 @@
     this.vichrome = {};
   }
   g = this.vichrome;
-  g.VICHROME_VERSION = "0.6.3";
+  g.VICHROME_VERSION = "0.7.0";
   g.object = function(obj) {
     var F;
     F = function() {};
@@ -56,7 +56,7 @@
     FATAL: 4,
     NONE: 5
   };
-  g.LOG_LEVEL = g.logLevels.DEBUG;
+  g.LOG_LEVEL = g.logLevels.ERROR;
   levels = g.logLevels;
   g.logger = {
     printLog: function(a, o) {
