@@ -46,11 +46,16 @@ class g.EventHandler
         g.logger.d "onFocus", e.target
         @model.onFocus e.target
 
+    onMouseDown : (e) ->
+        g.logger.d "onFocus", e
+        @model.onMouseDown e
+
     addWindowListeners : ->
         document.addEventListener("keydown" , ((e) => @onKeyDown(e)) , true)
-        document.addEventListener("keypress" , ((e) => @onKeyPress(e)) , true)
+        document.addEventListener("keypress", ((e) => @onKeyPress(e)) , true)
         document.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
         document.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
+        document.addEventListener("mousedown" , ((e) => @onMouseDown(e)) , true)
 
     addExtListener : ->
         chrome.extension.onRequest.addListener( (req, sender, sendResponse) =>

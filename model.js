@@ -311,6 +311,9 @@
         return this.enterNormalMode();
       }
     },
+    onMouseDown: function(e) {
+      return this.disAutoFocus = false;
+    },
     getKeyMapping: function() {
       return this.curMode.getKeyMapping();
     },

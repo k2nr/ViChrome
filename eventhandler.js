@@ -55,6 +55,10 @@
       g.logger.d("onFocus", e.target);
       return this.model.onFocus(e.target);
     };
+    EventHandler.prototype.onMouseDown = function(e) {
+      g.logger.d("onFocus", e);
+      return this.model.onMouseDown(e);
+    };
     EventHandler.prototype.addWindowListeners = function() {
       document.addEventListener("keydown", (__bind(function(e) {
         return this.onKeyDown(e);
@@ -65,8 +69,11 @@
       document.addEventListener("focus", (__bind(function(e) {
         return this.onFocus(e);
       }, this)), true);
-      return document.addEventListener("blur", (__bind(function(e) {
+      document.addEventListener("blur", (__bind(function(e) {
         return this.onBlur(e);
+      }, this)), true);
+      return document.addEventListener("mousedown", (__bind(function(e) {
+        return this.onMouseDown(e);
       }, this)), true);
     };
     EventHandler.prototype.addExtListener = function() {

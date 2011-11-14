@@ -250,6 +250,9 @@ g.model =
         else
             @enterNormalMode()
 
+    onMouseDown : (e) ->
+        @disAutoFocus = false;
+
     getKeyMapping : -> @curMode.getKeyMapping()
 
     onInitEnabled : ( msg ) ->
