@@ -279,9 +279,19 @@ g.bg =
         @reqOpenNewTab( req )
 
     reqTopFrame : (req, response, sender) ->
-        req.frameID = @tabHistory.getTopFrameID(sender.tab)
         req.command = req.innerCommand
-        chrome.tabs.sendRequest( sender.tab.id, req )
+        req.frameID = @tabHistory.getTopFrameID(sender.tab)
+
+        if req.frameID?
+            chrome.tabs.sendRequest( sender.tab.id, req )
+        else
+            g.logger.e "can't send request to top frame: frame id is invalid"
+            o = {}
+            o.error = true
+            o.errorMsg = "something's wrong.try to reload page"
+
+            response o
+            return true
         false
 
     reqPassToFrame : (req, response, sender) ->
@@ -292,7 +302,18 @@ g.bg =
     reqSendToCommandBox : (req, response, sender) ->
         req.command = req.innerCommand
         req.frameID = @tabHistory.getCommandBoxID(sender.tab)
-        chrome.tabs.sendRequest( sender.tab.id, req )
+
+        if req.frameID?
+            chrome.tabs.sendRequest( sender.tab.id, req )
+        else
+            g.logger.e "can't send request to command box: frame id is invalid"
+            o = {}
+            o.error = true
+            o.errorMsg = "Can't open commandbox.try to reload page"
+
+            response o
+            return true
+
         false
 
     reqGetCommandTable : (req, response, sender) ->

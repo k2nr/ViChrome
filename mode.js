@@ -395,7 +395,9 @@
       msg.keyMap = g.extendDeep(this.getKeyMapping());
       msg.aliases = g.extendDeep(g.model.getAlias());
       msg.incSearch = this.opt.incSearch;
-      chrome.extension.sendRequest(msg);
+      chrome.extension.sendRequest(msg, function(m) {
+        return g.handler.onCommandResponse(m);
+      });
       g.view.showCommandFrame();
       return g.view.setStatusLineText("");
     };
@@ -454,7 +456,9 @@
       msg.modeChar = ':';
       msg.keyMap = g.extendDeep(this.getKeyMapping());
       msg.aliases = g.extendDeep(g.model.getAlias());
-      chrome.extension.sendRequest(msg);
+      chrome.extension.sendRequest(msg, function(m) {
+        return g.handler.onCommandResponse(m);
+      });
       return g.view.showCommandFrame();
     };
     CommandMode.prototype.exit = function() {

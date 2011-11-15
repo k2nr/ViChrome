@@ -43,26 +43,40 @@
       }
     };
     TabHistory.prototype.setTopFrameID = function(tab, id) {
-      return this.openTabs[tab.windowId][tab.id].topFrame = id;
+      var _ref2;
+      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+        return this.openTabs[tab.windowId][tab.id].topFrame = id;
+      }
     };
     TabHistory.prototype.getTopFrameID = function(tab) {
-      return this.openTabs[tab.windowId][tab.id].topFrame;
+      var _ref2, _ref3;
+      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.topFrame : void 0 : void 0;
     };
     TabHistory.prototype.setCommandBoxID = function(tab, id) {
-      return this.openTabs[tab.windowId][tab.id].comBoxID = id;
+      var _ref2;
+      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+        return this.openTabs[tab.windowId][tab.id].comBoxID = id;
+      }
     };
     TabHistory.prototype.getCommandBoxID = function(tab) {
-      return this.openTabs[tab.windowId][tab.id].comBoxID;
+      var _ref2, _ref3;
+      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.comBoxID : void 0 : void 0;
     };
     TabHistory.prototype.setFrames = function(tab, frames) {
-      return this.openTabs[tab.windowId][tab.id].frames = frames;
+      var _ref2;
+      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+        return this.openTabs[tab.windowId][tab.id].frames = frames;
+      }
     };
     TabHistory.prototype.addFrames = function(tab) {
-      return ++this.openTabs[tab.windowId][tab.id].frames;
+      var _ref2;
+      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+        return ++this.openTabs[tab.windowId][tab.id].frames;
+      }
     };
     TabHistory.prototype.getFrames = function(tab) {
-      var _ref2;
-      return (_ref2 = this.openTabs[tab.windowId][tab.id]) != null ? _ref2.frames : void 0;
+      var _ref2, _ref3;
+      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.frames : void 0 : void 0;
     };
     TabHistory.prototype.initTabHist = function(winId) {
       return chrome.windows.getAll({

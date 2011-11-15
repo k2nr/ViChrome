@@ -394,9 +394,19 @@
       return this.reqOpenNewTab(req);
     },
     reqTopFrame: function(req, response, sender) {
-      req.frameID = this.tabHistory.getTopFrameID(sender.tab);
+      var o;
       req.command = req.innerCommand;
-      chrome.tabs.sendRequest(sender.tab.id, req);
+      req.frameID = this.tabHistory.getTopFrameID(sender.tab);
+      if (req.frameID != null) {
+        chrome.tabs.sendRequest(sender.tab.id, req);
+      } else {
+        g.logger.e("can't send request to top frame: frame id is invalid");
+        o = {};
+        o.error = true;
+        o.errorMsg = "something's wrong.try to reload page";
+        response(o);
+        return true;
+      }
       return false;
     },
     reqPassToFrame: function(req, response, sender) {
@@ -405,9 +415,19 @@
       return false;
     },
     reqSendToCommandBox: function(req, response, sender) {
+      var o;
       req.command = req.innerCommand;
       req.frameID = this.tabHistory.getCommandBoxID(sender.tab);
-      chrome.tabs.sendRequest(sender.tab.id, req);
+      if (req.frameID != null) {
+        chrome.tabs.sendRequest(sender.tab.id, req);
+      } else {
+        g.logger.e("can't send request to command box: frame id is invalid");
+        o = {};
+        o.error = true;
+        o.errorMsg = "Can't open commandbox.try to reload page";
+        response(o);
+        return true;
+      }
       return false;
     },
     reqGetCommandTable: function(req, response, sender) {

@@ -126,7 +126,12 @@
     };
     EventHandler.prototype.onCommandResponse = function(msg) {
       if ((msg != null ? msg.command : void 0) === "Settings") {
-        return this.model.onSettings(msg);
+        this.model.onSettings(msg);
+      }
+      if (((msg != null ? msg.error : void 0) != null) && msg.error === true) {
+        g.logger.e("onCommandResponse: error occured!!!", msg);
+        g.model.curMode.reqEscape();
+        return g.view.setStatusLineText("Error:" + msg.errorMsg, 3000);
       }
     };
     return EventHandler;

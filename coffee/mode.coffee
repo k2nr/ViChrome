@@ -227,7 +227,7 @@ class g.SearchMode extends g.Mode
         msg.keyMap = g.extendDeep( @getKeyMapping() )
         msg.aliases = g.extendDeep( g.model.getAlias() )
         msg.incSearch = @opt.incSearch
-        chrome.extension.sendRequest( msg )
+        chrome.extension.sendRequest( msg, (m)-> g.handler.onCommandResponse(m) )
         g.view.showCommandFrame()
         g.view.setStatusLineText ""
 
@@ -274,7 +274,7 @@ class g.CommandMode extends g.Mode
         msg.modeChar = ':'
         msg.keyMap = g.extendDeep( @getKeyMapping() )
         msg.aliases = g.extendDeep( g.model.getAlias() )
-        chrome.extension.sendRequest( msg )
+        chrome.extension.sendRequest( msg, (m)-> g.handler.onCommandResponse(m) )
         g.view.showCommandFrame()
 
     exit : ->

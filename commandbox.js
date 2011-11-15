@@ -871,6 +871,7 @@
     }
   };
   $(document).ready(function() {
+    g.logger.d("commandbox ready", this);
     chrome.extension.sendRequest({
       command: "InitCommandFrame"
     }, function(msg) {

@@ -675,6 +675,7 @@ onRequest = (req) ->
                           .setCandidateBox( candBox )
 
 $(document).ready( ->
+    g.logger.d "commandbox ready", this
     chrome.extension.sendRequest( { command : "InitCommandFrame" }, (msg)->
         frameID = msg.frameID
         opt.enableCompletion = msg.enableCompletion
