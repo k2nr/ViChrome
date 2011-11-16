@@ -98,9 +98,12 @@ class g.EventHandler
         @model.onInitEnabled( msg )
 
     onCommandResponse : (msg) ->
-        if msg?.command == "Settings" then @model.onSettings msg
+        unless msg? then return
 
-        if msg?.error? and msg.error == true
+        if msg.command == "Settings"
+            @model.onSettings msg
+
+        if msg.error? and msg.error == true
             g.logger.e "onCommandResponse: error occured!!!", msg
             g.model.curMode.reqEscape()
             g.view.setStatusLineText "Error:" + msg.errorMsg, 3000

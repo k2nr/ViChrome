@@ -209,7 +209,7 @@ class g.SearchMode extends g.Mode
         @searcher.finalize()
         g.model.enterNormalMode();
 
-    prePostKeyEvent : (key, ctrl, alt, meta) ->
+    prePostKeyEvent : (key, ctrl, alt, meta) -> true
 
     escape : -> @cancelSearch()
 
@@ -254,8 +254,7 @@ class g.CommandMode extends g.Mode
             g.view.setStatusLineText("Command Not Found : " + this.executer.get(), 2000);
         g.model.enterNormalMode()
 
-    prePostKeyEvent : (key, ctrl, alt, meta) ->
-        true
+    prePostKeyEvent : (key, ctrl, alt, meta) -> true
 
     enter : ->
         if @executer?
@@ -298,7 +297,7 @@ class g.EmergencyMode extends g.Mode
     exit  : -> g.view.hideStatusLine()
 
     blur  : (target) ->
-        if g.util.isEmbededObject target
+        if g.util.isEmbededFlash target
             g.model.enterNormalMode()
 
     getKeyMapping : ->

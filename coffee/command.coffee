@@ -76,8 +76,8 @@ class g.CommandExecuter
         BackHist              : triggerInsideContent
         ForwardHist           : triggerInsideContent
         GoCommandMode         : passToTopFrame
-        GoSearchModeForward   : triggerInsideContent
-        GoSearchModeBackward  : triggerInsideContent
+        GoSearchModeForward   : passToTopFrame
+        GoSearchModeBackward  : passToTopFrame
         GoLinkTextSearchMode  : triggerInsideContent
         GoFMode               : triggerInsideContent
         GoEmergencyMode       : triggerInsideContent

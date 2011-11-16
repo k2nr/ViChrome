@@ -375,7 +375,9 @@
       this.searcher.finalize();
       return g.model.enterNormalMode();
     };
-    SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {};
+    SearchMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
+      return true;
+    };
     SearchMode.prototype.escape = function() {
       return this.cancelSearch();
     };
@@ -499,7 +501,7 @@
       return g.view.hideStatusLine();
     };
     EmergencyMode.prototype.blur = function(target) {
-      if (g.util.isEmbededObject(target)) {
+      if (g.util.isEmbededFlash(target)) {
         return g.model.enterNormalMode();
       }
     };

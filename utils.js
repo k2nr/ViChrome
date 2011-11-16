@@ -107,12 +107,18 @@
     }
     return false;
   };
-  g.util.isEmbededObject = function(target) {
+  g.util.isEmbededFlash = function(target) {
     var _ref2;
     if (target == null) {
       return false;
     }
-    if (_ref2 = target.nodeName, __indexOf.call(objectList, _ref2) >= 0) {
+    if (_ref2 = target.nodeName, __indexOf.call(objectList, _ref2) < 0) {
+      return false;
+    }
+    if (target.type.indexOf("x-shockwave-flash") >= 0) {
+      return true;
+    }
+    if (target.innerHTML.indexOf("x-shockwave-flash") >= 0) {
       return true;
     }
     return false;

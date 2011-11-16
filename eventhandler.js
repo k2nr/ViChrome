@@ -125,10 +125,13 @@
       return this.model.onInitEnabled(msg);
     };
     EventHandler.prototype.onCommandResponse = function(msg) {
-      if ((msg != null ? msg.command : void 0) === "Settings") {
+      if (msg == null) {
+        return;
+      }
+      if (msg.command === "Settings") {
         this.model.onSettings(msg);
       }
-      if (((msg != null ? msg.error : void 0) != null) && msg.error === true) {
+      if ((msg.error != null) && msg.error === true) {
         g.logger.e("onCommandResponse: error occured!!!", msg);
         g.model.curMode.reqEscape();
         return g.view.setStatusLineText("Error:" + msg.errorMsg, 3000);

@@ -85,7 +85,7 @@ class g.Surface
 
     attach : (w) ->
         if top?
-            $('body').append(w)
+            $('html').append(w)
         this
 
     activateStatusLine : ->
@@ -191,8 +191,8 @@ class g.Surface
         document.activeElement?.blur()
         this
     hideCommandFrame : ->
-        @iframe.hide()
+        @iframe?.hide()
         window.focus()
 
     showCommandFrame : ->
-        @iframe.show()
+        @iframe?.show()

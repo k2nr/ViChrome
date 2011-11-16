@@ -243,7 +243,7 @@ g.model =
             g.view.blurActiveElement()
             return
 
-        if g.util.isEmbededObject target
+        if g.util.isEmbededFlash target
             @enterEmergencyMode()
         else if g.util.isEditable target
             @enterInsertMode()

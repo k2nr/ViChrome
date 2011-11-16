@@ -303,7 +303,7 @@
         g.view.blurActiveElement();
         return;
       }
-      if (g.util.isEmbededObject(target)) {
+      if (g.util.isEmbededFlash(target)) {
         return this.enterEmergencyMode();
       } else if (g.util.isEditable(target)) {
         return this.enterInsertMode();

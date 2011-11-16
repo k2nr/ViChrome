@@ -113,7 +113,7 @@
     };
     Surface.prototype.attach = function(w) {
       if (typeof top !== "undefined" && top !== null) {
-        $('body').append(w);
+        $('html').append(w);
       }
       return this;
     };
@@ -252,11 +252,15 @@
       return this;
     };
     Surface.prototype.hideCommandFrame = function() {
-      this.iframe.hide();
+      var _ref2;
+      if ((_ref2 = this.iframe) != null) {
+        _ref2.hide();
+      }
       return window.focus();
     };
     Surface.prototype.showCommandFrame = function() {
-      return this.iframe.show();
+      var _ref2;
+      return (_ref2 = this.iframe) != null ? _ref2.show() : void 0;
     };
     return Surface;
   })();

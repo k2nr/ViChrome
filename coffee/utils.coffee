@@ -88,10 +88,13 @@ g.util.isEditable = (target) ->
 
     return false
 
-g.util.isEmbededObject = (target) ->
+g.util.isEmbededFlash = (target) ->
     unless target? then return false
+    unless target.nodeName in objectList then return false
 
-    if target.nodeName in objectList then return true
+    if target.type.indexOf("x-shockwave-flash") >= 0 then return true
+    if target.innerHTML.indexOf("x-shockwave-flash") >= 0 then return true
+
     false
 
 
