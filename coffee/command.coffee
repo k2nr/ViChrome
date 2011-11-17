@@ -29,9 +29,6 @@ escape = (com) -> triggerInsideContent "Escape"
 
 
 class g.CommandExecuter
-    setTargetFrame : (@targetFrame) -> this
-    getTargetFrame : -> @targetFrame
-
     commandsBeforeReady : [
         "OpenNewTab"
         "CloseCurTab"
@@ -48,8 +45,8 @@ class g.CommandExecuter
     ]
 
     commandTable :
-        Open                  : triggerInsideContent
-        OpenNewTab            : triggerInsideContent
+        Open                  : passToTopFrame
+        OpenNewTab            : passToTopFrame
         CloseCurTab           : sendToBackground
         CloseAllTabs          : sendToBackground
         MoveToNextTab         : sendToBackground
@@ -75,9 +72,9 @@ class g.CommandExecuter
         PrevSearch            : triggerInsideContent
         BackHist              : triggerInsideContent
         ForwardHist           : triggerInsideContent
-        GoCommandMode         : passToTopFrame
-        GoSearchModeForward   : passToTopFrame
-        GoSearchModeBackward  : passToTopFrame
+        GoCommandMode         : triggerInsideContent
+        GoSearchModeForward   : triggerInsideContent
+        GoSearchModeBackward  : triggerInsideContent
         GoLinkTextSearchMode  : triggerInsideContent
         GoFMode               : triggerInsideContent
         GoEmergencyMode       : triggerInsideContent
@@ -94,7 +91,7 @@ class g.CommandExecuter
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
 
-    get : -> @command
+    get : -> @command ? ""
     getArgs : -> @args
     setDescription : (@description) -> this
     getDescription : -> @description

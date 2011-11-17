@@ -253,8 +253,8 @@
       };
       return g.model.enterFMode(opt);
     };
-    Mode.prototype.reqGoCommandMode = function(args, sender) {
-      var executer, sources;
+    Mode.prototype.reqGoCommandMode = function(args) {
+      var sources;
       sources = [
         {
           "class": "CandSourceCommand"
@@ -262,8 +262,7 @@
           "class": "CandSourceAlias"
         }
       ];
-      executer = (new g.CommandExecuter).setTargetFrame(sender);
-      return g.model.enterCommandMode(executer, sources);
+      return g.model.enterCommandMode(new g.CommandExecuter, sources);
     };
     Mode.prototype.reqFocusOnFirstInput = function() {
       g.model.setPageMark();
@@ -382,29 +381,24 @@
       return this.cancelSearch();
     };
     SearchMode.prototype.enter = function() {
-      var msg, sources;
+      var param, sources;
       sources = [
         {
           "class": "CandSourceSearchHist"
         }
       ];
-      msg = {};
-      msg.command = "SendToCommandBox";
-      msg.innerCommand = "GoSearchMode";
-      msg.sources = sources;
-      msg.sender = g.model.frameID;
-      msg.modeChar = this.backward === true ? "?" : "/";
-      msg.keyMap = g.extendDeep(this.getKeyMapping());
-      msg.aliases = g.extendDeep(g.model.getAlias());
-      msg.incSearch = this.opt.incSearch;
-      chrome.extension.sendRequest(msg, function(m) {
-        return g.handler.onCommandResponse(m);
-      });
-      g.view.showCommandFrame();
-      return g.view.setStatusLineText("");
+      g.view.setStatusLineText("");
+      param = {
+        sources: sources,
+        mode: 'Search',
+        modeChar: this.backward === true ? '?' : '/',
+        incSearch: this.opt.incSearch
+      };
+      return g.model.openCommandBox(param);
     };
     SearchMode.prototype.exit = function() {
-      return g.view.hideCommandFrame();
+      g.view.hideCommandFrame();
+      return window.focus();
     };
     SearchMode.prototype.notifyInputUpdated = function(msg) {
       return this.searcher.updateInput(msg.word);
@@ -440,40 +434,36 @@
       return true;
     };
     CommandMode.prototype.enter = function() {
-      var msg;
-      if (this.executer != null) {
-        if (this.executer.getDescription() != null) {
-          g.view.setStatusLineText(this.executer.getDescription());
-        } else {
-          g.view.setStatusLineText(this.executer.get());
-        }
-      } else {
-        g.view.setStatusLineText("");
+      var param, _ref2;
+      if ((_ref2 = this.executer) == null) {
+        this.executer = new g.CommandExecuter;
       }
-      msg = {};
-      msg.command = "SendToCommandBox";
-      msg.innerCommand = "GoCommandMode";
-      msg.sources = this.sources;
-      msg.sender = g.model.frameID;
-      msg.modeChar = ':';
-      msg.keyMap = g.extendDeep(this.getKeyMapping());
-      msg.aliases = g.extendDeep(g.model.getAlias());
-      chrome.extension.sendRequest(msg, function(m) {
-        return g.handler.onCommandResponse(m);
-      });
-      return g.view.showCommandFrame();
+      if (this.executer.getDescription() != null) {
+        g.view.setStatusLineText(this.executer.getDescription());
+      } else {
+        g.view.setStatusLineText(this.executer.get());
+      }
+      param = {
+        sources: this.sources,
+        mode: 'Command',
+        modeChar: ':'
+      };
+      return g.model.openCommandBox(param);
     };
     CommandMode.prototype.exit = function() {
-      return g.view.hideCommandFrame();
+      g.view.hideCommandFrame();
+      return window.focus();
     };
     CommandMode.prototype.getKeyMapping = function() {
       return g.model.getCMap();
     };
     CommandMode.prototype.setExecuter = function(executer) {
       this.executer = executer;
+      return this;
     };
     CommandMode.prototype.setSources = function(sources) {
       this.sources = sources;
+      return this;
     };
     return CommandMode;
   })();

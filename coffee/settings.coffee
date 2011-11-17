@@ -52,13 +52,17 @@ nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
 \n
 #nmap F :GoFMode --newtab --continuous\n
 \n
-# pagecmd offers you page specific key mapping.\n
+## pagecmd offers you page specific key mapping.\n
 # in this example you can use <C-l>, <C-h> for moving between tabs\n
 # on all web pages regardless of your ignored list setting\n
 # because pagecmd has higher priority than ignored URLs.\n
-#pagecmd * nmap <C-l> :MoveToNextTab\n
-#pagecmd * nmap <C-h> :MoveToPrevTab\n
-
+pagecmd * nmap <C-l> :MoveToNextTab\n
+pagecmd * nmap <C-h> :MoveToPrevTab\n
+\n
+# almost all Vichrome functions don't work properly for pdf contents\n
+# so it's useful to enable default key bindings for pdf file.\n
+pagecmd *.pdf nmap <C-f> <NOP>\n
+\n
 # if you want to use twitter web's key binding, write settings like below\n
 #pagecmd http*://twitter.com/* nmap f <NOP>\n
 #pagecmd http*://twitter.com/* nmap r <NOP>\n"

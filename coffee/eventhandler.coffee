@@ -22,7 +22,7 @@ class g.EventHandler
     # return true if the key event can be posted.
     getHandlableKey : (e) ->
         if g.KeyManager.isOnlyModifier( e.keyIdentifier, e.ctrlKey, e.shiftKey, e.altKey, e.metaKey )
-            g.logger.d "getHandlableKey:only modefier"
+            g.logger.d "getHandlableKey:only modifier"
             return undefined
 
         code = g.KeyManager.getLocalKeyCode( e.keyIdentifier, e.ctrlKey, e.shiftKey, e.altKey, e.metaKey )
@@ -75,6 +75,9 @@ class g.EventHandler
                 for a,com of g.model.getAlias()
                     aliases[a] = com
                 sendResponse aliases
+            else if req.command == "OpenCommandBox"
+                g.model.openCommandBox( req )
+                sendResponse()
             else if req.command == "ExecuteCommand"
                 g.model.curMode.reqExecuteCommand( req )
                 sendResponse()
@@ -84,8 +87,17 @@ class g.EventHandler
             else if req.command == "NotifySearchFixed"
                 g.model.curMode.notifySearchFixed( req )
                 sendResponse()
+            else if req.command == "HideCommandFrame"
+                g.view.hideCommandFrame()
+                sendResponse()
+            else if req.command == "SetStatusLine"
+                g.view.setStatusLineText(req.text, req.timeout)
+                sendResponse()
+            else if req.command == "HideStatusLine"
+                g.view.hideStatusLine()
+                sendResponse()
             else
-                g.model.triggerCommand( "req#{req.command}", req.args, req.senderFrameID )
+                g.model.triggerCommand( "req#{req.command}", req.args )
                 sendResponse()
         )
 

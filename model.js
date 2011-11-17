@@ -142,12 +142,7 @@
     enterCommandMode: function(executer, sources) {
       var mode;
       mode = new g.CommandMode;
-      if (executer != null) {
-        mode.setExecuter(executer);
-      }
-      if (sources != null) {
-        mode.setSources(sources);
-      }
+      mode.setExecuter(executer).setSources(sources);
       g.logger.d("enterCommandMode");
       this.cancelSearchHighlight();
       return this.changeMode(mode);
@@ -262,9 +257,9 @@
     handleKey: function(msg) {
       return this.commandManager.handleKey(msg, this.getKeyMapping());
     },
-    triggerCommand: function(method, args, sender) {
+    triggerCommand: function(method, args) {
       if (this.curMode[method] != null) {
-        return this.curMode[method](args, sender);
+        return this.curMode[method](args);
       } else {
         return g.logger.e("INVALID command!:", method);
       }
@@ -349,6 +344,28 @@
         g.view.blurActiveElement();
         return this.enterNormalMode();
       }
+    },
+    openCommandBox: function(param) {
+      var _ref2, _ref3, _ref4;
+      if (typeof top !== "undefined" && top !== null) {
+        param.command = "SendToCommandBox";
+        g.view.showCommandFrame();
+      } else {
+        param.command = "TopFrame";
+      }
+      param.innerCommand = 'OpenCommandBox';
+      if ((_ref2 = param.sender) == null) {
+        param.sender = this.frameID;
+      }
+      if ((_ref3 = param.keyMap) == null) {
+        param.keyMap = g.extendDeep(this.getCMap());
+      }
+      if ((_ref4 = param.aliases) == null) {
+        param.aliases = g.extendDeep(this.getAlias());
+      }
+      return chrome.extension.sendRequest(param, function(msg) {
+        return g.handler.onCommandResponse(msg);
+      });
     }
   };
   $(document).ready(function() {

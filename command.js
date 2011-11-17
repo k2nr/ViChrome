@@ -43,17 +43,10 @@
   };
   g.CommandExecuter = (function() {
     function CommandExecuter() {}
-    CommandExecuter.prototype.setTargetFrame = function(targetFrame) {
-      this.targetFrame = targetFrame;
-      return this;
-    };
-    CommandExecuter.prototype.getTargetFrame = function() {
-      return this.targetFrame;
-    };
     CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "OpenOptionPage", "RestoreTab"];
     CommandExecuter.prototype.commandTable = {
-      Open: triggerInsideContent,
-      OpenNewTab: triggerInsideContent,
+      Open: passToTopFrame,
+      OpenNewTab: passToTopFrame,
       CloseCurTab: sendToBackground,
       CloseAllTabs: sendToBackground,
       MoveToNextTab: sendToBackground,
@@ -79,9 +72,9 @@
       PrevSearch: triggerInsideContent,
       BackHist: triggerInsideContent,
       ForwardHist: triggerInsideContent,
-      GoCommandMode: passToTopFrame,
-      GoSearchModeForward: passToTopFrame,
-      GoSearchModeBackward: passToTopFrame,
+      GoCommandMode: triggerInsideContent,
+      GoSearchModeForward: triggerInsideContent,
+      GoSearchModeBackward: triggerInsideContent,
       GoLinkTextSearchMode: triggerInsideContent,
       GoFMode: triggerInsideContent,
       GoEmergencyMode: triggerInsideContent,
@@ -98,7 +91,8 @@
       "_ChangeLogLevel": triggerInsideContent
     };
     CommandExecuter.prototype.get = function() {
-      return this.command;
+      var _ref2;
+      return (_ref2 = this.command) != null ? _ref2 : "";
     };
     CommandExecuter.prototype.getArgs = function() {
       return this.args;

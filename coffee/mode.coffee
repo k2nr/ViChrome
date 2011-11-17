@@ -33,7 +33,7 @@ class g.Mode
                 ]
 
         executer = (new g.CommandExecuter).setDescription(dscr).set(baseCom)
-        g.model.enterCommandMode(executer, sources)
+        g.model.enterCommandMode( executer, sources )
 
     reqOpen : (args) ->
         urls = []
@@ -128,14 +128,14 @@ class g.Mode
         opt = newTab : newTab, continuous : continuous
         g.model.enterFMode( opt )
 
-    reqGoCommandMode : (args, sender) ->
+
+    reqGoCommandMode : (args) ->
         sources = [
             { class : "CandSourceCommand" }
             { class : "CandSourceAlias" }
         ]
-        executer = (new g.CommandExecuter).setTargetFrame(sender)
+        g.model.enterCommandMode( new g.CommandExecuter, sources )
 
-        g.model.enterCommandMode( executer, sources )
 
     reqFocusOnFirstInput : ->
         g.model.setPageMark()
@@ -157,7 +157,6 @@ class g.Mode
             $(document.body).removeClass('vichrome-barrelroll')
         , 2000 )
 
-
     req_ChangeLogLevel : (args) ->
         if not args or args.length < 1 then return
 
@@ -171,7 +170,8 @@ class g.Mode
 class g.NormalMode extends g.Mode
     getName : -> "NormalMode"
     prePostKeyEvent : (key, ctrl, alt, meta) -> true
-    escape : -> g.model.cancelSearchHighlight()
+    escape : ->
+        g.model.cancelSearchHighlight()
     enter : ->
     reqNextSearch : -> g.model.goNextSearchResult( false )
     reqPrevSearch : -> g.model.goNextSearchResult( true )
@@ -218,21 +218,17 @@ class g.SearchMode extends g.Mode
             { class : "CandSourceSearchHist" }
         ]
 
-        msg = {}
-        msg.command  = "SendToCommandBox"
-        msg.innerCommand = "GoSearchMode"
-        msg.sources = sources
-        msg.sender = g.model.frameID
-        msg.modeChar = if @backward == true then "?" else "/"
-        msg.keyMap = g.extendDeep( @getKeyMapping() )
-        msg.aliases = g.extendDeep( g.model.getAlias() )
-        msg.incSearch = @opt.incSearch
-        chrome.extension.sendRequest( msg, (m)-> g.handler.onCommandResponse(m) )
-        g.view.showCommandFrame()
         g.view.setStatusLineText ""
+        param =
+            sources      : sources
+            mode         : 'Search'
+            modeChar     : if @backward == true then '?' else '/'
+            incSearch    : @opt.incSearch
+        g.model.openCommandBox( param )
 
     exit : ->
         g.view.hideCommandFrame()
+        window.focus()
 
     notifyInputUpdated : (msg) ->
         @searcher.updateInput(msg.word)
@@ -257,32 +253,26 @@ class g.CommandMode extends g.Mode
     prePostKeyEvent : (key, ctrl, alt, meta) -> true
 
     enter : ->
-        if @executer?
-            if @executer.getDescription()?
-                g.view.setStatusLineText @executer.getDescription()
-            else
-                g.view.setStatusLineText @executer.get()
+        @executer ?= new g.CommandExecuter
+        if @executer.getDescription()?
+            g.view.setStatusLineText( @executer.getDescription() )
         else
-            g.view.setStatusLineText ""
+            g.view.setStatusLineText( @executer.get() )
 
-        msg = {}
-        msg.command  = "SendToCommandBox"
-        msg.innerCommand = "GoCommandMode"
-        msg.sources = @sources
-        msg.sender = g.model.frameID
-        msg.modeChar = ':'
-        msg.keyMap = g.extendDeep( @getKeyMapping() )
-        msg.aliases = g.extendDeep( g.model.getAlias() )
-        chrome.extension.sendRequest( msg, (m)-> g.handler.onCommandResponse(m) )
-        g.view.showCommandFrame()
+        param =
+            sources      : @sources
+            mode         : 'Command'
+            modeChar     : ':'
+        g.model.openCommandBox( param )
 
     exit : ->
         g.view.hideCommandFrame()
+        window.focus()
 
     getKeyMapping : -> g.model.getCMap()
 
-    setExecuter : (@executer) ->
-    setSources : (@sources) ->
+    setExecuter : (@executer) -> this
+    setSources  : (@sources) -> this
 
 class g.EmergencyMode extends g.Mode
     getName : -> "EmergencyMode"

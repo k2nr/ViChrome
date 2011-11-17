@@ -619,6 +619,11 @@ searchUpdatedListener = (word) ->
 
 commandFixedListener = (word) ->
     chrome.extension.sendRequest( {
+        command      : "TopFrame"
+        innerCommand : "HideCommandFrame"
+    })
+
+    chrome.extension.sendRequest( {
         command      : "PassToFrame"
         innerCommand : "ExecuteCommand"
         commandLine  : word
@@ -626,8 +631,8 @@ commandFixedListener = (word) ->
     })
 
 onRequest = (req) ->
-    switch req.command
-        when "GoCommandMode"
+    switch req.mode
+        when "Command"
             sender = req.sender
             window.focus()
 
@@ -649,7 +654,7 @@ onRequest = (req) ->
                           .setAlias(req.aliases)
                           .setFixedListener(commandFixedListener)
                           .setCandidateBox( candBox )
-        when "GoSearchMode"
+        when "Search"
             sender = req.sender
             window.focus()
 
@@ -670,9 +675,11 @@ onRequest = (req) ->
                           .setIncremental(req.incSearch)
                           .setKeyMap(req.keyMap)
                           .setAlias(req.aliases)
-                          .addInputUpdateListener(searchUpdatedListener)
                           .setFixedListener(searchFixedListener)
                           .setCandidateBox( candBox )
+
+            if req.incSearch
+                g.commandBox.addInputUpdateListener(searchUpdatedListener)
 
 $(document).ready( ->
     g.logger.d "commandbox ready", this

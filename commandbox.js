@@ -828,6 +828,10 @@
     });
   };
   commandFixedListener = function(word) {
+    chrome.extension.sendRequest({
+      command: "TopFrame",
+      innerCommand: "HideCommandFrame"
+    });
     return chrome.extension.sendRequest({
       command: "PassToFrame",
       innerCommand: "ExecuteCommand",
@@ -837,8 +841,8 @@
   };
   onRequest = function(req) {
     var candBox, obj, reqPrefix, src, _i, _j, _len, _len2, _ref2, _ref3, _ref4, _ref5;
-    switch (req.command) {
-      case "GoCommandMode":
+    switch (req.mode) {
+      case "Command":
         sender = req.sender;
         window.focus();
         candBox = new g.CandidateBox;
@@ -853,7 +857,7 @@
           g.commandBox.detachFrom();
         }
         return g.commandBox = (new g.CommandBox).init(opt.commandBoxWidth, opt.commandBoxAlign).attachTo().show(req.modeChar).focus().setKeyMap(req.keyMap).setAlias(req.aliases).setFixedListener(commandFixedListener).setCandidateBox(candBox);
-      case "GoSearchMode":
+      case "Search":
         sender = req.sender;
         window.focus();
         candBox = new g.CandidateBox;
@@ -867,7 +871,10 @@
         if (g.commandBox != null) {
           g.commandBox.detachFrom();
         }
-        return g.commandBox = (new g.CommandBox).init(opt.commandBoxWidth, opt.commandBoxAlign).attachTo().show(req.modeChar).focus().setIncremental(req.incSearch).setKeyMap(req.keyMap).setAlias(req.aliases).addInputUpdateListener(searchUpdatedListener).setFixedListener(searchFixedListener).setCandidateBox(candBox);
+        g.commandBox = (new g.CommandBox).init(opt.commandBoxWidth, opt.commandBoxAlign).attachTo().show(req.modeChar).focus().setIncremental(req.incSearch).setKeyMap(req.keyMap).setAlias(req.aliases).setFixedListener(searchFixedListener).setCandidateBox(candBox);
+        if (req.incSearch) {
+          return g.commandBox.addInputUpdateListener(searchUpdatedListener);
+        }
     }
   };
   $(document).ready(function() {

@@ -136,6 +136,13 @@
       return this;
     };
     Surface.prototype.hideStatusLine = function() {
+      if (typeof top === "undefined" || top === null) {
+        chrome.extension.sendRequest({
+          command: "TopFrame",
+          innerCommand: "HideStatusLine"
+        });
+        return;
+      }
       if (this.slTimeout != null) {
         clearTimeout(this.slTimeout);
         this.slTimeout = void 0;
@@ -149,6 +156,15 @@
       return this;
     };
     Surface.prototype.setStatusLineText = function(text, timeout) {
+      if (typeof top === "undefined" || top === null) {
+        chrome.extension.sendRequest({
+          command: "TopFrame",
+          innerCommand: "SetStatusLine",
+          text: text,
+          timeout: timeout
+        });
+        return;
+      }
       this.activateStatusLine();
       this.statusLine.html(text);
       if (timeout) {
@@ -252,11 +268,14 @@
       return this;
     };
     Surface.prototype.hideCommandFrame = function() {
-      var _ref2;
-      if ((_ref2 = this.iframe) != null) {
-        _ref2.hide();
+      if (typeof top === "undefined" || top === null) {
+        chrome.extension.sendRequest({
+          command: "TopFrame",
+          innerCommand: "HideCommandFrame"
+        });
+        return;
       }
-      return window.focus();
+      return this.iframe.hide();
     };
     Surface.prototype.showCommandFrame = function() {
       var _ref2;

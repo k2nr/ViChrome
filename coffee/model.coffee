@@ -111,8 +111,7 @@ g.model =
 
     enterCommandMode : (executer, sources)->
         mode = new g.CommandMode
-        mode.setExecuter( executer ) if executer?
-        mode.setSources( sources ) if sources?
+        mode.setExecuter(executer).setSources(sources)
 
         g.logger.d "enterCommandMode"
         @cancelSearchHighlight()
@@ -210,9 +209,9 @@ g.model =
 
     handleKey : (msg) -> @commandManager.handleKey msg, @getKeyMapping()
 
-    triggerCommand : (method, args, sender) ->
+    triggerCommand : (method, args) ->
         if @curMode[method]?
-            @curMode[method]( args, sender )
+            @curMode[method]( args )
         else
             g.logger.e "INVALID command!:", method
 
@@ -285,6 +284,19 @@ g.model =
         else
             g.view.blurActiveElement()
             @enterNormalMode()
+
+    openCommandBox : (param) ->
+        if top?
+            param.command      = "SendToCommandBox"
+            g.view.showCommandFrame()
+        else
+            param.command      = "TopFrame"
+        param.innerCommand = 'OpenCommandBox'
+
+        param.sender  ?= @frameID
+        param.keyMap  ?= g.extendDeep( @getCMap() )
+        param.aliases ?= g.extendDeep( @getAlias() )
+        chrome.extension.sendRequest( param, (msg)-> g.handler.onCommandResponse(msg) )
 
 $(document).ready( ->
 

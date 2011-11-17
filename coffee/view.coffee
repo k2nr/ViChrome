@@ -106,6 +106,13 @@ class g.Surface
         return this
 
     hideStatusLine : ->
+        unless top?
+            chrome.extension.sendRequest( {
+                command      : "TopFrame"
+                innerCommand : "HideStatusLine"
+            })
+            return
+
         if @slTimeout?
             clearTimeout( @slTimeout )
             @slTimeout = undefined
@@ -117,6 +124,15 @@ class g.Surface
         this
 
     setStatusLineText : (text, timeout) ->
+        unless top?
+            chrome.extension.sendRequest( {
+                command      : "TopFrame"
+                innerCommand : "SetStatusLine"
+                text         : text
+                timeout      : timeout
+            })
+            return
+
         @activateStatusLine()
         @statusLine.html( text )
 
@@ -191,8 +207,13 @@ class g.Surface
         document.activeElement?.blur()
         this
     hideCommandFrame : ->
-        @iframe?.hide()
-        window.focus()
+        unless top?
+            chrome.extension.sendRequest( {
+                command      : "TopFrame"
+                innerCommand : "HideCommandFrame"
+            })
+            return
+        @iframe.hide()
 
     showCommandFrame : ->
         @iframe?.show()

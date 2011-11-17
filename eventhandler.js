@@ -31,7 +31,7 @@
     EventHandler.prototype.getHandlableKey = function(e) {
       var code;
       if (g.KeyManager.isOnlyModifier(e.keyIdentifier, e.ctrlKey, e.shiftKey, e.altKey, e.metaKey)) {
-        g.logger.d("getHandlableKey:only modefier");
+        g.logger.d("getHandlableKey:only modifier");
         return;
       }
       code = g.KeyManager.getLocalKeyCode(e.keyIdentifier, e.ctrlKey, e.shiftKey, e.altKey, e.metaKey);
@@ -101,6 +101,9 @@
             aliases[a] = com;
           }
           return sendResponse(aliases);
+        } else if (req.command === "OpenCommandBox") {
+          g.model.openCommandBox(req);
+          return sendResponse();
         } else if (req.command === "ExecuteCommand") {
           g.model.curMode.reqExecuteCommand(req);
           return sendResponse();
@@ -110,8 +113,17 @@
         } else if (req.command === "NotifySearchFixed") {
           g.model.curMode.notifySearchFixed(req);
           return sendResponse();
+        } else if (req.command === "HideCommandFrame") {
+          g.view.hideCommandFrame();
+          return sendResponse();
+        } else if (req.command === "SetStatusLine") {
+          g.view.setStatusLineText(req.text, req.timeout);
+          return sendResponse();
+        } else if (req.command === "HideStatusLine") {
+          g.view.hideStatusLine();
+          return sendResponse();
         } else {
-          g.model.triggerCommand("req" + req.command, req.args, req.senderFrameID);
+          g.model.triggerCommand("req" + req.command, req.args);
           return sendResponse();
         }
       }, this));
