@@ -115,6 +115,13 @@
       }
       return false;
     },
+    reqCopy: function(req) {
+      return chrome.tabs.getSelected(null, function(tab) {
+        var data;
+        data = req.args[0].replace(/%url/g, tab.url).replace(/%title/g, tab.title).replace(/\'/g, "");
+        return g.clipboard.set(data);
+      });
+    },
     reqOpenNewWindow: function(req) {
       var arg, focus, pop, urls, _i, _len, _ref2;
       urls = [];

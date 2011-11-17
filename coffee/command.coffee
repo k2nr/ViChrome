@@ -87,6 +87,7 @@ class g.CommandExecuter
         ShowTabList           : triggerInsideContent
         OpenOptionPage        : sendToBackground
         BarrelRoll            : triggerInsideContent
+        Copy                  : sendToBackground
         Escape                : escape
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
@@ -95,6 +96,7 @@ class g.CommandExecuter
     getArgs : -> @args
     setDescription : (@description) -> this
     getDescription : -> @description
+    reset : -> @command = null
     set : (command, times=1) ->
         if @command? then @command += " " else @command = ""
         @command += command
@@ -113,8 +115,25 @@ class g.CommandExecuter
 
     parse : ->
         unless @command then throw "invalid command"
-        @args = @command.split(/\ +/)
-        if not @args or @args.length == 0 then throw "invalid command"
+
+        pos = 0
+        pre = 0
+        @args = []
+        len = @command.length
+        while pos < len
+            c = @command.charAt(pos)
+            switch c
+                when " "
+                    @args.push @command.slice( pre, pos )
+                    ++pos while @command.charAt(pos) == " "
+                    pre = pos
+                when "'"
+                    while @command.charAt(++pos) != "'"
+                        throw "parse error" if pos >= len
+                    ++pos
+                else ++pos
+
+        @args.push @command.slice( pre, pos )
 
         for i in [@args.length-1..0]
             if @args[i].length == 0

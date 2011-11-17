@@ -1,5 +1,5 @@
 (function() {
-  var editableList, g, include, levels, objectList, _ref;
+  var createCLTextArea, editableList, g, include, levels, objectList, _ref;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -198,5 +198,24 @@
     cb();
     text || (text = "");
     return g.logger.e(text + ("::benchmark result:" + (getCurrentTime() - start) + "ms"));
+  };
+  createCLTextArea = function(data) {
+    var area;
+    area = document.createElement('textarea');
+    area.style.position = "absolute";
+    area.style.left = "-100%";
+    if (data != null) {
+      area.value = data;
+    }
+    return area;
+  };
+  g.clipboard = {};
+  g.clipboard.set = function(data) {
+    var area;
+    area = createCLTextArea(data);
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand('Copy');
+    return document.body.removeChild(area);
   };
 }).call(this);

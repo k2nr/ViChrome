@@ -79,6 +79,14 @@ g.bg =
                 chrome.tabs.create(url : url, selected : focus, pinned : pinned)
         false
 
+    reqCopy : (req) ->
+        chrome.tabs.getSelected(null, (tab) ->
+            data = req.args[0].replace( /%url/g, tab.url )
+                          .replace( /%title/g, tab.title )
+                          .replace( /\'/g,""  )
+            g.clipboard.set( data )
+        )
+
     reqOpenNewWindow : (req) ->
         urls  = []
         focus = true

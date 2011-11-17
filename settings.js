@@ -62,6 +62,7 @@
         "i": "FocusOnFirstInput",
         "u": "RestoreTab",
         "gp": "OpenNewWindow --pop",
+        "yy": "copyurl",
         "o": "Open -i",
         "O": "OpenNewTab -i",
         "s": "Open -i g",
@@ -102,7 +103,9 @@
         "tabc": "CloseCurTab",
         "tabo": "CloseAllTabs --only",
         "tabs": "ShowTabList",
-        "q": "CloseAllTabs"
+        "q": "CloseAllTabs",
+        "copyurl": "Copy %url",
+        "copytitle": "Copy %title"
       },
       "pageMap": {}
     },

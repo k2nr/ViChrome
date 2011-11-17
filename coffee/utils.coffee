@@ -163,3 +163,20 @@ g.util.benchmark = (cb, text) ->
 
     text or= ""
     g.logger.e(text+"::benchmark result:#{ (getCurrentTime() - start) }ms" )
+
+createCLTextArea = (data) ->
+    area = document.createElement( 'textarea' )
+    area.style.position = "absolute"
+    area.style.left     = "-100%"
+    area.value          = data if data?
+
+    area
+
+g.clipboard = {}
+g.clipboard.set = (data) ->
+    area = createCLTextArea( data )
+    document.body.appendChild( area )
+    area.select()
+    document.execCommand( 'Copy' )
+    document.body.removeChild( area )
+

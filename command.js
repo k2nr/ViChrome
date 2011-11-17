@@ -87,6 +87,7 @@
       ShowTabList: triggerInsideContent,
       OpenOptionPage: sendToBackground,
       BarrelRoll: triggerInsideContent,
+      Copy: sendToBackground,
       Escape: escape,
       "_ChangeLogLevel": triggerInsideContent
     };
@@ -103,6 +104,9 @@
     };
     CommandExecuter.prototype.getDescription = function() {
       return this.description;
+    };
+    CommandExecuter.prototype.reset = function() {
+      return this.command = null;
     };
     CommandExecuter.prototype.set = function(command, times) {
       if (times == null) {
@@ -128,14 +132,37 @@
       return command;
     };
     CommandExecuter.prototype.parse = function() {
-      var command, i, _ref2;
+      var c, command, i, len, pos, pre, _ref2;
       if (!this.command) {
         throw "invalid command";
       }
-      this.args = this.command.split(/\ +/);
-      if (!this.args || this.args.length === 0) {
-        throw "invalid command";
+      pos = 0;
+      pre = 0;
+      this.args = [];
+      len = this.command.length;
+      while (pos < len) {
+        c = this.command.charAt(pos);
+        switch (c) {
+          case " ":
+            this.args.push(this.command.slice(pre, pos));
+            while (this.command.charAt(pos) === " ") {
+              ++pos;
+            }
+            pre = pos;
+            break;
+          case "'":
+            while (this.command.charAt(++pos) !== "'") {
+              if (pos >= len) {
+                throw "parse error";
+              }
+            }
+            ++pos;
+            break;
+          default:
+            ++pos;
+        }
       }
+      this.args.push(this.command.slice(pre, pos));
       for (i = _ref2 = this.args.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
         if (this.args[i].length === 0) {
           this.args.splice(i, 1);

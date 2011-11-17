@@ -299,7 +299,6 @@ g.model =
         chrome.extension.sendRequest( param, (msg)-> g.handler.onCommandResponse(msg) )
 
 $(document).ready( ->
-
     g.model.onDomReady()
 )
 
