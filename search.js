@@ -35,8 +35,9 @@
       return this.sortedResults.length;
     };
     NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
-      var i, idx, span, _ref2;
-      for (i = 0, _ref2 = this.getResultCnt() - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
+      var i, idx, span, total, _ref2;
+      total = this.getResultCnt();
+      for (i = 0, _ref2 = total - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
         idx = this.opt.backward ? total - 1 - i : i;
         span = this.getResult(idx);
         if ((span != null) && span.isWithinScreen()) {

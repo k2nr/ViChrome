@@ -21,7 +21,8 @@ class g.NormalSearcher
     getResultCnt : -> @sortedResults.length
 
     getFirstInnerSearchResultIndex : ->
-        for i in [0..@getResultCnt()-1]
+        total = @getResultCnt()
+        for i in [0..total-1]
             idx = if @opt.backward then total - 1 - i else i
             span = @getResult( idx )
             if span? and span.isWithinScreen() then return idx
