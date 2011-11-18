@@ -132,7 +132,7 @@
       return command;
     };
     CommandExecuter.prototype.parse = function() {
-      var c, command, i, len, pos, pre, _ref2;
+      var c, command, i, len, pos, pre, start, _ref2;
       if (!this.command) {
         throw "invalid command";
       }
@@ -151,9 +151,12 @@
             pre = pos;
             break;
           case "'":
-            while (this.command.charAt(++pos) !== "'") {
+          case "\"":
+            start = pos;
+            while (this.command.charAt(++pos) !== c) {
               if (pos >= len) {
-                throw "parse error";
+                pos = start;
+                break;
               }
             }
             ++pos;

@@ -127,9 +127,12 @@ class g.CommandExecuter
                     @args.push @command.slice( pre, pos )
                     ++pos while @command.charAt(pos) == " "
                     pre = pos
-                when "'"
-                    while @command.charAt(++pos) != "'"
-                        throw "parse error" if pos >= len
+                when "'","\""
+                    start = pos
+                    while @command.charAt(++pos) != c
+                        if pos >= len
+                            pos = start
+                            break
                     ++pos
                 else ++pos
 

@@ -83,7 +83,12 @@ g.bg =
         chrome.tabs.getSelected(null, (tab) ->
             data = req.args[0].replace( /%url/g, tab.url )
                           .replace( /%title/g, tab.title )
-                          .replace( /\'/g,""  )
+
+            c = data.charAt(0)
+            if c == "'" or c == "\""
+                if data.charAt( data.length-1 ) == c
+                    data = data.substr( 1, data.length-2 )
+
             g.clipboard.set( data )
         )
 
@@ -236,6 +241,7 @@ g.bg =
         if @cWSrch.isExec then return false
         @cWSrch.reset().sgst({
             kw  : req.value
+            lan : g.util.getLang()
             res : (res) -> sendResponse res.raw
         }).start()
         true

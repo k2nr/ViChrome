@@ -54,7 +54,11 @@ class g.Mode
             com = "Open" + urls.join(' ')
             @enterInteractiveOpen( com, opt )
         else if search
-            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1"
+            word = ""
+            word += "+" + encodeURIComponent(i) for i in urls
+            word = word.substr(1)
+
+            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
             g.view.open( url, "_self" )
 
         else
@@ -79,7 +83,11 @@ class g.Mode
             com = "OpenNewTab " + words.join(' ')
             @enterInteractiveOpen( com, opt )
         else if search
-            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1"
+            word = ""
+            word += "+" + encodeURIComponent(i) for i in words
+            word = word.substr(1)
+
+            url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
             urls = []
             urls.push url
             chrome.extension.sendRequest {command : "OpenNewTab", args : urls}, g.handler.onCommandResponse

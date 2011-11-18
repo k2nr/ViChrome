@@ -70,7 +70,7 @@
       return g.model.enterCommandMode(executer, sources);
     };
     Mode.prototype.reqOpen = function(args) {
-      var arg, bookmark, com, history, interactive, opt, search, url, urls, web, _i, _len;
+      var arg, bookmark, com, history, i, interactive, opt, search, url, urls, web, word, _i, _j, _len, _len2;
       urls = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -105,14 +105,20 @@
         com = "Open" + urls.join(' ');
         return this.enterInteractiveOpen(com, opt);
       } else if (search) {
-        url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + urls.join('+') + "&qscrl=1";
+        word = "";
+        for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
+          i = urls[_j];
+          word += "+" + encodeURIComponent(i);
+        }
+        word = word.substr(1);
+        url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1";
         return g.view.open(url, "_self");
       } else {
         return g.view.open(urls[0], "_self");
       }
     };
     Mode.prototype.reqOpenNewTab = function(args) {
-      var arg, bookmark, com, history, interactive, opt, search, url, urls, web, words, _i, _len;
+      var arg, bookmark, com, history, i, interactive, opt, search, url, urls, web, word, words, _i, _j, _len, _len2;
       words = [];
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
@@ -147,7 +153,13 @@
         com = "OpenNewTab " + words.join(' ');
         return this.enterInteractiveOpen(com, opt);
       } else if (search) {
-        url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + words.join('+') + "&qscrl=1";
+        word = "";
+        for (_j = 0, _len2 = words.length; _j < _len2; _j++) {
+          i = words[_j];
+          word += "+" + encodeURIComponent(i);
+        }
+        word = word.substr(1);
+        url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1";
         urls = [];
         urls.push(url);
         return chrome.extension.sendRequest({

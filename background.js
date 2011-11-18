@@ -117,8 +117,14 @@
     },
     reqCopy: function(req) {
       return chrome.tabs.getSelected(null, function(tab) {
-        var data;
-        data = req.args[0].replace(/%url/g, tab.url).replace(/%title/g, tab.title).replace(/\'/g, "");
+        var c, data;
+        data = req.args[0].replace(/%url/g, tab.url).replace(/%title/g, tab.title);
+        c = data.charAt(0);
+        if (c === "'" || c === "\"") {
+          if (data.charAt(data.length - 1) === c) {
+            data = data.substr(1, data.length - 2);
+          }
+        }
         return g.clipboard.set(data);
       });
     },
@@ -330,6 +336,7 @@
       }
       this.cWSrch.reset().sgst({
         kw: req.value,
+        lan: g.util.getLang(),
         res: function(res) {
           return sendResponse(res.raw);
         }
