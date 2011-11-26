@@ -89,6 +89,7 @@ class g.CommandExecuter
         BarrelRoll            : triggerInsideContent
         Copy                  : sendToBackground
         Escape                : escape
+        HideJimmy             : triggerInsideContent
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
 

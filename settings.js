@@ -1,15 +1,17 @@
 (function() {
   var g, mapping, _ref;
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   mapping = {
     nmap: {},
     imap: {},
     cmap: {},
     alias: {}
   };
+
   g.SettingManager = {
     defaultSettings: {
       "scrollPixelCount": 40,
@@ -167,12 +169,8 @@
       }).split('\n');
       for (_i = 0, _len = lines.length; _i < _len; _i++) {
         line = lines[_i];
-        if (line.length === 0) {
-          continue;
-        }
-        if (line.charAt(0) === '#') {
-          continue;
-        }
+        if (line.length === 0) continue;
+        if (line.charAt(0) === '#') continue;
         args = line.split(/[\t ]+/);
         if (typeof this[_name = "_" + args[0]] === "function") {
           this[_name](this.userMap, args.slice(1));
@@ -291,4 +289,5 @@
       return this.parseKeyMappingAndAliases();
     }
   };
+
 }).call(this);

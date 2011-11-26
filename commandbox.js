@@ -1,19 +1,15 @@
 (function() {
   var MyCommandManager, commandFixedListener, frameID, g, onRequest, opt, searchFixedListener, searchUpdatedListener, sender, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   opt = {};
+
   frameID = void 0;
+
   g.CommandExecuter.prototype.solveAlias = function(alias) {
     var aliases, command;
     aliases = g.commandBox.getAlias();
@@ -24,11 +20,15 @@
     }
     return command;
   };
+
   MyCommandManager = (function() {
+
     __extends(MyCommandManager, g.CommandManager);
+
     function MyCommandManager(model, timeout) {
       MyCommandManager.__super__.constructor.call(this, model, timeout, false);
     }
+
     MyCommandManager.prototype.handleKey = function(msg, keyMap) {
       var args, com, executer, s, _base, _name;
       s = g.KeyManager.getKeyCodeStr(msg);
@@ -56,12 +56,17 @@
           return event.preventDefault();
       }
     };
+
     return MyCommandManager;
+
   })();
+
   g.CommandBox = (function() {
+
     function CommandBox() {
       this.inputListeners = [];
     }
+
     CommandBox.prototype.init = function(width, align) {
       this.width = width;
       this.align = align;
@@ -74,14 +79,17 @@
       this.commandManager = new MyCommandManager(this, opt.commandWaitTimeOut);
       return this;
     };
+
     CommandBox.prototype.addInputUpdateListener = function(fn) {
       this.inputListeners.push(fn);
       return this;
     };
+
     CommandBox.prototype.attachTo = function() {
       $(document.body).append(this.box);
       return this;
     };
+
     CommandBox.prototype.detachFrom = function() {
       if (this.candidateBox != null) {
         this.candidateBox.stop();
@@ -92,16 +100,20 @@
       document.removeEventListener("keydown", this.onKeyDown);
       return this;
     };
+
     CommandBox.prototype.setFixedListener = function(fixedListener) {
       this.fixedListener = fixedListener;
       return this;
     };
+
     CommandBox.prototype.reqFocusNextCandidate = function(args) {
       return this.nextCandidate();
     };
+
     CommandBox.prototype.reqFocusPrevCandidate = function(args) {
       return this.prevCandidate();
     };
+
     CommandBox.prototype.reqEscape = function(args) {
       chrome.extension.sendRequest({
         command: "PassToFrame",
@@ -109,6 +121,7 @@
       });
       return this.detachFrom();
     };
+
     CommandBox.prototype.handleKey = function(key) {
       event.stopPropagation();
       if (this.value().length === 0 && (key.code === "BS" || key.code === "DEL")) {
@@ -125,6 +138,7 @@
       }
       this.commandManager.handleKey(key, this.keyMap);
     };
+
     CommandBox.prototype.onKeyDown = function(e) {
       var code, key;
       if (g.KeyManager.isOnlyModifier(e.keyIdentifier, e.ctrlKey, e.shiftKey, e.altKey, e.metaKey)) {
@@ -145,44 +159,49 @@
       };
       return g.commandBox.handleKey(key);
     };
+
     CommandBox.prototype.setKeyMap = function(keyMap) {
       this.keyMap = keyMap;
       return this;
     };
+
     CommandBox.prototype.setAlias = function(aliases) {
       this.aliases = aliases;
       return this;
     };
+
     CommandBox.prototype.getAlias = function() {
       return this.aliases;
     };
+
     CommandBox.prototype.setIncremental = function(incremental) {
       this.incremental = incremental;
       return this;
     };
+
     CommandBox.prototype.show = function(modeChar, input) {
+      var _this = this;
       this.input.attr("value", input);
       this.modeChar.html(modeChar);
       this.box.show();
       this.inputField.show();
-      $(document).keyup(__bind(function(e) {
+      $(document).keyup(function(e) {
         var listener, val, _i, _len, _ref2;
-        val = this.input.val();
-        if (this.selectedCand === val) {
-          return;
-        }
-        if (this.bfInput !== val && this.isVisible()) {
-          _ref2 = this.inputListeners;
+        val = _this.input.val();
+        if (_this.selectedCand === val) return;
+        if (_this.bfInput !== val && _this.isVisible()) {
+          _ref2 = _this.inputListeners;
           for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
             listener = _ref2[_i];
             listener(val);
           }
         }
-        return this.bfInput = val;
-      }, this));
+        return _this.bfInput = val;
+      });
       document.addEventListener("keydown", this.onKeyDown, true);
       return this;
     };
+
     CommandBox.prototype.hide = function() {
       if (this.isVisible()) {
         this.inputField.hide();
@@ -190,16 +209,17 @@
       }
       return this;
     };
+
     CommandBox.prototype.focus = function() {
       var _ref2;
-      if ((_ref2 = this.input.get(0)) != null) {
-        _ref2.focus();
-      }
+      if ((_ref2 = this.input.get(0)) != null) _ref2.focus();
       return this;
     };
+
     CommandBox.prototype.isVisible = function() {
       return this.inputField.css('display') !== 'none';
     };
+
     CommandBox.prototype.value = function(a) {
       if (a != null) {
         return this.input.val(a);
@@ -207,10 +227,9 @@
         return this.input.val();
       }
     };
+
     CommandBox.prototype.setCandidateBox = function(candBox) {
-      if (!opt.enableCompletion) {
-        return this;
-      }
+      if (!opt.enableCompletion) return this;
       if (this.candidateBox != null) {
         this.candidateBox.stop();
         this.candidateBox.detachFrom();
@@ -220,30 +239,29 @@
       this.candidateBox.attachTo(this.view).show();
       return this;
     };
+
     CommandBox.prototype.nextCandidate = function() {
       var focused, _ref2;
       if (this.candidateBox != null) {
         focused = this.candidateBox.focusNext();
-        if (focused == null) {
-          return this;
-        }
+        if (focused == null) return this;
         this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
         this.value(this.selectedCand);
       }
       return this;
     };
+
     CommandBox.prototype.prevCandidate = function() {
       var focused, _ref2, _ref3;
       if (this.candidateBox != null) {
         focused = (_ref2 = this.candidateBox) != null ? _ref2.focusPrev() : void 0;
-        if (focused == null) {
-          return this;
-        }
+        if (focused == null) return this;
         this.selectedCand = (_ref3 = focused.value) != null ? _ref3 : focused.str;
         this.value(this.selectedCand);
       }
       return this;
     };
+
     CommandBox.prototype.isValidKeySeq = function(keySeq) {
       if (this.keyMap[keySeq]) {
         return true;
@@ -251,6 +269,7 @@
         return false;
       }
     };
+
     CommandBox.prototype.isValidKeySeqAvailable = function(keySeq) {
       var cmpStr, command, length, pos, seq, _ref2;
       length = keySeq.length;
@@ -261,21 +280,23 @@
         pos = cmpStr.indexOf("<", 0);
         if (pos >= 0) {
           pos = seq.indexOf(">", pos);
-          if (pos >= length) {
-            cmpStr = seq.slice(0, pos + 1);
-          }
+          if (pos >= length) cmpStr = seq.slice(0, pos + 1);
         }
-        if (keySeq === cmpStr) {
-          return true;
-        }
+        if (keySeq === cmpStr) return true;
       }
       return false;
     };
+
     return CommandBox;
+
   })();
+
   g.CandidateBox = (function() {
+
     CandidateBox.prototype.itemHeight = 22;
+
     CandidateBox.prototype.winColumns = 20;
+
     function CandidateBox() {
       this.items = {};
       this.sources = {};
@@ -283,24 +304,29 @@
       this.index = 0;
       this.scrIndex = 0;
     }
+
     CandidateBox.prototype.init = function(width, align) {
       this.width = width;
       this.align = align;
       this.box = $('<div id="vichromecandbox" />').css('min-width', this.width).addClass('vichrome-candbox' + this.align);
       return this;
     };
+
     CandidateBox.prototype.show = function() {
       this.box.show();
       return this;
     };
+
     CandidateBox.prototype.hide = function() {
       this.box.hide();
       return this;
     };
+
     CandidateBox.prototype.addItem = function(id, item) {
       this.items[id].push(item);
       return this;
     };
+
     CandidateBox.prototype.getItemCnt = function() {
       var items, result, src, _ref2;
       result = 0;
@@ -311,27 +337,33 @@
       }
       return result;
     };
+
     CandidateBox.prototype.addSource = function(src) {
+      var _this = this;
       this.sources[src.id] = src;
       this.items[src.id] = [];
-      src.addSrcUpdatedListener(__bind(function(items) {
-        this.items[src.id] = items;
-        return this.update(src.id);
-      }, this));
+      src.addSrcUpdatedListener(function(items) {
+        _this.items[src.id] = items;
+        return _this.update(src.id);
+      });
       return this;
     };
+
     CandidateBox.prototype.attachTo = function() {
       $(document.body).append(this.box);
       return this;
     };
+
     CandidateBox.prototype.detachFrom = function() {
       this.box.detach();
       return this;
     };
+
     CandidateBox.prototype.resetItem = function() {
       this.candidates = [];
       return this;
     };
+
     CandidateBox.prototype.makeItemLine = function(src, id, item) {
       var dscr, line, srcType, text;
       line = $("<div id=\"vichromecanditem\" source=\"" + src + "\" num=\"" + id + "\" />");
@@ -339,11 +371,10 @@
       dscr = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.dscr);
       srcType = $("<div id=\"vichromecandtext\" class=\"vichrome-canddscr\" />").html(item.source);
       line.append(text).append(srcType).append(dscr);
-      if (item.value != null) {
-        line.attr("value", item.value);
-      }
+      if (item.value != null) line.attr("value", item.value);
       return line;
     };
+
     CandidateBox.prototype.update = function(id) {
       var i, item, _len, _ref2;
       $('#vichromecanditem' + ("[source=" + id + "]")).remove();
@@ -354,13 +385,16 @@
       }
       return this;
     };
+
     CandidateBox.prototype.getItem = function(id, num) {
       return this.items[id][num];
     };
+
     CandidateBox.prototype.scrollTo = function(scrIndex) {
       this.scrIndex = scrIndex;
       return this.box.get(0).scrollTop = this.itemHeight * this.scrIndex;
     };
+
     CandidateBox.prototype.scrollDown = function() {
       if (this.index >= this.scrIndex + this.winColumns) {
         return this.scrollTo(this.scrIndex + 1);
@@ -368,6 +402,7 @@
         return this.scrollTo(this.index);
       }
     };
+
     CandidateBox.prototype.scrollUp = function() {
       if (this.index >= this.scrIndex + this.winColumns) {
         return this.scrollTo(this.getItemCnt() - this.winColumns);
@@ -375,36 +410,39 @@
         return this.scrollTo(this.index);
       }
     };
+
     CandidateBox.prototype.getFocusedValue = function() {
       return this.focusedValue;
     };
+
     CandidateBox.prototype.setFocusedValue = function(focusedValue) {
       this.focusedValue = focusedValue;
     };
+
     CandidateBox.prototype.scrollTop = function() {
       return this.scrollTo(0);
     };
+
     CandidateBox.prototype.scrollBottom = function() {
       this.scrIndex = 0;
       return this.box.get(0).scrollTop = 0;
     };
+
     CandidateBox.prototype.removeFocus = function($focused) {
       $focused.removeClass("vichrome-canditemfocused");
       return $focused.children().removeClass("vichrome-canditemfocused");
     };
+
     CandidateBox.prototype.setFocus = function($settee) {
       var val;
       $settee.addClass("vichrome-canditemfocused");
       $settee.children().addClass("vichrome-canditemfocused");
-      if ((val = $settee.attr("value"))) {
-        return this.setFocusedValue(val);
-      }
+      if ((val = $settee.attr("value"))) return this.setFocusedValue(val);
     };
+
     CandidateBox.prototype.focusNext = function() {
       var $focused, $next;
-      if (!(this.getItemCnt() > 0)) {
-        return null;
-      }
+      if (!(this.getItemCnt() > 0)) return null;
       $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.next();
@@ -417,11 +455,10 @@
       this.setFocus($next);
       return this.getItem($next.attr("source"), parseInt($next.attr("num")));
     };
+
     CandidateBox.prototype.focusPrev = function() {
       var $focused, $next;
-      if (!(this.getItemCnt() > 0)) {
-        return null;
-      }
+      if (!(this.getItemCnt() > 0)) return null;
       $focused = $("#vichromecanditem.vichrome-canditemfocused");
       this.removeFocus($focused);
       $next = $focused.prev();
@@ -434,57 +471,69 @@
       this.setFocus($next);
       return this.getItem($next.attr("source"), parseInt($next.attr("num")));
     };
+
     CandidateBox.prototype.getFocused = function() {
       var $focused;
       $focused = $("#vichromecanditem.vichrome-canditemfocused");
       return this.getItem($focused.attr("source"), parseInt($focused.attr("num")));
     };
+
     CandidateBox.prototype.onInput = function(word) {
       var id, src, _ref2;
-      if (this.stopped) {
-        return;
-      }
+      if (this.stopped) return;
       _ref2 = this.sources;
       for (id in _ref2) {
         src = _ref2[id];
         src.cbInputUpdated(word);
       }
     };
+
     CandidateBox.prototype.setCommandBox = function(box) {
-      box.addInputUpdateListener(__bind(function(word) {
-        return this.onInput(word);
-      }, this));
+      var _this = this;
+      box.addInputUpdateListener(function(word) {
+        return _this.onInput(word);
+      });
       return this;
     };
+
     CandidateBox.prototype.stop = function() {
       return this.stopped = true;
     };
+
     return CandidateBox;
+
   })();
+
   g.CandidateSource = (function() {
+
     function CandidateSource(maxItems) {
       this.maxItems = maxItems != null ? maxItems : 5;
       this.updatedListeners = [];
       this.items = [];
     }
+
     CandidateSource.prototype.requirePrefix = function(reqPrefix) {
       this.reqPrefix = reqPrefix;
       return this;
     };
+
     CandidateSource.prototype.addSrcUpdatedListener = function(listener) {
       this.updatedListeners.push(listener);
       return this;
     };
+
     CandidateSource.prototype.addItem = function(item) {
       if (this.items.length < this.maxItems || this.maxItems < 0) {
         this.items.push(item);
       }
       return this;
     };
+
     CandidateSource.prototype.resetItem = function() {
       this.items = [];
       return this;
     };
+
     CandidateSource.prototype.notifyUpdated = function() {
       var listener, _i, _len, _ref2;
       _ref2 = this.updatedListeners;
@@ -494,10 +543,10 @@
       }
       return this;
     };
+
     CandidateSource.prototype.cbInputUpdated = function(word) {
-      if (this.timer != null) {
-        clearTimeout(this.timer);
-      }
+      var _this = this;
+      if (this.timer != null) clearTimeout(this.timer);
       if ((this.prefix != null) && word.charAt(1) === " " && word.charAt(0) !== this.prefix) {
         g.logger.d("different prefix:" + this.prefix);
         this.resetItem();
@@ -513,33 +562,37 @@
           word = word.slice(2);
         }
       }
-      return this.timer = setTimeout(__bind(function() {
-        this.timer = null;
-        return typeof this.onInput === "function" ? this.onInput(word) : void 0;
-      }, this), 50);
+      return this.timer = setTimeout(function() {
+        _this.timer = null;
+        return typeof _this.onInput === "function" ? _this.onInput(word) : void 0;
+      }, 50);
     };
+
     return CandidateSource;
+
   })();
+
   g.CandSourceCommand = (function() {
+
     __extends(CandSourceCommand, g.CandidateSource);
+
     CandSourceCommand.prototype.id = "Command";
+
     function CandSourceCommand(maxItems) {
+      var _this = this;
       this.maxItems = maxItems != null ? maxItems : -1;
       CandSourceCommand.__super__.constructor.call(this, this.maxItems);
       chrome.extension.sendRequest({
         command: "GetCommandTable"
-      }, __bind(function(msg) {
-        return this.commands = msg;
-      }, this));
+      }, function(msg) {
+        return _this.commands = msg;
+      });
     }
+
     CandSourceCommand.prototype.onInput = function(word) {
       var com, _i, _len, _ref2;
-      if (!(word.length > 0)) {
-        return;
-      }
-      if (this.commands == null) {
-        return;
-      }
+      if (!(word.length > 0)) return;
+      if (this.commands == null) return;
       this.resetItem();
       word = word.toUpperCase();
       _ref2 = this.commands;
@@ -555,28 +608,32 @@
       }
       return this.notifyUpdated();
     };
+
     return CandSourceCommand;
+
   })();
+
   g.CandSourceAlias = (function() {
+
     __extends(CandSourceAlias, g.CandidateSource);
+
     CandSourceAlias.prototype.id = "Alias";
+
     function CandSourceAlias(maxItems) {
+      var _this = this;
       this.maxItems = maxItems != null ? maxItems : -1;
       CandSourceAlias.__super__.constructor.call(this, this.maxItems);
       chrome.extension.sendRequest({
         command: "GetAliases"
-      }, __bind(function(msg) {
-        return this.aliases = msg;
-      }, this));
+      }, function(msg) {
+        return _this.aliases = msg;
+      });
     }
+
     CandSourceAlias.prototype.onInput = function(word) {
       var alias, com, _ref2;
-      if (!(word.length > 0)) {
-        return;
-      }
-      if (this.aliases == null) {
-        return;
-      }
+      if (!(word.length > 0)) return;
+      if (this.aliases == null) return;
       this.resetItem();
       word = word.toUpperCase();
       _ref2 = this.aliases;
@@ -592,96 +649,116 @@
       }
       return this.notifyUpdated();
     };
+
     return CandSourceAlias;
+
   })();
+
   g.CandSourceHistory = (function() {
+
     __extends(CandSourceHistory, g.CandidateSource);
+
     function CandSourceHistory() {
       CandSourceHistory.__super__.constructor.apply(this, arguments);
     }
+
     CandSourceHistory.prototype.id = "WebHistory";
+
     CandSourceHistory.prototype.prefix = "h";
+
     CandSourceHistory.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
+      var _this = this;
+      if (!(word.length > 0)) return;
       this.resetItem();
       return chrome.extension.sendRequest({
         command: "GetHistory",
         value: word
-      }, __bind(function(items) {
+      }, function(items) {
         var item, str, _i, _len;
         if (items == null) {
-          this.notifyUpdated();
+          _this.notifyUpdated();
           return;
         }
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           str = item.title ? item.title : item.url;
-          this.addItem({
+          _this.addItem({
             str: str,
             source: "History",
             dscr: item.url,
             value: item.url
           });
         }
-        return this.notifyUpdated();
-      }, this));
+        return _this.notifyUpdated();
+      });
     };
+
     return CandSourceHistory;
+
   })();
+
   g.CandSourceBookmark = (function() {
+
     __extends(CandSourceBookmark, g.CandidateSource);
+
     function CandSourceBookmark() {
       CandSourceBookmark.__super__.constructor.apply(this, arguments);
     }
+
     CandSourceBookmark.prototype.id = "Bookmark";
+
     CandSourceBookmark.prototype.prefix = "b";
+
     CandSourceBookmark.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
+      var _this = this;
+      if (!(word.length > 0)) return;
       this.resetItem();
       return chrome.extension.sendRequest({
         command: "GetBookmark",
         value: word
-      }, __bind(function(nodes) {
+      }, function(nodes) {
         var node, _i, _len;
         if (nodes == null) {
-          this.notifyUpdated();
+          _this.notifyUpdated();
           return;
         }
         for (_i = 0, _len = nodes.length; _i < _len; _i++) {
           node = nodes[_i];
-          this.addItem({
+          _this.addItem({
             str: node.title,
             source: "Bookmark",
             dscr: node.url,
             value: node.url
           });
         }
-        return this.notifyUpdated();
-      }, this));
+        return _this.notifyUpdated();
+      });
     };
+
     return CandSourceBookmark;
+
   })();
+
   g.CandSourceSearchHist = (function() {
+
     __extends(CandSourceSearchHist, g.CandidateSource);
+
     CandSourceSearchHist.prototype.id = "SearchHistory";
+
     function CandSourceSearchHist(maxItems) {
+      var _this = this;
       this.maxItems = maxItems;
       CandSourceSearchHist.__super__.constructor.call(this, this.maxItems);
       chrome.extension.sendRequest({
         command: "GetSearchHistory"
-      }, __bind(function(msg) {
-        return this.history = msg.value.reverse();
-      }, this));
+      }, function(msg) {
+        return _this.history = msg.value.reverse();
+      });
     }
+
     CandSourceSearchHist.prototype.onInput = function(word) {
       var hist, _i, _len, _ref2;
-      if (this.history == null) {
-        return;
-      }
+      if (this.history == null) return;
       this.resetItem();
       word = word.toUpperCase();
       _ref2 = this.history;
@@ -697,55 +774,69 @@
       }
       return this.notifyUpdated();
     };
+
     return CandSourceSearchHist;
+
   })();
+
   g.CandSourceGoogleSuggest = (function() {
+
     __extends(CandSourceGoogleSuggest, g.CandidateSource);
+
     function CandSourceGoogleSuggest() {
       CandSourceGoogleSuggest.__super__.constructor.apply(this, arguments);
     }
+
     CandSourceGoogleSuggest.prototype.id = "GoogleSuggest";
+
     CandSourceGoogleSuggest.prototype.prefix = "g";
+
     CandSourceGoogleSuggest.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
+      var _this = this;
+      if (!(word.length > 0)) return;
       this.resetItem();
       return chrome.extension.sendRequest({
         command: "GetGoogleSuggest",
         value: word
-      }, __bind(function(raws) {
+      }, function(raws) {
         var raw, value, _i, _len;
         if (raws == null) {
-          this.notifyUpdated();
+          _this.notifyUpdated();
           return;
         }
         for (_i = 0, _len = raws.length; _i < _len; _i++) {
           raw = raws[_i];
-          value = this.reqPrefix ? "g " + raw : raw;
-          this.addItem({
+          value = _this.reqPrefix ? "g " + raw : raw;
+          _this.addItem({
             str: raw,
             source: "Google Search",
             dscr: "",
             value: value
           });
         }
-        return this.notifyUpdated();
-      }, this));
+        return _this.notifyUpdated();
+      });
     };
+
     return CandSourceGoogleSuggest;
+
   })();
+
   g.CandSourceWebSuggest = (function() {
+
     __extends(CandSourceWebSuggest, g.CandidateSource);
+
     function CandSourceWebSuggest() {
       CandSourceWebSuggest.__super__.constructor.apply(this, arguments);
     }
+
     CandSourceWebSuggest.prototype.id = "WebSuggest";
+
     CandSourceWebSuggest.prototype.prefix = "w";
+
     CandSourceWebSuggest.prototype.onInput = function(word) {
-      if (!(word.length > 0)) {
-        return;
-      }
+      var _this = this;
+      if (!(word.length > 0)) return;
       this.resetItem();
       if (word.charAt(1) === " " && word.charAt(0) !== "w") {
         this.notifyUpdated();
@@ -754,43 +845,49 @@
       return chrome.extension.sendRequest({
         command: "GetWebSuggest",
         value: word
-      }, __bind(function(results) {
+      }, function(results) {
         var res, _i, _len;
         if (results == null) {
-          this.notifyUpdated();
+          _this.notifyUpdated();
           return;
         }
         for (_i = 0, _len = results.length; _i < _len; _i++) {
           res = results[_i];
-          this.addItem({
+          _this.addItem({
             str: res.titleNoFormatting,
             source: "Web",
             dscr: res.unescapedUrl,
             value: res.url
           });
         }
-        return this.notifyUpdated();
-      }, this));
+        return _this.notifyUpdated();
+      });
     };
+
     return CandSourceWebSuggest;
+
   })();
+
   g.CandSourceTabs = (function() {
+
     __extends(CandSourceTabs, g.CandidateSource);
+
     CandSourceTabs.prototype.id = "Tabs";
+
     function CandSourceTabs(maxItems) {
+      var _this = this;
       this.maxItems = maxItems != null ? maxItems : -1;
       chrome.extension.sendRequest({
         command: "GetTabList"
-      }, __bind(function(tabs) {
-        this.tabs = tabs;
-      }, this));
+      }, function(tabs) {
+        _this.tabs = tabs;
+      });
       CandSourceTabs.__super__.constructor.call(this, this.maxItems);
     }
+
     CandSourceTabs.prototype.onInput = function(word) {
       var a, tab, _i, _len, _ref2;
-      if (this.tabs == null) {
-        return;
-      }
+      if (this.tabs == null) return;
       this.resetItem();
       word = word.toUpperCase();
       _ref2 = this.tabs;
@@ -808,9 +905,13 @@
       }
       return this.notifyUpdated();
     };
+
     return CandSourceTabs;
+
   })();
+
   sender = 0;
+
   searchFixedListener = function(word) {
     return chrome.extension.sendRequest({
       command: "PassToFrame",
@@ -819,6 +920,7 @@
       frameID: sender
     });
   };
+
   searchUpdatedListener = function(word) {
     return chrome.extension.sendRequest({
       command: "PassToFrame",
@@ -827,6 +929,7 @@
       frameID: sender
     });
   };
+
   commandFixedListener = function(word) {
     chrome.extension.sendRequest({
       command: "TopFrame",
@@ -839,6 +942,7 @@
       frameID: sender
     });
   };
+
   onRequest = function(req) {
     var candBox, obj, reqPrefix, src, _i, _j, _len, _len2, _ref2, _ref3, _ref4, _ref5;
     switch (req.mode) {
@@ -853,9 +957,7 @@
           obj = (new g[src["class"]](src.num)).requirePrefix(reqPrefix);
           candBox.addSource(obj);
         }
-        if (g.commandBox != null) {
-          g.commandBox.detachFrom();
-        }
+        if (g.commandBox != null) g.commandBox.detachFrom();
         return g.commandBox = (new g.CommandBox).init(opt.commandBoxWidth, opt.commandBoxAlign).attachTo().show(req.modeChar).focus().setKeyMap(req.keyMap).setAlias(req.aliases).setFixedListener(commandFixedListener).setCandidateBox(candBox);
       case "Search":
         sender = req.sender;
@@ -868,15 +970,14 @@
           obj = (new g[src["class"]](src.num)).requirePrefix(reqPrefix);
           candBox.addSource(obj);
         }
-        if (g.commandBox != null) {
-          g.commandBox.detachFrom();
-        }
+        if (g.commandBox != null) g.commandBox.detachFrom();
         g.commandBox = (new g.CommandBox).init(opt.commandBoxWidth, opt.commandBoxAlign).attachTo().show(req.modeChar).focus().setIncremental(req.incSearch).setKeyMap(req.keyMap).setAlias(req.aliases).setFixedListener(searchFixedListener).setCandidateBox(candBox);
         if (req.incSearch) {
           return g.commandBox.addInputUpdateListener(searchUpdatedListener);
         }
     }
   };
+
   $(document).ready(function() {
     g.logger.d("commandbox ready", this);
     chrome.extension.sendRequest({
@@ -897,4 +998,5 @@
       return onRequest(req);
     });
   });
+
 }).call(this);

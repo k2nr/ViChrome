@@ -1,10 +1,12 @@
 (function() {
   var g, keyCodes, keyIdentifier, shiftWinKeyIdentifier_ja, shiftWinKeyIdentifier_us, util, winKeyIdentifier_ja, winKeyIdentifier_us, _ref;
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   g.key = {};
+
   g.key.keyCodes = {
     ESC: 27,
     TAB: 9,
@@ -33,6 +35,7 @@
     F11: 142,
     F12: 143
   };
+
   g.key.keyIdentifier = {
     "U+0031": "1",
     "U+0032": "2",
@@ -135,6 +138,7 @@
     "PageUp": "PAGEUP",
     "CapsLock": "CAPSLOCK"
   };
+
   g.key.winKeyIdentifier_ja = {
     "U+00BC": ",",
     "U+00BE": ".",
@@ -149,6 +153,7 @@
     "U+00DE": "^",
     "U+00DC": "\\"
   };
+
   g.key.shiftWinKeyIdentifier_ja = {
     "U+00BC": "<",
     "U+00BE": ">",
@@ -172,6 +177,7 @@
     "U+0038": "(",
     "U+0039": ")"
   };
+
   g.key.winKeyIdentifier_us = {
     "U+00BC": ",",
     "U+00BE": ".",
@@ -185,6 +191,7 @@
     "U+00DE": "'",
     "U+0060": "`"
   };
+
   g.key.shiftWinKeyIdentifier_us = {
     "U+00BC": "<",
     "U+00BE": ">",
@@ -208,27 +215,31 @@
     "U+0039": "(",
     "U+0030": ")"
   };
+
   keyCodes = g.key.keyCodes;
+
   keyIdentifier = g.key.keyIdentifier;
+
   winKeyIdentifier_ja = g.key.winKeyIdentifier_ja;
+
   shiftWinKeyIdentifier_ja = g.key.shiftWinKeyIdentifier_ja;
+
   winKeyIdentifier_us = g.key.winKeyIdentifier_us;
+
   shiftWinKeyIdentifier_us = g.key.shiftWinKeyIdentifier_us;
+
   util = g.util;
+
   g.KeyManager = {
     isAlphabet: function(str) {
       var c;
-      if (str.length !== 1) {
-        return false;
-      }
+      if (str.length !== 1) return false;
       c = str.charCodeAt(0);
       return ((65 <= c && c <= 90)) || ((97 <= c && c <= 122));
     },
     isNumber: function(str) {
       var c;
-      if (str.length !== 1) {
-        return false;
-      }
+      if (str.length !== 1) return false;
       c = str.charCodeAt(0);
       return (48 <= c && c <= 57);
     },
@@ -246,19 +257,11 @@
     getKeyCodeStr: function(msg) {
       var result;
       result = msg.code;
-      if (msg.ctrl) {
-        result = "C-" + result;
-      }
-      if (msg.alt) {
-        result = "A-" + result;
-      }
-      if (msg.meta) {
-        result = "M-" + result;
-      }
+      if (msg.ctrl) result = "C-" + result;
+      if (msg.alt) result = "A-" + result;
+      if (msg.meta) result = "M-" + result;
       if (msg.ctrl || msg.alt || msg.meta || keyCodes[msg.code]) {
-        if (keyCodes[msg.code] ? msg.shift : void 0) {
-          result = "S-" + result;
-        }
+        if (keyCodes[msg.code] ? msg.shift : void 0) result = "S-" + result;
         result = "<" + result + ">";
       }
       return result;
@@ -299,4 +302,5 @@
       return result;
     }
   };
+
 }).call(this);

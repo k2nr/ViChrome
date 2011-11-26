@@ -165,6 +165,8 @@ class g.Mode
             $(document.body).removeClass('vichrome-barrelroll')
         , 2000 )
 
+    reqHideJimmy : -> $("div#siteNotice").hide()
+
     req_ChangeLogLevel : (args) ->
         if not args or args.length < 1 then return
 

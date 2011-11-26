@@ -1,10 +1,10 @@
 (function() {
   var g, _ref;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   g.bg = {
     tabHistory: null,
     moveTab: function(offset, start) {
@@ -165,9 +165,7 @@
           }
         });
       } else {
-        if (urls.length === 0) {
-          urls = this.getDefaultNewTabPage();
-        }
+        if (urls.length === 0) urls = this.getDefaultNewTabPage();
         chrome.windows.create({
           url: urls,
           focused: focus
@@ -197,7 +195,11 @@
           _results = [];
           for (_j = 0, _len2 = tabs.length; _j < _len2; _j++) {
             tab = tabs[_j];
-            _results.push(!(only && selected.id === tab.id) ? chrome.tabs.remove(tab.id) : void 0);
+            if (!(only && selected.id === tab.id)) {
+              _results.push(chrome.tabs.remove(tab.id));
+            } else {
+              _results.push(void 0);
+            }
           }
           return _results;
         });
@@ -207,9 +209,7 @@
     reqMoveToNextTab: function(req) {
       var _ref2;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
-        if (req.args[0] < 0) {
-          return;
-        }
+        if (req.args[0] < 0) return;
         this.moveTab(parseInt(req.args[0]) - 1, 0);
       } else {
         this.moveTab(1);
@@ -239,9 +239,7 @@
     },
     reqNMap: function(req, sendResponse) {
       var msg;
-      if (!((req.args[0] != null) && (req.args[1] != null))) {
-        return;
-      }
+      if (!((req.args[0] != null) && (req.args[1] != null))) return;
       msg = {
         command: "Settings",
         name: "keyMappingNormal",
@@ -252,9 +250,7 @@
     },
     reqIMap: function(req, sendResponse) {
       var msg;
-      if (!((req.args[0] != null) && (req.args[1] != null))) {
-        return;
-      }
+      if (!((req.args[0] != null) && (req.args[1] != null))) return;
       msg = {
         command: "Settings",
         name: "keyMappingInsert",
@@ -265,9 +261,7 @@
     },
     reqAlias: function(req, sendResponse) {
       var msg;
-      if (!((req.args[0] != null) && (req.args[1] != null))) {
-        return;
-      }
+      if (!((req.args[0] != null) && (req.args[1] != null))) return;
       msg = {
         command: "Settings",
         name: "aliases",
@@ -287,18 +281,12 @@
     },
     reqPushSearchHistory: function(req) {
       var history, idx;
-      if (req.value == null) {
-        return;
-      }
+      if (req.value == null) return;
       history = JSON.parse(localStorage.getItem("_searchHistory"));
       history || (history = []);
-      if ((idx = history.indexOf(req.value)) >= 0) {
-        history.splice(idx, 1);
-      }
+      if ((idx = history.indexOf(req.value)) >= 0) history.splice(idx, 1);
       history.push(req.value);
-      if (history.length > 10) {
-        history.shift();
-      }
+      if (history.length > 10) history.shift();
       localStorage.setItem("_searchHistory", JSON.stringify(history));
       return false;
     },
@@ -328,12 +316,8 @@
       return true;
     },
     reqGetGoogleSuggest: function(req, sendResponse) {
-      if (!this.gglLoaded) {
-        return false;
-      }
-      if (this.cWSrch.isExec) {
-        return false;
-      }
+      if (!this.gglLoaded) return false;
+      if (this.cWSrch.isExec) return false;
       this.cWSrch.reset().sgst({
         kw: req.value,
         lan: g.util.getLang(),
@@ -344,12 +328,9 @@
       return true;
     },
     reqGetWebSuggest: function(req, sendResponse) {
-      if (!this.gglLoaded) {
-        return false;
-      }
-      if (this.cWSrch.isExec) {
-        return false;
-      }
+      var _this = this;
+      if (!this.gglLoaded) return false;
+      if (this.cWSrch.isExec) return false;
       this.cWSrch.init({
         type: "web",
         opt: function(obj) {
@@ -360,10 +341,10 @@
         type: "web",
         page: 1,
         key: req.value,
-        res: __bind(function(res) {
+        res: function(res) {
           var i, item, msg, obj, _len;
           if (!res || res.length <= 0) {
-            this.cWSrch.cmndsBreak();
+            _this.cWSrch.cmndsBreak();
             sendResponse();
             return;
           }
@@ -377,7 +358,7 @@
             msg.push(obj);
           }
           return sendResponse(msg);
-        }, this)
+        }
       }).start();
       return true;
     },
@@ -401,9 +382,7 @@
       req = {};
       req.args = [];
       url = chrome.extension.getURL("options.html");
-      if (key) {
-        url += "#keymapping";
-      }
+      if (key) url += "#keymapping";
       req.args.push(url);
       return this.reqOpenNewTab(req);
     },
@@ -445,41 +424,44 @@
       return false;
     },
     reqGetCommandTable: function(req, response, sender) {
+      var _this = this;
       req.frameID = this.tabHistory.getTopFrameID(sender.tab);
-      chrome.tabs.sendRequest(sender.tab.id, req, __bind(function(msg) {
+      chrome.tabs.sendRequest(sender.tab.id, req, function(msg) {
         return response(msg);
-      }, this));
+      });
       return true;
     },
     reqGetAliases: function(req, response, sender) {
+      var _this = this;
       req.frameID = this.tabHistory.getTopFrameID(sender.tab);
-      chrome.tabs.sendRequest(sender.tab.id, req, __bind(function(msg) {
+      chrome.tabs.sendRequest(sender.tab.id, req, function(msg) {
         return response(msg);
-      }, this));
+      });
       return true;
     },
     init: function() {
       var $WA, req, storedVersion;
+      var _this = this;
       this.tabHistory = (new g.TabHistory).init();
       g.SettingManager.init();
       $WA = crocro.webAi;
       this.cWSrch = new $WA.WebSrch();
-      this.cWSrch.ready(__bind(function() {
-        return this.gglLoaded = true;
-      }, this));
-      chrome.extension.onRequest.addListener(__bind(function(req, sender, sendResponse) {
+      this.cWSrch.ready(function() {
+        return _this.gglLoaded = true;
+      });
+      chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
         var frameID, msg;
         g.logger.d("onRequest command: " + req.command);
         switch (req.command) {
           case "NotifyTopFrame":
             g.logger.d("top frame " + req.frameID);
-            this.tabHistory.setTopFrameID(sender.tab, req.frameID);
+            _this.tabHistory.setTopFrameID(sender.tab, req.frameID);
             return sendResponse();
           case "InitCommandFrame":
             msg = {};
-            frameID = this.tabHistory.getFrames(sender.tab);
-            this.tabHistory.setCommandBoxID(sender.tab, frameID);
-            this.tabHistory.addFrames(sender.tab);
+            frameID = _this.tabHistory.getFrames(sender.tab);
+            _this.tabHistory.setCommandBoxID(sender.tab, frameID);
+            _this.tabHistory.addFrames(sender.tab);
             g.logger.d("commandBoxFrameID: " + frameID);
             msg.frameID = frameID;
             msg.enableCompletion = g.SettingManager.get("enableCompletion");
@@ -488,15 +470,15 @@
             msg.commandWaitTimeOut = g.SettingManager.get("commandWaitTimeOut");
             return sendResponse(msg);
           default:
-            if (this["req" + req.command]) {
-              if (!this["req" + req.command](req, sendResponse, sender)) {
+            if (_this["req" + req.command]) {
+              if (!_this["req" + req.command](req, sendResponse, sender)) {
                 return sendResponse();
               }
             } else {
               return g.logger.e("INVALID command!:", req.command);
             }
         }
-      }, this));
+      });
       storedVersion = localStorage.version;
       if ((storedVersion != null) && storedVersion !== g.VICHROME_VERSION) {
         req = {};
@@ -507,4 +489,5 @@
       return localStorage.version = g.VICHROME_VERSION;
     }
   };
+
 }).call(this);

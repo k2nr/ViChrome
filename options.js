@@ -1,10 +1,12 @@
 (function() {
   var escChars, g, initCheckBox, initDropDown, initInputNumber, initInputText, onSettings, setSetting, settings, updateKeyMappingList, _ref;
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   settings = null;
+
   setSetting = function(name, val, response) {
     return chrome.extension.sendRequest({
       command: "Settings",
@@ -13,9 +15,11 @@
       value: val
     });
   };
+
   escChars = function(str) {
     return str.replace("<", "&lt;").replace(">", "&gt;").replace(" ", "&nbsp;");
   };
+
   updateKeyMappingList = function() {
     var com, curMap, key, map, url, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _results;
     curMap = $('#keyMappingList');
@@ -81,11 +85,13 @@
     }
     return _results;
   };
+
   initInputText = function(name) {
     return $('#' + name).val(settings[name]).keyup(function() {
       return setSetting(name, $(this).val());
     });
   };
+
   initInputNumber = function(name) {
     return $('#' + name).val(settings[name]).keyup(function() {
       return setSetting(name, parseInt($(this).val()));
@@ -95,20 +101,21 @@
       return setSetting(name, parseInt($(this).val()));
     });
   };
+
   initCheckBox = function(name) {
     return $('#' + name).attr('checked', settings[name]).change(function() {
       return setSetting(name, $(this).is(':checked'));
     });
   };
+
   initDropDown = function(name) {
     return $('#' + name).val(settings[name]).change(function() {
       return setSetting(name, $(this).val());
     });
   };
+
   onSettings = function(msg) {
-    if (msg.name === "all") {
-      settings = msg.value;
-    }
+    if (msg.name === "all") settings = msg.value;
     initInputNumber("scrollPixelCount");
     initInputNumber("commandWaitTimeOut");
     initInputNumber("minIncSearch");
@@ -141,6 +148,7 @@
     });
     return updateKeyMappingList();
   };
+
   $(document).ready(function() {
     return chrome.extension.sendRequest({
       command: "Settings",
@@ -148,6 +156,7 @@
       name: "all"
     }, onSettings);
   });
+
   $(document).ready(function() {
     var page;
     $('#page-container > div').hide();
@@ -170,4 +179,5 @@
       return false;
     });
   });
+
 }).call(this);

@@ -1,38 +1,33 @@
 (function() {
   var createCLTextArea, editableList, g, include, levels, objectList, _ref;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+  var __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   g.VICHROME_VERSION = "0.7.1";
+
   g.object = function(obj) {
     var F;
     F = function() {};
     F.prototype = obj;
     return new F;
   };
+
   g.extend = function(mixin, obj) {
     var member, name;
-    if (obj == null) {
-      obj = {};
-    }
+    if (obj == null) obj = {};
     for (name in mixin) {
       member = mixin[name];
       obj[name] = member;
     }
     return obj;
   };
+
   g.extendDeep = function(parent, child) {
     var astr, member, name, toStr;
-    if (child == null) {
-      child = {};
-    }
+    if (child == null) child = {};
     toStr = Object.prototype.toString;
     astr = "[object Array]";
     for (name in parent) {
@@ -46,9 +41,11 @@
     }
     return child;
   };
+
   include = function(klass, mixin) {
     return extend(klass.prototype, mixin);
   };
+
   g.logLevels = {
     DEBUG: 1,
     WARNING: 2,
@@ -56,8 +53,11 @@
     FATAL: 4,
     NONE: 5
   };
+
   g.LOG_LEVEL = g.logLevels.ERROR;
+
   levels = g.logLevels;
+
   g.logger = {
     printLog: function(a, o) {
       if (o) {
@@ -67,38 +67,30 @@
       }
     },
     d: function(a, o) {
-      if (g.LOG_LEVEL <= g.logLevels.DEBUG) {
-        return this.printLog(a, o);
-      }
+      if (g.LOG_LEVEL <= g.logLevels.DEBUG) return this.printLog(a, o);
     },
     w: function(a, o) {
-      if (g.LOG_LEVEL <= g.logLevels.WARNING) {
-        return this.printLog(a, o);
-      }
+      if (g.LOG_LEVEL <= g.logLevels.WARNING) return this.printLog(a, o);
     },
     e: function(a, o) {
-      if (g.LOG_LEVEL <= g.logLevels.ERROR) {
-        return this.printLog(a, o);
-      }
+      if (g.LOG_LEVEL <= g.logLevels.ERROR) return this.printLog(a, o);
     },
     f: function(a, o) {
-      if (g.LOG_LEVEL <= g.logLevels.FATAL) {
-        return this.printLog(a, o);
-      }
+      if (g.LOG_LEVEL <= g.logLevels.FATAL) return this.printLog(a, o);
     }
   };
+
   g.util = {};
+
   editableList = ["TEXT", "PASSWORD", "NUMBER", "SEARCH", "TEL", "URL", "EMAIL", "TIME", "DATETIME", "DATETIME-LOCAL", "DEATE", "WEEK", "COLOR"];
+
   objectList = ["EMBED", "OBJECT", "APPLET"];
+
   g.util.isEditable = function(target) {
     var ignoreList, _ref2, _ref3, _ref4;
     ignoreList = ["TEXTAREA"];
-    if (target == null) {
-      return false;
-    }
-    if (target.isContentEditable) {
-      return true;
-    }
+    if (target == null) return false;
+    if (target.isContentEditable) return true;
     if (_ref2 = target.nodeName, __indexOf.call(ignoreList, _ref2) >= 0) {
       return true;
     }
@@ -107,22 +99,18 @@
     }
     return false;
   };
+
   g.util.isEmbededFlash = function(target) {
     var _ref2;
-    if (target == null) {
-      return false;
-    }
+    if (target == null) return false;
     if (_ref2 = target.nodeName, __indexOf.call(objectList, _ref2) < 0) {
       return false;
     }
-    if (target.type.indexOf("x-shockwave-flash") >= 0) {
-      return true;
-    }
-    if (target.innerHTML.indexOf("x-shockwave-flash") >= 0) {
-      return true;
-    }
+    if (target.type.indexOf("x-shockwave-flash") >= 0) return true;
+    if (target.innerHTML.indexOf("x-shockwave-flash") >= 0) return true;
     return false;
   };
+
   g.util.getPlatform = function() {
     var platform;
     if (navigator.userAgent.indexOf("Mac") >= 0) {
@@ -139,22 +127,18 @@
     };
     return platform;
   };
+
   g.util.dispatchKeyEvent = function(target, identifier, primary, shift, alt) {
     var e, modifier;
     e = document.createEvent("KeyboardEvent");
     modifier = "";
-    if (primary) {
-      modifier += "Meta ";
-    }
-    if (shift) {
-      modifier += "Shift ";
-    }
-    if (alt) {
-      modifier += "Alt";
-    }
+    if (primary) modifier += "Meta ";
+    if (shift) modifier += "Shift ";
+    if (alt) modifier += "Alt";
     e.initKeyboardEvent("keydown", true, true, window, identifier, 0x00, modifier, true);
     return target.dispatchEvent(e);
   };
+
   g.util.dispatchMouseClickEvent = function(target, primary, shift, alt) {
     var ctrl, e, meta, secondary;
     e = document.createEvent("MouseEvents");
@@ -181,6 +165,7 @@
     target.dispatchEvent(e);
     return true;
   };
+
   g.util.getLang = function() {
     var lang;
     lang = (navigator.userLanguage || navigator.browserLanguage || navigator.language).substr(0, 2);
@@ -189,6 +174,7 @@
     };
     return lang;
   };
+
   g.util.benchmark = function(cb, text) {
     var getCurrentTime, start;
     getCurrentTime = function() {
@@ -199,17 +185,18 @@
     text || (text = "");
     return g.logger.e(text + ("::benchmark result:" + (getCurrentTime() - start) + "ms"));
   };
+
   createCLTextArea = function(data) {
     var area;
     area = document.createElement('textarea');
     area.style.position = "absolute";
     area.style.left = "-100%";
-    if (data != null) {
-      area.value = data;
-    }
+    if (data != null) area.value = data;
     return area;
   };
+
   g.clipboard = {};
+
   g.clipboard.set = function(data) {
     var area;
     area = createCLTextArea(data);
@@ -218,4 +205,5 @@
     document.execCommand('Copy');
     return document.body.removeChild(area);
   };
+
 }).call(this);

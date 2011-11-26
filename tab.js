@@ -1,24 +1,27 @@
 (function() {
   var g, _ref;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   g.TabHistory = (function() {
+
     function TabHistory() {}
+
     TabHistory.prototype.closeHistStack = [];
+
     TabHistory.prototype.openTabs = {};
+
     TabHistory.prototype.findOpenTabItem = function(tabId) {
       var tabs, win, _ref2;
       _ref2 = this.openTabs;
       for (win in _ref2) {
         tabs = _ref2[win];
-        if (tabs[tabId]) {
-          return tabs[tabId];
-        }
+        if (tabs[tabId]) return tabs[tabId];
       }
     };
+
     TabHistory.prototype.popOpenTabItem = function(tabId) {
       var result, tabs, win, _ref2;
       _ref2 = this.openTabs;
@@ -31,6 +34,7 @@
         }
       }
     };
+
     TabHistory.prototype.addOpenTabItem = function(tab, history) {
       this.openTabs[tab.windowId][tab.id] = {};
       this.openTabs[tab.windowId][tab.id].tab = tab;
@@ -42,51 +46,60 @@
         return this.openTabs[tab.windowId][tab.id].history.push(tab.url);
       }
     };
+
     TabHistory.prototype.setTopFrameID = function(tab, id) {
       var _ref2;
       if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].topFrame = id;
       }
     };
+
     TabHistory.prototype.getTopFrameID = function(tab) {
       var _ref2, _ref3;
       return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.topFrame : void 0 : void 0;
     };
+
     TabHistory.prototype.setCommandBoxID = function(tab, id) {
       var _ref2;
       if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].comBoxID = id;
       }
     };
+
     TabHistory.prototype.getCommandBoxID = function(tab) {
       var _ref2, _ref3;
       return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.comBoxID : void 0 : void 0;
     };
+
     TabHistory.prototype.setFrames = function(tab, frames) {
       var _ref2;
       if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].frames = frames;
       }
     };
+
     TabHistory.prototype.addFrames = function(tab) {
       var _ref2;
       if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
         return ++this.openTabs[tab.windowId][tab.id].frames;
       }
     };
+
     TabHistory.prototype.getFrames = function(tab) {
       var _ref2, _ref3;
       return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.frames : void 0 : void 0;
     };
+
     TabHistory.prototype.initTabHist = function(winId) {
+      var _this = this;
       return chrome.windows.getAll({
         populate: true
-      }, __bind(function(wins) {
+      }, function(wins) {
         var tab, win, _i, _len, _results;
         _results = [];
         for (_i = 0, _len = wins.length; _i < _len; _i++) {
           win = wins[_i];
-          this.openTabs[win.id] = {};
+          _this.openTabs[win.id] = {};
           _results.push((function() {
             var _j, _len2, _ref2, _results2;
             _ref2 = win.tabs;
@@ -96,74 +109,71 @@
               _results2.push(this.addOpenTabItem(tab));
             }
             return _results2;
-          }).call(this));
+          }).call(_this));
         }
         return _results;
-      }, this));
+      });
     };
+
     TabHistory.prototype.setupListeners = function() {
-      chrome.tabs.onRemoved.addListener(__bind(function(tabId, info) {
+      var _this = this;
+      chrome.tabs.onRemoved.addListener(function(tabId, info) {
         var item;
         g.logger.d("tab removed id:" + tabId);
-        if (info.isWindowClosing) {
-          return;
-        }
-        item = this.popOpenTabItem(tabId);
+        if (info.isWindowClosing) return;
+        item = _this.popOpenTabItem(tabId);
         if (item) {
-          this.closeHistStack.push(item);
-          if (this.closeHistStack.length > 10) {
-            this.closeHistStack.shift();
-          }
+          _this.closeHistStack.push(item);
+          if (_this.closeHistStack.length > 10) _this.closeHistStack.shift();
         }
-      }, this));
-      chrome.tabs.onCreated.addListener(__bind(function(tab) {
+      });
+      chrome.tabs.onCreated.addListener(function(tab) {
         g.logger.d("tab created id:" + tab.id);
-        return this.addOpenTabItem(tab);
-      }, this));
-      chrome.tabs.onAttached.addListener(__bind(function(tabId, aInfo) {
+        return _this.addOpenTabItem(tab);
+      });
+      chrome.tabs.onAttached.addListener(function(tabId, aInfo) {
         g.logger.d("tab attached tab:" + tabId + " -> win:" + aInfo.newWindowId);
-        return chrome.tabs.get(tabId, __bind(function(tab) {
-          return this.addOpenTabItem(tab);
-        }, this));
-      }, this));
-      chrome.tabs.onDetached.addListener(__bind(function(tabId, dInfo) {
+        return chrome.tabs.get(tabId, function(tab) {
+          return _this.addOpenTabItem(tab);
+        });
+      });
+      chrome.tabs.onDetached.addListener(function(tabId, dInfo) {
         g.logger.d("tab detached tab:" + tabId + " <- win:" + dInfo.oldWindowId);
-        return this.popOpenTabItem(tabId);
-      }, this));
-      chrome.tabs.onUpdated.addListener(__bind(function(tabId, info, tab) {
+        return _this.popOpenTabItem(tabId);
+      });
+      chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
         var target;
-        target = this.openTabs[tab.windowId][tabId];
+        target = _this.openTabs[tab.windowId][tabId];
         if (info.url) {
           target.tab.url = info.url;
           target.history.push(info.url);
         }
-        if (info.pinned) {
-          return target.tab.pinned = info.pinned;
-        }
-      }, this));
-      chrome.windows.onCreated.addListener(__bind(function(win) {
+        if (info.pinned) return target.tab.pinned = info.pinned;
+      });
+      chrome.windows.onCreated.addListener(function(win) {
         g.logger.d("win created id:" + win.id);
-        return this.openTabs[win.id] = {};
-      }, this));
-      chrome.windows.onRemoved.addListener(__bind(function(winId) {
-        return delete this.openTabs[winId];
-      }, this));
+        return _this.openTabs[win.id] = {};
+      });
+      chrome.windows.onRemoved.addListener(function(winId) {
+        return delete _this.openTabs[winId];
+      });
       return this;
     };
+
     TabHistory.prototype.init = function() {
       this.initTabHist();
       this.setupListeners();
       return this;
     };
+
     TabHistory.prototype.restoreLastClosedTab = function() {
       var item, opt;
+      var _this = this;
       item = this.closeHistStack.pop();
       while ((item != null) && !this.openTabs[item.tab.windowId]) {
         item = this.closeHistStack.pop();
       }
-      if (item == null) {
-        return;
-      }
+      if (item == null) return;
       chrome.windows.update(item.tab.windowId, {
         focused: true
       });
@@ -171,8 +181,11 @@
         windowId: item.tab.windowId,
         url: item.tab.url
       };
-      return chrome.tabs.create(opt, __bind(function(tab) {}, this));
+      return chrome.tabs.create(opt, function(tab) {});
     };
+
     return TabHistory;
+
   })();
+
 }).call(this);

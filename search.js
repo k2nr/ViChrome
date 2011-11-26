@@ -1,19 +1,15 @@
 (function() {
   var g, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   g.NormalSearcher = (function() {
+
     function NormalSearcher() {}
+
     NormalSearcher.prototype.buildSortedResults = function() {
       var results;
       this.sortedResults = [];
@@ -31,21 +27,22 @@
         }
       });
     };
+
     NormalSearcher.prototype.getResultCnt = function() {
       return this.sortedResults.length;
     };
+
     NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
       var i, idx, span, total, _ref2;
       total = this.getResultCnt();
       for (i = 0, _ref2 = total - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
         idx = this.opt.backward ? total - 1 - i : i;
         span = this.getResult(idx);
-        if ((span != null) && span.isWithinScreen()) {
-          return idx;
-        }
+        if ((span != null) && span.isWithinScreen()) return idx;
       }
       return -1;
     };
+
     NormalSearcher.prototype.updateInput = function(word) {
       this.word = word;
       if (this.word.length >= this.opt.minIncSearch) {
@@ -68,10 +65,12 @@
         this.removeHighlight();
       }
     };
+
     NormalSearcher.prototype.init = function(opt) {
       this.opt = opt;
       return this;
     };
+
     NormalSearcher.prototype.getOption = function() {
       var ret;
       ret = g.object(this.opt);
@@ -80,6 +79,7 @@
       }
       return ret;
     };
+
     NormalSearcher.prototype.highlight = function(word) {
       var opt;
       opt = this.getOption();
@@ -88,21 +88,26 @@
         useMigemo: opt.useMigemo
       });
     };
+
     NormalSearcher.prototype.getCurIndex = function() {
       return this.curIndex;
     };
+
     NormalSearcher.prototype.removeHighlight = function() {
       return $(document.body).removeHighlight();
     };
+
     NormalSearcher.prototype.searchAndHighlight = function(word) {
       this.removeHighlight();
       this.highlight(word);
       return this.buildSortedResults();
     };
+
     NormalSearcher.prototype.getResult = function(cnt) {
       var _ref2;
       return (_ref2 = this.sortedResults[cnt]) != null ? _ref2.value : void 0;
     };
+
     NormalSearcher.prototype.fix = function(word) {
       var span, _ref2;
       if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
@@ -133,12 +138,11 @@
       });
       span = this.getResult(this.getCurIndex());
       if (span != null) {
-        if ((_ref2 = span.closest("a").get(0)) != null) {
-          _ref2.focus();
-        }
+        if ((_ref2 = span.closest("a").get(0)) != null) _ref2.focus();
       }
       return this.fixed = true;
     };
+
     NormalSearcher.prototype.moveTo = function(pos) {
       var span, _ref2;
       if (this.getResultCnt() > pos) {
@@ -157,6 +161,7 @@
         return g.logger.e("out of searchResults length", pos);
       }
     };
+
     NormalSearcher.prototype.goNext = function(reverse) {
       var forward;
       forward = this.opt.backward === reverse;
@@ -187,11 +192,13 @@
       this.moveTo(this.curIndex);
       return true;
     };
+
     NormalSearcher.prototype.cancelHighlight = function() {
       g.logger.d("cancelHighlight");
       this.removeHighlight();
       return this.removed = true;
     };
+
     NormalSearcher.prototype.finalize = function() {
       g.logger.d("finalize");
       this.sortedResults = void 0;
@@ -199,13 +206,19 @@
       g.view.hideStatusLine();
       return this.removeHighlight();
     };
+
     return NormalSearcher;
+
   })();
+
   g.LinkTextSearcher = (function() {
+
     __extends(LinkTextSearcher, g.NormalSearcher);
+
     function LinkTextSearcher() {
       LinkTextSearcher.__super__.constructor.apply(this, arguments);
     }
+
     LinkTextSearcher.prototype.highlight = function(word) {
       var opt;
       opt = this.getOption();
@@ -214,6 +227,9 @@
         useMigemo: opt.useMigemo
       });
     };
+
     return LinkTextSearcher;
+
   })();
+
 }).call(this);

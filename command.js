@@ -1,15 +1,11 @@
 (function() {
   var escape, g, passToFrame, passToTopFrame, sendToBackground, triggerInsideContent, _ref;
-  var __indexOf = Array.prototype.indexOf || function(item) {
-    for (var i = 0, l = this.length; i < l; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+  var __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   sendToBackground = function(com, args) {
     return chrome.extension.sendRequest({
       command: com,
@@ -18,9 +14,11 @@
       return g.handler.onCommandResponse(msg);
     });
   };
+
   triggerInsideContent = function(com, args) {
     return g.model.triggerCommand("req" + com, args);
   };
+
   passToTopFrame = function(com, args) {
     return chrome.extension.sendRequest({
       command: "TopFrame",
@@ -29,6 +27,7 @@
       senderFrameID: g.model.frameID
     }, g.handler.onCommandResponse);
   };
+
   passToFrame = function(com, args, target) {
     return chrome.extension.sendRequest({
       command: "PassToFrame",
@@ -38,12 +37,17 @@
       senderFrameID: g.model.frameID
     }, g.handler.onCommandResponse);
   };
+
   escape = function(com) {
     return triggerInsideContent("Escape");
   };
+
   g.CommandExecuter = (function() {
+
     function CommandExecuter() {}
+
     CommandExecuter.prototype.commandsBeforeReady = ["OpenNewTab", "CloseCurTab", "MoveToNextTab", "MoveToPrevTab", "MoveToFirstTab", "MoveToLastTab", "NMap", "IMap", "Alias", "OpenNewWindow", "OpenOptionPage", "RestoreTab"];
+
     CommandExecuter.prototype.commandTable = {
       Open: passToTopFrame,
       OpenNewTab: passToTopFrame,
@@ -89,29 +93,34 @@
       BarrelRoll: triggerInsideContent,
       Copy: sendToBackground,
       Escape: escape,
+      HideJimmy: triggerInsideContent,
       "_ChangeLogLevel": triggerInsideContent
     };
+
     CommandExecuter.prototype.get = function() {
       var _ref2;
       return (_ref2 = this.command) != null ? _ref2 : "";
     };
+
     CommandExecuter.prototype.getArgs = function() {
       return this.args;
     };
+
     CommandExecuter.prototype.setDescription = function(description) {
       this.description = description;
       return this;
     };
+
     CommandExecuter.prototype.getDescription = function() {
       return this.description;
     };
+
     CommandExecuter.prototype.reset = function() {
       return this.command = null;
     };
+
     CommandExecuter.prototype.set = function(command, times) {
-      if (times == null) {
-        times = 1;
-      }
+      if (times == null) times = 1;
       if (this.command != null) {
         this.command += " ";
       } else {
@@ -121,6 +130,7 @@
       this.times = times != null ? times : 1;
       return this;
     };
+
     CommandExecuter.prototype.solveAlias = function(alias) {
       var aliases, command;
       aliases = g.model.getAlias();
@@ -131,11 +141,10 @@
       }
       return command;
     };
+
     CommandExecuter.prototype.parse = function() {
       var c, command, i, len, pos, pre, start, _ref2;
-      if (!this.command) {
-        throw "invalid command";
-      }
+      if (!this.command) throw "invalid command";
       pos = 0;
       pre = 0;
       this.args = [];
@@ -167,9 +176,7 @@
       }
       this.args.push(this.command.slice(pre, pos));
       for (i = _ref2 = this.args.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
-        if (this.args[i].length === 0) {
-          this.args.splice(i, 1);
-        }
+        if (this.args[i].length === 0) this.args.splice(i, 1);
       }
       command = this.solveAlias(this.args[0]);
       if (command != null) {
@@ -181,25 +188,31 @@
         throw "invalid command";
       }
     };
+
     CommandExecuter.prototype.execute = function() {
       var com;
+      var _this = this;
       com = this.args[0];
       if (!(g.model.isReady() || __indexOf.call(this.commandsBeforeReady, com) >= 0)) {
         return;
       }
-      return setTimeout(__bind(function() {
-        if ((this.targetFrame != null) && this.commandTable[com] !== sendToBackground) {
-          passToFrame(com, this.args.slice(1), this.targetFrame);
+      return setTimeout(function() {
+        if ((_this.targetFrame != null) && _this.commandTable[com] !== sendToBackground) {
+          passToFrame(com, _this.args.slice(1), _this.targetFrame);
         } else {
-          while (this.times--) {
-            this.commandTable[com](com, this.args.slice(1));
+          while (_this.times--) {
+            _this.commandTable[com](com, _this.args.slice(1));
           }
         }
-      }, this), 0);
+      }, 0);
     };
+
     return CommandExecuter;
+
   })();
+
   g.CommandManager = (function() {
+
     CommandManager.prototype.keyQueue = {
       init: function(model, timeout, enableMulti) {
         this.model = model;
@@ -218,9 +231,7 @@
         }
       },
       startTimer: function(callback, ms) {
-        if (this.waiting) {
-          return;
-        }
+        if (this.waiting) return;
         this.waiting = true;
         return this.timerId = setTimeout(callback, ms);
       },
@@ -249,6 +260,7 @@
       },
       getNextKeySequence: function() {
         var ret;
+        var _this = this;
         this.stopTimer();
         if (this.model.isValidKeySeq(this.a)) {
           ret = this.a;
@@ -256,11 +268,11 @@
           return ret;
         } else {
           if (this.model.isValidKeySeqAvailable(this.a)) {
-            this.startTimer(__bind(function() {
-              this.a = "";
-              this.times = "";
-              return this.waiting = false;
-            }, this), this.timeout);
+            this.startTimer(function() {
+              _this.a = "";
+              _this.times = "";
+              return _this.waiting = false;
+            }, this.timeout);
           } else {
             g.logger.d("invalid key sequence: " + this.a);
             this.reset();
@@ -269,13 +281,13 @@
         }
       }
     };
+
     function CommandManager(model, timeout, enableMulti) {
       this.model = model;
-      if (enableMulti == null) {
-        enableMulti = true;
-      }
+      if (enableMulti == null) enableMulti = true;
       this.keyQueue.init(this.model, timeout, enableMulti);
     }
+
     CommandManager.prototype.getCommandFromKeySeq = function(s, keyMap) {
       var keySeq;
       this.keyQueue.queue(s);
@@ -286,12 +298,15 @@
         return null;
       }
     };
+
     CommandManager.prototype.reset = function() {
       return this.keyQueue.reset();
     };
+
     CommandManager.prototype.isWaitingNextKey = function() {
       return this.keyQueue.isWaiting();
     };
+
     CommandManager.prototype.handleKey = function(msg, keyMap) {
       var com, s, times;
       s = g.KeyManager.getKeyCodeStr(msg);
@@ -316,6 +331,9 @@
           return event.preventDefault();
       }
     };
+
     return CommandManager;
+
   })();
+
 }).call(this);

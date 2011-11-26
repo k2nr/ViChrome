@@ -1,10 +1,10 @@
 (function() {
   var g, getAliasFirst, getCMapFirst, getIMapFirst, getNMapFirst, _ref;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  if ((_ref = this.vichrome) == null) {
-    this.vichrome = {};
-  }
+
+  if ((_ref = this.vichrome) == null) this.vichrome = {};
+
   g = this.vichrome;
+
   getNMapFirst = function() {
     var map, myMap, nmap, pageMap, url, _ref2;
     nmap = g.object(this.getSetting("keyMappingNormal"));
@@ -15,15 +15,14 @@
     myMap = nmap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(g.view.getHref(), url)) {
-        g.extend(map.nmap, myMap);
-      }
+      if (this.isUrlMatched(g.view.getHref(), url)) g.extend(map.nmap, myMap);
     }
     this.getNMap = function() {
       return myMap;
     };
     return myMap;
   };
+
   getIMapFirst = function() {
     var imap, map, myMap, pageMap, url, _ref2;
     imap = g.object(this.getSetting("keyMappingInsert"));
@@ -34,15 +33,14 @@
     myMap = imap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(g.view.getHref(), url)) {
-        g.extend(map.imap, myMap);
-      }
+      if (this.isUrlMatched(g.view.getHref(), url)) g.extend(map.imap, myMap);
     }
     this.getIMap = function() {
       return myMap;
     };
     return myMap;
   };
+
   getCMapFirst = function() {
     var cmap, map, myMap, pageMap, url, _ref2;
     cmap = g.object(this.getSetting("keyMappingCommand"));
@@ -53,15 +51,14 @@
     myMap = cmap;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(g.view.getHref(), url)) {
-        g.extend(map.cmap, myMap);
-      }
+      if (this.isUrlMatched(g.view.getHref(), url)) g.extend(map.cmap, myMap);
     }
     this.getCMap = function() {
       return myMap;
     };
     return myMap;
   };
+
   getAliasFirst = function() {
     var aliases, map, myAlias, pageMap, url, _ref2;
     aliases = g.object(this.getSetting("aliases"));
@@ -72,15 +69,14 @@
     myAlias = aliases;
     for (url in pageMap) {
       map = pageMap[url];
-      if (this.isUrlMatched(g.view.getHref(), url)) {
-        g.extend(map.alias, myAlias);
-      }
+      if (this.isUrlMatched(g.view.getHref(), url)) g.extend(map.alias, myAlias);
     }
     this.getAlias = function() {
       return myAlias;
     };
     return myAlias;
   };
+
   g.model = {
     initEnabled: false,
     domReady: false,
@@ -91,9 +87,7 @@
     settings: null,
     frameID: 0,
     changeMode: function(newMode) {
-      if (this.curMode != null) {
-        this.curMode.exit();
-      }
+      if (this.curMode != null) this.curMode.exit();
       this.curMode = newMode;
       return this.curMode.enter();
     },
@@ -116,9 +110,7 @@
     goPageMark: function(key) {
       var offset;
       offset = this.pmRegister.get(key);
-      if (offset) {
-        return g.view.scrollTo(offset.left, offset.top);
-      }
+      if (offset) return g.view.scrollTo(offset.left, offset.top);
     },
     setSearcher: function(searcher) {
       this.searcher = searcher;
@@ -176,9 +168,7 @@
       return this.curMode.getName() === "EmergencyMode";
     },
     goNextSearchResult: function(reverse) {
-      if (this.searcher == null) {
-        return;
-      }
+      if (this.searcher == null) return;
       this.setPageMark();
       return this.searcher.goNext(reverse);
     },
@@ -192,9 +182,7 @@
     escape: function() {
       this.commandManager.reset();
       g.view.hideStatusLine();
-      if (!this.isInNormalMode()) {
-        return this.enterNormalMode();
-      }
+      if (!this.isInNormalMode()) return this.enterNormalMode();
     },
     onBlur: function(target) {
       return this.curMode.blur(target);
@@ -220,13 +208,9 @@
         pos = cmpStr.indexOf("<", 0);
         if (pos >= 0) {
           pos = seq.indexOf(">", pos);
-          if (pos >= length) {
-            cmpStr = seq.slice(0, pos + 1);
-          }
+          if (pos >= length) cmpStr = seq.slice(0, pos + 1);
         }
-        if (keySeq === cmpStr) {
-          return true;
-        }
+        if (keySeq === cmpStr) return true;
       }
       return false;
     },
@@ -286,14 +270,15 @@
       }
     },
     onFocus: function(target) {
+      var _this = this;
       if (this.isInCommandMode() || this.isInSearchMode() || this.isInEmergencyMode()) {
         g.logger.d("onFocus:nothing should be done in the cur mode");
         return;
       }
       if (this.disAutoFocus) {
-        setTimeout((__bind(function() {
-          return this.disAutoFocus = false;
-        }, this)), 500);
+        setTimeout((function() {
+          return _this.disAutoFocus = false;
+        }), 500);
         this.enterNormalMode();
         g.view.blurActiveElement();
         return;
@@ -325,9 +310,7 @@
           frameID: this.frameID
         });
       }
-      if (this.domReady) {
-        return this.onDomReady();
-      }
+      if (this.domReady) return this.onDomReady();
     },
     onDomReady: function() {
       g.logger.d("onDomReady");
@@ -354,9 +337,7 @@
         param.command = "TopFrame";
       }
       param.innerCommand = 'OpenCommandBox';
-      if ((_ref2 = param.sender) == null) {
-        param.sender = this.frameID;
-      }
+      if ((_ref2 = param.sender) == null) param.sender = this.frameID;
       if ((_ref3 = param.keyMap) == null) {
         param.keyMap = g.extendDeep(this.getCMap());
       }
@@ -368,7 +349,9 @@
       });
     }
   };
+
   $(document).ready(function() {
     return g.model.onDomReady();
   });
+
 }).call(this);
