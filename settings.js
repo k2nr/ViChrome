@@ -77,8 +77,6 @@
         "<C-[>": "Escape"
       },
       "keyMappingInsert": {
-        "<C-l>": "MoveToNextTab",
-        "<C-h>": "MoveToPrevTab",
         "<ESC>": "Escape",
         "<C-[>": "Escape"
       },
