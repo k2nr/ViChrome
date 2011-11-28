@@ -403,6 +403,7 @@
       }
       req = {};
       req.args = [];
+      req.times = 1;
       url = chrome.extension.getURL("options.html");
       if (key) url += "#keymapping";
       req.args.push(url);

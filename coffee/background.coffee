@@ -306,6 +306,7 @@ g.bg =
             when "-k","--key" then key = true
         req = {}
         req.args = []
+        req.times = 1
         url = chrome.extension.getURL("options.html")
         url += "#keymapping" if key
         req.args.push url
