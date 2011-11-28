@@ -1,6 +1,62 @@
 this.vichrome ?= {}
 g = this.vichrome
 
+class g.TabSelectionHistory
+    init : ->
+        @array  = []
+        @curPos = 0
+
+        chrome.tabs.onSelectionChanged.addListener( (tabId, info) =>
+            g.logger.d "selhist selChanged id:" + tabId, this
+            if @array[@curPos]?.id == tabId
+                return
+
+            @array.splice( @curPos+1 )
+            for elem,i in @array
+                if elem.id == tabId
+                    @array.splice( i, 1 )
+                    break
+
+            @array.push {id:tabId, info:info}
+            @curPos = @array.length - 1
+        )
+
+        chrome.tabs.onRemoved.addListener( (tabId, info) =>
+            g.logger.d "selhist tab removed id:" + tabId, this
+            for elem,i in @array
+                if elem.id == tabId
+                    @array.splice( i, 1 )
+                    @curPos-- if @curPos >= i
+                    break
+        )
+        this
+
+    moveBackward : ->
+        unless @array.length > 0 then return
+        if @curPos > 0
+            --@curPos
+        else
+            @curPos = @array.length - 1
+
+        chrome.tabs.update( @array[@curPos].id, selected:true )
+        this
+
+    moveForward  : ->
+        unless @array.length > 0 then return
+        if @curPos < @array.length - 1
+            ++@curPos
+        else
+            @curPos = 0
+
+        chrome.tabs.update( @array[@curPos].id, selected:true )
+        this
+
+    switchToLast : ->
+        unless @array.length > 0 then return
+        unless @curPos > 0       then return
+
+        chrome.tabs.update( @array[@curPos-1].id, selected:true )
+
 class g.TabHistory
     closeHistStack : []
     openTabs : {}

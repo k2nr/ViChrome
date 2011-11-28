@@ -48,8 +48,11 @@ class g.CommandExecuter
         CloseAllTabs          : sendToBackground
         MoveToNextTab         : sendToBackground
         MoveToPrevTab         : sendToBackground
+        MoveToNextTabHistory  : sendToBackground
+        MoveToPrevTabHistory  : sendToBackground
         MoveToFirstTab        : sendToBackground
         MoveToLastTab         : sendToBackground
+        MoveToLastSelectedTab : sendToBackground
         NMap                  : sendToBackground
         IMap                  : sendToBackground
         Alias                 : sendToBackground

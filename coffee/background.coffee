@@ -152,6 +152,18 @@ g.bg =
             @moveTab( -times )
         false
 
+    reqMoveToNextTabHistory : (req) ->
+        @tabSelHist.moveForward()
+        false
+
+    reqMoveToPrevTabHistory : (req) ->
+        @tabSelHist.moveBackward()
+        false
+
+    reqMoveToLastSelectedTab : (req) ->
+        @tabSelHist.switchToLast()
+        false
+
     reqMoveToFirstTab : (req) ->
         @moveTab( 0, 0 )
         false
@@ -353,6 +365,7 @@ g.bg =
 
     init : ->
         @tabHistory = (new g.TabHistory).init()
+        @tabSelHist = (new g.TabSelectionHistory).init()
         g.SettingManager.init()
 
         $WA = crocro.webAi

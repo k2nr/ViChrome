@@ -5,6 +5,93 @@
 
   g = this.vichrome;
 
+  g.TabSelectionHistory = (function() {
+
+    function TabSelectionHistory() {}
+
+    TabSelectionHistory.prototype.init = function() {
+      var _this = this;
+      this.array = [];
+      this.curPos = 0;
+      chrome.tabs.onSelectionChanged.addListener(function(tabId, info) {
+        var elem, i, _len, _ref2, _ref3;
+        g.logger.d("selhist selChanged id:" + tabId, _this);
+        if (((_ref2 = _this.array[_this.curPos]) != null ? _ref2.id : void 0) === tabId) {
+          return;
+        }
+        _this.array.splice(_this.curPos + 1);
+        _ref3 = _this.array;
+        for (i = 0, _len = _ref3.length; i < _len; i++) {
+          elem = _ref3[i];
+          if (elem.id === tabId) {
+            _this.array.splice(i, 1);
+            break;
+          }
+        }
+        _this.array.push({
+          id: tabId,
+          info: info
+        });
+        return _this.curPos = _this.array.length - 1;
+      });
+      chrome.tabs.onRemoved.addListener(function(tabId, info) {
+        var elem, i, _len, _ref2, _results;
+        g.logger.d("selhist tab removed id:" + tabId, _this);
+        _ref2 = _this.array;
+        _results = [];
+        for (i = 0, _len = _ref2.length; i < _len; i++) {
+          elem = _ref2[i];
+          if (elem.id === tabId) {
+            _this.array.splice(i, 1);
+            if (_this.curPos >= i) _this.curPos--;
+            break;
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      });
+      return this;
+    };
+
+    TabSelectionHistory.prototype.moveBackward = function() {
+      if (!(this.array.length > 0)) return;
+      if (this.curPos > 0) {
+        --this.curPos;
+      } else {
+        this.curPos = this.array.length - 1;
+      }
+      chrome.tabs.update(this.array[this.curPos].id, {
+        selected: true
+      });
+      return this;
+    };
+
+    TabSelectionHistory.prototype.moveForward = function() {
+      if (!(this.array.length > 0)) return;
+      if (this.curPos < this.array.length - 1) {
+        ++this.curPos;
+      } else {
+        this.curPos = 0;
+      }
+      chrome.tabs.update(this.array[this.curPos].id, {
+        selected: true
+      });
+      return this;
+    };
+
+    TabSelectionHistory.prototype.switchToLast = function() {
+      if (!(this.array.length > 0)) return;
+      if (!(this.curPos > 0)) return;
+      return chrome.tabs.update(this.array[this.curPos - 1].id, {
+        selected: true
+      });
+    };
+
+    return TabSelectionHistory;
+
+  })();
+
   g.TabHistory = (function() {
 
     function TabHistory() {}

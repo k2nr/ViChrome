@@ -72,6 +72,7 @@
         "b": "Open -b",
         "B": "OpenNewTab -b",
         "''": "BackToPageMark",
+        "^": "MoveToLastSelectedTab",
         "<C-ESC>": "GoEmergencyMode",
         "<ESC>": "Escape",
         "<C-[>": "Escape"

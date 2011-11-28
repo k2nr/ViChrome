@@ -235,6 +235,18 @@
       }
       return false;
     },
+    reqMoveToNextTabHistory: function(req) {
+      this.tabSelHist.moveForward();
+      return false;
+    },
+    reqMoveToPrevTabHistory: function(req) {
+      this.tabSelHist.moveBackward();
+      return false;
+    },
+    reqMoveToLastSelectedTab: function(req) {
+      this.tabSelHist.switchToLast();
+      return false;
+    },
     reqMoveToFirstTab: function(req) {
       this.moveTab(0, 0);
       return false;
@@ -453,6 +465,7 @@
       var $WA, req, storedVersion;
       var _this = this;
       this.tabHistory = (new g.TabHistory).init();
+      this.tabSelHist = (new g.TabSelectionHistory).init();
       g.SettingManager.init();
       $WA = crocro.webAi;
       this.cWSrch = new $WA.WebSrch();
