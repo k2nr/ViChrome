@@ -209,9 +209,9 @@ g.model =
 
     handleKey : (msg) -> @commandManager.handleKey msg, @getKeyMapping()
 
-    triggerCommand : (method, args) ->
+    triggerCommand : (method, args, times, timesSpecified) ->
         if @curMode[method]?
-            @curMode[method]( args )
+            @curMode[method]( args, times, timesSpecified )
         else
             g.logger.e "INVALID command!:", method
 

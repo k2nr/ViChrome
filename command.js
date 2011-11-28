@@ -1,39 +1,33 @@
 (function() {
-  var escape, g, passToFrame, passToTopFrame, sendToBackground, triggerInsideContent, _ref;
+  var escape, g, passToTopFrame, sendToBackground, triggerInsideContent, _ref;
   var __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
 
   if ((_ref = this.vichrome) == null) this.vichrome = {};
 
   g = this.vichrome;
 
-  sendToBackground = function(com, args) {
+  sendToBackground = function(com, args, times, timesSpecified) {
     return chrome.extension.sendRequest({
       command: com,
-      args: args
+      args: args,
+      times: times,
+      timesSpecified: timesSpecified
     }, function(msg) {
       return g.handler.onCommandResponse(msg);
     });
   };
 
-  triggerInsideContent = function(com, args) {
-    return g.model.triggerCommand("req" + com, args);
+  triggerInsideContent = function(com, args, times, timesSpecified) {
+    return g.model.triggerCommand("req" + com, args, times, timesSpecified);
   };
 
-  passToTopFrame = function(com, args) {
+  passToTopFrame = function(com, args, times, timesSpecified) {
     return chrome.extension.sendRequest({
       command: "TopFrame",
       innerCommand: com,
       args: args,
-      senderFrameID: g.model.frameID
-    }, g.handler.onCommandResponse);
-  };
-
-  passToFrame = function(com, args, target) {
-    return chrome.extension.sendRequest({
-      command: "PassToFrame",
-      innerCommand: com,
-      args: args,
-      frameID: target,
+      times: times,
+      timesSpecified: timesSpecified,
       senderFrameID: g.model.frameID
     }, g.handler.onCommandResponse);
   };
@@ -120,7 +114,6 @@
     };
 
     CommandExecuter.prototype.set = function(command, times) {
-      if (times == null) times = 1;
       if (this.command != null) {
         this.command += " ";
       } else {
@@ -128,6 +121,7 @@
       }
       this.command += command.replace(/^[\t ]*/, "").replace(/[\t ]*$/, "");
       this.times = times != null ? times : 1;
+      this.timesSpecified = times != null ? true : false;
       return this;
     };
 
@@ -203,13 +197,7 @@
         return;
       }
       return setTimeout(function() {
-        if ((_this.targetFrame != null) && _this.commandTable[com] !== sendToBackground) {
-          passToFrame(com, _this.args.slice(1), _this.targetFrame);
-        } else {
-          while (_this.times--) {
-            _this.commandTable[com](com, _this.args.slice(1));
-          }
-        }
+        return _this.commandTable[com](com, _this.args.slice(1), _this.times, _this.timesSpecified);
       }, 0);
     };
 
@@ -261,7 +249,7 @@
         if (this.times.length > 0) {
           return parseInt(this.times, 10);
         } else {
-          return 1;
+          return null;
         }
       },
       getNextKeySequence: function() {

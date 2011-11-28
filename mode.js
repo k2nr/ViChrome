@@ -117,9 +117,10 @@
       }
     };
 
-    Mode.prototype.reqOpenNewTab = function(args) {
+    Mode.prototype.reqOpenNewTab = function(args, times) {
       var arg, bookmark, com, history, i, interactive, opt, search, url, urls, web, word, words, _i, _j, _len, _len2;
       words = [];
+      if (times > 10) times = 1;
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
         switch (arg) {
@@ -164,59 +165,61 @@
         urls.push(url);
         return chrome.extension.sendRequest({
           command: "OpenNewTab",
-          args: urls
+          args: urls,
+          times: times
         }, g.handler.onCommandResponse);
       } else {
         return chrome.extension.sendRequest({
           command: "OpenNewTab",
-          args: words
+          args: words,
+          times: times
         }, g.handler.onCommandResponse);
       }
     };
 
     Mode.prototype.blur = function() {};
 
-    Mode.prototype.reqScrollDown = function() {
-      return g.view.scrollBy(0, g.model.getSetting("scrollPixelCount"));
+    Mode.prototype.reqScrollDown = function(args, times) {
+      return g.view.scrollBy(0, g.model.getSetting("scrollPixelCount") * times);
     };
 
-    Mode.prototype.reqScrollUp = function() {
-      return g.view.scrollBy(0, -g.model.getSetting("scrollPixelCount"));
+    Mode.prototype.reqScrollUp = function(args, times) {
+      return g.view.scrollBy(0, -g.model.getSetting("scrollPixelCount") * times);
     };
 
-    Mode.prototype.reqScrollLeft = function() {
-      return g.view.scrollBy(-g.model.getSetting("scrollPixelCount", 0));
+    Mode.prototype.reqScrollLeft = function(args, times) {
+      return g.view.scrollBy(-g.model.getSetting("scrollPixelCount") * times, 0);
     };
 
-    Mode.prototype.reqScrollRight = function() {
-      return g.view.scrollBy(g.model.getSetting("scrollPixelCount", 0));
+    Mode.prototype.reqScrollRight = function(args, times) {
+      return g.view.scrollBy(g.model.getSetting("scrollPixelCount") * times, 0);
     };
 
-    Mode.prototype.reqPageHalfDown = function() {
+    Mode.prototype.reqPageHalfDown = function(args, times) {
       return g.view.scrollHalfPage({
         hor: 0,
-        ver: 1
+        ver: times
       });
     };
 
-    Mode.prototype.reqPageHalfUp = function() {
+    Mode.prototype.reqPageHalfUp = function(args, times) {
       return g.view.scrollHalfPage({
         hor: 0,
-        ver: -1
+        ver: -times
       });
     };
 
-    Mode.prototype.reqPageDown = function() {
+    Mode.prototype.reqPageDown = function(args, times) {
       return g.view.scrollHalfPage({
         hor: 0,
-        ver: 2
+        ver: 2 * times
       });
     };
 
-    Mode.prototype.reqPageUp = function() {
+    Mode.prototype.reqPageUp = function(args, times) {
       return g.view.scrollHalfPage({
         hor: 0,
-        ver: -2
+        ver: -2 * times
       });
     };
 

@@ -1,28 +1,25 @@
 this.vichrome ?= {}
 g = this.vichrome
 
-sendToBackground = (com, args) ->
-    chrome.extension.sendRequest( {command : com, args : args}, (msg) ->
-        g.handler.onCommandResponse msg
-    )
+sendToBackground = (com, args, times, timesSpecified) ->
+    chrome.extension.sendRequest( {
+        command : com
+        args    : args
+        times   : times
+        timesSpecified : timesSpecified
+    }, (msg) -> g.handler.onCommandResponse msg )
 
-triggerInsideContent = (com, args) -> g.model.triggerCommand "req#{com}", args
+triggerInsideContent = (com, args, times, timesSpecified) ->
+    g.model.triggerCommand "req#{com}", args, times, timesSpecified
 
-passToTopFrame = (com, args) ->
+passToTopFrame = (com, args, times, timesSpecified) ->
     chrome.extension.sendRequest( {
         command      : "TopFrame"
         innerCommand : com
         args         : args
-        senderFrameID : g.model.frameID
-    }, g.handler.onCommandResponse )
-
-passToFrame = (com, args, target) ->
-    chrome.extension.sendRequest( {
-        command      : "PassToFrame"
-        innerCommand : com
-        args         : args
-        frameID      : target
-        senderFrameID : g.model.frameID
+        times        : times
+        timesSpecified : timesSpecified
+        senderFrameID  : g.model.frameID
     }, g.handler.onCommandResponse )
 
 escape = (com) -> triggerInsideContent "Escape"
@@ -98,12 +95,13 @@ class g.CommandExecuter
     setDescription : (@description) -> this
     getDescription : -> @description
     reset : -> @command = null
-    set : (command, times=1) ->
+    set : (command, times) ->
         if @command? then @command += " " else @command = ""
         @command += command
                     .replace(/^[\t ]*/, "")
                     .replace(/[\t ]*$/, "")
         @times = times ? 1
+        @timesSpecified = if times? then true else false
         this
 
     delimLine : (line) ->
@@ -159,11 +157,7 @@ class g.CommandExecuter
         unless g.model.isReady() or com in @commandsBeforeReady then return
 
         setTimeout( =>
-            if @targetFrame? and @commandTable[com] != sendToBackground
-                passToFrame( com, @args.slice(1), @targetFrame )
-            else
-                @commandTable[com]( com, @args.slice(1) ) while @times--
-            return
+            @commandTable[com]( com, @args.slice(1), @times, @timesSpecified )
         , 0 )
 
 class g.CommandManager
@@ -201,7 +195,7 @@ class g.CommandManager
 
         isWaiting : -> @waiting
 
-        getTimes : -> if @times.length > 0 then parseInt(@times, 10) else 1
+        getTimes : -> if @times.length > 0 then parseInt(@times, 10) else null
 
         getNextKeySequence : ->
             @stopTimer()

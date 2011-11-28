@@ -241,9 +241,9 @@
     handleKey: function(msg) {
       return this.commandManager.handleKey(msg, this.getKeyMapping());
     },
-    triggerCommand: function(method, args) {
+    triggerCommand: function(method, args, times, timesSpecified) {
       if (this.curMode[method] != null) {
-        return this.curMode[method](args);
+        return this.curMode[method](args, times, timesSpecified);
       } else {
         return g.logger.e("INVALID command!:", method);
       }

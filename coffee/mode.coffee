@@ -64,8 +64,9 @@ class g.Mode
         else
             g.view.open( urls[0], "_self" )
 
-    reqOpenNewTab : (args) ->
+    reqOpenNewTab : (args, times) ->
         words = []
+        times = 1 if times > 10 # prevent pluto force attack
         for arg in args then switch arg
             when "-i" then interactive = true
             when "-b" then bookmark    = true
@@ -90,19 +91,19 @@ class g.Mode
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
             urls = []
             urls.push url
-            chrome.extension.sendRequest {command : "OpenNewTab", args : urls}, g.handler.onCommandResponse
+            chrome.extension.sendRequest {command : "OpenNewTab", args : urls, times : times}, g.handler.onCommandResponse
         else
-            chrome.extension.sendRequest {command : "OpenNewTab", args : words}, g.handler.onCommandResponse
+            chrome.extension.sendRequest {command : "OpenNewTab", args : words, times : times}, g.handler.onCommandResponse
 
     blur : ->
-    reqScrollDown   : -> g.view.scrollBy(0, g.model.getSetting "scrollPixelCount")
-    reqScrollUp     : -> g.view.scrollBy(0, -g.model.getSetting "scrollPixelCount")
-    reqScrollLeft   : -> g.view.scrollBy(-g.model.getSetting "scrollPixelCount", 0)
-    reqScrollRight  : -> g.view.scrollBy(g.model.getSetting "scrollPixelCount", 0)
-    reqPageHalfDown : -> g.view.scrollHalfPage( hor :  0, ver :  1 )
-    reqPageHalfUp   : -> g.view.scrollHalfPage( hor :  0, ver : -1 )
-    reqPageDown     : -> g.view.scrollHalfPage( hor :  0, ver :  2 )
-    reqPageUp       : -> g.view.scrollHalfPage( hor :  0, ver : -2 )
+    reqScrollDown   : (args, times) -> g.view.scrollBy( 0,  g.model.getSetting("scrollPixelCount") * times )
+    reqScrollUp     : (args, times) -> g.view.scrollBy( 0, -g.model.getSetting("scrollPixelCount") * times )
+    reqScrollLeft   : (args, times) -> g.view.scrollBy( -g.model.getSetting("scrollPixelCount") * times, 0 )
+    reqScrollRight  : (args, times) -> g.view.scrollBy(  g.model.getSetting("scrollPixelCount") * times, 0 )
+    reqPageHalfDown : (args, times) -> g.view.scrollHalfPage( hor :  0, ver :  times )
+    reqPageHalfUp   : (args, times) -> g.view.scrollHalfPage( hor :  0, ver : -times )
+    reqPageDown     : (args, times) -> g.view.scrollHalfPage( hor :  0, ver :  2*times )
+    reqPageUp       : (args, times) -> g.view.scrollHalfPage( hor :  0, ver : -2*times )
     reqGoTop : ->
         g.model.setPageMark()
         g.view.goTop()

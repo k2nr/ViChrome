@@ -130,7 +130,7 @@
           g.view.hideStatusLine();
           return sendResponse();
         } else {
-          g.model.triggerCommand("req" + req.command, req.args);
+          g.model.triggerCommand("req" + req.command, req.args, req.times, req.timesSpecified);
           return sendResponse();
         }
       });

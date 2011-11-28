@@ -71,12 +71,15 @@ g.bg =
             else urls.push( arg )
 
         len = urls.length
+        times = req.times ? 1
         if len == 0
             url = @getDefaultNewTabPage()
-            chrome.tabs.create(url : url, selected : focus, pinned : pinned)
-        else
-            for url in urls
+            while req.times--
                 chrome.tabs.create(url : url, selected : focus, pinned : pinned)
+        else
+            while req.times--
+                for url in urls
+                    chrome.tabs.create(url : url, selected : focus, pinned : pinned)
         false
 
     reqCopy : (req) ->
@@ -132,17 +135,21 @@ g.bg =
 
     reqMoveToNextTab : (req) ->
         if req.args?[0]?
-            if req.args[0] < 0 then return
+            if req.args[0] <= 0 then return
             @moveTab( parseInt( req.args[0] ) - 1, 0 )
         else
-            @moveTab( 1 )
+            if req.timesSpecified and req.times > 0
+                @moveTab( req.times-1, 0 )
+            else
+                @moveTab( 1 )
         false
 
     reqMoveToPrevTab : (req) ->
+        times = if req.times then req.times else 1
         if req.args?[0]?
             @moveTab( -parseInt( req.args[0] ) )
         else
-            @moveTab( -1 )
+            @moveTab( -times )
         false
 
     reqMoveToFirstTab : (req) ->

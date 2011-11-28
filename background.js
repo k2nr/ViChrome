@@ -75,7 +75,7 @@
       }
     },
     reqOpenNewTab: function(req) {
-      var arg, focus, len, pinned, url, urls, _i, _j, _len, _len2, _ref2;
+      var arg, focus, len, pinned, times, url, urls, _i, _j, _len, _len2, _ref2, _ref3;
       urls = [];
       focus = true;
       pinned = false;
@@ -96,21 +96,26 @@
         }
       }
       len = urls.length;
+      times = (_ref3 = req.times) != null ? _ref3 : 1;
       if (len === 0) {
         url = this.getDefaultNewTabPage();
-        chrome.tabs.create({
-          url: url,
-          selected: focus,
-          pinned: pinned
-        });
-      } else {
-        for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
-          url = urls[_j];
+        while (req.times--) {
           chrome.tabs.create({
             url: url,
             selected: focus,
             pinned: pinned
           });
+        }
+      } else {
+        while (req.times--) {
+          for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
+            url = urls[_j];
+            chrome.tabs.create({
+              url: url,
+              selected: focus,
+              pinned: pinned
+            });
+          }
         }
       }
       return false;
@@ -209,19 +214,24 @@
     reqMoveToNextTab: function(req) {
       var _ref2;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
-        if (req.args[0] < 0) return;
+        if (req.args[0] <= 0) return;
         this.moveTab(parseInt(req.args[0]) - 1, 0);
       } else {
-        this.moveTab(1);
+        if (req.timesSpecified && req.times > 0) {
+          this.moveTab(req.times - 1, 0);
+        } else {
+          this.moveTab(1);
+        }
       }
       return false;
     },
     reqMoveToPrevTab: function(req) {
-      var _ref2;
+      var times, _ref2;
+      times = req.times ? req.times : 1;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
         this.moveTab(-parseInt(req.args[0]));
       } else {
-        this.moveTab(-1);
+        this.moveTab(-times);
       }
       return false;
     },
