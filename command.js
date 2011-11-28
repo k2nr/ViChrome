@@ -131,6 +131,41 @@
       return this;
     };
 
+    CommandExecuter.prototype.delimLine = function(line) {
+      var c, len, pos, pre, result, start;
+      result = [];
+      pos = 0;
+      pre = 0;
+      len = line.length;
+      while (pos < len) {
+        c = line.charAt(pos);
+        switch (c) {
+          case " ":
+            result.push(line.slice(pre, pos));
+            while (line.charAt(pos) === " ") {
+              ++pos;
+            }
+            pre = pos;
+            break;
+          case "'":
+          case "\"":
+            start = pos;
+            while (line.charAt(++pos) !== c) {
+              if (pos >= len) {
+                pos = start;
+                break;
+              }
+            }
+            ++pos;
+            break;
+          default:
+            ++pos;
+        }
+      }
+      result.push(line.slice(pre, pos));
+      return result;
+    };
+
     CommandExecuter.prototype.solveAlias = function(alias) {
       var aliases, command;
       aliases = g.model.getAlias();
@@ -143,44 +178,15 @@
     };
 
     CommandExecuter.prototype.parse = function() {
-      var c, command, i, len, pos, pre, start, _ref2;
+      var command, i, _ref2;
       if (!this.command) throw "invalid command";
-      pos = 0;
-      pre = 0;
-      this.args = [];
-      len = this.command.length;
-      while (pos < len) {
-        c = this.command.charAt(pos);
-        switch (c) {
-          case " ":
-            this.args.push(this.command.slice(pre, pos));
-            while (this.command.charAt(pos) === " ") {
-              ++pos;
-            }
-            pre = pos;
-            break;
-          case "'":
-          case "\"":
-            start = pos;
-            while (this.command.charAt(++pos) !== c) {
-              if (pos >= len) {
-                pos = start;
-                break;
-              }
-            }
-            ++pos;
-            break;
-          default:
-            ++pos;
-        }
-      }
-      this.args.push(this.command.slice(pre, pos));
+      this.args = this.delimLine(this.command);
       for (i = _ref2 = this.args.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
         if (this.args[i].length === 0) this.args.splice(i, 1);
       }
       command = this.solveAlias(this.args[0]);
       if (command != null) {
-        this.args = command.split(' ').concat(this.args.slice(1));
+        this.args = this.delimLine(command).concat(this.args.slice(1));
       }
       if (this.commandTable[this.args[0]]) {
         return this;

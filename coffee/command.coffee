@@ -106,6 +106,30 @@ class g.CommandExecuter
         @times = times ? 1
         this
 
+    delimLine : (line) ->
+        result = []
+        pos = 0
+        pre = 0
+        len = line.length
+        while pos < len
+            c = line.charAt(pos)
+            switch c
+                when " "
+                    result.push line.slice( pre, pos )
+                    ++pos while line.charAt(pos) == " "
+                    pre = pos
+                when "'","\""
+                    start = pos
+                    while line.charAt(++pos) != c
+                        if pos >= len
+                            pos = start
+                            break
+                    ++pos
+                else ++pos
+
+        result.push line.slice( pre, pos )
+        result
+
     solveAlias : (alias) ->
         aliases = g.model.getAlias()
         alias = aliases[alias]
@@ -117,35 +141,14 @@ class g.CommandExecuter
     parse : ->
         unless @command then throw "invalid command"
 
-        pos = 0
-        pre = 0
-        @args = []
-        len = @command.length
-        while pos < len
-            c = @command.charAt(pos)
-            switch c
-                when " "
-                    @args.push @command.slice( pre, pos )
-                    ++pos while @command.charAt(pos) == " "
-                    pre = pos
-                when "'","\""
-                    start = pos
-                    while @command.charAt(++pos) != c
-                        if pos >= len
-                            pos = start
-                            break
-                    ++pos
-                else ++pos
-
-        @args.push @command.slice( pre, pos )
-
+        @args = @delimLine( @command )
         for i in [@args.length-1..0]
             if @args[i].length == 0
                 @args.splice( i, 1 )
 
         command = @solveAlias( @args[0] )
         if command?
-            @args = command.split(' ').concat( @args.slice(1) )
+            @args = @delimLine( command ).concat( @args.slice(1) )
 
         if @commandTable[ @args[0] ]
             return this
