@@ -74,10 +74,10 @@ g.bg =
         times = req.times ? 1
         if len == 0
             url = @getDefaultNewTabPage()
-            while req.times--
+            while times--
                 chrome.tabs.create(url : url, selected : focus, pinned : pinned)
         else
-            while req.times--
+            while times--
                 for url in urls
                     chrome.tabs.create(url : url, selected : focus, pinned : pinned)
         false

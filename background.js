@@ -99,7 +99,7 @@
       times = (_ref3 = req.times) != null ? _ref3 : 1;
       if (len === 0) {
         url = this.getDefaultNewTabPage();
-        while (req.times--) {
+        while (times--) {
           chrome.tabs.create({
             url: url,
             selected: focus,
@@ -107,7 +107,7 @@
           });
         }
       } else {
-        while (req.times--) {
+        while (times--) {
           for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
             url = urls[_j];
             chrome.tabs.create({
