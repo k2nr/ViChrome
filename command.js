@@ -40,7 +40,7 @@
 
     function CommandExecuter() {}
 
-    CommandExecuter.prototype.commandsBeforeReady = ["TabOpenNew", "TabCloseCurrent", "TabFocusNext", "TabFocusPrev", "TabFocusFirst", "TabFocusLast", "NMap", "IMap", "Alias", "WinOpenNew", "OpenOptionPage", "RestoreTab"];
+    CommandExecuter.prototype.commandsBeforeReady = ["TabOpenNew", "TabCloseCurrent", "TabCloseAll", "TabFocusNext", "TabFocusPrev", "TabFocusFirst", "TabFocusLast", "TabFocusNextHistory", "TabFocusPrevHistory", "TabSwitchLast", "TabReloadAll", "NMap", "IMap", "Alias", "WinOpenNew", "OpenOptionPage", "RestoreTab"];
 
     CommandExecuter.prototype.commandTable = {
       Open: passToTopFrame,
