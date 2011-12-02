@@ -130,7 +130,7 @@
     };
 
     CommandExecuter.prototype.delimLine = function(line) {
-      var c, len, pos, pre, result, start;
+      var c, i, len, pos, pre, result, start, _ref2;
       result = [];
       pos = 0;
       pre = 0;
@@ -161,6 +161,9 @@
         }
       }
       result.push(line.slice(pre, pos));
+      for (i = _ref2 = result.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
+        if (result[i].length === 0) result.splice(i, 1);
+      }
       return result;
     };
 
@@ -176,15 +179,18 @@
     };
 
     CommandExecuter.prototype.parse = function() {
-      var command, i, _ref2;
+      var command;
       if (!this.command) throw "invalid command";
       this.args = this.delimLine(this.command);
-      for (i = _ref2 = this.args.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
-        if (this.args[i].length === 0) this.args.splice(i, 1);
-      }
       command = this.solveAlias(this.args[0]);
       if (command != null) {
         this.args = this.delimLine(command).concat(this.args.slice(1));
+      }
+      command = this.command;
+      this.args = [];
+      while (command) {
+        this.args = this.delimLine(command).concat(this.args.slice(1));
+        command = this.solveAlias(this.args[0]);
       }
       if (this.commandTable[this.args[0]]) {
         return this;

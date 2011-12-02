@@ -135,6 +135,11 @@ class g.CommandExecuter
                 else ++pos
 
         result.push line.slice( pre, pos )
+
+        for i in [result.length-1..0]
+            if result[i].length == 0
+                result.splice( i, 1 )
+
         result
 
     solveAlias : (alias) ->
@@ -149,13 +154,15 @@ class g.CommandExecuter
         unless @command then throw "invalid command"
 
         @args = @delimLine( @command )
-        for i in [@args.length-1..0]
-            if @args[i].length == 0
-                @args.splice( i, 1 )
-
         command = @solveAlias( @args[0] )
         if command?
             @args = @delimLine( command ).concat( @args.slice(1) )
+
+        command = @command
+        @args = []
+        while command
+            @args = @delimLine( command ).concat( @args.slice(1) )
+            command = @solveAlias( @args[0] )
 
         if @commandTable[ @args[0] ]
             return this

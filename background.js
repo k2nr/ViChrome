@@ -414,7 +414,7 @@
       url = chrome.extension.getURL("options.html");
       if (key) url += "#keymapping";
       req.args.push(url);
-      return this.reqOpenNewTab(req);
+      return this.reqTabOpenNew(req);
     },
     reqTopFrame: function(req, response, sender) {
       var o;
@@ -515,7 +515,7 @@
         req = {};
         req.args = [];
         req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
-        this.reqOpenNewTab(req);
+        this.reqTabOpenNew(req);
       }
       return localStorage.version = g.VICHROME_VERSION;
     }

@@ -314,7 +314,7 @@ g.bg =
         url = chrome.extension.getURL("options.html")
         url += "#keymapping" if key
         req.args.push url
-        @reqOpenNewTab( req )
+        @reqTabOpenNew( req )
 
     reqTopFrame : (req, response, sender) ->
         req.command = req.innerCommand
@@ -409,7 +409,7 @@ g.bg =
             req = {}
             req.args = []
             req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
-            @reqOpenNewTab( req )
+            @reqTabOpenNew( req )
 
         localStorage.version = g.VICHROME_VERSION
 
