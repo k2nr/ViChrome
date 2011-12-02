@@ -184,7 +184,11 @@ class g.TabHistory
         unless item? then return
 
         chrome.windows.update( item.tab.windowId, { focused : true } )
-        opt = { windowId : item.tab.windowId, url : item.tab.url }
+        opt =
+            windowId : item.tab.windowId
+            url      : item.tab.url
+            index    : item.tab.index
+            pinned   : item.tab.pinned
         chrome.tabs.create( opt, (tab) => )
 
 g.tabs.reloadAllTabs = ->

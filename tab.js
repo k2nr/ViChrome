@@ -285,7 +285,9 @@
       });
       opt = {
         windowId: item.tab.windowId,
-        url: item.tab.url
+        url: item.tab.url,
+        index: item.tab.index,
+        pinned: item.tab.pinned
       };
       return chrome.tabs.create(opt, function(tab) {});
     };
