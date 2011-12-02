@@ -5,6 +5,7 @@ class g.TabSelectionHistory
     init : ->
         @array  = []
         @curPos = 0
+        @isUpdating = false
 
         chrome.tabs.onSelectionChanged.addListener( (tabId, info) =>
             g.logger.d "selhist selChanged id:" + tabId, this
@@ -33,29 +34,44 @@ class g.TabSelectionHistory
 
     moveBackward : ->
         unless @array.length > 0 then return
+        if @isUpdating then return
+
         if @curPos > 0
             --@curPos
         else
             @curPos = @array.length - 1
 
-        chrome.tabs.update( @array[@curPos].id, selected:true )
+        chrome.tabs.update( @array[@curPos].id, selected:true, =>
+            @isUpdating = false
+        )
+        @isUpdating = true
         this
 
     moveForward  : ->
         unless @array.length > 0 then return
+        if @isUpdating then return
+
         if @curPos < @array.length - 1
             ++@curPos
         else
             @curPos = 0
 
-        chrome.tabs.update( @array[@curPos].id, selected:true )
+        chrome.tabs.update( @array[@curPos].id, selected:true, =>
+            @isUpdating = false
+        )
+        @isUpdating = true
         this
 
     switchToLast : ->
         unless @array.length > 0 then return
         unless @curPos > 0       then return
+        if @isUpdating then return
 
-        chrome.tabs.update( @array[@curPos-1].id, selected:true )
+        chrome.tabs.update( @array[@curPos-1].id, selected:true, =>
+            @isUpdating = false
+        )
+        @isUpdating = true
+        this
 
 class g.TabHistory
     closeHistStack : []
