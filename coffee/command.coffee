@@ -58,6 +58,7 @@ class g.CommandExecuter
         Alias                 : sendToBackground
         OpenNewWindow         : sendToBackground
         ReloadTab             : triggerInsideContent
+        ReloadAllTabs         : sendToBackground
         ScrollUp              : triggerInsideContent
         ScrollDown            : triggerInsideContent
         ScrollLeft            : triggerInsideContent

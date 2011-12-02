@@ -5,6 +5,8 @@
 
   g = this.vichrome;
 
+  g.tabs = {};
+
   g.TabSelectionHistory = (function() {
 
     function TabSelectionHistory() {}
@@ -291,5 +293,19 @@
     return TabHistory;
 
   })();
+
+  g.tabs.reloadAllTabs = function() {
+    return chrome.tabs.getAllInWindow(null, function(tabs) {
+      var tab, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = tabs.length; _i < _len; _i++) {
+        tab = tabs[_i];
+        _results.push(chrome.tabs.update(tab.id, {
+          url: tab.url
+        }));
+      }
+      return _results;
+    });
+  };
 
 }).call(this);

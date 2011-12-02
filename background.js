@@ -211,6 +211,13 @@
       });
       return false;
     },
+    reqReloadAllTabs: function(req) {
+      var _ref2;
+      if ((_ref2 = g.tabs) != null) {
+        if (typeof _ref2.reloadAllTabs === "function") _ref2.reloadAllTabs();
+      }
+      return false;
+    },
     reqMoveToNextTab: function(req) {
       var _ref2;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {

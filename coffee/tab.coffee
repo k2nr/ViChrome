@@ -1,5 +1,6 @@
 this.vichrome ?= {}
 g = this.vichrome
+g.tabs = {}
 
 class g.TabSelectionHistory
     init : ->
@@ -185,4 +186,9 @@ class g.TabHistory
         chrome.windows.update( item.tab.windowId, { focused : true } )
         opt = { windowId : item.tab.windowId, url : item.tab.url }
         chrome.tabs.create( opt, (tab) => )
+
+g.tabs.reloadAllTabs = ->
+    chrome.tabs.getAllInWindow( null, (tabs) ->
+        chrome.tabs.update( tab.id, url: tab.url ) for tab in tabs
+    )
 

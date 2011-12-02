@@ -133,6 +133,10 @@ g.bg =
         )
         false
 
+    reqReloadAllTabs : (req) ->
+        g.tabs?.reloadAllTabs?()
+        false
+
     reqMoveToNextTab : (req) ->
         if req.args?[0]?
             if req.args[0] <= 0 then return
