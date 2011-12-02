@@ -27,38 +27,39 @@ escape = (com) -> triggerInsideContent "Escape"
 
 class g.CommandExecuter
     commandsBeforeReady : [
-        "OpenNewTab"
-        "CloseCurTab"
-        "MoveToNextTab"
-        "MoveToPrevTab"
-        "MoveToFirstTab"
-        "MoveToLastTab"
+        "TabOpenNew"
+        "TabCloseCurrent"
+        "TabFocusNext"
+        "TabFocusPrev"
+        "TabFocusFirst"
+        "TabFocusLast"
         "NMap"
         "IMap"
         "Alias"
-        "OpenNewWindow"
+        "WinOpenNew"
         "OpenOptionPage"
         "RestoreTab"
     ]
 
     commandTable :
         Open                  : passToTopFrame
-        OpenNewTab            : passToTopFrame
-        CloseCurTab           : sendToBackground
-        CloseAllTabs          : sendToBackground
-        MoveToNextTab         : sendToBackground
-        MoveToPrevTab         : sendToBackground
-        MoveToNextTabHistory  : sendToBackground
-        MoveToPrevTabHistory  : sendToBackground
-        MoveToFirstTab        : sendToBackground
-        MoveToLastTab         : sendToBackground
-        MoveToLastSelectedTab : sendToBackground
+        TabOpenNew            : passToTopFrame
+        TabCloseCurrent       : sendToBackground
+        TabCloseAll           : sendToBackground
+        TabFocusNext          : sendToBackground
+        TabFocusPrev          : sendToBackground
+        TabFocusNextHistory   : sendToBackground
+        TabFocusPrevHistory   : sendToBackground
+        TabFocusFirst         : sendToBackground
+        TabFocusLast          : sendToBackground
+        TabSwitchLast         : sendToBackground
+        TabReload             : triggerInsideContent
+        TabReloadAll          : sendToBackground
+        TabList               : triggerInsideContent
         NMap                  : sendToBackground
         IMap                  : sendToBackground
         Alias                 : sendToBackground
-        OpenNewWindow         : sendToBackground
-        ReloadTab             : triggerInsideContent
-        ReloadAllTabs         : sendToBackground
+        WinOpenNew            : sendToBackground
         ScrollUp              : triggerInsideContent
         ScrollDown            : triggerInsideContent
         ScrollLeft            : triggerInsideContent
@@ -85,7 +86,6 @@ class g.CommandExecuter
         FocusNextCandidate    : triggerInsideContent
         FocusPrevCandidate    : triggerInsideContent
         Readability           : sendToBackground
-        ShowTabList           : triggerInsideContent
         OpenOptionPage        : sendToBackground
         BarrelRoll            : triggerInsideContent
         Copy                  : sendToBackground

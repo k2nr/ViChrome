@@ -64,7 +64,7 @@ class g.Mode
         else
             g.view.open( urls[0], "_self" )
 
-    reqOpenNewTab : (args, times) ->
+    reqTabOpenNew : (args, times) ->
         words = []
         times = 1 if times > 10 # prevent pluto force attack
         for arg in args then switch arg
@@ -91,9 +91,9 @@ class g.Mode
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
             urls = []
             urls.push url
-            chrome.extension.sendRequest {command : "OpenNewTab", args : urls, times : times}, g.handler.onCommandResponse
+            chrome.extension.sendRequest {command : "TabOpenNew", args : urls, times : times}, g.handler.onCommandResponse
         else
-            chrome.extension.sendRequest {command : "OpenNewTab", args : words, times : times}, g.handler.onCommandResponse
+            chrome.extension.sendRequest {command : "TabOpenNew", args : words, times : times}, g.handler.onCommandResponse
 
     blur : ->
     reqScrollDown   : (args, times) -> g.view.scrollBy( 0,  g.model.getSetting("scrollPixelCount") * times )
@@ -114,7 +114,7 @@ class g.Mode
 
     reqBackHist    : -> g.view.backHist()
     reqForwardHist : -> g.view.forwardHist()
-    reqReloadTab   : -> g.view.reload()
+    reqTabReload   : -> g.view.reload()
     reqGoSearchModeForward  : -> g.model.enterSearchMode( false )
     reqGoSearchModeBackward : -> g.model.enterSearchMode( true )
     reqGoLinkTextSearchMode : -> g.model.enterSearchMode( false, new g.LinkTextSearcher )
@@ -150,7 +150,7 @@ class g.Mode
         g.model.setPageMark()
         g.view.focusInput( 0 )
 
-    reqShowTabList : ->
+    reqTabList : ->
         sources = [
             { class : "CandSourceTabs" }
         ]

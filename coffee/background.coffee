@@ -60,7 +60,7 @@ g.bg =
             when "newtab" then return "chrome://newtab"
             when "blank"  then return "about:blank"
 
-    reqOpenNewTab : (req) ->
+    reqTabOpenNew : (req) ->
         urls   = []
         focus  = true
         pinned = false
@@ -95,7 +95,7 @@ g.bg =
             g.clipboard.set( data )
         )
 
-    reqOpenNewWindow : (req) ->
+    reqWinOpenNew : (req) ->
         urls  = []
         focus = true
         pop   = false
@@ -116,11 +116,11 @@ g.bg =
             chrome.windows.create( url : urls, focused : focus )
         false
 
-    reqCloseCurTab : ->
+    reqTabCloseCurrent : ->
         chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
         false
 
-    reqCloseAllTabs : (req) ->
+    reqTabCloseAll : (req) ->
         for arg in req.args then switch arg
             when "--only" then only = true
 
@@ -133,11 +133,11 @@ g.bg =
         )
         false
 
-    reqReloadAllTabs : (req) ->
+    reqTabReloadAll : (req) ->
         g.tabs?.reloadAllTabs?()
         false
 
-    reqMoveToNextTab : (req) ->
+    reqTabFocusNext : (req) ->
         if req.args?[0]?
             if req.args[0] <= 0 then return
             @moveTab( parseInt( req.args[0] ) - 1, 0 )
@@ -148,7 +148,7 @@ g.bg =
                 @moveTab( 1 )
         false
 
-    reqMoveToPrevTab : (req) ->
+    reqTabFocusPrev : (req) ->
         times = if req.times then req.times else 1
         if req.args?[0]?
             @moveTab( -parseInt( req.args[0] ) )
@@ -156,23 +156,23 @@ g.bg =
             @moveTab( -times )
         false
 
-    reqMoveToNextTabHistory : (req) ->
+    reqTabFocusNextHistory : (req) ->
         @tabSelHist.moveForward()
         false
 
-    reqMoveToPrevTabHistory : (req) ->
+    reqTabFocusPrevHistory : (req) ->
         @tabSelHist.moveBackward()
         false
 
-    reqMoveToLastSelectedTab : (req) ->
+    reqTabSwitchLast : (req) ->
         @tabSelHist.switchToLast()
         false
 
-    reqMoveToFirstTab : (req) ->
+    reqTabFocusFirst : (req) ->
         @moveTab( 0, 0 )
         false
 
-    reqMoveToLastTab  : (req) ->
+    reqTabFocusLast  : (req) ->
         @moveTab( -1, 0 )
         false
 

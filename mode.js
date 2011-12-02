@@ -117,7 +117,7 @@
       }
     };
 
-    Mode.prototype.reqOpenNewTab = function(args, times) {
+    Mode.prototype.reqTabOpenNew = function(args, times) {
       var arg, bookmark, com, history, i, interactive, opt, search, url, urls, web, word, words, _i, _j, _len, _len2;
       words = [];
       if (times > 10) times = 1;
@@ -164,13 +164,13 @@
         urls = [];
         urls.push(url);
         return chrome.extension.sendRequest({
-          command: "OpenNewTab",
+          command: "TabOpenNew",
           args: urls,
           times: times
         }, g.handler.onCommandResponse);
       } else {
         return chrome.extension.sendRequest({
-          command: "OpenNewTab",
+          command: "TabOpenNew",
           args: words,
           times: times
         }, g.handler.onCommandResponse);
@@ -241,7 +241,7 @@
       return g.view.forwardHist();
     };
 
-    Mode.prototype.reqReloadTab = function() {
+    Mode.prototype.reqTabReload = function() {
       return g.view.reload();
     };
 
@@ -307,7 +307,7 @@
       return g.view.focusInput(0);
     };
 
-    Mode.prototype.reqShowTabList = function() {
+    Mode.prototype.reqTabList = function() {
       var executer, sources;
       sources = [
         {

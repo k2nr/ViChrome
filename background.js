@@ -74,7 +74,7 @@
           return "about:blank";
       }
     },
-    reqOpenNewTab: function(req) {
+    reqTabOpenNew: function(req) {
       var arg, focus, len, pinned, times, url, urls, _i, _j, _len, _len2, _ref2, _ref3;
       urls = [];
       focus = true;
@@ -133,7 +133,7 @@
         return g.clipboard.set(data);
       });
     },
-    reqOpenNewWindow: function(req) {
+    reqWinOpenNew: function(req) {
       var arg, focus, pop, urls, _i, _len, _ref2;
       urls = [];
       focus = true;
@@ -178,13 +178,13 @@
       }
       return false;
     },
-    reqCloseCurTab: function() {
+    reqTabCloseCurrent: function() {
       chrome.tabs.getSelected(null, function(tab) {
         return chrome.tabs.remove(tab.id);
       });
       return false;
     },
-    reqCloseAllTabs: function(req) {
+    reqTabCloseAll: function(req) {
       var arg, only, _i, _len, _ref2;
       _ref2 = req.args;
       for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
@@ -211,14 +211,14 @@
       });
       return false;
     },
-    reqReloadAllTabs: function(req) {
+    reqTabReloadAll: function(req) {
       var _ref2;
       if ((_ref2 = g.tabs) != null) {
         if (typeof _ref2.reloadAllTabs === "function") _ref2.reloadAllTabs();
       }
       return false;
     },
-    reqMoveToNextTab: function(req) {
+    reqTabFocusNext: function(req) {
       var _ref2;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
         if (req.args[0] <= 0) return;
@@ -232,7 +232,7 @@
       }
       return false;
     },
-    reqMoveToPrevTab: function(req) {
+    reqTabFocusPrev: function(req) {
       var times, _ref2;
       times = req.times ? req.times : 1;
       if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
@@ -242,23 +242,23 @@
       }
       return false;
     },
-    reqMoveToNextTabHistory: function(req) {
+    reqTabFocusNextHistory: function(req) {
       this.tabSelHist.moveForward();
       return false;
     },
-    reqMoveToPrevTabHistory: function(req) {
+    reqTabFocusPrevHistory: function(req) {
       this.tabSelHist.moveBackward();
       return false;
     },
-    reqMoveToLastSelectedTab: function(req) {
+    reqTabSwitchLast: function(req) {
       this.tabSelHist.switchToLast();
       return false;
     },
-    reqMoveToFirstTab: function(req) {
+    reqTabFocusFirst: function(req) {
       this.moveTab(0, 0);
       return false;
     },
-    reqMoveToLastTab: function(req) {
+    reqTabFocusLast: function(req) {
       this.moveTab(-1, 0);
       return false;
     },
