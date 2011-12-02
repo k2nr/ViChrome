@@ -46,12 +46,27 @@ getCMapFirst = ->
     @getCMap = -> myMap
     myMap
 
+getEMapFirst = ->
+    emap    = g.object( @getSetting "keyMappingEmergency" )
+    pageMap = @getSetting "pageMap"
+
+    unless g.view.getHref()?.length > 0
+        return emap
+
+    myMap = emap
+    for url,map of pageMap
+        if @isUrlMatched( g.view.getHref(), url )
+            g.extend( map.emap, myMap )
+
+    @getEMap = -> myMap
+    myMap
+
 getAliasFirst = ->
     aliases = g.object( @getSetting "aliases" )
     pageMap = @getSetting "pageMap"
 
     unless g.view.getHref()?.length > 0
-        return nmap
+        return aliases
 
     myAlias = aliases
     for url,map of pageMap
@@ -145,6 +160,7 @@ g.model =
     getNMap  : getNMapFirst
     getIMap  : getIMapFirst
     getCMap  : getCMapFirst
+    getEMap  : getEMapFirst
     getAlias : getAliasFirst
 
     getSetting : (name) -> @settings[name]
@@ -229,6 +245,7 @@ g.model =
             when "keyMappingNormal"  then @getNMap = getNMapFirst
             when "keyMappingInsert"  then @getIMap = getIMapFirst
             when "keyMappingCommand" then @getCMap = getCMapFirst
+            when "keyMappingEmergency" then @getEMap = getEMapFirst
             when "aliases" then @getAlias = getAliasFirst
 
     onFocus : (target) ->

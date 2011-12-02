@@ -569,13 +569,20 @@
     };
 
     EmergencyMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
-      if (ctrl || alt || meta) return true;
-      if (g.KeyManager.isNumber(key) || g.KeyManager.isAlphabet(key)) return false;
       return true;
     };
 
     EmergencyMode.prototype.enter = function() {
-      return g.view.setStatusLineText("Emergency Mode : &lt;C-ESC&gt; to escape");
+      var key, keyMap, mapped, text;
+      keyMap = g.model.getEMap();
+      text = "Emergency Mode: press ";
+      for (key in keyMap) {
+        mapped = keyMap[key];
+        if (mapped === "Escape") text += key + ", ";
+      }
+      text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/, $/, " ");
+      text += "to escape";
+      return g.view.setStatusLineText(text);
     };
 
     EmergencyMode.prototype.exit = function() {
@@ -587,9 +594,7 @@
     };
 
     EmergencyMode.prototype.getKeyMapping = function() {
-      return {
-        "<C-ESC>": "Escape"
-      };
+      return g.model.getEMap();
     };
 
     return EmergencyMode;

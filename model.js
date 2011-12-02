@@ -1,5 +1,5 @@
 (function() {
-  var g, getAliasFirst, getCMapFirst, getIMapFirst, getNMapFirst, _ref;
+  var g, getAliasFirst, getCMapFirst, getEMapFirst, getIMapFirst, getNMapFirst, _ref;
 
   if ((_ref = this.vichrome) == null) this.vichrome = {};
 
@@ -59,12 +59,30 @@
     return myMap;
   };
 
+  getEMapFirst = function() {
+    var emap, map, myMap, pageMap, url, _ref2;
+    emap = g.object(this.getSetting("keyMappingEmergency"));
+    pageMap = this.getSetting("pageMap");
+    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+      return emap;
+    }
+    myMap = emap;
+    for (url in pageMap) {
+      map = pageMap[url];
+      if (this.isUrlMatched(g.view.getHref(), url)) g.extend(map.emap, myMap);
+    }
+    this.getEMap = function() {
+      return myMap;
+    };
+    return myMap;
+  };
+
   getAliasFirst = function() {
     var aliases, map, myAlias, pageMap, url, _ref2;
     aliases = g.object(this.getSetting("aliases"));
     pageMap = this.getSetting("pageMap");
     if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
-      return nmap;
+      return aliases;
     }
     myAlias = aliases;
     for (url in pageMap) {
@@ -175,6 +193,7 @@
     getNMap: getNMapFirst,
     getIMap: getIMapFirst,
     getCMap: getCMapFirst,
+    getEMap: getEMapFirst,
     getAlias: getAliasFirst,
     getSetting: function(name) {
       return this.settings[name];
@@ -265,6 +284,8 @@
           return this.getIMap = getIMapFirst;
         case "keyMappingCommand":
           return this.getCMap = getCMapFirst;
+        case "keyMappingEmergency":
+          return this.getEMap = getEMapFirst;
         case "aliases":
           return this.getAlias = getAliasFirst;
       }

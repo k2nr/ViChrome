@@ -30,6 +30,10 @@ updateKeyMappingList = ->
     for key,com of settings.keyMappingCommand
         curMap.append( $('<div />').html( escChars key + " : " + escChars com ) )
 
+    curMap.append($('<div />').html('<h3>Emergency Mode Mapping (emap)</h3>'))
+    for key,com of settings.keyMappingEmergency
+        curMap.append( $('<div />').html( escChars key + " : " + escChars com ) )
+
     curMap.append($('<div />').html('<h3>Command Aliases (alias)</h3>'))
     for key,com of settings.aliases
         curMap.append( $('<div />').html( escChars key + " : " + escChars com ) )
@@ -48,6 +52,10 @@ updateKeyMappingList = ->
 
         curMap.append($('<div />').html('<h3>Search/Command Mode Mapping</h3>'))
         for key,com of map.cmap
+            curMap.append( $('<div />').html(escChars key + " : " + escChars com) )
+
+        curMap.append($('<div />').html('<h3>Emergency Mode Mapping</h3>'))
+        for key,com of map.emap
             curMap.append( $('<div />').html(escChars key + " : " + escChars com) )
 
         curMap.append($('<div />').html('<h3>Command Aliases</h3>'))

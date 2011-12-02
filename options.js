@@ -21,7 +21,7 @@
   };
 
   updateKeyMappingList = function() {
-    var com, curMap, key, map, url, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _results;
+    var com, curMap, key, map, url, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _results;
     curMap = $('#keyMappingList');
     curMap.append($('<div />').html('<h3>Normal Mode Mapping (nmap)</h3>'));
     _ref2 = settings.keyMappingNormal;
@@ -41,43 +41,55 @@
       com = _ref4[key];
       curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
     }
-    curMap.append($('<div />').html('<h3>Command Aliases (alias)</h3>'));
-    _ref5 = settings.aliases;
+    curMap.append($('<div />').html('<h3>Emergency Mode Mapping (emap)</h3>'));
+    _ref5 = settings.keyMappingEmergency;
     for (key in _ref5) {
       com = _ref5[key];
       curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
     }
+    curMap.append($('<div />').html('<h3>Command Aliases (alias)</h3>'));
+    _ref6 = settings.aliases;
+    for (key in _ref6) {
+      com = _ref6[key];
+      curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
+    }
     curMap.append($('<div />').html('<h2>PageCmd Mapping</h2>'));
-    _ref6 = settings.pageMap;
+    _ref7 = settings.pageMap;
     _results = [];
-    for (url in _ref6) {
-      map = _ref6[url];
+    for (url in _ref7) {
+      map = _ref7[url];
       curMap.append($('<div />').html("<h3>" + url + "</h3>"));
       curMap.append($('<div />').html('<h3>Normal Mode Mapping</h3>'));
-      _ref7 = map.nmap;
-      for (key in _ref7) {
-        com = _ref7[key];
-        curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
-      }
-      curMap.append($('<div />').html('<h3>Insert Mode Mapping</h3>'));
-      _ref8 = map.imap;
+      _ref8 = map.nmap;
       for (key in _ref8) {
         com = _ref8[key];
         curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
       }
-      curMap.append($('<div />').html('<h3>Search/Command Mode Mapping</h3>'));
-      _ref9 = map.cmap;
+      curMap.append($('<div />').html('<h3>Insert Mode Mapping</h3>'));
+      _ref9 = map.imap;
       for (key in _ref9) {
         com = _ref9[key];
         curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
       }
+      curMap.append($('<div />').html('<h3>Search/Command Mode Mapping</h3>'));
+      _ref10 = map.cmap;
+      for (key in _ref10) {
+        com = _ref10[key];
+        curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
+      }
+      curMap.append($('<div />').html('<h3>Emergency Mode Mapping</h3>'));
+      _ref11 = map.emap;
+      for (key in _ref11) {
+        com = _ref11[key];
+        curMap.append($('<div />').html(escChars(key + " : " + escChars(com))));
+      }
       curMap.append($('<div />').html('<h3>Command Aliases</h3>'));
       _results.push((function() {
-        var _ref10, _results2;
-        _ref10 = map.alias;
+        var _ref12, _results2;
+        _ref12 = map.alias;
         _results2 = [];
-        for (key in _ref10) {
-          com = _ref10[key];
+        for (key in _ref12) {
+          com = _ref12[key];
           _results2.push(curMap.append($('<div />').html(escChars(key + " : " + escChars(com)))));
         }
         return _results2;

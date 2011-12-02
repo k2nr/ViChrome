@@ -5,6 +5,7 @@ mapping =
     nmap  : {}
     imap  : {}
     cmap  : {}
+    emap  : {}
     alias : {}
 
 g.SettingManager =
@@ -37,27 +38,30 @@ g.SettingManager =
 # aliases\n
 # in this example you can open extensions page by the command ':ext'\n
 # and Chrome's option page by the command ':option'\n
-alias ext OpenNewTab chrome://extensions/\n
-alias option OpenNewTab chrome://settings/browser\n
+alias ext TabOpenNew chrome://extensions/\n
+alias option TabOpenNew chrome://settings/browser\n
 \n
 # mappings for opening your favorite web page\n
-nmap <Space>tw :OpenNewTab http://www.twitter.com\n
-nmap <Space>gr :OpenNewTab http://www.google.com/reader\n
-nmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n
+nmap <Space>tw :TabOpenNew http://www.twitter.com\n
+nmap <Space>gr :TabOpenNew http://www.google.com/reader\n
+nmap <Space>m  :TabOpenNew https://mail.google.com/mail/#inbox\n
 \n
 
 # F for continuous f-Mode\n
 # this is recomended setting but commented out by default.\n
-# if you want to use this setting, please delete '#'\n
-\n
+# if you want to use this setting, use the following\n
 #nmap F :GoFMode --newtab --continuous\n
+\n
+# if you want to change the key used to escape EmergencyMode mode,\n
+# use emap like the following\n
+#emap <ESC> :Escape\n
 \n
 ## pagecmd offers you page specific key mapping.\n
 # in this example you can use <C-l>, <C-h> for moving between tabs\n
 # on all web pages regardless of your ignored list setting\n
 # because pagecmd has higher priority than ignored URLs.\n
-pagecmd * nmap <C-l> :MoveToNextTab\n
-pagecmd * nmap <C-h> :MoveToPrevTab\n
+pagecmd * nmap <C-l> :TabFocusNext\n
+pagecmd * nmap <C-h> :TabFocusPrev\n
 \n
 # almost all Vichrome functions don't work properly for pdf contents\n
 # so it's useful to enable default key bindings for pdf file.\n
@@ -65,7 +69,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
 \n
 # if you want to use twitter web's key binding, write settings like below\n
 #pagecmd http*://twitter.com/* nmap f <NOP>\n
-#pagecmd http*://twitter.com/* nmap r <NOP>\n"
+#pagecmd http*://twitter.com/* nmap r <NOP>"
 
         "keyMappingNormal"  :
             "j"       : "ScrollDown"
@@ -78,15 +82,15 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "<C-u>"   : "PageHalfUp"
             "gg"      : "GoTop"
             "G"       : "GoBottom"
-            "t"       : "OpenNewTab"
-            "x"       : "CloseCurTab"
+            "t"       : "TabOpenNew"
+            "x"       : "TabCloseCurrent"
             "n"       : "NextSearch"
             "N"       : "PrevSearch"
-            "gt"      : "MoveToNextTab"
-            "gT"      : "MoveToPrevTab"
-            "<C-l>"   : "MoveToNextTab"
-            "<C-h>"   : "MoveToPrevTab"
-            "r"       : "ReloadTab"
+            "gt"      : "TabFocusNext"
+            "gT"      : "TabFocusPrev"
+            "<C-l>"   : "TabFocusNext"
+            "<C-h>"   : "TabFocusPrev"
+            "r"       : "TabReload"
             "H"       : "BackHist"
             "L"       : "ForwardHist"
             ":"       : "GoCommandMode"
@@ -97,14 +101,14 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "F"       : "GoFMode --newtab"
             "i"       : "FocusOnFirstInput"
             "u"       : "RestoreTab"
-            "gp"      : "OpenNewWindow --pop"
+            "gp"      : "WinOpenNew --pop"
             "yy"      : "copyurl"
             "o"       : "Open -i"
-            "O"       : "OpenNewTab -i"
+            "O"       : "TabOpenNew -i"
             "s"       : "Open -i g"
-            "S"       : "OpenNewTab -i g"
+            "S"       : "TabOpenNew -i g"
             "b"       : "Open -b"
-            "B"       : "OpenNewTab -b"
+            "B"       : "TabOpenNew -b"
             "''"      : "BackToPageMark"
             "^"       : "TabSwitchLast"
             "<C-ESC>" : "GoEmergencyMode"
@@ -123,11 +127,14 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"
 
+        "keyMappingEmergency" :
+            "<ESC>" : "Escape"
+
         "aliases"    :
             "o"      : "Open"
-            "ot"     : "OpenNewTab"
+            "ot"     : "TabOpenNew"
             "opt"    : "OpenOptionPage"
-            "help"   : "OpenNewTab http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual"
+            "help"   : "TabOpenNew http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual"
             "map"    : "NMap"
             "tabe"   : "TabOpenNew"
             "tabnew" : "TabOpenNew"
@@ -178,6 +185,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
     _nmap  : ( map, args ) -> @mapApplied.call( map.nmap, args )
     _imap  : ( map, args ) -> @mapApplied.call( map.imap, args )
     _cmap  : ( map, args ) -> @mapApplied.call( map.cmap, args )
+    _emap  : ( map, args ) -> @mapApplied.call( map.emap, args )
     _alias : ( map, args ) ->
         if args.length < 2
             g.logger.w "less arguments", args
@@ -209,6 +217,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
         defNormal     = @defaultSettings.keyMappingNormal
         defInsert     = @defaultSettings.keyMappingInsert
         defCommand    = @defaultSettings.keyMappingCommand
+        defEmergency  = @defaultSettings.keyMappingEmergency
         defAliases    = @defaultSettings.aliases
         defPageMap    = @defaultSettings.pageMap
 
@@ -217,6 +226,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
         @userMap.nmap[key]  = command for key,command of defNormal
         @userMap.imap[key]  = command for key,command of defInsert
         @userMap.cmap[key]  = command for key,command of defCommand
+        @userMap.emap[key]  = command for key,command of defEmergency
         @userMap.alias[key] = command for key,command of defAliases
 
         @pageMap = {}
@@ -225,6 +235,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             @pageMap[url].nmap[key]  = com for key,com of map.nmap
             @pageMap[url].imap[key]  = com for key,com of map.imap
             @pageMap[url].cmap[key]  = com for key,com of map.cmap
+            @pageMap[url].emap[key]  = com for key,com of map.emap
             @pageMap[url].alias[key] = com for key,com of map.alias
 
         return this
@@ -233,11 +244,12 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
         settings = {}
 
         for name,value of @defaultSettings then switch name
-            when "keyMappingNormal"  then settings[name] = @userMap.nmap
-            when "keyMappingInsert"  then settings[name] = @userMap.imap
-            when "keyMappingCommand" then settings[name] = @userMap.cmap
-            when "aliases"           then settings[name] = @userMap.alias
-            when "pageMap"           then settings[name] = @pageMap
+            when "keyMappingNormal"    then settings[name] = @userMap.nmap
+            when "keyMappingInsert"    then settings[name] = @userMap.imap
+            when "keyMappingCommand"   then settings[name] = @userMap.cmap
+            when "keyMappingEmergency" then settings[name] = @userMap.emap
+            when "aliases"             then settings[name] = @userMap.alias
+            when "pageMap"             then settings[name] = @pageMap
             else settings[name] = @get(name)
 
         return settings
@@ -260,6 +272,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
     setNMap  : (args) -> @_map(   @userMap, args )
     setIMap  : (args) -> @_imap(  @userMap, args )
     setCMap  : (args) -> @_cmap(  @userMap, args )
+    setEMap  : (args) -> @_emap(  @userMap, args )
     setAlias : (args) -> @_alias( @userMap, args )
 
     init  : ->

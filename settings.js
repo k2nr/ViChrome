@@ -9,6 +9,7 @@
     nmap: {},
     imap: {},
     cmap: {},
+    emap: {},
     alias: {}
   };
 
@@ -32,7 +33,7 @@
       "ignoredUrls": ["http*://mail.google.com/*", "http*://www.google.co*/reader/*", "http*://docs.google.com/*", "http*://www.google.com/calendar/*"],
       "commandBoxAlign": "Left-Bottom",
       "commandBoxWidth": 350,
-      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext OpenNewTab chrome://extensions/\nalias option OpenNewTab chrome://settings/browser\n\n# mappings for opening your favorite web page\nnmap <Space>tw :OpenNewTab http://www.twitter.com\nnmap <Space>gr :OpenNewTab http://www.google.com/reader\nnmap <Space>m :OpenNewTab https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, please delete '#'\n\n#nmap F :GoFMode --newtab --continuous\n\n## pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\npagecmd * nmap <C-l> :MoveToNextTab\npagecmd * nmap <C-h> :MoveToPrevTab\n\n# almost all Vichrome functions don't work properly for pdf contents\n# so it's useful to enable default key bindings for pdf file.\npagecmd *.pdf nmap <C-f> <NOP>\n\n# if you want to use twitter web's key binding, write settings like below\n#pagecmd http*://twitter.com/* nmap f <NOP>\n#pagecmd http*://twitter.com/* nmap r <NOP>\n",
+      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext TabOpenNew chrome://extensions/\nalias option TabOpenNew chrome://settings/browser\n\n# mappings for opening your favorite web page\nnmap <Space>tw :TabOpenNew http://www.twitter.com\nnmap <Space>gr :TabOpenNew http://www.google.com/reader\nnmap <Space>m  :TabOpenNew https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, use the following\n#nmap F :GoFMode --newtab --continuous\n\n# if you want to change the key used to escape EmergencyMode mode,\n# use emap like the following\n#emap <ESC> :Escape\n\n## pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\npagecmd * nmap <C-l> :TabFocusNext\npagecmd * nmap <C-h> :TabFocusPrev\n\n# almost all Vichrome functions don't work properly for pdf contents\n# so it's useful to enable default key bindings for pdf file.\npagecmd *.pdf nmap <C-f> <NOP>\n\n# if you want to use twitter web's key binding, write settings like below\n#pagecmd http*://twitter.com/* nmap f <NOP>\n#pagecmd http*://twitter.com/* nmap r <NOP>",
       "keyMappingNormal": {
         "j": "ScrollDown",
         "k": "ScrollUp",
@@ -44,15 +45,15 @@
         "<C-u>": "PageHalfUp",
         "gg": "GoTop",
         "G": "GoBottom",
-        "t": "OpenNewTab",
-        "x": "CloseCurTab",
+        "t": "TabOpenNew",
+        "x": "TabCloseCurrent",
         "n": "NextSearch",
         "N": "PrevSearch",
-        "gt": "MoveToNextTab",
-        "gT": "MoveToPrevTab",
-        "<C-l>": "MoveToNextTab",
-        "<C-h>": "MoveToPrevTab",
-        "r": "ReloadTab",
+        "gt": "TabFocusNext",
+        "gT": "TabFocusPrev",
+        "<C-l>": "TabFocusNext",
+        "<C-h>": "TabFocusPrev",
+        "r": "TabReload",
         "H": "BackHist",
         "L": "ForwardHist",
         ":": "GoCommandMode",
@@ -63,14 +64,14 @@
         "F": "GoFMode --newtab",
         "i": "FocusOnFirstInput",
         "u": "RestoreTab",
-        "gp": "OpenNewWindow --pop",
+        "gp": "WinOpenNew --pop",
         "yy": "copyurl",
         "o": "Open -i",
-        "O": "OpenNewTab -i",
+        "O": "TabOpenNew -i",
         "s": "Open -i g",
-        "S": "OpenNewTab -i g",
+        "S": "TabOpenNew -i g",
         "b": "Open -b",
-        "B": "OpenNewTab -b",
+        "B": "TabOpenNew -b",
         "''": "BackToPageMark",
         "^": "TabSwitchLast",
         "<C-ESC>": "GoEmergencyMode",
@@ -89,11 +90,14 @@
         "<ESC>": "Escape",
         "<C-[>": "Escape"
       },
+      "keyMappingEmergency": {
+        "<ESC>": "Escape"
+      },
       "aliases": {
         "o": "Open",
-        "ot": "OpenNewTab",
+        "ot": "TabOpenNew",
         "opt": "OpenOptionPage",
-        "help": "OpenNewTab http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual",
+        "help": "TabOpenNew http://github.com/k2nr/ViChrome/wiki/Vichrome-User-Manual",
         "map": "NMap",
         "tabe": "TabOpenNew",
         "tabnew": "TabOpenNew",
@@ -157,6 +161,9 @@
     _cmap: function(map, args) {
       return this.mapApplied.call(map.cmap, args);
     },
+    _emap: function(map, args) {
+      return this.mapApplied.call(map.emap, args);
+    },
     _alias: function(map, args) {
       if (args.length < 2) {
         g.logger.w("less arguments", args);
@@ -189,10 +196,11 @@
       return this;
     },
     initUserMap: function() {
-      var com, command, defAliases, defCommand, defInsert, defNormal, defPageMap, key, map, url, _ref2, _ref3, _ref4, _ref5;
+      var com, command, defAliases, defCommand, defEmergency, defInsert, defNormal, defPageMap, key, map, url, _ref2, _ref3, _ref4, _ref5, _ref6;
       defNormal = this.defaultSettings.keyMappingNormal;
       defInsert = this.defaultSettings.keyMappingInsert;
       defCommand = this.defaultSettings.keyMappingCommand;
+      defEmergency = this.defaultSettings.keyMappingEmergency;
       defAliases = this.defaultSettings.aliases;
       defPageMap = this.defaultSettings.pageMap;
       this.userMap = g.extendDeep(mapping);
@@ -207,6 +215,10 @@
       for (key in defCommand) {
         command = defCommand[key];
         this.userMap.cmap[key] = command;
+      }
+      for (key in defEmergency) {
+        command = defEmergency[key];
+        this.userMap.emap[key] = command;
       }
       for (key in defAliases) {
         command = defAliases[key];
@@ -231,9 +243,14 @@
           com = _ref4[key];
           this.pageMap[url].cmap[key] = com;
         }
-        _ref5 = map.alias;
+        _ref5 = map.emap;
         for (key in _ref5) {
           com = _ref5[key];
+          this.pageMap[url].emap[key] = com;
+        }
+        _ref6 = map.alias;
+        for (key in _ref6) {
+          com = _ref6[key];
           this.pageMap[url].alias[key] = com;
         }
       }
@@ -254,6 +271,9 @@
             break;
           case "keyMappingCommand":
             settings[name] = this.userMap.cmap;
+            break;
+          case "keyMappingEmergency":
+            settings[name] = this.userMap.emap;
             break;
           case "aliases":
             settings[name] = this.userMap.alias;
@@ -290,6 +310,9 @@
     },
     setCMap: function(args) {
       return this._cmap(this.userMap, args);
+    },
+    setEMap: function(args) {
+      return this._emap(this.userMap, args);
     },
     setAlias: function(args) {
       return this._alias(this.userMap, args);

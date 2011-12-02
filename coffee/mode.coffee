@@ -288,21 +288,27 @@ class g.CommandMode extends g.Mode
 class g.EmergencyMode extends g.Mode
     getName : -> "EmergencyMode"
 
-    prePostKeyEvent : (key, ctrl, alt, meta) ->
-        if ctrl or alt or meta then return true
-        if g.KeyManager.isNumber(key) or g.KeyManager.isAlphabet(key)
-            return false
-        true
+    prePostKeyEvent : (key, ctrl, alt, meta) -> true
 
-    enter : -> g.view.setStatusLineText "Emergency Mode : &lt;C-ESC&gt; to escape"
+    enter : ->
+        keyMap = g.model.getEMap()
+        text = "Emergency Mode: press "
+        for key,mapped of keyMap
+            text += key + ", " if mapped == "Escape"
+        text = text
+               .replace( /</g, "&lt;" )
+               .replace( />/g, "&gt;" )
+               .replace( /, $/, " " )
+        text += "to escape"
+        g.view.setStatusLineText( text )
+
     exit  : -> g.view.hideStatusLine()
 
     blur  : (target) ->
         if g.util.isEmbededFlash target
             g.model.enterNormalMode()
 
-    getKeyMapping : ->
-        "<C-ESC>" : "Escape"
+    getKeyMapping : -> g.model.getEMap()
 
 class g.FMode extends g.Mode
     getName   : -> "FMode"
