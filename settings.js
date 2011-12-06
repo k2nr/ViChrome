@@ -47,6 +47,7 @@
         "G": "GoBottom",
         "t": "TabOpenNew",
         "x": "TabCloseCurrent",
+        "X": "TabCloseCurrent --focusprev",
         "n": "NextSearch",
         "N": "PrevSearch",
         "gt": "TabFocusNext",

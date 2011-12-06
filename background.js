@@ -178,9 +178,25 @@
       }
       return false;
     },
-    reqTabCloseCurrent: function() {
+    reqTabCloseCurrent: function(req) {
+      var arg, prev, _i, _len, _ref2;
+      var _this = this;
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
+        switch (arg) {
+          case "--focusprev":
+            prev = true;
+        }
+      }
       chrome.tabs.getSelected(null, function(tab) {
-        return chrome.tabs.remove(tab.id);
+        chrome.tabs.remove(tab.id);
+        if (prev) {
+          return _this.reqTabFocusPrev({
+            times: 1,
+            args: []
+          });
+        }
       });
       return false;
     },

@@ -116,8 +116,13 @@ g.bg =
             chrome.windows.create( url : urls, focused : focus )
         false
 
-    reqTabCloseCurrent : ->
-        chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
+    reqTabCloseCurrent : (req) ->
+        for arg in req.args then switch arg
+            when "--focusprev" then prev = true
+
+        chrome.tabs.getSelected null, (tab) =>
+            chrome.tabs.remove(tab.id)
+            @reqTabFocusPrev(times: 1, args: []) if prev
         false
 
     reqTabCloseAll : (req) ->
