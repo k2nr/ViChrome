@@ -120,9 +120,12 @@ g.bg =
         for arg in req.args then switch arg
             when "--focusprev" then prev = true
 
-        chrome.tabs.getSelected null, (tab) =>
-            chrome.tabs.remove(tab.id)
-            @reqTabFocusPrev(times: 1, args: []) if prev
+        chrome.tabs.getSelected(null, (tab) =>
+            index = tab.index
+            chrome.tabs.remove(tab.id, =>
+                @moveTab(-1, index) if prev
+            )
+        )
         false
 
     reqTabCloseAll : (req) ->
