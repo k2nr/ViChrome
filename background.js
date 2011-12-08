@@ -7,7 +7,7 @@
 
   g.bg = {
     tabHistory: null,
-    moveTab: function(offset, start) {
+    moveTab: function(offset, start, callback) {
       return chrome.tabs.getAllInWindow(null, function(tabs) {
         var nTabs;
         nTabs = tabs.length;
@@ -25,7 +25,7 @@
           }
           return chrome.tabs.update(tabs[idx].id, {
             selected: true
-          });
+          }, callback);
         });
       });
     },
@@ -190,12 +190,12 @@
         }
       }
       chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.remove(tab.id);
         if (prev) {
-          return _this.reqTabFocusPrev({
-            times: 1,
-            args: []
+          return _this.moveTab(-1, tab.index, function() {
+            return chrome.tabs.remove(tab.id);
           });
+        } else {
+          return chrome.tabs.remove(tab.id);
         }
       });
       return false;
