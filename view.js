@@ -85,7 +85,7 @@
       this.statusLineVisible = false;
       if (typeof top !== "undefined" && top !== null) {
         path = chrome.extension.getURL("commandbox.html");
-        this.iframe = $("<iframe src=\"" + path + "\" id=\"vichrome-commandframe\" sandbox=\"allow-scripts\" seamless />");
+        this.iframe = $("<iframe src=\"" + path + "\" id=\"vichrome-commandframe\" seamless />");
         this.attach(this.iframe);
         this.iframe.hide();
       }

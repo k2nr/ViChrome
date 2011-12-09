@@ -72,7 +72,7 @@ class g.Surface
 
         if top?
             path = chrome.extension.getURL("commandbox.html");
-            @iframe = $("<iframe src=\"#{path}\" id=\"vichrome-commandframe\" sandbox=\"allow-scripts\" seamless />")
+            @iframe = $("<iframe src=\"#{path}\" id=\"vichrome-commandframe\" seamless />")
             @attach( @iframe )
             @iframe.hide()
 
