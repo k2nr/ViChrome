@@ -121,7 +121,7 @@ g.bg =
             when "--focusprev" then prev = true
 
         chrome.tabs.getSelected(null, (tab) =>
-            if prev
+            if prev and tab.index > 0
                 @moveTab(-1, tab.index, -> chrome.tabs.remove(tab.id))
             else
                 chrome.tabs.remove(tab.id)

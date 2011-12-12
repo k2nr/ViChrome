@@ -190,7 +190,7 @@
         }
       }
       chrome.tabs.getSelected(null, function(tab) {
-        if (prev) {
+        if (prev && tab.index > 0) {
           return _this.moveTab(-1, tab.index, function() {
             return chrome.tabs.remove(tab.id);
           });
