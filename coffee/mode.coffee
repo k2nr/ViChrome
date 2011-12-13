@@ -242,9 +242,20 @@ class g.SearchMode extends g.Mode
         window.focus()
 
     notifyInputUpdated : (msg) ->
-        @searcher.updateInput(msg.word)
+        clearTimeout @timerId if @waiting
+
+        @timerId = setTimeout( =>
+            g.logger.e "set"
+            @searcher.updateInput(msg.word)
+            @waiting = false
+        , 200 )
+        @waiting = true
 
     notifySearchFixed : (msg) ->
+        if @waiting
+            clearTimeout @timerId
+            @waiting = false
+
         @searcher.fix( msg.word )
         g.model.setSearcher( this.searcher )
         g.model.enterNormalMode()

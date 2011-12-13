@@ -474,10 +474,21 @@
     };
 
     SearchMode.prototype.notifyInputUpdated = function(msg) {
-      return this.searcher.updateInput(msg.word);
+      var _this = this;
+      if (this.waiting) clearTimeout(this.timerId);
+      this.timerId = setTimeout(function() {
+        g.logger.e("set");
+        _this.searcher.updateInput(msg.word);
+        return _this.waiting = false;
+      }, 200);
+      return this.waiting = true;
     };
 
     SearchMode.prototype.notifySearchFixed = function(msg) {
+      if (this.waiting) {
+        clearTimeout(this.timerId);
+        this.waiting = false;
+      }
       this.searcher.fix(msg.word);
       g.model.setSearcher(this.searcher);
       return g.model.enterNormalMode();

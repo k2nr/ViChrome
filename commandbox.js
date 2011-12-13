@@ -181,8 +181,10 @@
 
     CommandBox.prototype.show = function(modeChar, input) {
       var _this = this;
+      if (input == null) input = "";
       this.input.attr("value", input);
       this.modeChar.html(modeChar);
+      this.bfInput = input;
       this.box.show();
       this.inputField.show();
       $(document).keyup(function(e) {

@@ -120,9 +120,10 @@ class g.CommandBox
     getAlias  : -> @aliases
     setIncremental : (@incremental) -> this
 
-    show : (modeChar, input) ->
+    show : (modeChar, input="") ->
         @input.attr( "value", input )
         @modeChar.html( modeChar )
+        @bfInput = input
 
         @box.show()
         @inputField.show()
