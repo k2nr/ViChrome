@@ -3,7 +3,7 @@ g = this.vichrome
 
 g.bg =
     tabHistory : null
-    moveTab : (offset, start) ->
+    moveTab : (offset, start, callback) ->
         chrome.tabs.getAllInWindow( null, (tabs) ->
             nTabs = tabs.length
             chrome.tabs.getSelected(null, (tab) ->
@@ -17,7 +17,7 @@ g.bg =
                 else if idx >= nTabs
                     idx = idx % nTabs
 
-                chrome.tabs.update( tabs[idx].id, selected:true )
+                chrome.tabs.update( tabs[idx].id, selected: true, callback )
             )
         )
 
@@ -116,8 +116,16 @@ g.bg =
             chrome.windows.create( url : urls, focused : focus )
         false
 
-    reqTabCloseCurrent : ->
-        chrome.tabs.getSelected(null, (tab) -> chrome.tabs.remove(tab.id) )
+    reqTabCloseCurrent : (req) ->
+        for arg in req.args then switch arg
+            when "--focusprev" then prev = true
+
+        chrome.tabs.getSelected(null, (tab) =>
+            if prev and tab.index > 0
+                @moveTab(-1, tab.index, -> chrome.tabs.remove(tab.id))
+            else
+                chrome.tabs.remove(tab.id)
+        )
         false
 
     reqTabCloseAll : (req) ->

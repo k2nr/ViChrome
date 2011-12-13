@@ -7,7 +7,7 @@
 
   g.bg = {
     tabHistory: null,
-    moveTab: function(offset, start) {
+    moveTab: function(offset, start, callback) {
       return chrome.tabs.getAllInWindow(null, function(tabs) {
         var nTabs;
         nTabs = tabs.length;
@@ -25,7 +25,7 @@
           }
           return chrome.tabs.update(tabs[idx].id, {
             selected: true
-          });
+          }, callback);
         });
       });
     },
@@ -178,9 +178,25 @@
       }
       return false;
     },
-    reqTabCloseCurrent: function() {
+    reqTabCloseCurrent: function(req) {
+      var arg, prev, _i, _len, _ref2;
+      var _this = this;
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
+        switch (arg) {
+          case "--focusprev":
+            prev = true;
+        }
+      }
       chrome.tabs.getSelected(null, function(tab) {
-        return chrome.tabs.remove(tab.id);
+        if (prev && tab.index > 0) {
+          return _this.moveTab(-1, tab.index, function() {
+            return chrome.tabs.remove(tab.id);
+          });
+        } else {
+          return chrome.tabs.remove(tab.id);
+        }
       });
       return false;
     },
