@@ -210,21 +210,21 @@
             only = true;
         }
       }
-      chrome.tabs.getAllInWindow(null, function(tabs) {
-        return chrome.tabs.getSelected(null, function(selected) {
-          var tab, _j, _len2, _results;
-          _results = [];
-          for (_j = 0, _len2 = tabs.length; _j < _len2; _j++) {
-            tab = tabs[_j];
-            if (!(only && selected.id === tab.id)) {
-              _results.push(chrome.tabs.remove(tab.id));
-            } else {
-              _results.push(void 0);
+      if (only) {
+        chrome.tabs.getAllInWindow(null, function(tabs) {
+          return chrome.tabs.getSelected(null, function(selected) {
+            var tab, _j, _len2;
+            for (_j = 0, _len2 = tabs.length; _j < _len2; _j++) {
+              tab = tabs[_j];
+              if (selected.id !== tab.id) chrome.tabs.remove(tab.id);
             }
-          }
-          return _results;
+          });
         });
-      });
+      } else {
+        chrome.windows.getCurrent(function(win) {
+          return chrome.windows.remove(win.id);
+        });
+      }
       return false;
     },
     reqTabReloadAll: function(req) {

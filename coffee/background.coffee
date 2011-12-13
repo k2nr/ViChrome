@@ -132,13 +132,19 @@ g.bg =
         for arg in req.args then switch arg
             when "--only" then only = true
 
-        chrome.tabs.getAllInWindow( null, (tabs) ->
-            chrome.tabs.getSelected(null, (selected) ->
-                for tab in tabs
-                    unless only and selected.id == tab.id
-                        chrome.tabs.remove( tab.id )
+        if only
+            chrome.tabs.getAllInWindow( null, (tabs) ->
+                chrome.tabs.getSelected(null, (selected) ->
+                    for tab in tabs
+                        unless selected.id == tab.id
+                            chrome.tabs.remove( tab.id )
+                    return
+                )
             )
-        )
+        else
+            chrome.windows.getCurrent( (win) ->
+                chrome.windows.remove( win.id )
+            )
         false
 
     reqTabReloadAll : (req) ->
