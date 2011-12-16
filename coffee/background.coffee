@@ -103,7 +103,7 @@ g.bg =
         for arg in req.args then switch arg
             when "-b","--background" then focus = false
             when "-p","--pop"        then pop   = true
-            else urls.push( arg )
+            else urls.push( arg.replace( /%url/g, g.view.getHref() ) )
 
         if pop then chrome.tabs.getSelected(null, (tab) ->
             if urls.length == 0

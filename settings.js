@@ -33,7 +33,7 @@
       "ignoredUrls": ["http*://mail.google.com/*", "http*://www.google.co*/reader/*", "http*://docs.google.com/*", "http*://www.google.com/calendar/*"],
       "commandBoxAlign": "Left-Bottom",
       "commandBoxWidth": 350,
-      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext TabOpenNew chrome://extensions/\nalias option TabOpenNew chrome://settings/browser\n\n# mappings for opening your favorite web page\nnmap <Space>tw :TabOpenNew http://www.twitter.com\nnmap <Space>gr :TabOpenNew http://www.google.com/reader\nnmap <Space>m  :TabOpenNew https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, use the following\n#nmap F :GoFMode --newtab --continuous\n\n# if you want to change the key used to escape EmergencyMode mode,\n# use emap like the following\n#emap <ESC> :Escape\n\n## pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\npagecmd * nmap <C-l> :TabFocusNext\npagecmd * nmap <C-h> :TabFocusPrev\n\n# almost all Vichrome functions don't work properly for pdf contents\n# so it's useful to enable default key bindings for pdf file.\npagecmd *.pdf nmap <C-f> <NOP>\n\n# if you want to use twitter web's key binding, write settings like below\n#pagecmd http*://twitter.com/* nmap f <NOP>\n#pagecmd http*://twitter.com/* nmap r <NOP>",
+      "keyMappingAndAliases": "### Sample Settings\n\n# aliases\n# in this example you can open extensions page by the command ':ext'\n# and Chrome's option page by the command ':option'\nalias ext TabOpenNew chrome://extensions/\nalias option TabOpenNew chrome://settings/browser\nalias downloads TabOpenNew chrome://downloads\nalias history TabOpenNew chrome://history\n\n# mappings for opening your favorite web page\nnmap <Space>tw :TabOpenNew http://www.twitter.com\nnmap <Space>gr :TabOpenNew http://www.google.com/reader\nnmap <Space>m  :TabOpenNew https://mail.google.com/mail/#inbox\n\n# F for continuous f-Mode\n# this is recomended setting but commented out by default.\n# if you want to use this setting, use the following\n#nmap F :GoFMode --newtab --continuous\n\n# if you want to change the key used to escape EmergencyMode mode,\n# use emap like the following\n#emap <ESC> :Escape\n\n## pagecmd offers you page specific key mapping.\n# in this example you can use <C-l>, <C-h> for moving between tabs\n# on all web pages regardless of your ignored list setting\n# because pagecmd has higher priority than ignored URLs.\npagecmd * nmap <C-l> :TabFocusNext\npagecmd * nmap <C-h> :TabFocusPrev\n\n# almost all Vichrome functions don't work properly for pdf contents\n# so it's useful to enable default key bindings for pdf file.\npagecmd *.pdf nmap <C-f> <NOP>\n\n# if you want to use twitter web's key binding, write settings like below\n#pagecmd http*://twitter.com/* nmap f <NOP>\n#pagecmd http*://twitter.com/* nmap r <NOP>",
       "keyMappingNormal": {
         "j": "ScrollDown",
         "k": "ScrollUp",
@@ -66,6 +66,9 @@
         "i": "FocusOnFirstInput",
         "u": "RestoreTab",
         "gp": "WinOpenNew --pop",
+        "gu": "Open ..",
+        "gU": "Open /",
+        "gs": "TabOpenNew view-source:%url",
         "yy": "copyurl",
         "o": "Open -i",
         "O": "TabOpenNew -i",

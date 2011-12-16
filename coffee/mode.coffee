@@ -43,7 +43,8 @@ class g.Mode
             when "-w" then web         = true
             when "-h" then history     = true
             when "-g","g"  then search = true
-            else urls.push arg
+            else
+                urls.push arg.replace( /%url/g, g.view.getHref() )
 
         if interactive or bookmark or history or web
             opt =
@@ -73,7 +74,8 @@ class g.Mode
             when "-w" then web         = true
             when "-h" then history     = true
             when "-g","g"  then search      = true
-            else words.push arg
+            else
+                words.push arg.replace( /%url/g, g.view.getHref() )
 
         if interactive or bookmark or history or web
             opt =

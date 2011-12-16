@@ -91,7 +91,7 @@
             search = true;
             break;
           default:
-            urls.push(arg);
+            urls.push(arg.replace(/%url/g, g.view.getHref()));
         }
       }
       if (interactive || bookmark || history || web) {
@@ -141,7 +141,7 @@
             search = true;
             break;
           default:
-            words.push(arg);
+            words.push(arg.replace(/%url/g, g.view.getHref()));
         }
       }
       if (interactive || bookmark || history || web) {

@@ -151,7 +151,7 @@
             pop = true;
             break;
           default:
-            urls.push(arg);
+            urls.push(arg.replace(/%url/g, g.view.getHref()));
         }
       }
       if (pop) {

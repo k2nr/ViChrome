@@ -40,6 +40,8 @@ g.SettingManager =
 # and Chrome's option page by the command ':option'\n
 alias ext TabOpenNew chrome://extensions/\n
 alias option TabOpenNew chrome://settings/browser\n
+alias downloads TabOpenNew chrome://downloads\n
+alias history TabOpenNew chrome://history\n
 \n
 # mappings for opening your favorite web page\n
 nmap <Space>tw :TabOpenNew http://www.twitter.com\n
@@ -103,6 +105,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "i"       : "FocusOnFirstInput"
             "u"       : "RestoreTab"
             "gp"      : "WinOpenNew --pop"
+            "gs"      : "TabOpenNew view-source:%url"
             "yy"      : "copyurl"
             "o"       : "Open -i"
             "O"       : "TabOpenNew -i"

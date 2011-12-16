@@ -13,7 +13,7 @@
     "tabs",
     "bookmarks",
     "history",
-    "unlimitedStorage"
+    "unlimitedStorage",
   ],
   "content_scripts": [
     {
