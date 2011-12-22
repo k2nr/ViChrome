@@ -365,7 +365,7 @@
       if (this.cWSrch.isExec) return false;
       this.cWSrch.reset().sgst({
         kw: req.value,
-        lan: g.util.getLang(),
+        hl: g.util.getLang(),
         res: function(res) {
           return sendResponse(res.raw);
         }

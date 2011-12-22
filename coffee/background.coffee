@@ -278,7 +278,7 @@ g.bg =
         if @cWSrch.isExec then return false
         @cWSrch.reset().sgst({
             kw  : req.value
-            lan : g.util.getLang()
+            hl : g.util.getLang()
             res : (res) -> sendResponse res.raw
         }).start()
         true

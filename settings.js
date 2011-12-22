@@ -66,8 +66,6 @@
         "i": "FocusOnFirstInput",
         "u": "RestoreTab",
         "gp": "WinOpenNew --pop",
-        "gu": "Open ..",
-        "gU": "Open /",
         "gs": "TabOpenNew view-source:%url",
         "yy": "copyurl",
         "o": "Open -i",

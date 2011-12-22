@@ -567,7 +567,7 @@
       return this.timer = setTimeout(function() {
         _this.timer = null;
         return typeof _this.onInput === "function" ? _this.onInput(word) : void 0;
-      }, 50);
+      }, 150);
     };
 
     return CandidateSource;
