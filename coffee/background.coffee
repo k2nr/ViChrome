@@ -68,7 +68,12 @@ g.bg =
         for arg in req.args then switch arg
             when "-b","--background" then focus  = false
             when "-p","--pinned"     then pinned = true
-            else urls.push( arg )
+            else
+                url = arg
+                if arg.indexOf( "%clipboard" ) >= 0
+                    url = arg.replace( /%clipboard/g, g.clipboard.get() )
+                    url = encodeURI( url )
+                urls.push url
 
         len = urls.length
         times = req.times ? 1
@@ -380,6 +385,10 @@ g.bg =
         chrome.tabs.sendRequest( sender.tab.id, req, (msg) =>
             response msg
         )
+        true
+
+    reqGetClipboard : (req, response, sender) ->
+        response( g.clipboard.get() )
         true
 
     init : ->

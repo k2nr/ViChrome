@@ -113,7 +113,19 @@
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1";
         return g.view.open(url, "_self");
       } else {
-        return g.view.open(urls[0], "_self");
+        url = urls[0];
+        if (url.indexOf("%clipboard") >= 0) {
+          return chrome.extension.sendRequest({
+            command: "GetClipboard"
+          }, function(data) {
+            if (data == null) data = "";
+            url = url.replace(/%clipboard/g, data);
+            url = encodeURI(url);
+            return g.view.open(url, "_self");
+          });
+        } else {
+          return g.view.open(url, "_self");
+        }
       }
     };
 

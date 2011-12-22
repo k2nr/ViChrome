@@ -191,7 +191,7 @@
     area = document.createElement('textarea');
     area.style.position = "absolute";
     area.style.left = "-100%";
-    if (data != null) area.value = data;
+    area.value = data || "";
     return area;
   };
 
@@ -204,6 +204,16 @@
     area.select();
     document.execCommand('Copy');
     return document.body.removeChild(area);
+  };
+
+  g.clipboard.get = function() {
+    var area;
+    area = createCLTextArea();
+    document.body.appendChild(area);
+    area.focus();
+    document.execCommand('Paste');
+    document.body.removeChild(area);
+    return area.value;
   };
 
 }).call(this);

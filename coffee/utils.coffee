@@ -168,7 +168,7 @@ createCLTextArea = (data) ->
     area = document.createElement( 'textarea' )
     area.style.position = "absolute"
     area.style.left     = "-100%"
-    area.value          = data if data?
+    area.value          = data || ""
 
     area
 
@@ -180,3 +180,10 @@ g.clipboard.set = (data) ->
     document.execCommand( 'Copy' )
     document.body.removeChild( area )
 
+g.clipboard.get = ->
+    area = createCLTextArea()
+    document.body.appendChild( area )
+    area.focus()
+    document.execCommand( 'Paste' )
+    document.body.removeChild( area )
+    area.value

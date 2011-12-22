@@ -68,6 +68,8 @@
         "gp": "WinOpenNew --pop",
         "gs": "TabOpenNew view-source:%url",
         "yy": "copyurl",
+        "p": "Open %clipboard",
+        "P": "TabOpenNew %clipboard",
         "o": "Open -i",
         "O": "TabOpenNew -i",
         "s": "Open -i g",

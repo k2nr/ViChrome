@@ -63,7 +63,16 @@ class g.Mode
             g.view.open( url, "_self" )
 
         else
-            g.view.open( urls[0], "_self" )
+            url = urls[0]
+            if url.indexOf( "%clipboard" ) >= 0
+                chrome.extension.sendRequest( command : "GetClipboard", (data) ->
+                    data ?= ""
+                    url = url.replace( /%clipboard/g, data )
+                    url = encodeURI( url )
+                    g.view.open( url, "_self" )
+                )
+            else
+                g.view.open( url, "_self" )
 
     reqTabOpenNew : (args, times) ->
         words = []

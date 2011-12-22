@@ -92,7 +92,12 @@
             pinned = true;
             break;
           default:
-            urls.push(arg);
+            url = arg;
+            if (arg.indexOf("%clipboard") >= 0) {
+              url = arg.replace(/%clipboard/g, g.clipboard.get());
+              url = encodeURI(url);
+            }
+            urls.push(url);
         }
       }
       len = urls.length;
@@ -483,6 +488,10 @@
       chrome.tabs.sendRequest(sender.tab.id, req, function(msg) {
         return response(msg);
       });
+      return true;
+    },
+    reqGetClipboard: function(req, response, sender) {
+      response(g.clipboard.get());
       return true;
     },
     init: function() {
