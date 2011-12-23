@@ -105,7 +105,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "i"       : "FocusOnFirstInput"
             "u"       : "RestoreTab"
             "gp"      : "WinOpenNew --pop"
-            "gs"      : "TabOpenNew view-source:%url"
+            "gs"      : "TabOpenNew --next view-source:%url"
             "yy"      : "copyurl"
             "p"       : "Open %clipboard"
             "P"       : "TabOpenNew %clipboard"
@@ -155,7 +155,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "q"      : "TabCloseAll"
             "copyurl"        : "Copy %url"
             "copytitle"      : "Copy %title"
-            "viewsource"     : "TabOpenNew view-source:%url"
+            "viewsource"     : "TabOpenNew --next view-source:%url"
             # for obsolete commands
             "OpenNewTab"     : "TabOpenNew"
             "MoveToNextTab"  : "TabFocusNext"
