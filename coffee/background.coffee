@@ -68,6 +68,7 @@ g.bg =
         for arg in req.args then switch arg
             when "-b","--background" then focus  = false
             when "-p","--pinned"     then pinned = true
+            when "--next"            then next   = true
             else
                 url = arg
                 if arg.indexOf( "%clipboard" ) >= 0
@@ -77,14 +78,18 @@ g.bg =
 
         len = urls.length
         times = req.times ? 1
-        if len == 0
-            url = @getDefaultNewTabPage()
-            while times--
-                chrome.tabs.create(url : url, selected : focus, pinned : pinned)
-        else
-            while times--
-                for url in urls
-                    chrome.tabs.create(url : url, selected : focus, pinned : pinned)
+        chrome.tabs.getSelected(null, (tab) =>
+            index = tab.index + 1 if next
+            if len == 0
+                url = @getDefaultNewTabPage()
+                while times--
+                    chrome.tabs.create(url: url, selected: focus, pinned: pinned, index: index)
+            else
+                while times--
+                    for url in urls
+                        chrome.tabs.create(url: url, selected: focus, pinned: pinned, index: index)
+            return
+        )
         false
 
     reqCopy : (req) ->

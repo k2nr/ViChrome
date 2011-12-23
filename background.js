@@ -75,7 +75,8 @@
       }
     },
     reqTabOpenNew: function(req) {
-      var arg, focus, len, pinned, times, url, urls, _i, _j, _len, _len2, _ref2, _ref3;
+      var arg, focus, len, next, pinned, times, url, urls, _i, _len, _ref2, _ref3;
+      var _this = this;
       urls = [];
       focus = true;
       pinned = false;
@@ -91,6 +92,9 @@
           case "--pinned":
             pinned = true;
             break;
+          case "--next":
+            next = true;
+            break;
           default:
             url = arg;
             if (arg.indexOf("%clipboard") >= 0) {
@@ -102,27 +106,33 @@
       }
       len = urls.length;
       times = (_ref3 = req.times) != null ? _ref3 : 1;
-      if (len === 0) {
-        url = this.getDefaultNewTabPage();
-        while (times--) {
-          chrome.tabs.create({
-            url: url,
-            selected: focus,
-            pinned: pinned
-          });
-        }
-      } else {
-        while (times--) {
-          for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
-            url = urls[_j];
+      chrome.tabs.getSelected(null, function(tab) {
+        var index, url, _j, _len2;
+        if (next) index = tab.index + 1;
+        if (len === 0) {
+          url = _this.getDefaultNewTabPage();
+          while (times--) {
             chrome.tabs.create({
               url: url,
               selected: focus,
-              pinned: pinned
+              pinned: pinned,
+              index: index
             });
           }
+        } else {
+          while (times--) {
+            for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
+              url = urls[_j];
+              chrome.tabs.create({
+                url: url,
+                selected: focus,
+                pinned: pinned,
+                index: index
+              });
+            }
+          }
         }
-      }
+      });
       return false;
     },
     reqCopy: function(req) {
