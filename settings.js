@@ -116,6 +116,7 @@
         "q": "TabCloseAll",
         "copyurl": "Copy %url",
         "copytitle": "Copy %title",
+        "viewsource": "TabOpenNew view-source:%url",
         "OpenNewTab": "TabOpenNew",
         "MoveToNextTab": "TabFocusNext",
         "MoveToPrevTab": "TabFocusPrev",
