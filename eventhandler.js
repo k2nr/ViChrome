@@ -1,7 +1,7 @@
 (function() {
-  var g, _ref;
+  var g;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -85,26 +85,25 @@
     EventHandler.prototype.addExtListener = function() {
       var _this = this;
       return chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
-        var a, aliases, com, commands, method, _ref2, _ref3;
+        var a, aliases, com, commands, method, _ref, _ref2;
         g.logger.d("onRequest command: " + req.command);
         if ((req.frameID != null) && req.frameID !== g.model.frameID) {
           g.logger.d("onRequest: different frameID");
-          sendResponse();
           return;
         }
         if (req.command === "GetCommandTable") {
           commands = [];
-          _ref2 = g.CommandExecuter.prototype.commandTable;
-          for (com in _ref2) {
-            method = _ref2[com];
+          _ref = g.CommandExecuter.prototype.commandTable;
+          for (com in _ref) {
+            method = _ref[com];
             commands.push(com);
           }
           return sendResponse(commands);
         } else if (req.command === "GetAliases") {
           aliases = {};
-          _ref3 = g.model.getAlias();
-          for (a in _ref3) {
-            com = _ref3[a];
+          _ref2 = g.model.getAlias();
+          for (a in _ref2) {
+            com = _ref2[a];
             aliases[a] = com;
           }
           return sendResponse(aliases);

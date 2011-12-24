@@ -1,7 +1,7 @@
 (function() {
-  var g, mapping, _ref;
+  var g, mapping;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -201,7 +201,7 @@
       return this;
     },
     initUserMap: function() {
-      var com, command, defAliases, defCommand, defEmergency, defInsert, defNormal, defPageMap, key, map, url, _ref2, _ref3, _ref4, _ref5, _ref6;
+      var com, command, defAliases, defCommand, defEmergency, defInsert, defNormal, defPageMap, key, map, url, _ref, _ref2, _ref3, _ref4, _ref5;
       defNormal = this.defaultSettings.keyMappingNormal;
       defInsert = this.defaultSettings.keyMappingInsert;
       defCommand = this.defaultSettings.keyMappingCommand;
@@ -233,40 +233,40 @@
       for (url in defPageMap) {
         map = defPageMap[url];
         this.pageMap[url] = g.extendDeep(mapping);
-        _ref2 = map.nmap;
-        for (key in _ref2) {
-          com = _ref2[key];
+        _ref = map.nmap;
+        for (key in _ref) {
+          com = _ref[key];
           this.pageMap[url].nmap[key] = com;
         }
-        _ref3 = map.imap;
-        for (key in _ref3) {
-          com = _ref3[key];
+        _ref2 = map.imap;
+        for (key in _ref2) {
+          com = _ref2[key];
           this.pageMap[url].imap[key] = com;
         }
-        _ref4 = map.cmap;
-        for (key in _ref4) {
-          com = _ref4[key];
+        _ref3 = map.cmap;
+        for (key in _ref3) {
+          com = _ref3[key];
           this.pageMap[url].cmap[key] = com;
         }
-        _ref5 = map.emap;
-        for (key in _ref5) {
-          com = _ref5[key];
+        _ref4 = map.emap;
+        for (key in _ref4) {
+          com = _ref4[key];
           this.pageMap[url].emap[key] = com;
         }
-        _ref6 = map.alias;
-        for (key in _ref6) {
-          com = _ref6[key];
+        _ref5 = map.alias;
+        for (key in _ref5) {
+          com = _ref5[key];
           this.pageMap[url].alias[key] = com;
         }
       }
       return this;
     },
     getAll: function() {
-      var name, settings, value, _ref2;
+      var name, settings, value, _ref;
       settings = {};
-      _ref2 = this.defaultSettings;
-      for (name in _ref2) {
-        value = _ref2[name];
+      _ref = this.defaultSettings;
+      for (name in _ref) {
+        value = _ref[name];
         switch (name) {
           case "keyMappingNormal":
             settings[name] = this.userMap.nmap;

@@ -1,7 +1,7 @@
 (function() {
-  var g, _ref;
+  var g;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -17,15 +17,15 @@
       this.curPos = 0;
       this.isUpdating = false;
       chrome.tabs.onSelectionChanged.addListener(function(tabId, info) {
-        var elem, i, _len, _ref2, _ref3;
+        var elem, i, _len, _ref, _ref2;
         g.logger.d("selhist selChanged id:" + tabId, _this);
-        if (((_ref2 = _this.array[_this.curPos]) != null ? _ref2.id : void 0) === tabId) {
+        if (((_ref = _this.array[_this.curPos]) != null ? _ref.id : void 0) === tabId) {
           return;
         }
         _this.array.splice(_this.curPos + 1);
-        _ref3 = _this.array;
-        for (i = 0, _len = _ref3.length; i < _len; i++) {
-          elem = _ref3[i];
+        _ref2 = _this.array;
+        for (i = 0, _len = _ref2.length; i < _len; i++) {
+          elem = _ref2[i];
           if (elem.id === tabId) {
             _this.array.splice(i, 1);
             break;
@@ -38,12 +38,12 @@
         return _this.curPos = _this.array.length - 1;
       });
       chrome.tabs.onRemoved.addListener(function(tabId, info) {
-        var elem, i, _len, _ref2, _results;
+        var elem, i, _len, _ref, _results;
         g.logger.d("selhist tab removed id:" + tabId, _this);
-        _ref2 = _this.array;
+        _ref = _this.array;
         _results = [];
-        for (i = 0, _len = _ref2.length; i < _len; i++) {
-          elem = _ref2[i];
+        for (i = 0, _len = _ref.length; i < _len; i++) {
+          elem = _ref[i];
           if (elem.id === tabId) {
             _this.array.splice(i, 1);
             if (_this.curPos >= i) _this.curPos--;
@@ -120,19 +120,19 @@
     TabHistory.prototype.openTabs = {};
 
     TabHistory.prototype.findOpenTabItem = function(tabId) {
-      var tabs, win, _ref2;
-      _ref2 = this.openTabs;
-      for (win in _ref2) {
-        tabs = _ref2[win];
+      var tabs, win, _ref;
+      _ref = this.openTabs;
+      for (win in _ref) {
+        tabs = _ref[win];
         if (tabs[tabId]) return tabs[tabId];
       }
     };
 
     TabHistory.prototype.popOpenTabItem = function(tabId) {
-      var result, tabs, win, _ref2;
-      _ref2 = this.openTabs;
-      for (win in _ref2) {
-        tabs = _ref2[win];
+      var result, tabs, win, _ref;
+      _ref = this.openTabs;
+      for (win in _ref) {
+        tabs = _ref[win];
         if (tabs[tabId]) {
           result = tabs[tabId];
           tabs[tabId] = void 0;
@@ -154,46 +154,46 @@
     };
 
     TabHistory.prototype.setTopFrameID = function(tab, id) {
-      var _ref2;
-      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+      var _ref;
+      if (((_ref = this.openTabs[tab.windowId]) != null ? _ref[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].topFrame = id;
       }
     };
 
     TabHistory.prototype.getTopFrameID = function(tab) {
-      var _ref2, _ref3;
-      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.topFrame : void 0 : void 0;
+      var _ref, _ref2;
+      return (_ref = this.openTabs[tab.windowId]) != null ? (_ref2 = _ref[tab.id]) != null ? _ref2.topFrame : void 0 : void 0;
     };
 
     TabHistory.prototype.setCommandBoxID = function(tab, id) {
-      var _ref2;
-      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+      var _ref;
+      if (((_ref = this.openTabs[tab.windowId]) != null ? _ref[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].comBoxID = id;
       }
     };
 
     TabHistory.prototype.getCommandBoxID = function(tab) {
-      var _ref2, _ref3;
-      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.comBoxID : void 0 : void 0;
+      var _ref, _ref2;
+      return (_ref = this.openTabs[tab.windowId]) != null ? (_ref2 = _ref[tab.id]) != null ? _ref2.comBoxID : void 0 : void 0;
     };
 
     TabHistory.prototype.setFrames = function(tab, frames) {
-      var _ref2;
-      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+      var _ref;
+      if (((_ref = this.openTabs[tab.windowId]) != null ? _ref[tab.id] : void 0) != null) {
         return this.openTabs[tab.windowId][tab.id].frames = frames;
       }
     };
 
     TabHistory.prototype.addFrames = function(tab) {
-      var _ref2;
-      if (((_ref2 = this.openTabs[tab.windowId]) != null ? _ref2[tab.id] : void 0) != null) {
+      var _ref;
+      if (((_ref = this.openTabs[tab.windowId]) != null ? _ref[tab.id] : void 0) != null) {
         return ++this.openTabs[tab.windowId][tab.id].frames;
       }
     };
 
     TabHistory.prototype.getFrames = function(tab) {
-      var _ref2, _ref3;
-      return (_ref2 = this.openTabs[tab.windowId]) != null ? (_ref3 = _ref2[tab.id]) != null ? _ref3.frames : void 0 : void 0;
+      var _ref, _ref2;
+      return (_ref = this.openTabs[tab.windowId]) != null ? (_ref2 = _ref[tab.id]) != null ? _ref2.frames : void 0 : void 0;
     };
 
     TabHistory.prototype.initTabHist = function(winId) {
@@ -207,11 +207,11 @@
           win = wins[_i];
           _this.openTabs[win.id] = {};
           _results.push((function() {
-            var _j, _len2, _ref2, _results2;
-            _ref2 = win.tabs;
+            var _j, _len2, _ref, _results2;
+            _ref = win.tabs;
             _results2 = [];
-            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-              tab = _ref2[_j];
+            for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+              tab = _ref[_j];
               _results2.push(this.addOpenTabItem(tab));
             }
             return _results2;
@@ -273,8 +273,8 @@
     };
 
     TabHistory.prototype.restoreLastClosedTab = function() {
-      var item, opt;
-      var _this = this;
+      var item, opt,
+        _this = this;
       item = this.closeHistStack.pop();
       while ((item != null) && !this.openTabs[item.tab.windowId]) {
         item = this.closeHistStack.pop();

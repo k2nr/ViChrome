@@ -380,14 +380,14 @@ g.bg =
 
     reqGetCommandTable : (req, response, sender) ->
         req.frameID = @tabHistory.getTopFrameID(sender.tab)
-        chrome.tabs.sendRequest( sender.tab.id, req, (msg) =>
+        chrome.tabs.sendRequest( sender.tab.id, req, (msg) ->
             response msg
         )
         true
 
     reqGetAliases : (req, response, sender) ->
         req.frameID = @tabHistory.getTopFrameID(sender.tab)
-        chrome.tabs.sendRequest( sender.tab.id, req, (msg) =>
+        chrome.tabs.sendRequest( sender.tab.id, req, (msg) ->
             response msg
         )
         true

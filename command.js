@@ -1,8 +1,8 @@
 (function() {
-  var escape, g, passToTopFrame, sendToBackground, triggerInsideContent, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
+  var escape, g, passToTopFrame, sendToBackground, triggerInsideContent,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -96,8 +96,8 @@
     };
 
     CommandExecuter.prototype.get = function() {
-      var _ref2;
-      return (_ref2 = this.command) != null ? _ref2 : "";
+      var _ref;
+      return (_ref = this.command) != null ? _ref : "";
     };
 
     CommandExecuter.prototype.getArgs = function() {
@@ -130,7 +130,7 @@
     };
 
     CommandExecuter.prototype.delimLine = function(line) {
-      var c, i, len, pos, pre, result, start, _ref2;
+      var c, i, len, pos, pre, result, start, _ref;
       result = [];
       pos = 0;
       pre = 0;
@@ -161,7 +161,7 @@
         }
       }
       result.push(line.slice(pre, pos));
-      for (i = _ref2 = result.length - 1; _ref2 <= 0 ? i <= 0 : i >= 0; _ref2 <= 0 ? i++ : i--) {
+      for (i = _ref = result.length - 1; _ref <= 0 ? i <= 0 : i >= 0; _ref <= 0 ? i++ : i--) {
         if (result[i].length === 0) result.splice(i, 1);
       }
       return result;
@@ -200,8 +200,8 @@
     };
 
     CommandExecuter.prototype.execute = function() {
-      var com;
-      var _this = this;
+      var com,
+        _this = this;
       com = this.args[0];
       if (!(g.model.isReady() || __indexOf.call(this.commandsBeforeReady, com) >= 0)) {
         return;
@@ -263,8 +263,8 @@
         }
       },
       getNextKeySequence: function() {
-        var ret;
-        var _this = this;
+        var ret,
+          _this = this;
         this.stopTimer();
         if (this.model.isValidKeySeq(this.a)) {
           ret = this.a;

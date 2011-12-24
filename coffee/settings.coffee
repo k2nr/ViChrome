@@ -202,7 +202,8 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
         map.alias
 
     _pagecmd : ( map, args ) ->
-        unless @pageMap[args[0]]? then @pageMap[args[0]] = g.extendDeep( mapping )
+        unless @pageMap[args[0]]?
+            @pageMap[args[0]] = g.extendDeep( mapping )
         this["_"+args[1]]?( @pageMap[args[0]], args.slice(2) )
 
     parseKeyMappingAndAliases : ->

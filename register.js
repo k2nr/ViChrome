@@ -1,7 +1,7 @@
 (function() {
-  var g, _ref;
+  var g;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 

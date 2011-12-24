@@ -62,7 +62,6 @@ class g.EventHandler
             g.logger.d "onRequest command: #{req.command}"
             if req.frameID? and req.frameID != g.model.frameID
                 g.logger.d "onRequest: different frameID"
-                sendResponse()
                 return
 
             if req.command == "GetCommandTable"

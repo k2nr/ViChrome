@@ -1,8 +1,9 @@
 (function() {
-  var MyCommandManager, commandFixedListener, frameID, g, onRequest, opt, searchFixedListener, searchUpdatedListener, sender, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var MyCommandManager, commandFixedListener, frameID, g, onRequest, opt, searchFixedListener, searchUpdatedListener, sender,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -21,9 +22,9 @@
     return command;
   };
 
-  MyCommandManager = (function() {
+  MyCommandManager = (function(_super) {
 
-    __extends(MyCommandManager, g.CommandManager);
+    __extends(MyCommandManager, _super);
 
     function MyCommandManager(model, timeout) {
       MyCommandManager.__super__.constructor.call(this, model, timeout, false);
@@ -59,7 +60,7 @@
 
     return MyCommandManager;
 
-  })();
+  })(g.CommandManager);
 
   g.CommandBox = (function() {
 
@@ -188,13 +189,13 @@
       this.box.show();
       this.inputField.show();
       $(document).keyup(function(e) {
-        var listener, val, _i, _len, _ref2;
+        var listener, val, _i, _len, _ref;
         val = _this.input.val();
         if (_this.selectedCand === val) return;
         if (_this.bfInput !== val && _this.isVisible()) {
-          _ref2 = _this.inputListeners;
-          for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-            listener = _ref2[_i];
+          _ref = _this.inputListeners;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            listener = _ref[_i];
             listener(val);
           }
         }
@@ -213,8 +214,8 @@
     };
 
     CommandBox.prototype.focus = function() {
-      var _ref2;
-      if ((_ref2 = this.input.get(0)) != null) _ref2.focus();
+      var _ref;
+      if ((_ref = this.input.get(0)) != null) _ref.focus();
       return this;
     };
 
@@ -243,22 +244,22 @@
     };
 
     CommandBox.prototype.nextCandidate = function() {
-      var focused, _ref2;
+      var focused, _ref;
       if (this.candidateBox != null) {
         focused = this.candidateBox.focusNext();
         if (focused == null) return this;
-        this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
+        this.selectedCand = (_ref = focused.value) != null ? _ref : focused.str;
         this.value(this.selectedCand);
       }
       return this;
     };
 
     CommandBox.prototype.prevCandidate = function() {
-      var focused, _ref2, _ref3;
+      var focused, _ref, _ref2;
       if (this.candidateBox != null) {
-        focused = (_ref2 = this.candidateBox) != null ? _ref2.focusPrev() : void 0;
+        focused = (_ref = this.candidateBox) != null ? _ref.focusPrev() : void 0;
         if (focused == null) return this;
-        this.selectedCand = (_ref3 = focused.value) != null ? _ref3 : focused.str;
+        this.selectedCand = (_ref2 = focused.value) != null ? _ref2 : focused.str;
         this.value(this.selectedCand);
       }
       return this;
@@ -273,11 +274,11 @@
     };
 
     CommandBox.prototype.isValidKeySeqAvailable = function(keySeq) {
-      var cmpStr, command, length, pos, seq, _ref2;
+      var cmpStr, command, length, pos, seq, _ref;
       length = keySeq.length;
-      _ref2 = this.keyMap;
-      for (seq in _ref2) {
-        command = _ref2[seq];
+      _ref = this.keyMap;
+      for (seq in _ref) {
+        command = _ref[seq];
         cmpStr = seq.slice(0, length);
         pos = cmpStr.indexOf("<", 0);
         if (pos >= 0) {
@@ -330,11 +331,11 @@
     };
 
     CandidateBox.prototype.getItemCnt = function() {
-      var items, result, src, _ref2;
+      var items, result, src, _ref;
       result = 0;
-      _ref2 = this.items;
-      for (src in _ref2) {
-        items = _ref2[src];
+      _ref = this.items;
+      for (src in _ref) {
+        items = _ref[src];
         result += items.length;
       }
       return result;
@@ -378,11 +379,11 @@
     };
 
     CandidateBox.prototype.update = function(id) {
-      var i, item, _len, _ref2;
+      var i, item, _len, _ref;
       $('#vichromecanditem' + ("[source=" + id + "]")).remove();
-      _ref2 = this.items[id];
-      for (i = 0, _len = _ref2.length; i < _len; i++) {
-        item = _ref2[i];
+      _ref = this.items[id];
+      for (i = 0, _len = _ref.length; i < _len; i++) {
+        item = _ref[i];
         this.box.append(this.makeItemLine(id, i, item));
       }
       return this;
@@ -481,11 +482,11 @@
     };
 
     CandidateBox.prototype.onInput = function(word) {
-      var id, src, _ref2;
+      var id, src, _ref;
       if (this.stopped) return;
-      _ref2 = this.sources;
-      for (id in _ref2) {
-        src = _ref2[id];
+      _ref = this.sources;
+      for (id in _ref) {
+        src = _ref[id];
         src.cbInputUpdated(word);
       }
     };
@@ -537,10 +538,10 @@
     };
 
     CandidateSource.prototype.notifyUpdated = function() {
-      var listener, _i, _len, _ref2;
-      _ref2 = this.updatedListeners;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        listener = _ref2[_i];
+      var listener, _i, _len, _ref;
+      _ref = this.updatedListeners;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        listener = _ref[_i];
         listener(this.items);
       }
       return this;
@@ -574,9 +575,9 @@
 
   })();
 
-  g.CandSourceCommand = (function() {
+  g.CandSourceCommand = (function(_super) {
 
-    __extends(CandSourceCommand, g.CandidateSource);
+    __extends(CandSourceCommand, _super);
 
     CandSourceCommand.prototype.id = "Command";
 
@@ -592,14 +593,14 @@
     }
 
     CandSourceCommand.prototype.onInput = function(word) {
-      var com, _i, _len, _ref2;
+      var com, _i, _len, _ref;
       if (!(word.length > 0)) return;
       if (this.commands == null) return;
       this.resetItem();
       word = word.toUpperCase();
-      _ref2 = this.commands;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        com = _ref2[_i];
+      _ref = this.commands;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        com = _ref[_i];
         if (com.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: com,
@@ -613,11 +614,11 @@
 
     return CandSourceCommand;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceAlias = (function() {
+  g.CandSourceAlias = (function(_super) {
 
-    __extends(CandSourceAlias, g.CandidateSource);
+    __extends(CandSourceAlias, _super);
 
     CandSourceAlias.prototype.id = "Alias";
 
@@ -633,14 +634,14 @@
     }
 
     CandSourceAlias.prototype.onInput = function(word) {
-      var alias, com, _ref2;
+      var alias, com, _ref;
       if (!(word.length > 0)) return;
       if (this.aliases == null) return;
       this.resetItem();
       word = word.toUpperCase();
-      _ref2 = this.aliases;
-      for (alias in _ref2) {
-        com = _ref2[alias];
+      _ref = this.aliases;
+      for (alias in _ref) {
+        com = _ref[alias];
         if (alias.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: alias,
@@ -654,11 +655,11 @@
 
     return CandSourceAlias;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceHistory = (function() {
+  g.CandSourceHistory = (function(_super) {
 
-    __extends(CandSourceHistory, g.CandidateSource);
+    __extends(CandSourceHistory, _super);
 
     function CandSourceHistory() {
       CandSourceHistory.__super__.constructor.apply(this, arguments);
@@ -697,11 +698,11 @@
 
     return CandSourceHistory;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceBookmark = (function() {
+  g.CandSourceBookmark = (function(_super) {
 
-    __extends(CandSourceBookmark, g.CandidateSource);
+    __extends(CandSourceBookmark, _super);
 
     function CandSourceBookmark() {
       CandSourceBookmark.__super__.constructor.apply(this, arguments);
@@ -739,11 +740,11 @@
 
     return CandSourceBookmark;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceSearchHist = (function() {
+  g.CandSourceSearchHist = (function(_super) {
 
-    __extends(CandSourceSearchHist, g.CandidateSource);
+    __extends(CandSourceSearchHist, _super);
 
     CandSourceSearchHist.prototype.id = "SearchHistory";
 
@@ -754,18 +755,19 @@
       chrome.extension.sendRequest({
         command: "GetSearchHistory"
       }, function(msg) {
-        return _this.history = msg.value.reverse();
+        _this.history = msg.value.reverse();
+        return _this.onInput("");
       });
     }
 
     CandSourceSearchHist.prototype.onInput = function(word) {
-      var hist, _i, _len, _ref2;
+      var hist, _i, _len, _ref;
       if (this.history == null) return;
       this.resetItem();
       word = word.toUpperCase();
-      _ref2 = this.history;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        hist = _ref2[_i];
+      _ref = this.history;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        hist = _ref[_i];
         if (hist.toUpperCase().slice(0, word.length) === word) {
           this.addItem({
             str: hist,
@@ -779,11 +781,11 @@
 
     return CandSourceSearchHist;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceGoogleSuggest = (function() {
+  g.CandSourceGoogleSuggest = (function(_super) {
 
-    __extends(CandSourceGoogleSuggest, g.CandidateSource);
+    __extends(CandSourceGoogleSuggest, _super);
 
     function CandSourceGoogleSuggest() {
       CandSourceGoogleSuggest.__super__.constructor.apply(this, arguments);
@@ -822,11 +824,11 @@
 
     return CandSourceGoogleSuggest;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceWebSuggest = (function() {
+  g.CandSourceWebSuggest = (function(_super) {
 
-    __extends(CandSourceWebSuggest, g.CandidateSource);
+    __extends(CandSourceWebSuggest, _super);
 
     function CandSourceWebSuggest() {
       CandSourceWebSuggest.__super__.constructor.apply(this, arguments);
@@ -868,11 +870,11 @@
 
     return CandSourceWebSuggest;
 
-  })();
+  })(g.CandidateSource);
 
-  g.CandSourceTabs = (function() {
+  g.CandSourceTabs = (function(_super) {
 
-    __extends(CandSourceTabs, g.CandidateSource);
+    __extends(CandSourceTabs, _super);
 
     CandSourceTabs.prototype.id = "Tabs";
 
@@ -883,18 +885,19 @@
         command: "GetTabList"
       }, function(tabs) {
         _this.tabs = tabs;
+        return _this.onInput("");
       });
       CandSourceTabs.__super__.constructor.call(this, this.maxItems);
     }
 
     CandSourceTabs.prototype.onInput = function(word) {
-      var a, tab, _i, _len, _ref2;
+      var a, tab, _i, _len, _ref;
       if (this.tabs == null) return;
       this.resetItem();
       word = word.toUpperCase();
-      _ref2 = this.tabs;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        tab = _ref2[_i];
+      _ref = this.tabs;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        tab = _ref[_i];
         a = tab.title.toUpperCase();
         if (tab.title.toUpperCase().indexOf(word) >= 0) {
           this.addItem({
@@ -910,7 +913,7 @@
 
     return CandSourceTabs;
 
-  })();
+  })(g.CandidateSource);
 
   sender = 0;
 
@@ -946,16 +949,16 @@
   };
 
   onRequest = function(req) {
-    var candBox, obj, reqPrefix, src, _i, _j, _len, _len2, _ref2, _ref3, _ref4, _ref5;
+    var candBox, obj, reqPrefix, src, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4;
     switch (req.mode) {
       case "Command":
         sender = req.sender;
         window.focus();
         candBox = new g.CandidateBox;
-        _ref2 = req.sources;
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          src = _ref2[_i];
-          reqPrefix = (_ref3 = src.reqPrefix) != null ? _ref3 : false;
+        _ref = req.sources;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          src = _ref[_i];
+          reqPrefix = (_ref2 = src.reqPrefix) != null ? _ref2 : false;
           obj = (new g[src["class"]](src.num)).requirePrefix(reqPrefix);
           candBox.addSource(obj);
         }
@@ -965,10 +968,10 @@
         sender = req.sender;
         window.focus();
         candBox = new g.CandidateBox;
-        _ref4 = req.sources;
-        for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
-          src = _ref4[_j];
-          reqPrefix = (_ref5 = src.reqPrefix) != null ? _ref5 : false;
+        _ref3 = req.sources;
+        for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
+          src = _ref3[_j];
+          reqPrefix = (_ref4 = src.reqPrefix) != null ? _ref4 : false;
           obj = (new g[src["class"]](src.num)).requirePrefix(reqPrefix);
           candBox.addSource(obj);
         }

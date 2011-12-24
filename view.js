@@ -1,7 +1,7 @@
 (function() {
-  var g, _ref;
+  var g;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -78,8 +78,8 @@
     function Surface() {}
 
     Surface.prototype.init = function() {
-      var align, path;
-      var _this = this;
+      var align, path,
+        _this = this;
       align = g.model.getSetting("commandBoxAlign");
       this.statusLine = $('<div id="vichromestatusline" />').addClass('vichrome-statuslineinactive').addClass("vichrome-statusline" + align).width(g.model.getSetting("commandBoxWidth"));
       this.statusLineVisible = false;
@@ -90,9 +90,9 @@
         this.iframe.hide();
       }
       $(document.body).click(function(e) {
-        var _ref2;
+        var _ref;
         _this.scrollee = $(e.target).closest(":scrollable").get(0);
-        return (_ref2 = _this.scrollee) != null ? _ref2 : _this.scrollee = window;
+        return (_ref = _this.scrollee) != null ? _ref : _this.scrollee = window;
       });
       return this.initialized = true;
     };
@@ -165,10 +165,10 @@
     };
 
     Surface.prototype.focusInput = function(idx) {
-      var _base, _ref2;
+      var _base, _ref;
       if (!this.initialized) return this;
       if (typeof (_base = $('form input:text:visible')).scrollTo === "function") {
-        if ((_ref2 = _base.scrollTo().get(0)) != null) _ref2.focus();
+        if ((_ref = _base.scrollTo().get(0)) != null) _ref.focus();
       }
       return this;
     };
@@ -234,9 +234,9 @@
     };
 
     Surface.prototype.blurActiveElement = function() {
-      var _ref2;
+      var _ref;
       if (!this.initialized) return this;
-      if ((_ref2 = document.activeElement) != null) _ref2.blur();
+      if ((_ref = document.activeElement) != null) _ref.blur();
       return this;
     };
 
@@ -252,8 +252,8 @@
     };
 
     Surface.prototype.showCommandFrame = function() {
-      var _ref2;
-      return (_ref2 = this.iframe) != null ? _ref2.show() : void 0;
+      var _ref;
+      return (_ref = this.iframe) != null ? _ref.show() : void 0;
     };
 
     return Surface;

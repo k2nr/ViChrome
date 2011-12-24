@@ -1,7 +1,7 @@
 (function() {
-  var g, keyCodes, keyIdentifier, shiftWinKeyIdentifier_ja, shiftWinKeyIdentifier_us, util, winKeyIdentifier_ja, winKeyIdentifier_us, _ref;
+  var g, keyCodes, keyIdentifier, shiftWinKeyIdentifier_ja, shiftWinKeyIdentifier_us, util, winKeyIdentifier_ja, winKeyIdentifier_us;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 

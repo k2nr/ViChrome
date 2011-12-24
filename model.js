@@ -1,15 +1,15 @@
 (function() {
-  var g, getAliasFirst, getCMapFirst, getEMapFirst, getIMapFirst, getNMapFirst, _ref;
+  var g, getAliasFirst, getCMapFirst, getEMapFirst, getIMapFirst, getNMapFirst;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
   getNMapFirst = function() {
-    var map, myMap, nmap, pageMap, url, _ref2;
+    var map, myMap, nmap, pageMap, url, _ref;
     nmap = g.object(this.getSetting("keyMappingNormal"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return nmap;
     }
     myMap = nmap;
@@ -24,10 +24,10 @@
   };
 
   getIMapFirst = function() {
-    var imap, map, myMap, pageMap, url, _ref2;
+    var imap, map, myMap, pageMap, url, _ref;
     imap = g.object(this.getSetting("keyMappingInsert"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return imap;
     }
     myMap = imap;
@@ -42,10 +42,10 @@
   };
 
   getCMapFirst = function() {
-    var cmap, map, myMap, pageMap, url, _ref2;
+    var cmap, map, myMap, pageMap, url, _ref;
     cmap = g.object(this.getSetting("keyMappingCommand"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return cmap;
     }
     myMap = cmap;
@@ -60,10 +60,10 @@
   };
 
   getEMapFirst = function() {
-    var emap, map, myMap, pageMap, url, _ref2;
+    var emap, map, myMap, pageMap, url, _ref;
     emap = g.object(this.getSetting("keyMappingEmergency"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return emap;
     }
     myMap = emap;
@@ -78,10 +78,10 @@
   };
 
   getAliasFirst = function() {
-    var aliases, map, myAlias, pageMap, url, _ref2;
+    var aliases, map, myAlias, pageMap, url, _ref;
     aliases = g.object(this.getSetting("aliases"));
     pageMap = this.getSetting("pageMap");
-    if (!(((_ref2 = g.view.getHref()) != null ? _ref2.length : void 0) > 0)) {
+    if (!(((_ref = g.view.getHref()) != null ? _ref.length : void 0) > 0)) {
       return aliases;
     }
     myAlias = aliases;
@@ -134,8 +134,8 @@
       this.searcher = searcher;
     },
     cancelSearchHighlight: function() {
-      var _ref2;
-      return (_ref2 = this.searcher) != null ? _ref2.cancelHighlight() : void 0;
+      var _ref;
+      return (_ref = this.searcher) != null ? _ref.cancelHighlight() : void 0;
     },
     enterNormalMode: function() {
       g.logger.d("enterNormalMode");
@@ -350,7 +350,6 @@
       }
     },
     openCommandBox: function(param) {
-      var _ref2, _ref3, _ref4;
       if (typeof top !== "undefined" && top !== null) {
         param.command = "SendToCommandBox";
         g.view.showCommandFrame();
@@ -358,13 +357,9 @@
         param.command = "TopFrame";
       }
       param.innerCommand = 'OpenCommandBox';
-      if ((_ref2 = param.sender) == null) param.sender = this.frameID;
-      if ((_ref3 = param.keyMap) == null) {
-        param.keyMap = g.extendDeep(this.getCMap());
-      }
-      if ((_ref4 = param.aliases) == null) {
-        param.aliases = g.extendDeep(this.getAlias());
-      }
+      if (param.sender == null) param.sender = this.frameID;
+      if (param.keyMap == null) param.keyMap = g.extendDeep(this.getCMap());
+      if (param.aliases == null) param.aliases = g.extendDeep(this.getAlias());
       return chrome.extension.sendRequest(param, function(msg) {
         return g.handler.onCommandResponse(msg);
       });

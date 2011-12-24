@@ -1,8 +1,8 @@
 (function() {
-  var createCLTextArea, editableList, g, include, levels, objectList, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; };
+  var createCLTextArea, editableList, g, include, levels, objectList,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -54,7 +54,7 @@
     NONE: 5
   };
 
-  g.LOG_LEVEL = g.logLevels.ERROR;
+  g.LOG_LEVEL = g.logLevels.DEBUG;
 
   levels = g.logLevels;
 
@@ -87,25 +87,21 @@
   objectList = ["EMBED", "OBJECT", "APPLET"];
 
   g.util.isEditable = function(target) {
-    var ignoreList, _ref2, _ref3, _ref4;
+    var ignoreList, _ref, _ref2, _ref3;
     ignoreList = ["TEXTAREA"];
     if (target == null) return false;
     if (target.isContentEditable) return true;
-    if (_ref2 = target.nodeName, __indexOf.call(ignoreList, _ref2) >= 0) {
-      return true;
-    }
-    if (((_ref3 = target.nodeName) != null ? _ref3.toUpperCase() : void 0) === "INPUT" && (_ref4 = target.type.toUpperCase(), __indexOf.call(editableList, _ref4) >= 0)) {
+    if (_ref = target.nodeName, __indexOf.call(ignoreList, _ref) >= 0) return true;
+    if (((_ref2 = target.nodeName) != null ? _ref2.toUpperCase() : void 0) === "INPUT" && (_ref3 = target.type.toUpperCase(), __indexOf.call(editableList, _ref3) >= 0)) {
       return true;
     }
     return false;
   };
 
   g.util.isEmbededFlash = function(target) {
-    var _ref2;
+    var _ref;
     if (target == null) return false;
-    if (_ref2 = target.nodeName, __indexOf.call(objectList, _ref2) < 0) {
-      return false;
-    }
+    if (_ref = target.nodeName, __indexOf.call(objectList, _ref) < 0) return false;
     if (target.type.indexOf("x-shockwave-flash") >= 0) return true;
     if (target.innerHTML.indexOf("x-shockwave-flash") >= 0) return true;
     return false;

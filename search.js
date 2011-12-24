@@ -1,8 +1,9 @@
 (function() {
-  var g, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var g,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -33,9 +34,9 @@
     };
 
     NormalSearcher.prototype.getFirstInnerSearchResultIndex = function() {
-      var i, idx, span, total, _ref2;
+      var i, idx, span, total, _ref;
       total = this.getResultCnt();
-      for (i = 0, _ref2 = total - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
+      for (i = 0, _ref = total - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
         idx = this.opt.backward ? total - 1 - i : i;
         span = this.getResult(idx);
         if ((span != null) && span.isWithinScreen()) return idx;
@@ -104,12 +105,12 @@
     };
 
     NormalSearcher.prototype.getResult = function(cnt) {
-      var _ref2;
-      return (_ref2 = this.sortedResults[cnt]) != null ? _ref2.value : void 0;
+      var _ref;
+      return (_ref = this.sortedResults[cnt]) != null ? _ref.value : void 0;
     };
 
     NormalSearcher.prototype.fix = function(word) {
-      var span, _ref2;
+      var span, _ref;
       if (!this.opt.incSearch || word.length < this.opt.minIncSearch || this.word !== word) {
         if (this.opt.useMigemo && word.length < this.opt.minMigemoLength) {
           this.opt.useMigemo = false;
@@ -138,13 +139,13 @@
       });
       span = this.getResult(this.getCurIndex());
       if (span != null) {
-        if ((_ref2 = span.closest("a").get(0)) != null) _ref2.focus();
+        if ((_ref = span.closest("a").get(0)) != null) _ref.focus();
       }
       return this.fixed = true;
     };
 
     NormalSearcher.prototype.moveTo = function(pos) {
-      var span, _ref2;
+      var span, _ref;
       if (this.getResultCnt() > pos) {
         span = this.getResult(pos);
         if (span != null) {
@@ -154,7 +155,7 @@
           g.view.setStatusLineText((pos + 1) + " / " + this.getResultCnt());
           if (this.fixed) {
             g.view.blurActiveElement();
-            return (_ref2 = span.closest("a").get(0)) != null ? _ref2.focus() : void 0;
+            return (_ref = span.closest("a").get(0)) != null ? _ref.focus() : void 0;
           }
         }
       } else {
@@ -211,9 +212,9 @@
 
   })();
 
-  g.LinkTextSearcher = (function() {
+  g.LinkTextSearcher = (function(_super) {
 
-    __extends(LinkTextSearcher, g.NormalSearcher);
+    __extends(LinkTextSearcher, _super);
 
     function LinkTextSearcher() {
       LinkTextSearcher.__super__.constructor.apply(this, arguments);
@@ -230,6 +231,6 @@
 
     return LinkTextSearcher;
 
-  })();
+  })(g.NormalSearcher);
 
 }).call(this);

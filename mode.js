@@ -1,8 +1,9 @@
 (function() {
-  var g, _ref;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var g,
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -358,9 +359,9 @@
 
   })();
 
-  g.NormalMode = (function() {
+  g.NormalMode = (function(_super) {
 
-    __extends(NormalMode, g.Mode);
+    __extends(NormalMode, _super);
 
     function NormalMode() {
       NormalMode.__super__.constructor.apply(this, arguments);
@@ -390,11 +391,11 @@
 
     return NormalMode;
 
-  })();
+  })(g.Mode);
 
-  g.InsertMode = (function() {
+  g.InsertMode = (function(_super) {
 
-    __extends(InsertMode, g.Mode);
+    __extends(InsertMode, _super);
 
     function InsertMode() {
       InsertMode.__super__.constructor.apply(this, arguments);
@@ -420,11 +421,11 @@
 
     return InsertMode;
 
-  })();
+  })(g.Mode);
 
-  g.SearchMode = (function() {
+  g.SearchMode = (function(_super) {
 
-    __extends(SearchMode, g.Mode);
+    __extends(SearchMode, _super);
 
     function SearchMode() {
       SearchMode.__super__.constructor.apply(this, arguments);
@@ -512,11 +513,11 @@
 
     return SearchMode;
 
-  })();
+  })(g.Mode);
 
-  g.CommandMode = (function() {
+  g.CommandMode = (function(_super) {
 
-    __extends(CommandMode, g.Mode);
+    __extends(CommandMode, _super);
 
     function CommandMode() {
       CommandMode.__super__.constructor.apply(this, arguments);
@@ -541,8 +542,8 @@
     };
 
     CommandMode.prototype.enter = function() {
-      var param, _ref2;
-      if ((_ref2 = this.executer) == null) this.executer = new g.CommandExecuter;
+      var param;
+      if (this.executer == null) this.executer = new g.CommandExecuter;
       if (this.executer.getDescription() != null) {
         g.view.setStatusLineText(this.executer.getDescription());
       } else {
@@ -577,11 +578,11 @@
 
     return CommandMode;
 
-  })();
+  })(g.Mode);
 
-  g.EmergencyMode = (function() {
+  g.EmergencyMode = (function(_super) {
 
-    __extends(EmergencyMode, g.Mode);
+    __extends(EmergencyMode, _super);
 
     function EmergencyMode() {
       EmergencyMode.__super__.constructor.apply(this, arguments);
@@ -622,11 +623,11 @@
 
     return EmergencyMode;
 
-  })();
+  })(g.Mode);
 
-  g.FMode = (function() {
+  g.FMode = (function(_super) {
 
-    __extends(FMode, g.Mode);
+    __extends(FMode, _super);
 
     function FMode() {
       FMode.__super__.constructor.apply(this, arguments);
@@ -669,10 +670,10 @@
     };
 
     FMode.prototype.searchTarget = function() {
-      var elem, i, _len, _ref2;
-      _ref2 = this.hints;
-      for (i = 0, _len = _ref2.length; i < _len; i++) {
-        elem = _ref2[i];
+      var elem, i, _len, _ref;
+      _ref = this.hints;
+      for (i = 0, _len = _ref.length; i < _len; i++) {
+        elem = _ref[i];
         if (this.currentInput === elem.key) return i;
       }
       return -1;
@@ -723,7 +724,7 @@
     };
 
     FMode.prototype.enter = function() {
-      var div, elem, hint, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref2;
+      var div, elem, hint, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref;
       this.currentInput = "";
       this.hints = [];
       links = $('a:_visible,*:input:_visible,.button:_visible');
@@ -753,9 +754,9 @@
         this.hints[i].target = elem;
         $(elem).addClass('vichrome-fModeTarget');
       }
-      _ref2 = this.hints;
-      for (_i = 0, _len2 = _ref2.length; _i < _len2; _i++) {
-        hint = _ref2[_i];
+      _ref = this.hints;
+      for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
+        hint = _ref[_i];
         offset = hint.target._offset_;
         top = offset.top - 7;
         left = offset.left - 7;
@@ -774,7 +775,7 @@
 
     return FMode;
 
-  })();
+  })(g.Mode);
 
   $.extend($.expr[':'], {
     _visible: function(elem) {

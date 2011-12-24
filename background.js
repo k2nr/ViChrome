@@ -1,7 +1,7 @@
 (function() {
-  var g, _ref;
+  var g;
 
-  if ((_ref = this.vichrome) == null) this.vichrome = {};
+  if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
 
@@ -75,14 +75,14 @@
       }
     },
     reqTabOpenNew: function(req) {
-      var arg, focus, len, next, pinned, times, url, urls, _i, _len, _ref2, _ref3;
-      var _this = this;
+      var arg, focus, len, next, pinned, times, url, urls, _i, _len, _ref, _ref2,
+        _this = this;
       urls = [];
       focus = true;
       pinned = false;
-      _ref2 = req.args;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        arg = _ref2[_i];
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
         switch (arg) {
           case "-b":
           case "--background":
@@ -105,7 +105,7 @@
         }
       }
       len = urls.length;
-      times = (_ref3 = req.times) != null ? _ref3 : 1;
+      times = (_ref2 = req.times) != null ? _ref2 : 1;
       chrome.tabs.getSelected(null, function(tab) {
         var index, url, _j, _len2;
         if (next) index = tab.index + 1;
@@ -149,13 +149,13 @@
       });
     },
     reqWinOpenNew: function(req) {
-      var arg, focus, pop, urls, _i, _len, _ref2;
+      var arg, focus, pop, urls, _i, _len, _ref;
       urls = [];
       focus = true;
       pop = false;
-      _ref2 = req.args;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        arg = _ref2[_i];
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
         switch (arg) {
           case "-b":
           case "--background":
@@ -194,11 +194,11 @@
       return false;
     },
     reqTabCloseCurrent: function(req) {
-      var arg, prev, _i, _len, _ref2;
-      var _this = this;
-      _ref2 = req.args;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        arg = _ref2[_i];
+      var arg, prev, _i, _len, _ref,
+        _this = this;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
         switch (arg) {
           case "--focusprev":
             prev = true;
@@ -216,10 +216,10 @@
       return false;
     },
     reqTabCloseAll: function(req) {
-      var arg, only, _i, _len, _ref2;
-      _ref2 = req.args;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        arg = _ref2[_i];
+      var arg, only, _i, _len, _ref;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
         switch (arg) {
           case "--only":
             only = true;
@@ -243,15 +243,15 @@
       return false;
     },
     reqTabReloadAll: function(req) {
-      var _ref2;
-      if ((_ref2 = g.tabs) != null) {
-        if (typeof _ref2.reloadAllTabs === "function") _ref2.reloadAllTabs();
+      var _ref;
+      if ((_ref = g.tabs) != null) {
+        if (typeof _ref.reloadAllTabs === "function") _ref.reloadAllTabs();
       }
       return false;
     },
     reqTabFocusNext: function(req) {
-      var _ref2;
-      if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
+      var _ref;
+      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
         if (req.args[0] <= 0) return;
         this.moveTab(parseInt(req.args[0]) - 1, 0);
       } else {
@@ -264,9 +264,9 @@
       return false;
     },
     reqTabFocusPrev: function(req) {
-      var times, _ref2;
+      var times, _ref;
       times = req.times ? req.times : 1;
-      if (((_ref2 = req.args) != null ? _ref2[0] : void 0) != null) {
+      if (((_ref = req.args) != null ? _ref[0] : void 0) != null) {
         this.moveTab(-parseInt(req.args[0]));
       } else {
         this.moveTab(-times);
@@ -429,10 +429,10 @@
       return true;
     },
     reqOpenOptionPage: function(req) {
-      var arg, key, url, _i, _len, _ref2;
-      _ref2 = req.args;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        arg = _ref2[_i];
+      var arg, key, url, _i, _len, _ref;
+      _ref = req.args;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        arg = _ref[_i];
         switch (arg) {
           case "-k":
           case "--key":
@@ -485,7 +485,6 @@
       return false;
     },
     reqGetCommandTable: function(req, response, sender) {
-      var _this = this;
       req.frameID = this.tabHistory.getTopFrameID(sender.tab);
       chrome.tabs.sendRequest(sender.tab.id, req, function(msg) {
         return response(msg);
@@ -493,7 +492,6 @@
       return true;
     },
     reqGetAliases: function(req, response, sender) {
-      var _this = this;
       req.frameID = this.tabHistory.getTopFrameID(sender.tab);
       chrome.tabs.sendRequest(sender.tab.id, req, function(msg) {
         return response(msg);
@@ -505,8 +503,8 @@
       return true;
     },
     init: function() {
-      var $WA, req, storedVersion;
-      var _this = this;
+      var $WA, req, storedVersion,
+        _this = this;
       this.tabHistory = (new g.TabHistory).init();
       this.tabSelHist = (new g.TabSelectionHistory).init();
       g.SettingManager.init();

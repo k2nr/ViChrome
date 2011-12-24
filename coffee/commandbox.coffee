@@ -501,9 +501,12 @@ class g.CandSourceSearchHist extends g.CandidateSource
     id : "SearchHistory"
     constructor : (@maxItems) ->
         super( @maxItems )
-        chrome.extension.sendRequest( {
+        chrome.extension.sendRequest(
             command : "GetSearchHistory"
-        }, (msg) => @history = msg.value.reverse() )
+        , (msg) =>
+            @history = msg.value.reverse()
+            @onInput("")
+        )
 
     onInput : (word) ->
         unless @history? then return
@@ -578,9 +581,9 @@ class g.CandSourceWebSuggest extends g.CandidateSource
 class g.CandSourceTabs extends g.CandidateSource
     id : "Tabs"
     constructor : (@maxItems=-1) ->
-        chrome.extension.sendRequest( {
+        chrome.extension.sendRequest(
             command : "GetTabList"
-        }, (@tabs) => )
+        , (@tabs) => @onInput("") )
         super( @maxItems )
 
     onInput : (word) ->
