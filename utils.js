@@ -54,7 +54,7 @@
     NONE: 5
   };
 
-  g.LOG_LEVEL = g.logLevels.DEBUG;
+  g.LOG_LEVEL = g.logLevels.ERROR;
 
   levels = g.logLevels;
 
