@@ -218,10 +218,10 @@
   g.CommandManager = (function() {
 
     CommandManager.prototype.keyQueue = {
-      init: function(model, timeout, enableMulti) {
+      init: function(model, timeout, useNumPrefix) {
         this.model = model;
         this.timeout = timeout;
-        this.enableMulti = enableMulti != null ? enableMulti : true;
+        this.useNumPrefix = useNumPrefix != null ? useNumPrefix : true;
         this.a = "";
         this.times = "";
         this.timerId = 0;
@@ -240,7 +240,7 @@
         return this.timerId = setTimeout(callback, ms);
       },
       queue: function(s) {
-        if (this.enableMulti && s.length === 1 && s.search(/[0-9]/) >= 0 && this.a.length === 0) {
+        if (this.useNumPrefix && s.length === 1 && s.search(/[0-9]/) >= 0 && this.a.length === 0) {
           this.times += s;
         } else {
           this.a += s;
@@ -283,13 +283,17 @@
           }
           return null;
         }
+      },
+      setUseNumPrefix: function(useNumPrefix) {
+        this.useNumPrefix = useNumPrefix;
+        return this;
       }
     };
 
-    function CommandManager(model, timeout, enableMulti) {
+    function CommandManager(model, timeout, useNumPrefix) {
       this.model = model;
-      if (enableMulti == null) enableMulti = true;
-      this.keyQueue.init(this.model, timeout, enableMulti);
+      if (useNumPrefix == null) useNumPrefix = true;
+      this.keyQueue.init(this.model, timeout, useNumPrefix);
     }
 
     CommandManager.prototype.getCommandFromKeySeq = function(s, keyMap) {
@@ -309,6 +313,10 @@
 
     CommandManager.prototype.isWaitingNextKey = function() {
       return this.keyQueue.isWaiting();
+    };
+
+    CommandManager.prototype.setUseNumPrefix = function(use) {
+      return this.keyQueue.setUseNumPrefix(use);
     };
 
     CommandManager.prototype.handleKey = function(msg, keyMap) {

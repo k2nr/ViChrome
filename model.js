@@ -105,9 +105,11 @@
     settings: null,
     frameID: 0,
     changeMode: function(newMode) {
+      var _ref;
       if (this.curMode != null) this.curMode.exit();
       this.curMode = newMode;
-      return this.curMode.enter();
+      this.curMode.enter();
+      return (_ref = this.commandManager) != null ? _ref.setUseNumPrefix(this.curMode.getUseNumPrefix()) : void 0;
     },
     init: function() {
       this.enterNormalMode();

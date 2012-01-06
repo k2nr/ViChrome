@@ -178,7 +178,7 @@ class g.CommandExecuter
 
 class g.CommandManager
     keyQueue :
-        init : (@model, @timeout, @enableMulti=true)->
+        init : (@model, @timeout, @useNumPrefix=true)->
             @a = ""
             @times = ""
             @timerId = 0
@@ -197,7 +197,7 @@ class g.CommandManager
             @timerId = setTimeout( callback, ms )
 
         queue : (s) ->
-            if @enableMulti and s.length == 1 and s.search(/[0-9]/) >= 0 and @a.length == 0
+            if @useNumPrefix and s.length == 1 and s.search(/[0-9]/) >= 0 and @a.length == 0
                 @times += s
             else
                 @a += s
@@ -232,8 +232,10 @@ class g.CommandManager
                     @reset()
                 null
 
-    constructor : (@model, timeout, enableMulti=true) ->
-        @keyQueue.init( @model, timeout, enableMulti )
+        setUseNumPrefix  : (@useNumPrefix) -> this
+
+    constructor : (@model, timeout, useNumPrefix=true) ->
+        @keyQueue.init( @model, timeout, useNumPrefix )
 
     getCommandFromKeySeq : (s, keyMap) ->
         @keyQueue.queue(s)
@@ -244,6 +246,7 @@ class g.CommandManager
     reset : -> @keyQueue.reset()
 
     isWaitingNextKey : -> @keyQueue.isWaiting()
+    setUseNumPrefix : (use) -> @keyQueue.setUseNumPrefix( use )
 
     handleKey : (msg, keyMap) ->
         s     = g.KeyManager.getKeyCodeStr(msg)

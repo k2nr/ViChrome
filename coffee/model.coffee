@@ -90,6 +90,7 @@ g.model =
         if @curMode? then @curMode.exit()
         @curMode = newMode
         @curMode.enter()
+        @commandManager?.setUseNumPrefix( @curMode.getUseNumPrefix() )
 
     init : ->
         @enterNormalMode()

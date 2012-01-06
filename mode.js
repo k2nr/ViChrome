@@ -15,6 +15,10 @@
 
     Mode.prototype.enter = function() {};
 
+    Mode.prototype.getUseNumPrefix = function() {
+      return false;
+    };
+
     Mode.prototype.enterInteractiveOpen = function(baseCom, opt) {
       var dscr, executer, sources;
       dscr = baseCom;
@@ -369,6 +373,10 @@
 
     NormalMode.prototype.getName = function() {
       return "NormalMode";
+    };
+
+    NormalMode.prototype.getUseNumPrefix = function() {
+      return true;
     };
 
     NormalMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {

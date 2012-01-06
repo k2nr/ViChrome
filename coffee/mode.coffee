@@ -4,6 +4,7 @@ g = this.vichrome
 class g.Mode
     exit  : ->
     enter : ->
+    getUseNumPrefix : -> false
     enterInteractiveOpen : (baseCom, opt)->
         dscr = baseCom
         sources = []
@@ -191,6 +192,7 @@ class g.Mode
 
 class g.NormalMode extends g.Mode
     getName : -> "NormalMode"
+    getUseNumPrefix : -> true
     prePostKeyEvent : (key, ctrl, alt, meta) -> true
     escape : ->
         g.model.cancelSearchHighlight()
