@@ -359,6 +359,15 @@
       return g.model.getNMap();
     };
 
+    Mode.prototype.reqToggleImageSize = function() {
+      if(document.images.length == 1) {
+        var img = document.getElementsByTagName('img')[0];
+        var mouseEvent = document.createEvent("MouseEvent");
+        mouseEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        img.dispatchEvent(mouseEvent);
+      }
+    };
+
     return Mode;
 
   })();
