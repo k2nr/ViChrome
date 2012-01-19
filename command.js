@@ -92,8 +92,8 @@
       Copy: sendToBackground,
       Escape: escape,
       HideJimmy: triggerInsideContent,
-      "_ChangeLogLevel": triggerInsideContent,
-      ToggleImageSize: triggerInsideContent
+      ToggleImageSize: triggerInsideContent,
+      "_ChangeLogLevel": triggerInsideContent
     };
 
     CommandExecuter.prototype.get = function() {

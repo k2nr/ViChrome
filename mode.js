@@ -346,6 +346,16 @@
       return $("div#siteNotice").hide();
     };
 
+    Mode.prototype.reqToggleImageSize = function() {
+      var evt, img;
+      if (document.images.length === 1) {
+        evt = document.createEvent('MouseEvents');
+        evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        img = document.getElementsByTagName('img')[0];
+        return img.dispatchEvent(evt);
+      }
+    };
+
     Mode.prototype.req_ChangeLogLevel = function(args) {
       if (!args || args.length < 1) return;
       if (g.logLevels[args[0]] != null) {
@@ -357,15 +367,6 @@
 
     Mode.prototype.getKeyMapping = function() {
       return g.model.getNMap();
-    };
-
-    Mode.prototype.reqToggleImageSize = function() {
-      if(document.images.length == 1) {
-        var img = document.getElementsByTagName('img')[0];
-        var mouseEvent = document.createEvent("MouseEvent");
-        mouseEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        img.dispatchEvent(mouseEvent);
-      }
     };
 
     return Mode;

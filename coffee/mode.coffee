@@ -180,6 +180,13 @@ class g.Mode
 
     reqHideJimmy : -> $("div#siteNotice").hide()
 
+    reqToggleImageSize : ->
+        if document.images.length == 1
+            evt = document.createEvent('MouseEvents')
+            evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+            img = document.getElementsByTagName('img')[0]
+            img.dispatchEvent(evt)
+
     req_ChangeLogLevel : (args) ->
         if not args or args.length < 1 then return
 
