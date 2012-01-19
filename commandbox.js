@@ -30,32 +30,11 @@
       MyCommandManager.__super__.constructor.call(this, model, timeout, false);
     }
 
-    MyCommandManager.prototype.handleKey = function(msg, keyMap) {
-      var args, com, executer, s, _base, _name;
-      s = g.KeyManager.getKeyCodeStr(msg);
-      com = this.getCommandFromKeySeq(s, keyMap);
-      if (!com) {
-        if (this.isWaitingNextKey()) {
-          event.stopPropagation();
-          event.preventDefault();
-        }
-        return;
-      }
-      switch (com) {
-        case "<NOP>":
-          break;
-        case "<DISCARD>":
-          event.stopPropagation();
-          return event.preventDefault();
-        default:
-          executer = (new g.CommandExecuter).set(com).parse();
-          args = executer.getArgs();
-          if (typeof (_base = this.model)[_name = "req" + args[0]] === "function") {
-            _base[_name](args.slice(1));
-          }
-          event.stopPropagation();
-          return event.preventDefault();
-      }
+    MyCommandManager.prototype.execCommand = function(com) {
+      var args, executer, _base, _name;
+      executer = (new g.CommandExecuter).set(com.str).parse();
+      args = executer.getArgs();
+      return typeof (_base = this.model)[_name = "req" + args[0]] === "function" ? _base[_name](args.slice(1)) : void 0;
     };
 
     return MyCommandManager;

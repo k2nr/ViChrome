@@ -16,27 +16,11 @@ class MyCommandManager extends g.CommandManager
     constructor : (model, timeout)->
         super( model, timeout, false )
 
-    handleKey : (msg, keyMap) ->
-        s     = g.KeyManager.getKeyCodeStr(msg)
-        com   = @getCommandFromKeySeq( s, keyMap )
+    execCommand : (com) ->
+        executer = (new g.CommandExecuter).set( com.str ).parse()
+        args = executer.getArgs()
+        @model["req"+args[0]]?( args.slice(1) )
 
-        unless com
-            if @isWaitingNextKey()
-                event.stopPropagation()
-                event.preventDefault()
-            return
-
-        switch com
-            when "<NOP>" then return
-            when "<DISCARD>"
-                event.stopPropagation()
-                event.preventDefault()
-            else
-                executer = (new g.CommandExecuter).set( com ).parse()
-                args = executer.getArgs()
-                @model["req"+args[0]]?( args.slice(1) )
-                event.stopPropagation()
-                event.preventDefault()
 
 class g.CommandBox
     constructor : ->

@@ -266,12 +266,22 @@
         var ret,
           _this = this;
         this.stopTimer();
-        if (this.model.isValidKeySeq(this.a)) {
-          ret = this.a;
+        if (this.model.isValidKeySeq(this.times + this.a)) {
+          ret = {
+            times: null,
+            seq: this.times + this.a
+          };
+          this.reset();
+          return ret;
+        } else if (this.model.isValidKeySeq(this.a)) {
+          ret = {
+            times: this.getTimes(),
+            seq: "" + this.a
+          };
           this.reset();
           return ret;
         } else {
-          if (this.model.isValidKeySeqAvailable(this.a)) {
+          if (this.model.isValidKeySeqAvailable(this.times + this.a) || this.model.isValidKeySeqAvailable(this.a)) {
             this.startTimer(function() {
               _this.a = "";
               _this.times = "";
@@ -301,7 +311,10 @@
       this.keyQueue.queue(s);
       keySeq = this.keyQueue.getNextKeySequence();
       if (keyMap && keySeq) {
-        return keyMap[keySeq];
+        return {
+          times: keySeq.times,
+          str: keyMap[keySeq.seq]
+        };
       } else {
         return null;
       }
@@ -320,9 +333,8 @@
     };
 
     CommandManager.prototype.handleKey = function(msg, keyMap) {
-      var com, s, times;
+      var com, s;
       s = g.KeyManager.getKeyCodeStr(msg);
-      times = this.keyQueue.getTimes();
       com = this.getCommandFromKeySeq(s, keyMap);
       if (!com) {
         if (this.isWaitingNextKey()) {
@@ -338,10 +350,14 @@
           event.stopPropagation();
           return event.preventDefault();
         default:
-          (new g.CommandExecuter).set(com, times).parse().execute();
+          this.execCommand(com);
           event.stopPropagation();
           return event.preventDefault();
       }
+    };
+
+    CommandManager.prototype.execCommand = function(com) {
+      return (new g.CommandExecuter).set(com.str, com.times).parse().execute();
     };
 
     return CommandManager;

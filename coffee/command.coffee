@@ -216,12 +216,16 @@ class g.CommandManager
         getNextKeySequence : ->
             @stopTimer()
 
-            if @model.isValidKeySeq(@a)
-                ret = @a
+            if @model.isValidKeySeq(@times+@a)
+                ret = { times: null, seq: @times+@a }
+                @reset()
+                return ret
+            else if @model.isValidKeySeq(@a)
+                ret = { times: @getTimes(), seq: ""+@a }
                 @reset()
                 return ret
             else
-                if @model.isValidKeySeqAvailable(@a)
+                if @model.isValidKeySeqAvailable(@times+@a) or @model.isValidKeySeqAvailable(@a)
                     @startTimer( =>
                         @a       = ""
                         @times   = ""
@@ -241,7 +245,10 @@ class g.CommandManager
         @keyQueue.queue(s)
         keySeq = @keyQueue.getNextKeySequence()
 
-        if keyMap and keySeq then keyMap[keySeq] else null
+        if keyMap and keySeq
+            return { times: keySeq.times, str: keyMap[keySeq.seq] }
+        else
+            return null
 
     reset : -> @keyQueue.reset()
 
@@ -250,7 +257,6 @@ class g.CommandManager
 
     handleKey : (msg, keyMap) ->
         s     = g.KeyManager.getKeyCodeStr(msg)
-        times = @keyQueue.getTimes()
         com   = @getCommandFromKeySeq( s, keyMap )
 
         unless com
@@ -265,6 +271,9 @@ class g.CommandManager
                 event.stopPropagation()
                 event.preventDefault()
             else
-                (new g.CommandExecuter).set( com, times ).parse().execute()
+                @execCommand(com)
                 event.stopPropagation()
                 event.preventDefault()
+    execCommand : (com) ->
+        (new g.CommandExecuter).set( com.str, com.times ).parse().execute()
+
