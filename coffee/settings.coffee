@@ -54,6 +54,10 @@ nmap <Space>m  :TabOpenNew https://mail.google.com/mail/#inbox\n
 # if you want to use this setting, use the following\n
 #nmap F :GoFMode --newtab --continuous\n
 \n
+# you can use <DISCARD> to discard the key so that chrome's default\n
+# action isn't triggered.\n
+#nmap <BS> <DISCARD>\n
+\n
 # if you want to change the key used to escape EmergencyMode mode,\n
 # use emap like the following\n
 #emap <ESC> :Escape\n
