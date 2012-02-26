@@ -79,7 +79,9 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
 
         "keyMappingNormal"  :
             "j"       : "ScrollDown"
+            "<C-e>"   : "ScrollDown"
             "k"       : "ScrollUp"
+            "<C-y>"   : "ScrollUp"
             "h"       : "ScrollLeft"
             "l"       : "ScrollRight"
             "<C-f>"   : "PageDown"
