@@ -28,6 +28,7 @@
           "lib/jquery-1.7.1.js",
           "lib/migemo.js",
           "lib/jquery.highlight-3.js",
+          "lib/jsapi",
           "vichrome.js",
           "utils.js",
           "key.js",
