@@ -120,6 +120,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "<C-ESC>" : "GoEmergencyMode"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"
+            ",z"      : "ToggleImageSize"
 
         "keyMappingInsert" :
             "<ESC>"   : "Escape"
