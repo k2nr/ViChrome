@@ -96,6 +96,7 @@ class g.CommandExecuter
         Copy                  : sendToBackground
         Escape                : escape
         HideJimmy             : triggerInsideContent
+        ToggleImageSize       : triggerInsideContent
         # hidden commands
         "_ChangeLogLevel"     : triggerInsideContent
 

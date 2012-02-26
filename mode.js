@@ -346,6 +346,15 @@
       return $("div#siteNotice").hide();
     };
 
+    Mode.prototype.reqToggleImageSize = function() {
+      var evt;
+      if (document.images.length === 1) {
+        evt = document.createEvent('MouseEvents');
+        evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        return document.images[0].dispatchEvent(evt);
+      }
+    };
+
     Mode.prototype.req_ChangeLogLevel = function(args) {
       if (!args || args.length < 1) return;
       if (g.logLevels[args[0]] != null) {

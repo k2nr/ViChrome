@@ -92,6 +92,7 @@
       Copy: sendToBackground,
       Escape: escape,
       HideJimmy: triggerInsideContent,
+      ToggleImageSize: triggerInsideContent,
       "_ChangeLogLevel": triggerInsideContent
     };
 

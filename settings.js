@@ -80,7 +80,8 @@
         "^": "TabSwitchLast",
         "<C-ESC>": "GoEmergencyMode",
         "<ESC>": "Escape",
-        "<C-[>": "Escape"
+        "<C-[>": "Escape",
+        ",z": "ToggleImageSize"
       },
       "keyMappingInsert": {
         "<ESC>": "Escape",
