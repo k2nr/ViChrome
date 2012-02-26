@@ -1,9 +1,21 @@
 (function() {
-  var g;
+  var extendURL, g;
 
   if (this.vichrome == null) this.vichrome = {};
 
   g = this.vichrome;
+
+  extendURL = function(base) {
+    var url;
+    if (base.search(/^javascript:/i) >= 0) return base;
+    if (base.indexOf("%clipboard") >= 0) {
+      url = encodeURI(base.replace(/%clipboard/g, g.clipboard.get()));
+    } else {
+      url = encodeURI(base);
+    }
+    if (url.indexOf("://") < 0) url = "http://" + url;
+    return url;
+  };
 
   g.bg = {
     tabHistory: null,
@@ -75,7 +87,7 @@
       }
     },
     reqTabOpenNew: function(req) {
-      var arg, focus, len, next, pinned, times, url, urls, _i, _len, _ref, _ref2,
+      var arg, focus, len, next, pinned, times, urls, _i, _len, _ref, _ref2,
         _this = this;
       urls = [];
       focus = true;
@@ -96,12 +108,7 @@
             next = true;
             break;
           default:
-            url = arg;
-            if (arg.indexOf("%clipboard") >= 0) {
-              url = arg.replace(/%clipboard/g, g.clipboard.get());
-              url = encodeURI(url);
-            }
-            urls.push(url);
+            urls.push(arg);
         }
       }
       len = urls.length;
@@ -124,7 +131,7 @@
             for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
               url = urls[_j];
               chrome.tabs.create({
-                url: url,
+                url: extendURL(url),
                 selected: focus,
                 pinned: pinned,
                 index: index
@@ -500,6 +507,10 @@
     },
     reqGetClipboard: function(req, response, sender) {
       response(g.clipboard.get());
+      return true;
+    },
+    reqExtendURL: function(req, response, sender) {
+      response(extendURL(req.url));
       return true;
     },
     init: function() {

@@ -1,6 +1,20 @@
 this.vichrome ?= {}
 g = this.vichrome
 
+extendURL = (base) ->
+    if base.search( /^javascript:/i ) >= 0
+        return base
+
+    if base.indexOf( "%clipboard" ) >= 0
+        url = encodeURI( base.replace( /%clipboard/g, g.clipboard.get() ) )
+    else
+        url = encodeURI( base )
+
+    if url.indexOf( "://" ) < 0
+        url = "http://" + url
+
+    return url
+
 g.bg =
     tabHistory : null
     moveTab : (offset, start, callback) ->
@@ -70,11 +84,7 @@ g.bg =
             when "-p","--pinned"     then pinned = true
             when "--next"            then next   = true
             else
-                url = arg
-                if arg.indexOf( "%clipboard" ) >= 0
-                    url = arg.replace( /%clipboard/g, g.clipboard.get() )
-                    url = encodeURI( url )
-                urls.push url
+                urls.push arg
 
         len = urls.length
         times = req.times ? 1
@@ -87,7 +97,7 @@ g.bg =
             else
                 while times--
                     for url in urls
-                        chrome.tabs.create(url: url, selected: focus, pinned: pinned, index: index)
+                        chrome.tabs.create(url: extendURL( url ), selected: focus, pinned: pinned, index: index)
             return
         )
         false
@@ -395,6 +405,11 @@ g.bg =
     reqGetClipboard : (req, response, sender) ->
         response( g.clipboard.get() )
         true
+
+    reqExtendURL : (req, response, sender) ->
+        response( extendURL( req.url ) )
+        true
+
 
     init : ->
         @tabHistory = (new g.TabHistory).init()

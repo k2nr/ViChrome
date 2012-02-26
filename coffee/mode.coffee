@@ -64,15 +64,7 @@ class g.Mode
             g.view.open( url, "_self" )
 
         else
-            url = urls[0]
-            if url.indexOf( "%clipboard" ) >= 0
-                chrome.extension.sendRequest( command : "GetClipboard", (data) ->
-                    data ?= ""
-                    url = url.replace( /%clipboard/g, data )
-                    url = encodeURI( url )
-                    g.view.open( url, "_self" )
-                )
-            else
+            chrome.extension.sendRequest {command: "ExtendURL", url: urls[0]}, (url) ->
                 g.view.open( url, "_self" )
 
     reqTabOpenNew : (args, times) ->
@@ -93,7 +85,7 @@ class g.Mode
                 history  : history
                 web      : web
                 search   : search
-            com = "OpenNewTab " + words.join(' ')
+            com = "TabOpenNew " + words.join(' ')
             @enterInteractiveOpen( com, opt )
         else if search
             word = ""
