@@ -734,7 +734,7 @@
     };
 
     FMode.prototype.enter = function() {
-      var div, elem, hint, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref;
+      var div, elem, hint, hintFontSize, hintHeight, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref;
       this.currentInput = "";
       this.hints = [];
       links = $('a:_visible,*:input:_visible,.button:_visible');
@@ -764,6 +764,8 @@
         this.hints[i].target = elem;
         $(elem).addClass('vichrome-fModeTarget');
       }
+      hintFontSize = "" + g.model.getSetting("hintFontSize") + "px";
+      hintHeight = "" + (g.model.getSetting("hintFontSize") + 4) + "px";
       _ref = this.hints;
       for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
         hint = _ref[_i];
@@ -772,7 +774,7 @@
         left = offset.left - 7;
         if (top < 0) top = 0;
         if (left < 0) left = 0;
-        div = $('<span id="vichromehint" />').css("top", top).css("left", left).html(hint.key);
+        div = $('<span id="vichromehint" />').css("top", top).css("left", left).css("height", hintHeight).css("line-height", hintHeight).css("font-size", hintFontSize).html(hint.key);
         $('html').append(div);
       }
       return g.view.setStatusLineText('f Mode : ');

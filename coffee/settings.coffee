@@ -33,6 +33,7 @@ g.SettingManager =
         ]
         "commandBoxAlign"         : "Left-Bottom"
         "commandBoxWidth"         : 350
+        "hintFontSize"            : 10
         "keyMappingAndAliases"    : "### Sample Settings\n
 \n
 # aliases\n

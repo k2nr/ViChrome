@@ -94,6 +94,7 @@ onSettings = (msg) ->
     initInputNumber "minIncSearch"
     initInputNumber "commandBoxWidth"
     initInputNumber "minMigemoLength"
+    initInputNumber "hintFontSize"
     initInputText   "fModeAvailableKeys"
     initCheckBox    "disableAutoFocus"
     initCheckBox    "smoothScroll"

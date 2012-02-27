@@ -436,13 +436,21 @@ class g.FMode extends g.Mode
 
             $(elem).addClass('vichrome-fModeTarget')
 
+        hintFontSize = "" + g.model.getSetting("hintFontSize")       + "px"
+        hintHeight   = "" + (g.model.getSetting("hintFontSize") + 4) + "px"
         for hint in @hints
             offset = hint.target._offset_
             top =  offset.top - 7
             left = offset.left - 7
             top = 0 if top < 0
             left = 0 if left < 0
-            div = $( '<span id="vichromehint" />' ).css("top",  top).css("left", left).html(hint.key)
+            div = $( '<span id="vichromehint" />' )
+                  .css("top",  top)
+                  .css("left", left)
+                  .css("height", hintHeight)
+                  .css("line-height", hintHeight)
+                  .css("font-size", hintFontSize)
+                  .html(hint.key)
             $('html').append(div)
 
         g.view.setStatusLineText 'f Mode : '
