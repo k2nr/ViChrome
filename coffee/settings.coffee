@@ -123,7 +123,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "b"       : "Open -b"
             "B"       : "TabOpenNew -b"
             "''"      : "BackToPageMark"
-            "^"       : "TabSwitchLast"
+            "<C-^>"   : "TabSwitchLast"
             "<C-ESC>" : "GoEmergencyMode"
             "<ESC>"   : "Escape"
             "<C-[>"   : "Escape"
