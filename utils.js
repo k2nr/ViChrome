@@ -6,7 +6,7 @@
 
   g = this.vichrome;
 
-  g.VICHROME_VERSION = "0.9.0";
+  g.VICHROME_VERSION = "0.10";
 
   g.object = function(obj) {
     var F;
