@@ -1,17 +1,20 @@
-.SUFFIXES:.coffee .js
+.SUFFIXES: .coffee .js
+.PHONY: all clean
 
-COFFEE = coffee
+COFFEE_CMD = coffee
 COFFEE_DIR = ./coffee
-COFFEE_FILES = $(COFFEE_DIR)/*.coffee
+COFFEE_FILES := $(wildcard $(COFFEE_DIR)/*.coffee)
+GEN_JS = $(patsubst $(COFFEE_DIR)/%.coffee,%.js,$(COFFEE_FILES))
 
-all:
-	$(COFFEE) -o . -c $(COFFEE_FILES)
+all: $(GEN_JS)
 
-.coffee.js:
-	$(COFFEE) -o . -c $<
+%.js: $(COFFEE_DIR)/%.coffee
+	$(COFFEE_CMD) -o . -c $<
 
-vichrome.zip: all
-	zip $@ *.js manifest.json *.html lib/* lib/dicts/* icons/* css/*
+zip: all
+	zip vichrome.zip *.js manifest.json *.html lib/* lib/dicts/* icons/* css/*
+
+crx: all
 
 clean:
-	rm -f ./*.js vichrome.zip
+	rm -f $(GEN_JS) vichrome.zip vichrome.crx

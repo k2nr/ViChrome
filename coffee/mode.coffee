@@ -305,7 +305,7 @@ class g.CommandMode extends g.Mode
     getKeyMapping : -> g.model.getCMap()
 
     setExecuter : (@executer) -> this
-    setSources  : (@sources) -> this
+    setSources  : (@sources)  -> this
 
 class g.EmergencyMode extends g.Mode
     getName : -> "EmergencyMode"
@@ -355,10 +355,7 @@ class g.FMode extends g.Mode
 
     isValidKey : (key) ->
         unless key.length == 1 then return false
-        if @keys.indexOf( key ) < 0
-            return false
-        else
-            return true
+        return @keys.indexOf( key ) >= 0
 
     searchTarget : ->
         for elem, i in @hints

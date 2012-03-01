@@ -672,11 +672,7 @@
 
     FMode.prototype.isValidKey = function(key) {
       if (key.length !== 1) return false;
-      if (this.keys.indexOf(key) < 0) {
-        return false;
-      } else {
-        return true;
-      }
+      return this.keys.indexOf(key) >= 0;
     };
 
     FMode.prototype.searchTarget = function() {
