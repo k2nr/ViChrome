@@ -447,12 +447,13 @@ g.bg =
                     else g.logger.e("INVALID command!:", req.command)
         )
 
-        storedVersion = localStorage.version
-        if storedVersion? and storedVersion != g.VICHROME_VERSION
-            req = {}
-            req.args = []
-            req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
-            @reqTabOpenNew( req )
+        if g.SettingManager.get "notifyUpdateSucceeded"
+            storedVersion = localStorage.version
+            if storedVersion? and storedVersion != g.VICHROME_VERSION
+                req = {}
+                req.args = []
+                req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
+                @reqTabOpenNew( req )
 
         localStorage.version = g.VICHROME_VERSION
 

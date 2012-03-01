@@ -104,6 +104,7 @@ onSettings = (msg) ->
     initCheckBox    "ignoreCase"
     initCheckBox    "useMigemo"
     initCheckBox    "fModeIgnoreCase"
+    initCheckBox    "notifyUpdateSucceeded"
     initDropDown    "commandBoxAlign"
     initDropDown    "searchEngine"
 

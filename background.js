@@ -554,12 +554,14 @@
             }
         }
       });
-      storedVersion = localStorage.version;
-      if ((storedVersion != null) && storedVersion !== g.VICHROME_VERSION) {
-        req = {};
-        req.args = [];
-        req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
-        this.reqTabOpenNew(req);
+      if (g.SettingManager.get("notifyUpdateSucceeded")) {
+        storedVersion = localStorage.version;
+        if ((storedVersion != null) && storedVersion !== g.VICHROME_VERSION) {
+          req = {};
+          req.args = [];
+          req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
+          this.reqTabOpenNew(req);
+        }
       }
       return localStorage.version = g.VICHROME_VERSION;
     }

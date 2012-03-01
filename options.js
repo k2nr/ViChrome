@@ -143,6 +143,7 @@
     initCheckBox("ignoreCase");
     initCheckBox("useMigemo");
     initCheckBox("fModeIgnoreCase");
+    initCheckBox("notifyUpdateSucceeded");
     initDropDown("commandBoxAlign");
     initDropDown("searchEngine");
     $('[name="newTabPage"][value="' + settings.defaultNewTab + '"]').attr('checked', true);
