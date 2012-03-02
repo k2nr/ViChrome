@@ -76,6 +76,7 @@ getAliasFirst = ->
     @getAlias = -> myAlias
     myAlias
 
+
 g.model =
     initEnabled  : false
     domReady     : false

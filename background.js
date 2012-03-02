@@ -461,10 +461,10 @@
       if (req.frameID != null) {
         chrome.tabs.sendRequest(sender.tab.id, req);
       } else {
-        g.logger.e("can't send request to top frame: frame id is invalid");
+        g.logger.e("Can't send request to top frame: frame ID is invalid");
         o = {};
         o.error = true;
-        o.errorMsg = "something's wrong.try to reload page";
+        o.errorMsg = "Something's wrong. Try to reload page";
         response(o);
         return true;
       }
@@ -482,10 +482,10 @@
       if (req.frameID != null) {
         chrome.tabs.sendRequest(sender.tab.id, req);
       } else {
-        g.logger.e("can't send request to command box: frame id is invalid");
+        g.logger.e("Can't send request to command box: frame ID is invalid");
         o = {};
         o.error = true;
-        o.errorMsg = "Can't open commandbox.try to reload page";
+        o.errorMsg = "Can't open commandbox. Try to reload page";
         response(o);
         return true;
       }
@@ -558,8 +558,7 @@
         storedVersion = localStorage.version;
         if ((storedVersion != null) && storedVersion !== g.VICHROME_VERSION) {
           req = {};
-          req.args = [];
-          req.args.push("https://github.com/k2nr/ViChrome/wiki/Release-History");
+          req.args = ["https://github.com/k2nr/ViChrome/wiki/Release-History"];
           this.reqTabOpenNew(req);
         }
       }

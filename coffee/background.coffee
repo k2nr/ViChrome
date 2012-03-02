@@ -357,10 +357,10 @@ g.bg =
         if req.frameID?
             chrome.tabs.sendRequest( sender.tab.id, req )
         else
-            g.logger.e "can't send request to top frame: frame id is invalid"
+            g.logger.e "Can't send request to top frame: frame ID is invalid"
             o = {}
             o.error = true
-            o.errorMsg = "something's wrong.try to reload page"
+            o.errorMsg = "Something's wrong. Try to reload page"
 
             response o
             return true
@@ -378,10 +378,10 @@ g.bg =
         if req.frameID?
             chrome.tabs.sendRequest( sender.tab.id, req )
         else
-            g.logger.e "can't send request to command box: frame id is invalid"
+            g.logger.e "Can't send request to command box: frame ID is invalid"
             o = {}
             o.error = true
-            o.errorMsg = "Can't open commandbox.try to reload page"
+            o.errorMsg = "Can't open commandbox. Try to reload page"
 
             response o
             return true
@@ -410,7 +410,6 @@ g.bg =
         response( extendURL( req.url ) )
         true
 
-
     init : ->
         @tabHistory = (new g.TabHistory).init()
         @tabSelHist = (new g.TabSelectionHistory).init()
@@ -434,9 +433,9 @@ g.bg =
                     @tabHistory.addFrames(sender.tab)
                     g.logger.d "commandBoxFrameID: #{frameID}"
                     msg.frameID = frameID
-                    msg.enableCompletion = g.SettingManager.get "enableCompletion"
-                    msg.commandBoxWidth  = g.SettingManager.get "commandBoxWidth"
-                    msg.commandBoxAlign  = g.SettingManager.get "commandBoxAlign"
+                    msg.enableCompletion   = g.SettingManager.get "enableCompletion"
+                    msg.commandBoxWidth    = g.SettingManager.get "commandBoxWidth"
+                    msg.commandBoxAlign    = g.SettingManager.get "commandBoxAlign"
                     msg.commandWaitTimeOut = g.SettingManager.get "commandWaitTimeOut"
 
                     sendResponse msg
@@ -451,8 +450,7 @@ g.bg =
             storedVersion = localStorage.version
             if storedVersion? and storedVersion != g.VICHROME_VERSION
                 req = {}
-                req.args = []
-                req.args.push "https://github.com/k2nr/ViChrome/wiki/Release-History"
+                req.args = ["https://github.com/k2nr/ViChrome/wiki/Release-History"]
                 @reqTabOpenNew( req )
 
         localStorage.version = g.VICHROME_VERSION

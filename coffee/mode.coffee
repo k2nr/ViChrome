@@ -138,7 +138,7 @@ class g.Mode
             when "--newtab" then newTab = true
             when "--continuous" then continuous = true
 
-        opt = newTab : newTab, continuous : continuous
+        opt = { newTab : newTab, continuous : continuous }
         g.model.enterFMode( opt )
 
 
