@@ -51,10 +51,10 @@ class g.EventHandler
         @model.onMouseDown e
 
     addWindowListeners : ->
-        document.addEventListener("keydown" , ((e) => @onKeyDown(e)) , true)
-        document.addEventListener("keypress", ((e) => @onKeyPress(e)) , true)
-        document.addEventListener("focus"   , ((e) => @onFocus(e))   , true)
-        document.addEventListener("blur"    , ((e) => @onBlur(e))    , true)
+        document.addEventListener("keydown"   , ((e) => @onKeyDown(e))   , true)
+        document.addEventListener("keypress"  , ((e) => @onKeyPress(e))  , true)
+        document.addEventListener("focus"     , ((e) => @onFocus(e))     , true)
+        document.addEventListener("blur"      , ((e) => @onBlur(e))      , true)
         document.addEventListener("mousedown" , ((e) => @onMouseDown(e)) , true)
 
     addExtListener : ->
@@ -64,40 +64,41 @@ class g.EventHandler
                 g.logger.d "onRequest: different frameID"
                 return
 
-            if req.command == "GetCommandTable"
-                commands = []
-                for com,method of g.CommandExecuter::commandTable
-                    commands.push com
-                sendResponse commands
-            else if req.command == "GetAliases"
-                aliases = {}
-                for a,com of g.model.getAlias()
-                    aliases[a] = com
-                sendResponse aliases
-            else if req.command == "OpenCommandBox"
-                g.model.openCommandBox( req )
-                sendResponse()
-            else if req.command == "ExecuteCommand"
-                g.model.curMode.reqExecuteCommand( req )
-                sendResponse()
-            else if req.command == "NotifyInputUpdated"
-                g.model.curMode.notifyInputUpdated( req )
-                sendResponse()
-            else if req.command == "NotifySearchFixed"
-                g.model.curMode.notifySearchFixed( req )
-                sendResponse()
-            else if req.command == "HideCommandFrame"
-                g.view.hideCommandFrame()
-                sendResponse()
-            else if req.command == "SetStatusLine"
-                g.view.setStatusLineText(req.text, req.timeout)
-                sendResponse()
-            else if req.command == "HideStatusLine"
-                g.view.hideStatusLine()
-                sendResponse()
-            else
-                g.model.triggerCommand( "req#{req.command}", req.args, req.times, req.timesSpecified )
-                sendResponse()
+            switch req.command
+                when "GetCommandTable"
+                    commands = []
+                    for com,method of g.CommandExecuter::commandTable
+                        commands.push com
+                    sendResponse commands
+                when "GetAliases"
+                    aliases = {}
+                    for a,com of g.model.getAlias()
+                        aliases[a] = com
+                    sendResponse aliases
+                when "OpenCommandBox"
+                    g.model.openCommandBox( req )
+                    sendResponse()
+                when "ExecuteCommand"
+                    g.model.curMode.reqExecuteCommand( req )
+                    sendResponse()
+                when "NotifyInputUpdated"
+                    g.model.curMode.notifyInputUpdated( req )
+                    sendResponse()
+                when "NotifySearchFixed"
+                    g.model.curMode.notifySearchFixed( req )
+                    sendResponse()
+                when "HideCommandFrame"
+                    g.view.hideCommandFrame()
+                    sendResponse()
+                when "SetStatusLine"
+                    g.view.setStatusLineText(req.text, req.timeout)
+                    sendResponse()
+                when "HideStatusLine"
+                    g.view.hideStatusLine()
+                    sendResponse()
+                else
+                    g.model.triggerCommand( "req#{req.command}", req.args, req.times, req.timesSpecified )
+                    sendResponse()
         )
 
     init : ->

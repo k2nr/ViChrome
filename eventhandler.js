@@ -91,46 +91,47 @@
           g.logger.d("onRequest: different frameID");
           return;
         }
-        if (req.command === "GetCommandTable") {
-          commands = [];
-          _ref = g.CommandExecuter.prototype.commandTable;
-          for (com in _ref) {
-            method = _ref[com];
-            commands.push(com);
-          }
-          return sendResponse(commands);
-        } else if (req.command === "GetAliases") {
-          aliases = {};
-          _ref2 = g.model.getAlias();
-          for (a in _ref2) {
-            com = _ref2[a];
-            aliases[a] = com;
-          }
-          return sendResponse(aliases);
-        } else if (req.command === "OpenCommandBox") {
-          g.model.openCommandBox(req);
-          return sendResponse();
-        } else if (req.command === "ExecuteCommand") {
-          g.model.curMode.reqExecuteCommand(req);
-          return sendResponse();
-        } else if (req.command === "NotifyInputUpdated") {
-          g.model.curMode.notifyInputUpdated(req);
-          return sendResponse();
-        } else if (req.command === "NotifySearchFixed") {
-          g.model.curMode.notifySearchFixed(req);
-          return sendResponse();
-        } else if (req.command === "HideCommandFrame") {
-          g.view.hideCommandFrame();
-          return sendResponse();
-        } else if (req.command === "SetStatusLine") {
-          g.view.setStatusLineText(req.text, req.timeout);
-          return sendResponse();
-        } else if (req.command === "HideStatusLine") {
-          g.view.hideStatusLine();
-          return sendResponse();
-        } else {
-          g.model.triggerCommand("req" + req.command, req.args, req.times, req.timesSpecified);
-          return sendResponse();
+        switch (req.command) {
+          case "GetCommandTable":
+            commands = [];
+            _ref = g.CommandExecuter.prototype.commandTable;
+            for (com in _ref) {
+              method = _ref[com];
+              commands.push(com);
+            }
+            return sendResponse(commands);
+          case "GetAliases":
+            aliases = {};
+            _ref2 = g.model.getAlias();
+            for (a in _ref2) {
+              com = _ref2[a];
+              aliases[a] = com;
+            }
+            return sendResponse(aliases);
+          case "OpenCommandBox":
+            g.model.openCommandBox(req);
+            return sendResponse();
+          case "ExecuteCommand":
+            g.model.curMode.reqExecuteCommand(req);
+            return sendResponse();
+          case "NotifyInputUpdated":
+            g.model.curMode.notifyInputUpdated(req);
+            return sendResponse();
+          case "NotifySearchFixed":
+            g.model.curMode.notifySearchFixed(req);
+            return sendResponse();
+          case "HideCommandFrame":
+            g.view.hideCommandFrame();
+            return sendResponse();
+          case "SetStatusLine":
+            g.view.setStatusLineText(req.text, req.timeout);
+            return sendResponse();
+          case "HideStatusLine":
+            g.view.hideStatusLine();
+            return sendResponse();
+          default:
+            g.model.triggerCommand("req" + req.command, req.args, req.times, req.timesSpecified);
+            return sendResponse();
         }
       });
     };
