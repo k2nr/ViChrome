@@ -167,7 +167,7 @@
         word = "";
         for (_j = 0, _len2 = words.length; _j < _len2; _j++) {
           i = words[_j];
-          word += "+" + encodeURIComponent(i);
+          word += "+" + i;
         }
         word = word.substr(1);
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1";

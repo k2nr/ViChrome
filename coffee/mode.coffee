@@ -89,7 +89,7 @@ class g.Mode
             @enterInteractiveOpen( com, opt )
         else if search
             word = ""
-            word += "+" + encodeURIComponent(i) for i in words
+            word += "+" + i for i in words
             word = word.substr(1)
 
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
