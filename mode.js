@@ -671,8 +671,7 @@
     };
 
     FMode.prototype.isValidKey = function(key) {
-      if (key.length !== 1) return false;
-      return this.keys.indexOf(key) >= 0;
+      return (this.keys.indexOf(key) >= 0 && key.length === 1) || (key === 'BS') || (key === 'DEL');
     };
 
     FMode.prototype.searchTarget = function() {
@@ -687,12 +686,20 @@
 
     FMode.prototype.highlightCandidate = function() {};
 
-    FMode.prototype.putValidChar = function(key) {
+    FMode.prototype.treatNewInput = function(key) {
       var idx;
-      this.currentInput += key;
+      if (key === "BS" || key === "DEL") {
+        if (this.currentInput.length === 0) {
+          g.model.enterNormalMode();
+          return;
+        }
+        this.currentInput = this.currentInput.slice(0, this.currentInput.length - 1);
+      } else {
+        this.currentInput += key;
+      }
       g.view.setStatusLineText('f Mode : ' + this.currentInput);
       if (this.currentInput.length < this.keyLength) {
-        this.highlightCandidate();
+        this.updateHints();
       } else {
         idx = this.searchTarget();
         if (idx >= 0) {
@@ -716,7 +723,7 @@
       if (this.isValidKey(key)) {
         event.stopPropagation();
         event.preventDefault();
-        this.putValidChar(key);
+        this.treatNewInput(key);
         return false;
       } else {
         return true;
@@ -729,8 +736,77 @@
       return Math.ceil(Math.log(candiNum) / Math.log(this.keys.length));
     };
 
+    FMode.prototype.updateHints = function() {
+      var c, hint, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _results;
+      this.highlightCandidate();
+      _ref = this.hints;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        hint = _ref[_i];
+        if (hint.key.indexOf(this.currentInput) === 0) {
+          hint.elem.find("span#vichromehintchar").remove();
+          _ref2 = this.currentInput;
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            c = _ref2[_j];
+            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').addClass("vichromehint-selected").html(c));
+          }
+          _ref3 = hint.key.slice(this.currentInput.length);
+          for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+            c = _ref3[_k];
+            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').html(c));
+          }
+          if (!hint.elem.is(':visible')) hint.elem.fadeIn(200);
+          _results.push($(hint.target).addClass('vichrome-fModeTarget'));
+        } else {
+          hint.elem.fadeOut(200);
+          _results.push($(hint.target).removeClass('vichrome-fModeTarget'));
+        }
+      }
+      return _results;
+    };
+
+    FMode.prototype.createHints = function(links) {
+      var c, elem, hint, hintHeight, i, j, k, key, left, offset, tmpElem, top, _i, _j, _len, _len2, _len3, _ref, _ref2, _results;
+      for (i = 0, _len = links.length; i < _len; i++) {
+        elem = links[i];
+        key = '';
+        j = this.keyLength;
+        k = i;
+        while (j--) {
+          key = this.keys.charAt(k % this.keys.length) + key;
+          k /= this.keys.length;
+        }
+        this.hints[i] = {};
+        this.hints[i].key = key;
+        this.hints[i].target = elem;
+        $(elem).addClass('vichrome-fModeTarget');
+      }
+      hintHeight = "" + (g.model.getSetting("hintFontSize") + 4) + "px";
+      tmpElem = $('<span id="vichromehint" />').css("height", hintHeight).css("line-height", hintHeight).css("font-size", "" + g.model.getSetting("hintFontSize") + "px");
+      _ref = this.hints;
+      _results = [];
+      for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
+        hint = _ref[_i];
+        offset = hint.target._offset_;
+        top = offset.top - 7;
+        left = offset.left - 7;
+        if (top < 0) top = 0;
+        if (left < 0) left = 0;
+        elem = tmpElem.clone().css("top", top).css("left", left);
+        _ref2 = hint.key;
+        for (_j = 0, _len3 = _ref2.length; _j < _len3; _j++) {
+          c = _ref2[_j];
+          elem = elem.append($('<span id="vichromehintchar" />').html(c)).hide();
+        }
+        hint.elem = elem;
+        $('html').append(hint.elem);
+        _results.push(hint.elem.fadeIn(200));
+      }
+      return _results;
+    };
+
     FMode.prototype.enter = function() {
-      var div, elem, hint, hintFontSize, hintHeight, i, j, k, key, left, links, offset, top, _i, _len, _len2, _ref;
+      var links;
       this.currentInput = "";
       this.hints = [];
       links = $('a:_visible,*:input:_visible,.button:_visible');
@@ -746,33 +822,7 @@
         this.keys = this.keys.toUpperCase();
       }
       this.keyLength = this.getKeyLength(links.length);
-      for (i = 0, _len = links.length; i < _len; i++) {
-        elem = links[i];
-        key = '';
-        j = this.keyLength;
-        k = i;
-        while (j--) {
-          key = this.keys.charAt(k % this.keys.length) + key;
-          k /= this.keys.length;
-        }
-        this.hints[i] = {};
-        this.hints[i].key = key;
-        this.hints[i].target = elem;
-        $(elem).addClass('vichrome-fModeTarget');
-      }
-      hintFontSize = "" + g.model.getSetting("hintFontSize") + "px";
-      hintHeight = "" + (g.model.getSetting("hintFontSize") + 4) + "px";
-      _ref = this.hints;
-      for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
-        hint = _ref[_i];
-        offset = hint.target._offset_;
-        top = offset.top - 7;
-        left = offset.left - 7;
-        if (top < 0) top = 0;
-        if (left < 0) left = 0;
-        div = $('<span id="vichromehint" />').css("top", top).css("left", left).css("height", hintHeight).css("line-height", hintHeight).css("font-size", hintFontSize).html(hint.key);
-        $('html').append(div);
-      }
+      this.createHints(links);
       return g.view.setStatusLineText('f Mode : ');
     };
 

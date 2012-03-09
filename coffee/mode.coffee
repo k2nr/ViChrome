@@ -354,8 +354,9 @@ class g.FMode extends g.Mode
         g.util.dispatchMouseClickEvent target.get(0), primary, false, false
 
     isValidKey : (key) ->
-        unless key.length == 1 then return false
-        return @keys.indexOf( key ) >= 0
+        return ( @keys.indexOf( key ) >= 0 && key.length == 1 ) ||
+               ( key == 'BS' ) ||
+               ( key == 'DEL' )
 
     searchTarget : ->
         for elem, i in @hints
@@ -365,12 +366,19 @@ class g.FMode extends g.Mode
     highlightCandidate : ->
         # TODO:
 
-    putValidChar : (key) ->
-        @currentInput += key
+    treatNewInput : (key) ->
+        if key == "BS" || key == "DEL"
+            if @currentInput.length == 0
+                g.model.enterNormalMode()
+                return
+            @currentInput = @currentInput.slice( 0, @currentInput.length - 1 )
+        else
+            @currentInput += key
+
         g.view.setStatusLineText( 'f Mode : ' + @currentInput )
 
         if @currentInput.length < @keyLength
-            @highlightCandidate()
+            @updateHints()
             return
         else
             idx = @searchTarget()
@@ -394,7 +402,7 @@ class g.FMode extends g.Mode
         if @isValidKey( key )
             event.stopPropagation()
             event.preventDefault()
-            @putValidChar( key )
+            @treatNewInput( key )
             return false
         else
             return true
@@ -403,6 +411,60 @@ class g.FMode extends g.Mode
         if candiNum     == 1 then return 1
         if @keys.length == 1 then return 1
         Math.ceil( Math.log( candiNum ) / Math.log( @keys.length ) )
+
+    updateHints : ->
+        @highlightCandidate()
+        for hint in @hints
+            if hint.key.indexOf( @currentInput ) == 0
+                hint.elem.find("span#vichromehintchar").remove()
+                for c in @currentInput
+                    hint.elem = hint.elem.append( $('<span id="vichromehintchar" />')
+                               .addClass("vichromehint-selected")
+                               .html(c) )
+                for c in hint.key.slice(@currentInput.length)
+                    hint.elem = hint.elem.append( $('<span id="vichromehintchar" />')
+                               .html(c) )
+                if not hint.elem.is(':visible')
+                    hint.elem.fadeIn(200)
+                $(hint.target).addClass('vichrome-fModeTarget')
+            else
+                hint.elem.fadeOut(200)
+                $(hint.target).removeClass('vichrome-fModeTarget')
+
+    createHints : (links) ->
+        for elem,i in links
+            key=''
+            j = @keyLength
+            k = i
+            while j--
+                key = @keys.charAt( k % @keys.length ) + key
+                k /= @keys.length
+
+            @hints[i]        = {}
+            @hints[i].key    = key
+            @hints[i].target = elem
+
+            $(elem).addClass('vichrome-fModeTarget')
+
+        hintHeight   = "" + (g.model.getSetting("hintFontSize") + 4) + "px"
+        tmpElem = $( '<span id="vichromehint" />' )
+                 .css("height",      hintHeight)
+                 .css("line-height", hintHeight)
+                 .css("font-size", "" + g.model.getSetting("hintFontSize") + "px")
+        for hint in @hints
+            offset = hint.target._offset_
+            top  =  offset.top - 7
+            left = offset.left - 7
+            top  = 0 if top < 0
+            left = 0 if left < 0
+            elem = tmpElem.clone()
+                   .css("top",  top)
+                   .css("left", left)
+            for c in hint.key
+                elem = elem.append( $('<span id="vichromehintchar" />').html(c) ).hide()
+            hint.elem = elem
+            $('html').append( hint.elem )
+            hint.elem.fadeIn(200)
 
     enter : ->
         @currentInput = ""
@@ -419,36 +481,7 @@ class g.FMode extends g.Mode
         @keys = @keys.toUpperCase() if g.model.getSetting("fModeIgnoreCase")
         @keyLength = @getKeyLength( links.length )
 
-        for elem,i in links
-            key=''
-            j = @keyLength
-            k = i
-            while j--
-                key = @keys.charAt( k % @keys.length ) + key
-                k /= @keys.length
-
-            @hints[i]        = {}
-            @hints[i].key    = key
-            @hints[i].target = elem
-
-            $(elem).addClass('vichrome-fModeTarget')
-
-        hintFontSize = "" + g.model.getSetting("hintFontSize")       + "px"
-        hintHeight   = "" + (g.model.getSetting("hintFontSize") + 4) + "px"
-        for hint in @hints
-            offset = hint.target._offset_
-            top =  offset.top - 7
-            left = offset.left - 7
-            top = 0 if top < 0
-            left = 0 if left < 0
-            div = $( '<span id="vichromehint" />' )
-                  .css("top",  top)
-                  .css("left", left)
-                  .css("height", hintHeight)
-                  .css("line-height", hintHeight)
-                  .css("font-size", hintFontSize)
-                  .html(hint.key)
-            $('html').append(div)
+        @createHints( links )
 
         g.view.setStatusLineText 'f Mode : '
 

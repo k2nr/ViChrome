@@ -34,23 +34,26 @@
 }
 
 #vichromehint {
-    background-color: rgba(255, 255, 80, 0.9);
+    background-color: rgba(255, 255, 80, 0.7);
     border-radius: 3px;
     border: solid 1px #777;
     position: absolute;
-    font-family: "Lucida Console", BatangChe, monospace;
-    font-weight: 500;
+    font-family: Helvetica, "Lucida Console", BatangChe, monospace;
+    font-weight: 600;
     text-align: center;
     letter-spacing: 1px;
-    color: #000;
+    color: #007;
     -webkit-box-shadow: none;
     width : auto;
     line-height: 14px;
     height: 14px;
     padding: 0px 2px;
     margin:  0px 0px;
-    font-size: 10px;
     z-index: 99999;
+}
+
+.vichromehint-selected {
+    color: #DD4848 !important;
 }
 
 .vichrome-statuslineinactive {
