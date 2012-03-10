@@ -755,10 +755,10 @@
             c = _ref3[_k];
             hint.elem = hint.elem.append($('<span id="vichromehintchar" />').html(c));
           }
-          if (!hint.elem.is(':visible')) hint.elem.fadeIn(200);
+          if (!hint.elem.is(':visible')) this.showFunc.call(hint.elem);
           _results.push($(hint.target).addClass('vichrome-fModeTarget'));
         } else {
-          hint.elem.fadeOut(200);
+          this.hideFunc.call(hint.elem);
           _results.push($(hint.target).removeClass('vichrome-fModeTarget'));
         }
       }
@@ -800,7 +800,7 @@
         }
         hint.elem = elem;
         $('html').append(hint.elem);
-        _results.push(hint.elem.fadeIn(200));
+        _results.push(this.showFunc.call(hint.elem));
       }
       return _results;
     };
@@ -809,6 +809,17 @@
       var links;
       this.currentInput = "";
       this.hints = [];
+      if (g.model.getSetting("useFModeAnimation")) {
+        this.showFunc = function() {
+          return this.fadeIn(200);
+        };
+        this.hideFunc = function() {
+          return this.fadeOut(200);
+        };
+      } else {
+        this.showFunc = $.fn.show;
+        this.hideFunc = $.fn.hide;
+      }
       links = $('a:_visible,*:input:_visible,.button:_visible');
       if (links.length === 0) {
         g.view.setStatusLineText("No visible links found", 2000);

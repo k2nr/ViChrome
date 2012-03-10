@@ -425,10 +425,11 @@ class g.FMode extends g.Mode
                     hint.elem = hint.elem.append( $('<span id="vichromehintchar" />')
                                .html(c) )
                 if not hint.elem.is(':visible')
-                    hint.elem.fadeIn(200)
+                    @showFunc.call( hint.elem )
                 $(hint.target).addClass('vichrome-fModeTarget')
             else
-                hint.elem.fadeOut(200)
+                #hint.elem.fadeOut(200)
+                @hideFunc.call( hint.elem )
                 $(hint.target).removeClass('vichrome-fModeTarget')
 
     createHints : (links) ->
@@ -464,11 +465,17 @@ class g.FMode extends g.Mode
                 elem = elem.append( $('<span id="vichromehintchar" />').html(c) ).hide()
             hint.elem = elem
             $('html').append( hint.elem )
-            hint.elem.fadeIn(200)
+            @showFunc.call( hint.elem )
 
     enter : ->
         @currentInput = ""
         @hints        = []
+        if g.model.getSetting("useFModeAnimation")
+            @showFunc = -> this.fadeIn(200)
+            @hideFunc = -> this.fadeOut(200)
+        else
+            @showFunc = $.fn.show
+            @hideFunc = $.fn.hide
 
         links = $('a:_visible,*:input:_visible,.button:_visible')
 

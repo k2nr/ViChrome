@@ -34,6 +34,7 @@ g.SettingManager =
         "commandBoxAlign"         : "Left-Bottom"
         "commandBoxWidth"         : 350
         "hintFontSize"            : 10
+        "useFModeAnimation"       : true
         "notifyUpdateSucceeded"   : true
         "keyMappingAndAliases"    : "### Sample Settings\n
 \n

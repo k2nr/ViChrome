@@ -144,6 +144,7 @@
     initCheckBox("useMigemo");
     initCheckBox("fModeIgnoreCase");
     initCheckBox("notifyUpdateSucceeded");
+    initCheckBox("useFModeAnimation");
     initDropDown("commandBoxAlign");
     initDropDown("searchEngine");
     $('[name="newTabPage"][value="' + settings.defaultNewTab + '"]').attr('checked', true);
