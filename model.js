@@ -104,17 +104,16 @@
     curMode: null,
     settings: null,
     frameID: 0,
+    init: function(commandManager, pmRegister) {
+      this.commandManager = commandManager != null ? commandManager : new g.CommandManager(this);
+      return this.pmRegister = pmRegister != null ? pmRegister : new g.PageMarkRegister;
+    },
     changeMode: function(newMode) {
       var _ref;
       if (this.curMode != null) this.curMode.exit();
       this.curMode = newMode;
       this.curMode.enter();
       return (_ref = this.commandManager) != null ? _ref.setUseNumPrefix(this.curMode.getUseNumPrefix()) : void 0;
-    },
-    init: function() {
-      this.enterNormalMode();
-      this.commandManager = new g.CommandManager(this, this.getSetting("commandWaitTimeOut"));
-      return this.pmRegister = new g.PageMarkRegister;
     },
     isReady: function() {
       return this.initEnabled && this.domReady;
@@ -324,7 +323,8 @@
       g.logger.d("onInitEnabled");
       this.onSettings(msg);
       this.disAutoFocus = this.getSetting("disableAutoFocus");
-      this.init();
+      this.commandManager.setTimeout(this.getSetting("commandWaitTimeOut"));
+      this.enterNormalMode();
       this.frameID = msg.frameID;
       this.initEnabled = true;
       if (typeof top !== "undefined" && top !== null) {
@@ -367,9 +367,5 @@
       });
     }
   };
-
-  $(document).ready(function() {
-    return g.model.onDomReady();
-  });
 
 }).call(this);

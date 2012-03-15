@@ -6,14 +6,15 @@
 
   g = this.vichrome;
 
-  sendToBackground = function(com, args, times, timesSpecified) {
+  sendToBackground = function(com, args, times, timesSpecified, callback) {
+    if (callback == null) callback = g.handler.onCommandResponse;
     return chrome.extension.sendRequest({
       command: com,
       args: args,
       times: times,
       timesSpecified: timesSpecified
     }, function(msg) {
-      return g.handler.onCommandResponse(msg);
+      return callback(msg);
     });
   };
 
@@ -21,7 +22,8 @@
     return g.model.triggerCommand("req" + com, args, times, timesSpecified);
   };
 
-  passToTopFrame = function(com, args, times, timesSpecified) {
+  passToTopFrame = function(com, args, times, timesSpecified, callback) {
+    if (callback == null) callback = g.handler.onCommandResponse;
     return chrome.extension.sendRequest({
       command: "TopFrame",
       innerCommand: com,
@@ -29,7 +31,7 @@
       times: times,
       timesSpecified: timesSpecified,
       senderFrameID: g.model.frameID
-    }, g.handler.onCommandResponse);
+    }, callback);
   };
 
   escape = function(com) {
@@ -303,9 +305,14 @@
 
     function CommandManager(model, timeout, useNumPrefix) {
       this.model = model;
+      if (timeout == null) timeout = 2000;
       if (useNumPrefix == null) useNumPrefix = true;
       this.keyQueue.init(this.model, timeout, useNumPrefix);
     }
+
+    CommandManager.prototype.setTimeout = function(timeout) {
+      return this.keyQueue.timeout = timeout;
+    };
 
     CommandManager.prototype.getCommandFromKeySeq = function(s, keyMap) {
       var keySeq;

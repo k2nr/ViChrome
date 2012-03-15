@@ -87,16 +87,15 @@ g.model =
     settings     : null
     frameID      : 0
 
+    init : (commandManager, pmRegister) ->
+        @commandManager = commandManager ? new g.CommandManager( this )
+        @pmRegister     = pmRegister ? new g.PageMarkRegister
+
     changeMode   :(newMode) ->
         if @curMode? then @curMode.exit()
         @curMode = newMode
         @curMode.enter()
         @commandManager?.setUseNumPrefix( @curMode.getUseNumPrefix() )
-
-    init : ->
-        @enterNormalMode()
-        @commandManager = new g.CommandManager( this, @getSetting "commandWaitTimeOut" )
-        @pmRegister     = new g.PageMarkRegister
 
     isReady : -> @initEnabled and @domReady
 
@@ -269,7 +268,7 @@ g.model =
             @enterNormalMode()
 
     onMouseDown : (e) ->
-        @disAutoFocus = false;
+        @disAutoFocus = false
 
     getKeyMapping : -> @curMode.getKeyMapping()
 
@@ -277,7 +276,8 @@ g.model =
         g.logger.d "onInitEnabled"
         @onSettings msg
         @disAutoFocus = @getSetting "disableAutoFocus"
-        @init()
+        @commandManager.setTimeout( @getSetting "commandWaitTimeOut" )
+        @enterNormalMode()
         @frameID = msg.frameID
         @initEnabled = true
         if top?
@@ -316,8 +316,4 @@ g.model =
         param.keyMap  ?= g.extendDeep( @getCMap() )
         param.aliases ?= g.extendDeep( @getAlias() )
         chrome.extension.sendRequest( param, (msg)-> g.handler.onCommandResponse(msg) )
-
-$(document).ready( ->
-    g.model.onDomReady()
-)
 

@@ -1,18 +1,18 @@
 this.vichrome ?= {}
 g = this.vichrome
 
-sendToBackground = (com, args, times, timesSpecified) ->
+sendToBackground = (com, args, times, timesSpecified, callback=g.handler.onCommandResponse) ->
     chrome.extension.sendRequest( {
         command : com
         args    : args
         times   : times
         timesSpecified : timesSpecified
-    }, (msg) -> g.handler.onCommandResponse msg )
+    }, (msg) -> callback msg )
 
 triggerInsideContent = (com, args, times, timesSpecified) ->
     g.model.triggerCommand "req#{com}", args, times, timesSpecified
 
-passToTopFrame = (com, args, times, timesSpecified) ->
+passToTopFrame = (com, args, times, timesSpecified, callback=g.handler.onCommandResponse) ->
     chrome.extension.sendRequest( {
         command      : "TopFrame"
         innerCommand : com
@@ -20,7 +20,7 @@ passToTopFrame = (com, args, times, timesSpecified) ->
         times        : times
         timesSpecified : timesSpecified
         senderFrameID  : g.model.frameID
-    }, g.handler.onCommandResponse )
+    }, callback )
 
 escape = (com) -> triggerInsideContent "Escape"
 
@@ -239,8 +239,11 @@ class g.CommandManager
 
         setUseNumPrefix  : (@useNumPrefix) -> this
 
-    constructor : (@model, timeout, useNumPrefix=true) ->
+    constructor : (@model, timeout=2000, useNumPrefix=true) ->
         @keyQueue.init( @model, timeout, useNumPrefix )
+
+    setTimeout : (timeout) ->
+        @keyQueue.timeout = timeout
 
     getCommandFromKeySeq : (s, keyMap) ->
         @keyQueue.queue(s)
@@ -275,6 +278,7 @@ class g.CommandManager
                 @execCommand(com)
                 event.stopPropagation()
                 event.preventDefault()
+
     execCommand : (com) ->
         (new g.CommandExecuter).set( com.str, com.times ).parse().execute()
 
