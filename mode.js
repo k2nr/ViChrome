@@ -782,7 +782,7 @@
         $(elem).addClass('vichrome-fModeTarget');
       }
       hintHeight = "" + (g.model.getSetting("hintFontSize") + 4) + "px";
-      tmpElem = $('<span id="vichromehint" />').css("height", hintHeight).css("line-height", hintHeight).css("font-size", "" + g.model.getSetting("hintFontSize") + "px");
+      tmpElem = $('<span id="vichromehint" />').css("height", hintHeight).css("line-height", hintHeight).css("font-size", "" + g.model.getSetting("hintFontSize") + "px").css("background-color", g.model.getSetting("hintBackgroundColor")).css("color", g.model.getSetting("hintColor"));
       _ref = this.hints;
       _results = [];
       for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {

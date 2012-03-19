@@ -34,6 +34,8 @@ g.SettingManager =
         "commandBoxAlign"         : "Left-Bottom"
         "commandBoxWidth"         : 350
         "hintFontSize"            : 10
+        "hintBackgroundColor"     : "rgba(255, 255, 80, 0.7)"
+        "hintColor"               : "#007"
         "useFModeAnimation"       : true
         "notifyUpdateSucceeded"   : true
         "keyMappingAndAliases"    : "### Sample Settings\n
