@@ -135,6 +135,8 @@
     initInputNumber("minMigemoLength");
     initInputNumber("hintFontSize");
     initInputText("fModeAvailableKeys");
+    initInputText("hintBackgroundColor");
+    initInputText("hintColor");
     initCheckBox("disableAutoFocus");
     initCheckBox("smoothScroll");
     initCheckBox("enableCompletion");

@@ -34,7 +34,6 @@
 }
 
 #vichromehint {
-    background-color: rgba(255, 255, 80, 0.7);
     border-radius: 3px;
     border: solid 1px #777;
     position: absolute;
@@ -42,7 +41,6 @@
     font-weight: 600;
     text-align: center;
     letter-spacing: 1px;
-    color: #007;
     -webkit-box-shadow: none;
     width : auto;
     line-height: 14px;

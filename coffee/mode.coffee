@@ -452,6 +452,8 @@ class g.FMode extends g.Mode
                  .css("height",      hintHeight)
                  .css("line-height", hintHeight)
                  .css("font-size", "" + g.model.getSetting("hintFontSize") + "px")
+                 .css("background-color", g.model.getSetting("hintBackgroundColor"))
+                 .css("color",       g.model.getSetting("hintColor"))
         for hint in @hints
             offset = hint.target._offset_
             top  =  offset.top - 7
