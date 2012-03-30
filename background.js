@@ -87,14 +87,15 @@
       }
     },
     reqTabOpenNew: function(req) {
-      var arg, focus, len, next, pinned, times, urls, _i, _len, _ref, _ref2,
+      var arg, extend, focus, len, next, pinned, times, urls, _i, _len, _ref, _ref2, _ref3,
         _this = this;
       urls = [];
       focus = true;
       pinned = false;
-      _ref = req.args;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        arg = _ref[_i];
+      extend = (_ref = req.extend) != null ? _ref : false;
+      _ref2 = req.args;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        arg = _ref2[_i];
         switch (arg) {
           case "-b":
           case "--background":
@@ -112,31 +113,29 @@
         }
       }
       len = urls.length;
-      times = (_ref2 = req.times) != null ? _ref2 : 1;
+      times = (_ref3 = req.times) != null ? _ref3 : 1;
       chrome.tabs.getSelected(null, function(tab) {
         var index, url, _j, _len2;
         if (next) index = tab.index + 1;
         if (len === 0) {
-          url = _this.getDefaultNewTabPage();
           while (times--) {
             chrome.tabs.create({
-              url: url,
+              url: _this.getDefaultNewTabPage(),
               selected: focus,
               pinned: pinned,
               index: index
             });
           }
         } else {
-          while (times--) {
-            for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
-              url = urls[_j];
-              chrome.tabs.create({
-                url: extendURL(url),
-                selected: focus,
-                pinned: pinned,
-                index: index
-              });
-            }
+          for (_j = 0, _len2 = urls.length; _j < _len2; _j++) {
+            url = urls[_j];
+            if (extend) url = extendURL(url);
+            chrome.tabs.create({
+              url: url,
+              selected: focus,
+              pinned: pinned,
+              index: index
+            });
           }
         }
       });

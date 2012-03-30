@@ -128,7 +128,7 @@
     };
 
     Mode.prototype.reqTabOpenNew = function(args, times) {
-      var arg, bookmark, com, history, i, interactive, opt, search, url, urls, web, word, words, _i, _j, _len, _len2;
+      var arg, bookmark, com, history, i, interactive, opt, search, url, web, word, words, _i, _j, _len, _len2;
       words = [];
       if (times > 10) times = 1;
       for (_i = 0, _len = args.length; _i < _len; _i++) {
@@ -167,22 +167,21 @@
         word = "";
         for (_j = 0, _len2 = words.length; _j < _len2; _j++) {
           i = words[_j];
-          word += "+" + i;
+          word += "+" + encodeURIComponent(i);
         }
         word = word.substr(1);
         url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1";
-        urls = [];
-        urls.push(url);
         return chrome.extension.sendRequest({
           command: "TabOpenNew",
-          args: urls,
+          args: [url],
           times: times
         }, g.handler.onCommandResponse);
       } else {
         return chrome.extension.sendRequest({
           command: "TabOpenNew",
           args: words,
-          times: times
+          times: times,
+          extend: true
         }, g.handler.onCommandResponse);
       }
     };

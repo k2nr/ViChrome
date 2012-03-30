@@ -78,6 +78,7 @@ g.bg =
         urls   = []
         focus  = true
         pinned = false
+        extend = req.extend ? false
 
         for arg in req.args then switch arg
             when "-b","--background" then focus  = false
@@ -91,13 +92,12 @@ g.bg =
         chrome.tabs.getSelected(null, (tab) =>
             index = tab.index + 1 if next
             if len == 0
-                url = @getDefaultNewTabPage()
                 while times--
-                    chrome.tabs.create(url: url, selected: focus, pinned: pinned, index: index)
+                    chrome.tabs.create(url: @getDefaultNewTabPage(), selected: focus, pinned: pinned, index: index)
             else
-                while times--
-                    for url in urls
-                        chrome.tabs.create(url: extendURL( url ), selected: focus, pinned: pinned, index: index)
+                for url in urls
+                    url = extendURL( url ) if extend
+                    chrome.tabs.create({url: url, selected: focus, pinned: pinned, index: index})
             return
         )
         false

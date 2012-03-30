@@ -71,10 +71,10 @@ class g.Mode
         words = []
         times = 1 if times > 10 # prevent pluto force attack
         for arg in args then switch arg
-            when "-i" then interactive = true
-            when "-b" then bookmark    = true
-            when "-w" then web         = true
-            when "-h" then history     = true
+            when "-i"      then interactive = true
+            when "-b"      then bookmark    = true
+            when "-w"      then web         = true
+            when "-h"      then history     = true
             when "-g","g"  then search      = true
             else
                 words.push arg.replace( /%url/g, g.view.getHref() )
@@ -89,15 +89,13 @@ class g.Mode
             @enterInteractiveOpen( com, opt )
         else if search
             word = ""
-            word += "+" + i for i in words
+            word += "+" + encodeURIComponent(i) for i in words
             word = word.substr(1)
 
             url = "http://" + g.model.getSetting("searchEngine") + "/search?gcx=c&sourceid=chrome&ie=UTF-8&q=" + word + "&qscrl=1"
-            urls = []
-            urls.push url
-            chrome.extension.sendRequest {command : "TabOpenNew", args : urls, times : times}, g.handler.onCommandResponse
+            chrome.extension.sendRequest({command : "TabOpenNew", args : [url], times : times}, g.handler.onCommandResponse)
         else
-            chrome.extension.sendRequest {command : "TabOpenNew", args : words, times : times}, g.handler.onCommandResponse
+            chrome.extension.sendRequest({command: "TabOpenNew", args: words, times: times, extend: true}, g.handler.onCommandResponse)
 
     blur : ->
     reqScrollDown   : (args, times) -> g.view.scrollBy( 0,  g.model.getSetting("scrollPixelCount") * times )
