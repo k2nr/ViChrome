@@ -792,7 +792,7 @@
         _ref2 = hint.key;
         for (_j = 0, _len3 = _ref2.length; _j < _len3; _j++) {
           c = _ref2[_j];
-          elem = elem.append($('<span id="vichromehintchar" />').html(c)).hide();
+          elem = elem.append($('<span id="vichromehintchar" />').html(c)).css("color", g.model.getSetting("hintColor")).hide();
         }
         hint.elem = elem;
         $('html').append(hint.elem);

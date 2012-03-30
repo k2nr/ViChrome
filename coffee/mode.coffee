@@ -457,7 +457,9 @@ class g.FMode extends g.Mode
                    .css("top",  top)
                    .css("left", left)
             for c in hint.key
-                elem = elem.append( $('<span id="vichromehintchar" />').html(c) ).hide()
+                elem = elem.append( $('<span id="vichromehintchar" />').html(c) )
+                           .css("color", g.model.getSetting("hintColor"))
+                           .hide()
             hint.elem = elem
             $('html').append( hint.elem )
             @showFunc.call( hint.elem )
