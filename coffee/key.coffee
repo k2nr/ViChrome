@@ -250,7 +250,7 @@ g.KeyManager =
         result = keyIdentifier[code]
 
         # bull shit! fxxk windows and linux
-        if util.getPlatform() == "Windows" or util.getPlatform() == "Linux"
+        if util.getPlatform() != "Mac"
             if g.util.getLang() == "ja"
                 if shift
                     if shiftWinKeyIdentifier_ja[code]?

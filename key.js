@@ -269,7 +269,7 @@
     getLocalKeyCode: function(code, ctrl, shift, alt, meta) {
       var result;
       result = keyIdentifier[code];
-      if (util.getPlatform() === "Windows" || util.getPlatform() === "Linux") {
+      if (util.getPlatform() !== "Mac") {
         if (g.util.getLang() === "ja") {
           if (shift) {
             if (shiftWinKeyIdentifier_ja[code] != null) {
