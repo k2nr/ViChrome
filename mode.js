@@ -748,12 +748,12 @@
           _ref2 = this.currentInput;
           for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
             c = _ref2[_j];
-            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').addClass("vichromehint-selected").html(c));
+            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').css("color", g.model.getSetting("hintColorSelected")).html(c));
           }
           _ref3 = hint.key.slice(this.currentInput.length);
           for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
             c = _ref3[_k];
-            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').html(c));
+            hint.elem = hint.elem.append($('<span id="vichromehintchar" />').css("color", g.model.getSetting("hintColor")).html(c));
           }
           if (!hint.elem.is(':visible')) this.showFunc.call(hint.elem);
           _results.push($(hint.target).addClass('vichrome-fModeTarget'));
@@ -782,7 +782,7 @@
         $(elem).addClass('vichrome-fModeTarget');
       }
       hintHeight = "" + (g.model.getSetting("hintFontSize") + 4) + "px";
-      tmpElem = $('<span id="vichromehint" />').css("height", hintHeight).css("line-height", hintHeight).css("font-size", "" + g.model.getSetting("hintFontSize") + "px").css("background-color", g.model.getSetting("hintBackgroundColor")).css("color", g.model.getSetting("hintColor"));
+      tmpElem = $('<span id="vichromehint" />').css("height", hintHeight).css("line-height", hintHeight).css("font-size", "" + g.model.getSetting("hintFontSize") + "px").css("background-color", g.model.getSetting("hintBackgroundColor"));
       _ref = this.hints;
       _results = [];
       for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {

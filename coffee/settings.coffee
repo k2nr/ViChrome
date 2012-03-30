@@ -36,6 +36,7 @@ g.SettingManager =
         "hintFontSize"            : 10
         "hintBackgroundColor"     : "rgba(255, 255, 80, 0.7)"
         "hintColor"               : "#007"
+        "hintColorSelected"       : "#DD4848"
         "useFModeAnimation"       : true
         "notifyUpdateSucceeded"   : true
         "keyMappingAndAliases"    : "### Sample Settings\n

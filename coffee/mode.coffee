@@ -419,10 +419,11 @@ class g.FMode extends g.Mode
                 hint.elem.find("span#vichromehintchar").remove()
                 for c in @currentInput
                     hint.elem = hint.elem.append( $('<span id="vichromehintchar" />')
-                               .addClass("vichromehint-selected")
+                               .css("color", g.model.getSetting("hintColorSelected"))
                                .html(c) )
                 for c in hint.key.slice(@currentInput.length)
                     hint.elem = hint.elem.append( $('<span id="vichromehintchar" />')
+                               .css("color", g.model.getSetting("hintColor"))
                                .html(c) )
                 if not hint.elem.is(':visible')
                     @showFunc.call( hint.elem )
@@ -453,7 +454,6 @@ class g.FMode extends g.Mode
                  .css("line-height", hintHeight)
                  .css("font-size", "" + g.model.getSetting("hintFontSize") + "px")
                  .css("background-color", g.model.getSetting("hintBackgroundColor"))
-                 .css("color",       g.model.getSetting("hintColor"))
         for hint in @hints
             offset = hint.target._offset_
             top  =  offset.top - 7

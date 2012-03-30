@@ -50,10 +50,6 @@
     z-index: 99999;
 }
 
-.vichromehint-selected {
-    color: #DD4848 !important;
-}
-
 .vichrome-statuslineinactive {
     background-color: rgba(50, 50, 50, 0.8);
 }

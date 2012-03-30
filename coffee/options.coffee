@@ -98,6 +98,7 @@ onSettings = (msg) ->
     initInputText   "fModeAvailableKeys"
     initInputText   "hintBackgroundColor"
     initInputText   "hintColor"
+    initInputText   "hintColorSelected"
     initCheckBox    "disableAutoFocus"
     initCheckBox    "smoothScroll"
     initCheckBox    "enableCompletion"
