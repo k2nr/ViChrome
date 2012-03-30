@@ -684,8 +684,6 @@
       return -1;
     };
 
-    FMode.prototype.highlightCandidate = function() {};
-
     FMode.prototype.treatNewInput = function(key) {
       var idx;
       if (key === "BS" || key === "DEL") {
@@ -738,7 +736,6 @@
 
     FMode.prototype.updateHints = function() {
       var c, hint, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _results;
-      this.highlightCandidate();
       _ref = this.hints;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {

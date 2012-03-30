@@ -363,9 +363,6 @@ class g.FMode extends g.Mode
             if @currentInput == elem.key then return i
         return -1
 
-    highlightCandidate : ->
-        # TODO:
-
     treatNewInput : (key) ->
         if key == "BS" || key == "DEL"
             if @currentInput.length == 0
@@ -413,7 +410,6 @@ class g.FMode extends g.Mode
         Math.ceil( Math.log( candiNum ) / Math.log( @keys.length ) )
 
     updateHints : ->
-        @highlightCandidate()
         for hint in @hints
             if hint.key.indexOf( @currentInput ) == 0
                 hint.elem.find("span#vichromehintchar").remove()
@@ -429,7 +425,6 @@ class g.FMode extends g.Mode
                     @showFunc.call( hint.elem )
                 $(hint.target).addClass('vichrome-fModeTarget')
             else
-                #hint.elem.fadeOut(200)
                 @hideFunc.call( hint.elem )
                 $(hint.target).removeClass('vichrome-fModeTarget')
 
