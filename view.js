@@ -165,10 +165,10 @@
     };
 
     Surface.prototype.focusInput = function(idx) {
-      var _base, _ref;
+      var _base;
       if (!this.initialized) return this;
-      if (typeof (_base = $('form input:text:visible')).scrollTo === "function") {
-        if ((_ref = _base.scrollTo().get(0)) != null) _ref.focus();
+      if (typeof (_base = $('form input:visible[type=text],form input:visible[type=password],textarea:visible').eq(idx)).scrollTo === "function") {
+        _base.scrollTo().focus();
       }
       return this;
     };

@@ -146,17 +146,18 @@ class g.Surface
     focusInput : (idx) ->
         unless @initialized then return this
 
-        $('form input:text:visible').scrollTo?().get(0)?.focus()
+        $('form input:visible[type=text],form input:visible[type=password],textarea:visible')
+        .eq(idx).scrollTo?().focus()
         this
 
     scrollBy : (x, y) ->
-        unless@initialized then return this
+        unless @initialized then return this
 
         $(document.body).scrollBy(x, y, 20)
         this
 
     scrollHalfPage : (a) ->
-        unless@initialized then return this
+        unless @initialized then return this
         block = window.innerHeight / 2
         @scrollBy( block * a.hor, block * a.ver )
         this

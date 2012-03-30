@@ -150,9 +150,9 @@ class g.Mode
         g.model.enterCommandMode( new g.CommandExecuter, sources )
 
 
-    reqFocusOnFirstInput : ->
+    reqFocusOnFirstInput : (args, times) ->
         g.model.setPageMark()
-        g.view.focusInput( 0 )
+        g.view.focusInput( times-1 )
 
     reqTabList : ->
         sources = [

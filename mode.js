@@ -312,9 +312,9 @@
       return g.model.enterCommandMode(new g.CommandExecuter, sources);
     };
 
-    Mode.prototype.reqFocusOnFirstInput = function() {
+    Mode.prototype.reqFocusOnFirstInput = function(args, times) {
       g.model.setPageMark();
-      return g.view.focusInput(0);
+      return g.view.focusInput(times - 1);
     };
 
     Mode.prototype.reqTabList = function() {
