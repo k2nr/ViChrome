@@ -345,11 +345,14 @@
       g.view.init();
       g.logger.d("disAutoFocus", this.disAutoFocus);
       if (g.util.isEditable(document.activeElement) && !this.disAutoFocus) {
-        return this.enterInsertMode();
+        this.enterInsertMode();
       } else {
         g.view.blurActiveElement();
-        return this.enterNormalMode();
+        this.enterNormalMode();
       }
+      return chrome.extension.sendRequest({
+        command: "LoadPlugins"
+      });
     },
     openCommandBox: function(param) {
       if (typeof top !== "undefined" && top !== null) {

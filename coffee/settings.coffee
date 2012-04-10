@@ -39,6 +39,7 @@ g.SettingManager =
         "hintColorSelected"       : "#DD4848"
         "useFModeAnimation"       : true
         "notifyUpdateSucceeded"   : true
+        "plugins"                 : []
         "keyMappingAndAliases"    : "### Sample Settings\n
 \n
 # aliases\n

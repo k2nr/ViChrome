@@ -410,10 +410,27 @@ g.bg =
         response( extendURL( req.url ) )
         true
 
+    reqLoadPlugins : (req, response, sender) ->
+        g.PluginManager.loadPlugins( sender.tab.id, @tabHistory.getTopFrameID(sender.tab) )
+        false
+
+    reqUpdatePlugin : (req, response, sender) ->
+        g.PluginManager.updatePlugin(req.plugin)
+        false
+
+    reqRemovePlugin : (req, response, sender) ->
+        g.PluginManager.removePlugin({name:req.name})
+        false
+
+    reqGetPlugins : (req, response, sender) ->
+        response( g.PluginManager.getPlugins() )
+        true
+
     init : ->
         @tabHistory = (new g.TabHistory).init()
         @tabSelHist = (new g.TabSelectionHistory).init()
         g.SettingManager.init()
+        g.PluginManager.init()
 
         $WA = crocro.webAi
         @cWSrch   = new $WA.WebSrch()

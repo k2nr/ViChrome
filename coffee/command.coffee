@@ -47,58 +47,58 @@ class g.CommandExecuter
     ]
 
     commandTable :
-        Open                  : passToTopFrame
-        TabOpenNew            : passToTopFrame
-        TabCloseCurrent       : sendToBackground
-        TabCloseAll           : sendToBackground
-        TabFocusNext          : sendToBackground
-        TabFocusPrev          : sendToBackground
-        TabFocusNextHistory   : sendToBackground
-        TabFocusPrevHistory   : sendToBackground
-        TabFocusFirst         : sendToBackground
-        TabFocusLast          : sendToBackground
-        TabSwitchLast         : sendToBackground
-        TabReload             : triggerInsideContent
-        TabReloadAll          : sendToBackground
-        TabList               : triggerInsideContent
-        NMap                  : sendToBackground
-        IMap                  : sendToBackground
-        Alias                 : sendToBackground
-        WinOpenNew            : sendToBackground
-        ScrollUp              : triggerInsideContent
-        ScrollDown            : triggerInsideContent
-        ScrollLeft            : triggerInsideContent
-        ScrollRight           : triggerInsideContent
-        PageHalfUp            : triggerInsideContent
-        PageHalfDown          : triggerInsideContent
-        PageUp                : triggerInsideContent
-        PageDown              : triggerInsideContent
-        GoTop                 : triggerInsideContent
-        GoBottom              : triggerInsideContent
-        NextSearch            : triggerInsideContent
-        PrevSearch            : triggerInsideContent
-        BackHist              : triggerInsideContent
-        ForwardHist           : triggerInsideContent
-        GoCommandMode         : triggerInsideContent
-        GoSearchModeForward   : triggerInsideContent
-        GoSearchModeBackward  : triggerInsideContent
-        GoLinkTextSearchMode  : triggerInsideContent
-        GoFMode               : triggerInsideContent
-        GoEmergencyMode       : triggerInsideContent
-        FocusOnFirstInput     : triggerInsideContent
-        BackToPageMark        : triggerInsideContent
-        RestoreTab            : sendToBackground
-        FocusNextCandidate    : triggerInsideContent
-        FocusPrevCandidate    : triggerInsideContent
-        Readability           : sendToBackground
-        OpenOptionPage        : sendToBackground
-        BarrelRoll            : triggerInsideContent
-        Copy                  : sendToBackground
-        Escape                : escape
-        HideJimmy             : triggerInsideContent
-        ToggleImageSize       : triggerInsideContent
+        Open                  : "passToTopFrame"
+        TabOpenNew            : "passToTopFrame"
+        TabCloseCurrent       : "sendToBackground"
+        TabCloseAll           : "sendToBackground"
+        TabFocusNext          : "sendToBackground"
+        TabFocusPrev          : "sendToBackground"
+        TabFocusNextHistory   : "sendToBackground"
+        TabFocusPrevHistory   : "sendToBackground"
+        TabFocusFirst         : "sendToBackground"
+        TabFocusLast          : "sendToBackground"
+        TabSwitchLast         : "sendToBackground"
+        TabReload             : "triggerInsideContent"
+        TabReloadAll          : "sendToBackground"
+        TabList               : "triggerInsideContent"
+        NMap                  : "sendToBackground"
+        IMap                  : "sendToBackground"
+        Alias                 : "sendToBackground"
+        WinOpenNew            : "sendToBackground"
+        ScrollUp              : "triggerInsideContent"
+        ScrollDown            : "triggerInsideContent"
+        ScrollLeft            : "triggerInsideContent"
+        ScrollRight           : "triggerInsideContent"
+        PageHalfUp            : "triggerInsideContent"
+        PageHalfDown          : "triggerInsideContent"
+        PageUp                : "triggerInsideContent"
+        PageDown              : "triggerInsideContent"
+        GoTop                 : "triggerInsideContent"
+        GoBottom              : "triggerInsideContent"
+        NextSearch            : "triggerInsideContent"
+        PrevSearch            : "triggerInsideContent"
+        BackHist              : "triggerInsideContent"
+        ForwardHist           : "triggerInsideContent"
+        GoCommandMode         : "triggerInsideContent"
+        GoSearchModeForward   : "triggerInsideContent"
+        GoSearchModeBackward  : "triggerInsideContent"
+        GoLinkTextSearchMode  : "triggerInsideContent"
+        GoFMode               : "triggerInsideContent"
+        GoEmergencyMode       : "triggerInsideContent"
+        FocusOnFirstInput     : "triggerInsideContent"
+        BackToPageMark        : "triggerInsideContent"
+        RestoreTab            : "sendToBackground"
+        FocusNextCandidate    : "triggerInsideContent"
+        FocusPrevCandidate    : "triggerInsideContent"
+        Readability           : "sendToBackground"
+        OpenOptionPage        : "sendToBackground"
+        BarrelRoll            : "triggerInsideContent"
+        Copy                  : "sendToBackground"
+        Escape                : "escape"
+        HideJimmy             : "triggerInsideContent"
+        ToggleImageSize       : "triggerInsideContent"
         # hidden commands
-        "_ChangeLogLevel"     : triggerInsideContent
+        "_ChangeLogLevel"     : "triggerInsideContent"
 
     get : -> @command ? ""
     getArgs : -> @args
@@ -174,7 +174,18 @@ class g.CommandExecuter
         unless g.model.isReady() or com in @commandsBeforeReady then return
 
         setTimeout( =>
-            @commandTable[com]( com, @args.slice(1), @times, @timesSpecified )
+            switch @commandTable[com]
+                when "triggerInsideContent"
+                    func = triggerInsideContent
+                when "sendToBackground"
+                    func = sendToBackground
+                when "passToTopFrame"
+                    func = passToTopFrame
+                when "escape"
+                    func = escape
+                else return
+
+            func( com, @args.slice(1), @times, @timesSpecified )
         , 0 )
 
 class g.CommandManager

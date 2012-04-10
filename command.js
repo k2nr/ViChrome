@@ -45,57 +45,57 @@
     CommandExecuter.prototype.commandsBeforeReady = ["TabOpenNew", "TabCloseCurrent", "TabCloseAll", "TabFocusNext", "TabFocusPrev", "TabFocusFirst", "TabFocusLast", "TabFocusNextHistory", "TabFocusPrevHistory", "TabSwitchLast", "TabReloadAll", "NMap", "IMap", "Alias", "WinOpenNew", "OpenOptionPage", "RestoreTab"];
 
     CommandExecuter.prototype.commandTable = {
-      Open: passToTopFrame,
-      TabOpenNew: passToTopFrame,
-      TabCloseCurrent: sendToBackground,
-      TabCloseAll: sendToBackground,
-      TabFocusNext: sendToBackground,
-      TabFocusPrev: sendToBackground,
-      TabFocusNextHistory: sendToBackground,
-      TabFocusPrevHistory: sendToBackground,
-      TabFocusFirst: sendToBackground,
-      TabFocusLast: sendToBackground,
-      TabSwitchLast: sendToBackground,
-      TabReload: triggerInsideContent,
-      TabReloadAll: sendToBackground,
-      TabList: triggerInsideContent,
-      NMap: sendToBackground,
-      IMap: sendToBackground,
-      Alias: sendToBackground,
-      WinOpenNew: sendToBackground,
-      ScrollUp: triggerInsideContent,
-      ScrollDown: triggerInsideContent,
-      ScrollLeft: triggerInsideContent,
-      ScrollRight: triggerInsideContent,
-      PageHalfUp: triggerInsideContent,
-      PageHalfDown: triggerInsideContent,
-      PageUp: triggerInsideContent,
-      PageDown: triggerInsideContent,
-      GoTop: triggerInsideContent,
-      GoBottom: triggerInsideContent,
-      NextSearch: triggerInsideContent,
-      PrevSearch: triggerInsideContent,
-      BackHist: triggerInsideContent,
-      ForwardHist: triggerInsideContent,
-      GoCommandMode: triggerInsideContent,
-      GoSearchModeForward: triggerInsideContent,
-      GoSearchModeBackward: triggerInsideContent,
-      GoLinkTextSearchMode: triggerInsideContent,
-      GoFMode: triggerInsideContent,
-      GoEmergencyMode: triggerInsideContent,
-      FocusOnFirstInput: triggerInsideContent,
-      BackToPageMark: triggerInsideContent,
-      RestoreTab: sendToBackground,
-      FocusNextCandidate: triggerInsideContent,
-      FocusPrevCandidate: triggerInsideContent,
-      Readability: sendToBackground,
-      OpenOptionPage: sendToBackground,
-      BarrelRoll: triggerInsideContent,
-      Copy: sendToBackground,
-      Escape: escape,
-      HideJimmy: triggerInsideContent,
-      ToggleImageSize: triggerInsideContent,
-      "_ChangeLogLevel": triggerInsideContent
+      Open: "passToTopFrame",
+      TabOpenNew: "passToTopFrame",
+      TabCloseCurrent: "sendToBackground",
+      TabCloseAll: "sendToBackground",
+      TabFocusNext: "sendToBackground",
+      TabFocusPrev: "sendToBackground",
+      TabFocusNextHistory: "sendToBackground",
+      TabFocusPrevHistory: "sendToBackground",
+      TabFocusFirst: "sendToBackground",
+      TabFocusLast: "sendToBackground",
+      TabSwitchLast: "sendToBackground",
+      TabReload: "triggerInsideContent",
+      TabReloadAll: "sendToBackground",
+      TabList: "triggerInsideContent",
+      NMap: "sendToBackground",
+      IMap: "sendToBackground",
+      Alias: "sendToBackground",
+      WinOpenNew: "sendToBackground",
+      ScrollUp: "triggerInsideContent",
+      ScrollDown: "triggerInsideContent",
+      ScrollLeft: "triggerInsideContent",
+      ScrollRight: "triggerInsideContent",
+      PageHalfUp: "triggerInsideContent",
+      PageHalfDown: "triggerInsideContent",
+      PageUp: "triggerInsideContent",
+      PageDown: "triggerInsideContent",
+      GoTop: "triggerInsideContent",
+      GoBottom: "triggerInsideContent",
+      NextSearch: "triggerInsideContent",
+      PrevSearch: "triggerInsideContent",
+      BackHist: "triggerInsideContent",
+      ForwardHist: "triggerInsideContent",
+      GoCommandMode: "triggerInsideContent",
+      GoSearchModeForward: "triggerInsideContent",
+      GoSearchModeBackward: "triggerInsideContent",
+      GoLinkTextSearchMode: "triggerInsideContent",
+      GoFMode: "triggerInsideContent",
+      GoEmergencyMode: "triggerInsideContent",
+      FocusOnFirstInput: "triggerInsideContent",
+      BackToPageMark: "triggerInsideContent",
+      RestoreTab: "sendToBackground",
+      FocusNextCandidate: "triggerInsideContent",
+      FocusPrevCandidate: "triggerInsideContent",
+      Readability: "sendToBackground",
+      OpenOptionPage: "sendToBackground",
+      BarrelRoll: "triggerInsideContent",
+      Copy: "sendToBackground",
+      Escape: "escape",
+      HideJimmy: "triggerInsideContent",
+      ToggleImageSize: "triggerInsideContent",
+      "_ChangeLogLevel": "triggerInsideContent"
     };
 
     CommandExecuter.prototype.get = function() {
@@ -210,7 +210,24 @@
         return;
       }
       return setTimeout(function() {
-        return _this.commandTable[com](com, _this.args.slice(1), _this.times, _this.timesSpecified);
+        var func;
+        switch (_this.commandTable[com]) {
+          case "triggerInsideContent":
+            func = triggerInsideContent;
+            break;
+          case "sendToBackground":
+            func = sendToBackground;
+            break;
+          case "passToTopFrame":
+            func = passToTopFrame;
+            break;
+          case "escape":
+            func = escape;
+            break;
+          default:
+            return;
+        }
+        return func(com, _this.args.slice(1), _this.times, _this.timesSpecified);
       }, 0);
     };
 

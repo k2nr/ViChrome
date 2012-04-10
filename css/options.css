@@ -261,3 +261,34 @@ input[type='radio'] {
   top: 1px;
 }
 
+.plugin-item {
+    background: #dcdcdc;
+    width: 100%;
+    height: 60px;
+}
+
+.plugin-item-name {
+    float: left;
+    margin-left: 20px;
+    color: #333;
+    height: 60px;
+    line-height: 60px;
+    font-size: 32px;
+}
+
+.plugin-item-enabled {
+    -webkit-box-shadow: none;
+    height: 60px;
+    background: #e5e5e5;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #fafafa),
+        color-stop(0.5, #f4f4f4),
+        color-stop(1, #e5e5e5)
+    );
+    background: -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
+    border-color: #aaa;
+    color: #888;
+}

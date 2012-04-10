@@ -304,6 +304,10 @@ g.model =
             g.view.blurActiveElement()
             @enterNormalMode()
 
+        chrome.extension.sendRequest({
+            command: "LoadPlugins"
+        })
+
     openCommandBox : (param) ->
         if top?
             param.command      = "SendToCommandBox"

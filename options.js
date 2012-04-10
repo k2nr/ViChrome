@@ -1,5 +1,5 @@
 (function() {
-  var escChars, g, initCheckBox, initDropDown, initInputNumber, initInputText, onSettings, setSetting, settings, updateKeyMappingList;
+  var escChars, g, initCheckBox, initDropDown, initInputNumber, initInputText, makePluginItem, onSettings, setSetting, settings, updateKeyMappingList, updatePlugin;
 
   if (this.vichrome == null) this.vichrome = {};
 
@@ -168,12 +168,78 @@
   };
 
   $(document).ready(function() {
-    return chrome.extension.sendRequest({
+    chrome.extension.sendRequest({
       command: "Settings",
       type: "get",
       name: "all"
     }, onSettings);
+    chrome.extension.sendRequest({
+      command: "GetPlugins"
+    }, function(plugins) {
+      var elem, plugin, _i, _len;
+      for (_i = 0, _len = plugins.length; _i < _len; _i++) {
+        plugin = plugins[_i];
+        elem = makePluginItem(plugin);
+        if (!plugin.enabled) elem = elem.addClass('plugin-disabled');
+        $('div#pluginsContainer').append(elem);
+      }
+    });
+    return $('input#addNewPlugin').click(function() {
+      var file, reader;
+      file = $('input#chooseNewPlugin').get(0).files[0];
+      if (file.name.search(/\.zip$/i) < 0) {
+        alert('choose zip file');
+        return;
+      }
+      reader = new FileReader;
+      reader.onload = function(evt) {
+        var background, contentScript, manifest, plugin, zip;
+        console.log(evt);
+        zip = new JSZip;
+        zip.load(evt.target.result);
+        manifest = JSON.parse(zip.file('manifest.json').asText());
+        if (zip.file('contentscript.js') != null) {
+          contentScript = zip.file('contentscript.js').asText();
+        }
+        if (zip.file('background.js') != null) {
+          background = zip.file('background.js').asText();
+        }
+        plugin = {
+          name: manifest.name,
+          description: manifest.description,
+          contentScript: contentScript,
+          background: background,
+          enabled: true
+        };
+        return chrome.extension.sendRequest({
+          command: "UpdatePlugin",
+          plugin: plugin
+        });
+      };
+      return reader.readAsBinaryString(file);
+    });
   });
+
+  makePluginItem = function(plugin) {
+    var checkBox, itemEnabled, itemName, topDiv;
+    topDiv = $('<div class="plugin-item" />');
+    itemName = $('<div class="plugin-item-name" />').html(plugin.name);
+    itemEnabled = $('<div class="plugin-item-enabled" />');
+    checkBox = $('<input type="checkbox" />').attr('checked', plugin.enabled).change(function() {
+      var p;
+      p = g.extend(plugin);
+      p.enabled = checkBox.is(':checked');
+      return updatePlugin(p);
+    });
+    return topDiv.append(itemName).append(itemEnabled.append(checkBox));
+  };
+
+  updatePlugin = function(plugin) {
+    return chrome.extension.sendRequest({
+      command: "UpdatePlugin",
+      plugin: plugin
+    });
+  };
 
   $(document).ready(function() {
     var page;

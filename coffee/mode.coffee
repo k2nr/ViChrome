@@ -449,7 +449,7 @@ class g.FMode extends g.Mode
                  .css("background-color", g.model.getSetting("hintBackgroundColor"))
         for hint in @hints
             offset = hint.target._offset_
-            top  =  offset.top - 7
+            top  = offset.top - 7
             left = offset.left - 7
             top  = 0 if top < 0
             left = 0 if left < 0

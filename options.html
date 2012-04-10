@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="css/options.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <script type="text/javascript" src="lib/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="lib/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="lib/jszip.js"></script>
+    <script type="text/javascript" src="lib/jszip-load.js"></script>
+    <script type="text/javascript" src="lib/jszip-inflate.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
     <script type="text/javascript" src="options.js"></script>
 </head>
 <body>
@@ -14,6 +18,7 @@
             <li class="navbar-item" role="tab"><a href="#general">General</a></li>
             <li class="navbar-item" role="tab"><a href="#appearance">Appearance</a></li>
             <li class="navbar-item" role="tab"><a href="#keymapping">Key Mapping</a></li>
+            <li class="navbar-item" role="tab"><a href="#plugins">Plugins</a></li>
             <li class='navbar-item navbar-item-separator'></li>
             <li class="navbar-item" role="tab"><a href="#about">About</a></li>
         </ul>
@@ -277,6 +282,20 @@
             <div>
                 <div id="keyMappingList"></div>
             </div>
+            </section>
+        </div>
+        <div id="plugins" class='page'>
+            <h2>Plugins</h2>
+            <section>
+            <h3>Add New Plugin</h3>
+            <div>
+                <input type="FILE" id="chooseNewPlugin"/>
+                <input type="BUTTON" id="addNewPlugin" value="Add New Plugin" />
+            </div>
+            </section>
+            <h3>Installed Plugins</h3>
+            <section>
+            <div id="pluginsContainer" />
             </section>
         </div>
         <div id="about" class='page'>

@@ -96,6 +96,9 @@ class g.EventHandler
                 when "HideStatusLine"
                     g.view.hideStatusLine()
                     sendResponse()
+                when "ExecuteScript"
+                    eval(req.code)
+                    sendResponse()
                 else
                     g.model.triggerCommand( "req#{req.command}", req.args, req.times, req.timesSpecified )
                     sendResponse()

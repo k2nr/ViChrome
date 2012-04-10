@@ -137,7 +137,70 @@ $(document).ready( ->
         type    : "get"
         name    : "all"
     }, onSettings )
+
+    chrome.extension.sendRequest( {
+        command : "GetPlugins"
+    }, (plugins) ->
+        for plugin in plugins
+            elem = makePluginItem(plugin)
+            elem = elem.addClass('plugin-disabled') if not plugin.enabled
+            $('div#pluginsContainer').append(elem)
+
+        return
+    )
+
+    $('input#addNewPlugin').click( ->
+        file = $('input#chooseNewPlugin').get(0).files[0]
+        if file.name.search( /\.zip$/i ) < 0
+            alert( 'choose zip file' )
+            return
+
+        reader = new FileReader
+        reader.onload = (evt) ->
+            console.log evt
+            zip = new JSZip
+            zip.load(evt.target.result)
+            #test
+            manifest = JSON.parse( zip.file('manifest.json').asText() )
+            if zip.file('contentscript.js')?
+                contentScript = zip.file('contentscript.js').asText()
+            if zip.file('background.js')?
+                background = zip.file('background.js').asText()
+
+            plugin =
+                name: manifest.name
+                description: manifest.description
+                contentScript: contentScript
+                background: background
+                enabled: true
+
+            chrome.extension.sendRequest(
+                command: "UpdatePlugin"
+                plugin: plugin
+            )
+
+        reader.readAsBinaryString(file)
+    )
 )
+
+makePluginItem = (plugin) ->
+    topDiv = $('<div class="plugin-item" />')
+    itemName = $('<div class="plugin-item-name" />').html(plugin.name)
+    itemEnabled = $('<div class="plugin-item-enabled" />')
+    checkBox = $('<input type="checkbox" />')
+               .attr('checked', plugin.enabled)
+               .change( ->
+                   p = g.extend( plugin )
+                   p.enabled = checkBox.is(':checked')
+                   updatePlugin(p))
+
+    topDiv.append(itemName).append(itemEnabled.append(checkBox))
+
+updatePlugin = (plugin) ->
+    chrome.extension.sendRequest({
+        command: "UpdatePlugin"
+        plugin:  plugin
+    })
 
 $(document).ready(->
     $('#page-container > div').hide()

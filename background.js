@@ -512,12 +512,31 @@
       response(extendURL(req.url));
       return true;
     },
+    reqLoadPlugins: function(req, response, sender) {
+      g.PluginManager.loadPlugins(sender.tab.id, this.tabHistory.getTopFrameID(sender.tab));
+      return false;
+    },
+    reqUpdatePlugin: function(req, response, sender) {
+      g.PluginManager.updatePlugin(req.plugin);
+      return false;
+    },
+    reqRemovePlugin: function(req, response, sender) {
+      g.PluginManager.removePlugin({
+        name: req.name
+      });
+      return false;
+    },
+    reqGetPlugins: function(req, response, sender) {
+      response(g.PluginManager.getPlugins());
+      return true;
+    },
     init: function() {
       var $WA, req, storedVersion,
         _this = this;
       this.tabHistory = (new g.TabHistory).init();
       this.tabSelHist = (new g.TabSelectionHistory).init();
       g.SettingManager.init();
+      g.PluginManager.init();
       $WA = crocro.webAi;
       this.cWSrch = new $WA.WebSrch();
       this.cWSrch.ready(function() {
