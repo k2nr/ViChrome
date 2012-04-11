@@ -198,13 +198,16 @@ makePluginItem = (plugin) ->
             command: "RemovePlugin"
             name:    plugin.name))
 
-    topDiv.append(itemName).append(itemEnabled.append(checkBox))
+    topDiv
+        .append(itemName)
+        .append(itemEnabled.append(checkBox))
+        .append(removeButton)
 
 updatePlugin = (plugin) ->
-    chrome.extension.sendRequest({
+    chrome.extension.sendRequest(
         command: "UpdatePlugin"
         plugin:  plugin
-    })
+    )
 
 $(document).ready(->
     $('#page-container > div').hide()

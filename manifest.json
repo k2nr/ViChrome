@@ -30,6 +30,7 @@
           "lib/jquery.highlight-3.js",
           "lib/jsapi",
           "vichrome.js",
+          "plugins.js",
           "utils.js",
           "key.js",
           "register.js",

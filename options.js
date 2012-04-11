@@ -237,7 +237,7 @@
         name: plugin.name
       });
     });
-    return topDiv.append(itemName).append(itemEnabled.append(checkBox));
+    return topDiv.append(itemName).append(itemEnabled.append(checkBox)).append(removeButton);
   };
 
   updatePlugin = function(plugin) {
