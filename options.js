@@ -176,9 +176,9 @@
     chrome.extension.sendRequest({
       command: "GetPlugins"
     }, function(plugins) {
-      var elem, plugin, _i, _len;
-      for (_i = 0, _len = plugins.length; _i < _len; _i++) {
-        plugin = plugins[_i];
+      var elem, name, plugin;
+      for (name in plugins) {
+        plugin = plugins[name];
         elem = makePluginItem(plugin);
         if (!plugin.enabled) elem = elem.addClass('plugin-disabled');
         $('div#pluginsContainer').append(elem);
@@ -221,7 +221,7 @@
   });
 
   makePluginItem = function(plugin) {
-    var checkBox, itemEnabled, itemName, topDiv;
+    var checkBox, itemEnabled, itemName, removeButton, topDiv;
     topDiv = $('<div class="plugin-item" />');
     itemName = $('<div class="plugin-item-name" />').html(plugin.name);
     itemEnabled = $('<div class="plugin-item-enabled" />');
@@ -230,6 +230,12 @@
       p = g.extend(plugin);
       p.enabled = checkBox.is(':checked');
       return updatePlugin(p);
+    });
+    removeButton = $('<input type="button" value="Remove" />').click(function() {
+      return chrome.extension.sendRequest({
+        command: "RemovePlugin",
+        name: plugin.name
+      });
     });
     return topDiv.append(itemName).append(itemEnabled.append(checkBox));
   };

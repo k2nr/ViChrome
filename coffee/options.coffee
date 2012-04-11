@@ -141,7 +141,7 @@ $(document).ready( ->
     chrome.extension.sendRequest( {
         command : "GetPlugins"
     }, (plugins) ->
-        for plugin in plugins
+        for name,plugin of plugins
             elem = makePluginItem(plugin)
             elem = elem.addClass('plugin-disabled') if not plugin.enabled
             $('div#pluginsContainer').append(elem)
@@ -193,6 +193,10 @@ makePluginItem = (plugin) ->
                    p = g.extend( plugin )
                    p.enabled = checkBox.is(':checked')
                    updatePlugin(p))
+    removeButton = $('<input type="button" value="Remove" />').click( ->
+        chrome.extension.sendRequest(
+            command: "RemovePlugin"
+            name:    plugin.name))
 
     topDiv.append(itemName).append(itemEnabled.append(checkBox))
 

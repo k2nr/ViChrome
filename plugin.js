@@ -10,17 +10,12 @@
       return this.plugins = JSON.parse(localStorage.getItem('plugins')) || {};
     },
     updatePlugin: function(plugin) {
-      this.plugins[plugin.name] = {
-        contentScript: plugin.contentScript,
-        background: plugin.background,
-        enabled: plugin.enabled
-      };
+      this.plugins[plugin.name] = plugin;
       return localStorage.setItem('plugins', JSON.stringify(this.plugins));
     },
     removePlugin: function(plugin) {
-      if (this.plugins[plugin.name] != null) {
-        return delete this.plugins[plugin.name];
-      }
+      if (this.plugins[plugin.name] != null) delete this.plugins[plugin.name];
+      return localStorage.setItem('plugins', JSON.stringify(this.plugins));
     },
     loadPlugins: function(tabID, frameID) {
       var name, plugin, _ref;
