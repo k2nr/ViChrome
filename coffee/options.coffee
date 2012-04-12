@@ -138,17 +138,6 @@ $(document).ready( ->
         name    : "all"
     }, onSettings )
 
-    chrome.extension.sendRequest( {
-        command : "GetPlugins"
-    }, (plugins) ->
-        for name,plugin of plugins
-            elem = makePluginItem(plugin)
-            elem = elem.addClass('plugin-disabled') if not plugin.enabled
-            $('div#pluginsContainer').append(elem)
-
-        return
-    )
-
     $('input#addNewPlugin').click( ->
         file = $('input#chooseNewPlugin').get(0).files[0]
         if file.name.search( /\.zip$/i ) < 0
@@ -160,7 +149,7 @@ $(document).ready( ->
             console.log evt
             zip = new JSZip
             zip.load(evt.target.result)
-            #test
+
             manifest = JSON.parse( zip.file('manifest.json').asText() )
             if zip.file('contentscript.js')?
                 contentScript = zip.file('contentscript.js').asText()
@@ -177,31 +166,55 @@ $(document).ready( ->
             chrome.extension.sendRequest(
                 command: "UpdatePlugin"
                 plugin: plugin
-            )
+            , -> refreshPluginList())
 
         reader.readAsBinaryString(file)
     )
+
+    refreshPluginList()
 )
 
+refreshPluginList = ->
+    $('div#plugin-item').remove()
+    chrome.extension.sendRequest( {
+        command : "GetPlugins"
+    }, (plugins) ->
+        for name,plugin of plugins
+            elem = makePluginItem(plugin)
+            elem = elem.addClass('plugin-disabled') if not plugin.enabled
+            $('div#pluginsContainer').append(elem)
+
+        return
+    )
+
+
 makePluginItem = (plugin) ->
-    topDiv = $('<div class="plugin-item" />')
-    itemName = $('<div class="plugin-item-name" />').html(plugin.name)
-    itemEnabled = $('<div class="plugin-item-enabled" />')
-    checkBox = $('<input type="checkbox" />')
+    topDiv = $('<div id="plugin-item" />')
+    itemName = $('<div id="plugin-item-name" />').html(plugin.name)
+    itemDescription = $('<div id="plugin-item-description">').html(plugin.description)
+    checkBox = $('<input type="checkbox" id="plugin-item-enabled-button" />')
                .attr('checked', plugin.enabled)
                .change( ->
                    p = g.extend( plugin )
                    p.enabled = checkBox.is(':checked')
                    updatePlugin(p))
-    removeButton = $('<input type="button" value="Remove" />').click( ->
+    removeButton = $('<input type="button" id="plugin-remove-button" value="Remove" />').click( ->
         chrome.extension.sendRequest(
             command: "RemovePlugin"
-            name:    plugin.name))
+            name:    plugin.name
+        , -> refreshPluginList()))
+
+    controllers = $('<div id="plugin-item-controllers" />')
+                  .append( checkBox )
+                  .append( $('<span />').html('Enabled') )
+                  .append( removeButton )
 
     topDiv
+    .append($('<div />')
         .append(itemName)
-        .append(itemEnabled.append(checkBox))
-        .append(removeButton)
+        .append(controllers))
+    .append($('<div />')
+        .append(itemDescription))
 
 updatePlugin = (plugin) ->
     chrome.extension.sendRequest(

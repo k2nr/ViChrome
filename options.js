@@ -1,5 +1,5 @@
 (function() {
-  var escChars, g, initCheckBox, initDropDown, initInputNumber, initInputText, makePluginItem, onSettings, setSetting, settings, updateKeyMappingList, updatePlugin;
+  var escChars, g, initCheckBox, initDropDown, initInputNumber, initInputText, makePluginItem, onSettings, refreshPluginList, setSetting, settings, updateKeyMappingList, updatePlugin;
 
   if (this.vichrome == null) this.vichrome = {};
 
@@ -173,18 +173,7 @@
       type: "get",
       name: "all"
     }, onSettings);
-    chrome.extension.sendRequest({
-      command: "GetPlugins"
-    }, function(plugins) {
-      var elem, name, plugin;
-      for (name in plugins) {
-        plugin = plugins[name];
-        elem = makePluginItem(plugin);
-        if (!plugin.enabled) elem = elem.addClass('plugin-disabled');
-        $('div#pluginsContainer').append(elem);
-      }
-    });
-    return $('input#addNewPlugin').click(function() {
+    $('input#addNewPlugin').click(function() {
       var file, reader;
       file = $('input#chooseNewPlugin').get(0).files[0];
       if (file.name.search(/\.zip$/i) < 0) {
@@ -214,30 +203,51 @@
         return chrome.extension.sendRequest({
           command: "UpdatePlugin",
           plugin: plugin
+        }, function() {
+          return refreshPluginList();
         });
       };
       return reader.readAsBinaryString(file);
     });
+    return refreshPluginList();
   });
 
+  refreshPluginList = function() {
+    $('div#plugin-item').remove();
+    return chrome.extension.sendRequest({
+      command: "GetPlugins"
+    }, function(plugins) {
+      var elem, name, plugin;
+      for (name in plugins) {
+        plugin = plugins[name];
+        elem = makePluginItem(plugin);
+        if (!plugin.enabled) elem = elem.addClass('plugin-disabled');
+        $('div#pluginsContainer').append(elem);
+      }
+    });
+  };
+
   makePluginItem = function(plugin) {
-    var checkBox, itemEnabled, itemName, removeButton, topDiv;
-    topDiv = $('<div class="plugin-item" />');
-    itemName = $('<div class="plugin-item-name" />').html(plugin.name);
-    itemEnabled = $('<div class="plugin-item-enabled" />');
-    checkBox = $('<input type="checkbox" />').attr('checked', plugin.enabled).change(function() {
+    var checkBox, controllers, itemDescription, itemName, removeButton, topDiv;
+    topDiv = $('<div id="plugin-item" />');
+    itemName = $('<div id="plugin-item-name" />').html(plugin.name);
+    itemDescription = $('<div id="plugin-item-description">').html(plugin.description);
+    checkBox = $('<input type="checkbox" id="plugin-item-enabled-button" />').attr('checked', plugin.enabled).change(function() {
       var p;
       p = g.extend(plugin);
       p.enabled = checkBox.is(':checked');
       return updatePlugin(p);
     });
-    removeButton = $('<input type="button" value="Remove" />').click(function() {
+    removeButton = $('<input type="button" id="plugin-remove-button" value="Remove" />').click(function() {
       return chrome.extension.sendRequest({
         command: "RemovePlugin",
         name: plugin.name
+      }, function() {
+        return refreshPluginList();
       });
     });
-    return topDiv.append(itemName).append(itemEnabled.append(checkBox)).append(removeButton);
+    controllers = $('<div id="plugin-item-controllers" />').append(checkBox).append($('<span />').html('Enabled')).append(removeButton);
+    return topDiv.append($('<div />').append(itemName).append(controllers)).append($('<div />').append(itemDescription));
   };
 
   updatePlugin = function(plugin) {
