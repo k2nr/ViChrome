@@ -130,7 +130,7 @@
             g.view.hideStatusLine();
             return sendResponse();
           case "ExecuteScript":
-            eval(req.code);
+            eval("(function(){" + req.code + "})();");
             return sendResponse();
           default:
             g.model.triggerCommand("req" + req.command, req.args, req.times, req.timesSpecified);

@@ -21,7 +21,7 @@ g.PluginManager = {
             unless plugin.enabled then continue
 
             if plugin.background?
-                eval(plugin.background)
+                eval("(function(){" + plugin.background + "})();")
             if plugin.contentScript?
                 chrome.tabs.sendRequest(tabID,
                     command:   "ExecuteScript"

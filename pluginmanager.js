@@ -23,7 +23,9 @@
       for (name in _ref) {
         plugin = _ref[name];
         if (!plugin.enabled) continue;
-        if (plugin.background != null) eval(plugin.background);
+        if (plugin.background != null) {
+          eval("(function(){" + plugin.background + "})();");
+        }
         if (plugin.contentScript != null) {
           chrome.tabs.sendRequest(tabID, {
             command: "ExecuteScript",
