@@ -1,8 +1,12 @@
 {
+  "manifest_version": 2,
   "name": "Vichrome",
   "version": "0.11.0",
   "description": "vi like interface for Google Chrome™. For every Google Chrome™ user who hate using a mouse.",
-  "background_page": "background.html",
+  "background": {
+      "persistent": true,
+      "page": "background.html"
+  },
   "options_page": "options.html",
   "icons":{
     "16" :"icons/16.png",
@@ -43,5 +47,24 @@
       "all_frames": true,
       "run_at": "document_start"
     }
+  ],
+  "web_accessible_resources": [
+      "commandbox.html",
+      "lib/dicts//a2.txt",
+      "lib/dicts/alpha2.txt",
+      "lib/dicts/ba2.txt",
+      "lib/dicts/da2.txt",
+      "lib/dicts/ga2.txt",
+      "lib/dicts/ha2.txt",
+      "lib/dicts/ka2.txt",
+      "lib/dicts/ma2.txt",
+      "lib/dicts/na2.txt",
+      "lib/dicts/pa2.txt",
+      "lib/dicts/ra2.txt",
+      "lib/dicts/sa2.txt",
+      "lib/dicts/ta2.txt",
+      "lib/dicts/wa2.txt",
+      "lib/dicts/ya2.txt",
+      "lib/dicts/za2.txt"
   ]
 }

@@ -455,3 +455,5 @@ g.bg =
 
         localStorage.version = g.VICHROME_VERSION
 
+g.bg.init()
+
