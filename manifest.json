@@ -20,6 +20,7 @@
     "unlimitedStorage",
     "clipboardRead",
     "clipboardWrite",
+    "storage",
     "http://www.google.com/"
   ],
   "content_scripts": [
@@ -50,7 +51,7 @@
   ],
   "web_accessible_resources": [
       "commandbox.html",
-      "lib/dicts//a2.txt",
+      "lib/dicts/a2.txt",
       "lib/dicts/alpha2.txt",
       "lib/dicts/ba2.txt",
       "lib/dicts/da2.txt",
