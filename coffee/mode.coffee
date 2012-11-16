@@ -168,7 +168,7 @@ class g.Mode
             $(document.body).removeClass('vichrome-barrelroll')
         , 2000 )
 
-    reqHideJimmy : -> $("div#siteNotice").hide()
+    reqHideJimmy : -> $("div#centralNotice").hide()
 
     reqToggleImageSize : ->
         if document.images.length == 1

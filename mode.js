@@ -340,7 +340,7 @@
     };
 
     Mode.prototype.reqHideJimmy = function() {
-      return $("div#siteNotice").hide();
+      return $("div#centralNotice").hide();
     };
 
     Mode.prototype.reqToggleImageSize = function() {
