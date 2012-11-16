@@ -777,7 +777,9 @@
       chrome.extension.sendRequest({
         command: "GetSearchHistory"
       }, function(msg) {
-        _this.history = msg.value.reverse();
+        var len;
+        len = msg.value.length;
+        _this.history = msg.value.slice(len - _this.maxItems, len);
         return _this.onInput("");
       });
     }

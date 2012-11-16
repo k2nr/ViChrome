@@ -488,7 +488,8 @@ class g.CandSourceSearchHist extends g.CandidateSource
         chrome.extension.sendRequest(
             command : "GetSearchHistory"
         , (msg) =>
-            @history = msg.value.reverse()
+            len = msg.value.length
+            @history = msg.value.slice(len - @maxItems, len)
             @onInput("")
         )
 
