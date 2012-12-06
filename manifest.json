@@ -21,7 +21,8 @@
     "clipboardRead",
     "clipboardWrite",
     "storage",
-    "http://www.google.com/"
+    "http://www.google.com/",
+    "https://www.google.com/"
   ],
   "content_scripts": [
     {
@@ -67,5 +68,6 @@
       "lib/dicts/wa2.txt",
       "lib/dicts/ya2.txt",
       "lib/dicts/za2.txt"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://www.google.com; object-src 'self'"
 }
