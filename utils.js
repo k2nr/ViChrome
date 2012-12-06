@@ -171,8 +171,7 @@
   };
 
   g.util.dispatchMouseClickEvent = function(target, primary, shift, alt) {
-    var ctrl, e, meta, secondary;
-    e = document.createEvent("MouseEvents");
+    var ctrl, e, event, meta, secondary, _i, _len, _ref1;
     secondary = false;
     if ((target != null ? target.dispatchEvent : void 0) == null) {
       g.logger.e("target is invalid");
@@ -192,8 +191,13 @@
         meta = secondary;
         ctrl = primary;
     }
-    e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null);
-    target.dispatchEvent(e);
+    _ref1 = ['mousedown', 'mouseup', 'click'];
+    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+      event = _ref1[_i];
+      e = document.createEvent("MouseEvents");
+      e.initMouseEvent(event, true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null);
+      target.dispatchEvent(e);
+    }
     return true;
   };
 

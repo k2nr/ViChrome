@@ -475,6 +475,21 @@ class g.FMode extends g.Mode
             @hideFunc = $.fn.hide
 
         links = $('a:_visible,*:input:_visible,.button:_visible')
+        $('img[usemap^="#"]:_visible').each(->
+          offset = this._offset_
+          mapName = $(this).attr('usemap').slice(1)
+          areas = $('map[name="' + mapName + '"] area')
+          console.log areas
+          areas.each(->
+            if $(this).attr('shape') != 'default'
+              coords = $(this).attr('coords').split(',')
+              this._offset_ = {top: offset.top + ~~coords[1], left: offset.left + ~~coords[0]}
+            else
+              this._offset_ = offset
+
+            links.push(this);
+          );
+        )
 
         if links.length == 0
             g.view.setStatusLineText( "No visible links found", 2000 )

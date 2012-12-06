@@ -124,9 +124,7 @@ g.util.dispatchKeyEvent = (target, identifier, primary, shift, alt) ->
     target.dispatchEvent e
 
 g.util.dispatchMouseClickEvent = (target, primary, shift, alt) ->
-    e = document.createEvent("MouseEvents")
     secondary = false
-
     unless target?.dispatchEvent?
         g.logger.e "target is invalid"
         return false
@@ -142,9 +140,10 @@ g.util.dispatchMouseClickEvent = (target, primary, shift, alt) ->
             meta = secondary
             ctrl = primary
 
-    e.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null)
-
-    target.dispatchEvent e
+    for event in ['mousedown', 'mouseup', 'click']
+      e = document.createEvent("MouseEvents")
+      e.initMouseEvent(event, true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null)
+      target.dispatchEvent e
 
     return true
 

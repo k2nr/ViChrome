@@ -858,6 +858,26 @@
         this.hideFunc = $.fn.hide;
       }
       links = $('a:_visible,*:input:_visible,.button:_visible');
+      $('img[usemap^="#"]:_visible').each(function() {
+        var areas, mapName, offset;
+        offset = this._offset_;
+        mapName = $(this).attr('usemap').slice(1);
+        areas = $('map[name="' + mapName + '"] area');
+        console.log(areas);
+        return areas.each(function() {
+          var coords;
+          if ($(this).attr('shape') !== 'default') {
+            coords = $(this).attr('coords').split(',');
+            this._offset_ = {
+              top: offset.top + ~~coords[1],
+              left: offset.left + ~~coords[0]
+            };
+          } else {
+            this._offset_ = offset;
+          }
+          return links.push(this);
+        });
+      });
       if (links.length === 0) {
         g.view.setStatusLineText("No visible links found", 2000);
         setTimeout((function() {
