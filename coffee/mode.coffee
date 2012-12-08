@@ -335,21 +335,15 @@ class g.FMode extends g.Mode
     setOption : (@opt) -> this
 
     hit : (i) ->
-        primary = false
-        target = $(@hints[i].target)
+        target = @hints[i].target
+        primary = @opt.newTab
+        $(target).focus()
+        if g.util.isEditable(target)
+          g.model.enterInsertMode()
+        else if not @opt.continuous
+          g.model.enterNormalMode()
 
-        if target.is('a')
-            primary = @opt.newTab
-            unless @opt.continuous
-                g.model.enterNormalMode()
-        else
-            target.focus()
-            if g.util.isEditable( target.get(0) )
-                g.model.enterInsertMode()
-            else
-                g.model.enterNormalMode()
-
-        g.util.dispatchMouseClickEvent target.get(0), primary, false, false
+        g.util.dispatchMouseClickEvent target, primary, false, false
 
     isValidKey : (key) ->
         return ( @keys.indexOf( key ) >= 0 && key.length == 1 ) ||

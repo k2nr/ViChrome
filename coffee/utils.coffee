@@ -140,7 +140,7 @@ g.util.dispatchMouseClickEvent = (target, primary, shift, alt) ->
             meta = secondary
             ctrl = primary
 
-    for event in ['mousedown', 'mouseup', 'click']
+    for event in ['mouseover', 'mousedown', 'mouseup', 'click']
       e = document.createEvent("MouseEvents")
       e.initMouseEvent(event, true, true, window, 1, 0, 0, 0, 0, ctrl, alt, shift, meta, 0, null)
       target.dispatchEvent e

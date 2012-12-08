@@ -685,7 +685,6 @@
 
     FMode.prototype.hit = function(i) {
       var primary, target;
-
       primary = false;
       target = $(this.hints[i].target);
       if (target.is('a')) {

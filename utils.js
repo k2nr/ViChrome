@@ -199,7 +199,7 @@
         meta = secondary;
         ctrl = primary;
     }
-    _ref1 = ['mousedown', 'mouseup', 'click'];
+    _ref1 = ['mouseover', 'mousedown', 'mouseup', 'click'];
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       event = _ref1[_i];
       e = document.createEvent("MouseEvents");
