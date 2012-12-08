@@ -674,6 +674,23 @@
       return _ref6;
     }
 
+    FMode.prototype.hitMode = {
+      focus: function(target) {
+        $(target).focus();
+        if (g.util.isEditable(target)) {
+          return g.model.enterInsertMode();
+        } else if (!this.opt.continuous) {
+          return g.model.enterNormalMode();
+        }
+      },
+      open: function(target) {
+        var primary;
+        this.hitMode.focus(target);
+        primary = this.opt.newTab;
+        return g.util.dispatchMouseClickEvent(target, primary, false, false);
+      }
+    };
+
     FMode.prototype.getName = function() {
       return "FMode";
     };
@@ -714,15 +731,19 @@
       for (i = _i = 0, _len = _ref7.length; _i < _len; i = ++_i) {
         elem = _ref7[i];
         if (this.currentInput === elem.key) {
-          return i;
+          return elem.target;
         }
       }
-      return -1;
+      return null;
     };
 
     FMode.prototype.treatNewInput = function(key) {
+<<<<<<< HEAD
       var idx;
 
+=======
+      var target;
+>>>>>>> support extended f-mode
       if (key === "BS" || key === "DEL") {
         if (this.currentInput.length === 0) {
           g.model.enterNormalMode();
@@ -736,9 +757,9 @@
       if (this.currentInput.length < this.keyLength) {
         this.updateHints();
       } else {
-        idx = this.searchTarget();
-        if (idx >= 0) {
-          this.hit(idx);
+        target = this.searchTarget();
+        if (target != null) {
+          this.hit(target);
         } else {
           if (!this.opt.continuous) {
             g.model.enterNormalMode();

@@ -331,19 +331,24 @@ class g.EmergencyMode extends g.Mode
     getKeyMapping : -> g.model.getEMap()
 
 class g.FMode extends g.Mode
-    getName   : -> "FMode"
-    setOption : (@opt) -> this
-
-    hit : (i) ->
-        target = @hints[i].target
-        primary = @opt.newTab
+    hitMode   : {
+      focus: (target) ->
         $(target).focus()
         if g.util.isEditable(target)
           g.model.enterInsertMode()
         else if not @opt.continuous
           g.model.enterNormalMode()
 
+      open: (target) ->
+        @hitMode.focus(target)
+        primary = @opt.newTab
         g.util.dispatchMouseClickEvent target, primary, false, false
+    }
+    getName   : -> "FMode"
+    setOption : (@opt) -> this
+
+    hit : (target, mode='open') ->
+        @hitMode[mode].call(this, target)
 
     isValidKey : (key) ->
         return ( @keys.indexOf( key ) >= 0 && key.length == 1 ) ||
@@ -352,8 +357,9 @@ class g.FMode extends g.Mode
 
     searchTarget : ->
         for elem, i in @hints
-            if @currentInput == elem.key then return i
-        return -1
+            if @currentInput == elem.key
+              return elem.target
+        return null
 
     treatNewInput : (key) ->
         if key == "BS" || key == "DEL"
@@ -370,9 +376,9 @@ class g.FMode extends g.Mode
             @updateHints()
             return
         else
-            idx = @searchTarget()
-            if idx >= 0
-                @hit idx
+            target = @searchTarget()
+            if target?
+                @hit target
             else
                 g.model.enterNormalMode() unless @opt.continuous
 
