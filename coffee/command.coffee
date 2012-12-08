@@ -84,6 +84,7 @@ class g.CommandExecuter
         GoSearchModeBackward  : triggerInsideContent
         GoLinkTextSearchMode  : triggerInsideContent
         GoFMode               : triggerInsideContent
+        GoExtFMode            : triggerInsideContent
         GoEmergencyMode       : triggerInsideContent
         FocusOnFirstInput     : triggerInsideContent
         BackToPageMark        : triggerInsideContent

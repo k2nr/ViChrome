@@ -195,6 +195,10 @@
       g.logger.d("enterFMode");
       return this.changeMode((new g.FMode).setOption(opt));
     },
+    enterExtFMode: function(opt) {
+      g.logger.d("enterFMode");
+      return this.changeMode((new g.ExtFMode).setOption(opt || {}));
+    },
     isInNormalMode: function() {
       return this.curMode.getName() === "NormalMode";
     },

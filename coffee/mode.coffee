@@ -139,6 +139,17 @@ class g.Mode
         opt = { newTab : newTab, continuous : continuous }
         g.model.enterFMode( opt )
 
+    reqGoExtFMode : (args) ->
+        opt = {}
+        for arg in args then switch arg
+            when "--yank" then opt.mode='yank'
+            when "--open" then opt.mode ='open'
+            when "--opentab" then opt.mode= 'opentab'
+
+        if opt.mode?
+          g.model.enterFMode(opt)
+        else
+          g.model.enterExtFMode()
 
     reqGoCommandMode : (args) ->
         sources = [
@@ -339,16 +350,22 @@ class g.FMode extends g.Mode
         else if not @opt.continuous
           g.model.enterNormalMode()
 
-      open: (target) ->
-        @hitMode.focus(target)
-        primary = @opt.newTab
+      open: (target, primary=false) ->
+        @hitMode.focus.call(this, target)
         g.util.dispatchMouseClickEvent target, primary, false, false
+
+      opentab: (target) -> @hitMode.open.call(this, target, true)
+
+      yank: (target) ->
+        
     }
     getName   : -> "FMode"
     setOption : (@opt) -> this
+    statusLineHeader : -> "f Mode (#{@opt.mode || ''}): "
 
-    hit : (target, mode='open') ->
-        @hitMode[mode].call(this, target)
+    hit : (target) ->
+        mode = @opt.mode || if @opt.newTab then 'opentab' else 'open'
+        @hitMode[mode]?.call(this, target)
 
     isValidKey : (key) ->
         return ( @keys.indexOf( key ) >= 0 && key.length == 1 ) ||
@@ -370,7 +387,7 @@ class g.FMode extends g.Mode
         else
             @currentInput += key
 
-        g.view.setStatusLineText( 'f Mode : ' + @currentInput )
+        g.view.setStatusLineText( @statusLineHeader() + @currentInput )
 
         if @currentInput.length < @keyLength
             @updateHints()
@@ -384,7 +401,7 @@ class g.FMode extends g.Mode
 
             if @opt.continuous
                 @currentInput = ""
-                g.view.setStatusLineText 'f Mode : '
+                g.view.setStatusLineText(@statusLineHeader())
             else
                 g.view.hideStatusLine()
 
@@ -502,11 +519,43 @@ class g.FMode extends g.Mode
 
         @createHints( links )
 
-        g.view.setStatusLineText 'f Mode : '
+        g.view.setStatusLineText(@statusLineHeader())
 
     exit : ->
         $('span#vichromehint').remove()
         $('.vichrome-fModeTarget').removeClass('vichrome-fModeTarget')
+
+class g.ExtFMode extends g.Mode
+    modeTable : {
+      'f': 'focus'
+      'o': 'open'
+      'O': 'opentab'
+      'y': 'yank'
+      'Y': 'yanktext'
+    }
+    getName   : -> "ExtFMode"
+    setOption : (@opt) -> this
+
+    prePostKeyEvent : (key, ctrl, alt, meta) ->
+        if ctrl or alt or meta then return true
+
+        if @modeTable[key]?
+            event.stopPropagation()
+            event.preventDefault()
+            
+            @opt.mode = @modeTable[key]
+            g.model.enterFMode(@opt)
+            return false
+        else
+            return true
+
+    enter : ->
+        g.view.setStatusLineText 'f Mode : select ext mode'
+
+    exit : ->
+        $('span#vichromehint').remove()
+        $('.vichrome-fModeTarget').removeClass('vichrome-fModeTarget')
+
 
 $.extend( $.expr[':'],
     _visible : (elem) ->

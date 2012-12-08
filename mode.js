@@ -307,6 +307,29 @@
       return g.model.enterFMode(opt);
     };
 
+    Mode.prototype.reqGoExtFMode = function(args) {
+      var arg, opt, _i, _len;
+      opt = {};
+      for (_i = 0, _len = args.length; _i < _len; _i++) {
+        arg = args[_i];
+        switch (arg) {
+          case "--yank":
+            opt.mode = 'yank';
+            break;
+          case "--open":
+            opt.mode = 'open';
+            break;
+          case "--opentab":
+            opt.mode = 'opentab';
+        }
+      }
+      if (opt.mode != null) {
+        return g.model.enterFMode(opt);
+      } else {
+        return g.model.enterExtFMode();
+      }
+    };
+
     Mode.prototype.reqGoCommandMode = function(args) {
       var sources;
 
@@ -683,12 +706,17 @@
           return g.model.enterNormalMode();
         }
       },
-      open: function(target) {
-        var primary;
-        this.hitMode.focus(target);
-        primary = this.opt.newTab;
+      open: function(target, primary) {
+        if (primary == null) {
+          primary = false;
+        }
+        this.hitMode.focus.call(this, target);
         return g.util.dispatchMouseClickEvent(target, primary, false, false);
-      }
+      },
+      opentab: function(target) {
+        return this.hitMode.open.call(this, target, true);
+      },
+      yank: function(target) {}
     };
 
     FMode.prototype.getName = function() {
@@ -753,7 +781,7 @@
       } else {
         this.currentInput += key;
       }
-      g.view.setStatusLineText('f Mode : ' + this.currentInput);
+      g.view.setStatusLineText(this.statusLineHeader() + this.currentInput);
       if (this.currentInput.length < this.keyLength) {
         this.updateHints();
       } else {
@@ -767,7 +795,7 @@
         }
         if (this.opt.continuous) {
           this.currentInput = "";
-          return g.view.setStatusLineText('f Mode : ');
+          return g.view.setStatusLineText(this.statusLineHeader());
         } else {
           return g.view.hideStatusLine();
         }
@@ -932,7 +960,7 @@
       }
       this.keyLength = this.getKeyLength(links.length);
       this.createHints(links);
-      return g.view.setStatusLineText('f Mode : ');
+      return g.view.setStatusLineText(this.statusLineHeader());
     };
 
     FMode.prototype.exit = function() {
@@ -941,6 +969,59 @@
     };
 
     return FMode;
+
+  })(g.Mode);
+
+  g.ExtFMode = (function(_super) {
+
+    __extends(ExtFMode, _super);
+
+    function ExtFMode() {
+      return ExtFMode.__super__.constructor.apply(this, arguments);
+    }
+
+    ExtFMode.prototype.modeTable = {
+      'f': 'focus',
+      'o': 'open',
+      'O': 'opentab',
+      'y': 'yank',
+      'Y': 'yanktext'
+    };
+
+    ExtFMode.prototype.getName = function() {
+      return "ExtFMode";
+    };
+
+    ExtFMode.prototype.setOption = function(opt) {
+      this.opt = opt;
+      return this;
+    };
+
+    ExtFMode.prototype.prePostKeyEvent = function(key, ctrl, alt, meta) {
+      if (ctrl || alt || meta) {
+        return true;
+      }
+      if (this.modeTable[key] != null) {
+        event.stopPropagation();
+        event.preventDefault();
+        this.opt.mode = this.modeTable[key];
+        g.model.enterFMode(this.opt);
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    ExtFMode.prototype.enter = function() {
+      return g.view.setStatusLineText('f Mode : select ext mode');
+    };
+
+    ExtFMode.prototype.exit = function() {
+      $('span#vichromehint').remove();
+      return $('.vichrome-fModeTarget').removeClass('vichrome-fModeTarget');
+    };
+
+    return ExtFMode;
 
   })(g.Mode);
 

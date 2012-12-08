@@ -145,6 +145,10 @@ g.model =
         g.logger.d "enterFMode"
         @changeMode( (new g.FMode).setOption( opt ) )
 
+    enterExtFMode : (opt) ->
+        g.logger.d "enterFMode"
+        @changeMode( (new g.ExtFMode).setOption( opt || {} ) )
+
     isInNormalMode    : -> @curMode.getName() == "NormalMode"
     isInInsertMode    : -> @curMode.getName() == "InsertMode"
     isInSearchMode    : -> @curMode.getName() == "SearchMode"
