@@ -313,6 +313,9 @@
       for (_i = 0, _len = args.length; _i < _len; _i++) {
         arg = args[_i];
         switch (arg) {
+          case "--focus":
+            opt.mode = 'focus';
+            break;
           case "--yank":
             opt.mode = 'yank';
             break;

@@ -142,6 +142,7 @@ class g.Mode
     reqGoExtFMode : (args) ->
         opt = {}
         for arg in args then switch arg
+            when "--focus" then opt.mode='focus'
             when "--yank" then opt.mode='yank'
             when "--open" then opt.mode ='open'
             when "--opentab" then opt.mode= 'opentab'

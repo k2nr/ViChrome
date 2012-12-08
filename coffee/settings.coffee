@@ -114,6 +114,7 @@ pagecmd *.pdf nmap <C-f> <NOP>\n
             "a"       : "GoLinkTextSearchMode"
             "f"       : "GoFMode"
             "F"       : "GoFMode --newtab"
+            ";"       : "GoExtFMode"
             "i"       : "FocusOnFirstInput"
             "u"       : "RestoreTab"
             "gp"      : "WinOpenNew --pop"
