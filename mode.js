@@ -719,7 +719,22 @@
       opentab: function(target) {
         return this.hitMode.open.call(this, target, true);
       },
-      yank: function(target) {}
+      yank: function(target) {
+        var url;
+        url = $(target).attr('href');
+        if (url != null) {
+          (new g.CommandExecuter).set("Copy " + url).parse().execute();
+        }
+        return g.model.enterNormalMode();
+      },
+      yanktext: function(target) {
+        var text;
+        text = $(target).html();
+        if (text != null) {
+          (new g.CommandExecuter).set("Copy " + text).parse().execute();
+        }
+        return g.model.enterNormalMode();
+      }
     };
 
     FMode.prototype.getName = function() {

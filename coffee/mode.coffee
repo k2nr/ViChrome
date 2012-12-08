@@ -345,21 +345,31 @@ class g.EmergencyMode extends g.Mode
 class g.FMode extends g.Mode
     hitMode   : {
       focus: (target) ->
-        $(target).focus()
-        if g.util.isEditable(target)
-          g.model.enterInsertMode()
-        else if not @opt.continuous
-          g.model.enterNormalMode()
+          $(target).focus()
+          if g.util.isEditable(target)
+              g.model.enterInsertMode()
+          else if not @opt.continuous
+              g.model.enterNormalMode()
 
       open: (target, primary=false) ->
-        @hitMode.focus.call(this, target)
-        g.util.dispatchMouseClickEvent target, primary, false, false
+          @hitMode.focus.call(this, target)
+          g.util.dispatchMouseClickEvent target, primary, false, false
 
       opentab: (target) -> @hitMode.open.call(this, target, true)
 
       yank: (target) ->
-        
+          url = $(target).attr('href')
+          if url?
+              (new g.CommandExecuter).set("Copy #{url}").parse().execute()
+          g.model.enterNormalMode()
+
+      yanktext: (target) ->
+          text = $(target).html()
+          if text?
+              (new g.CommandExecuter).set("Copy #{text}").parse().execute()
+          g.model.enterNormalMode()
     }
+
     getName   : -> "FMode"
     setOption : (@opt) -> this
     statusLineHeader : -> "f Mode (#{@opt.mode || ''}): "
