@@ -358,7 +358,14 @@ class g.FMode extends g.Mode
       opentab: (target) -> @hitMode.open.call(this, target, true)
 
       yank: (target) ->
-          url = $(target).attr('href')
+          String.prototype.escapeHTML = ->
+              this.split('&').join('&amp;').split('"').join('&quot;').split('<').join('&lt;')
+          qualifyURL = (url) ->
+              element = document.createElement('span')
+              element.innerHTML = '<a href="'+url.escapeHTML()+'">&nbsp;</a>'
+              element.firstChild.href
+
+          url = qualifyURL($(target).attr('href'))
           if url?
               (new g.CommandExecuter).set("Copy #{url}").parse().execute()
           g.model.enterNormalMode()
