@@ -1,6 +1,6 @@
 this.vichrome ?= {}
 g = this.vichrome
-g.VICHROME_VERSION = "0.11"
+g.VICHROME_VERSION = "0.12"
 
 g.object = (obj) ->
     F = ->
