@@ -153,6 +153,7 @@ g.util.getLang = ->
     g.util.getLang = -> lang
     lang
 
+g.util.isTop = -> top? && self == top
 
 g.util.benchmark = (cb, text) ->
     getCurrentTime = -> (new Date).getTime()

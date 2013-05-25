@@ -507,7 +507,6 @@ class g.FMode extends g.Mode
           offset = this._offset_
           mapName = $(this).attr('usemap').slice(1)
           areas = $('map[name="' + mapName + '"] area')
-          console.log areas
           areas.each(->
             if $(this).attr('shape') != 'default'
               coords = $(this).attr('coords').split(',')
@@ -553,7 +552,7 @@ class g.ExtFMode extends g.Mode
         if @modeTable[key]?
             event.stopPropagation()
             event.preventDefault()
-            
+
             @opt.mode = @modeTable[key]
             g.model.enterFMode(@opt)
             return false

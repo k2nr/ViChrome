@@ -284,7 +284,7 @@ g.model =
         @enterNormalMode()
         @frameID = msg.frameID
         @initEnabled = true
-        if top?
+        if g.util.isTop()
             chrome.extension.sendRequest( {
                 command : "NotifyTopFrame"
                 frameID : @frameID
@@ -309,7 +309,7 @@ g.model =
             @enterNormalMode()
 
     openCommandBox : (param) ->
-        if top?
+        if g.util.isTop()
             param.command      = "SendToCommandBox"
             g.view.showCommandFrame()
         else

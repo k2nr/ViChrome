@@ -70,7 +70,7 @@ class g.Surface
                       .width( g.model.getSetting "commandBoxWidth" )
         @statusLineVisible = false
 
-        if top?
+        if g.util.isTop()
             path = chrome.extension.getURL("commandbox.html");
             @iframe = $("<iframe src=\"#{path}\" id=\"vichrome-commandframe\" seamless />")
             @attach( @iframe )
@@ -84,7 +84,7 @@ class g.Surface
         @initialized = true
 
     attach : (w) ->
-        if top?
+        if g.util.isTop()
             $('html').append(w)
         this
 
@@ -106,7 +106,7 @@ class g.Surface
         return this
 
     hideStatusLine : ->
-        unless top?
+        unless g.util.isTop()
             chrome.extension.sendRequest( {
                 command      : "TopFrame"
                 innerCommand : "HideStatusLine"
@@ -124,7 +124,7 @@ class g.Surface
         this
 
     setStatusLineText : (text, timeout) ->
-        unless top?
+        unless g.util.isTop()
             chrome.extension.sendRequest( {
                 command      : "TopFrame"
                 innerCommand : "SetStatusLine"
@@ -208,7 +208,7 @@ class g.Surface
         document.activeElement?.blur()
         this
     hideCommandFrame : ->
-        unless top?
+        unless g.util.isTop()
             chrome.extension.sendRequest( {
                 command      : "TopFrame"
                 innerCommand : "HideCommandFrame"
