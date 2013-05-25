@@ -53,7 +53,7 @@ $.fn.extend {
 
 $.extend( $.expr[':'],
     scrollable : (elem) ->
-        overflow = $.curCSS(elem, 'overflow')
+        overflow = $.css(elem, 'overflow')
         switch overflow
             when "auto","scroll" then return true
 

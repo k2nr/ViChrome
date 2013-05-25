@@ -582,7 +582,7 @@ $.extend( $.expr[':'],
 
         if $.expr[':'].hidden(elem)
             return false
-        if $.curCSS(elem, 'visibility') == 'hidden'
+        if $.css(elem, 'visibility') == 'hidden'
             return false
 
         elem._offset_ = offset # for performance improvement
