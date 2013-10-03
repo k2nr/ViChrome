@@ -52,6 +52,7 @@
   ],
   "web_accessible_resources": [
       "commandbox.html",
+      "lib/jquery-2.0.1.min.map",
       "lib/dicts/a2.txt",
       "lib/dicts/alpha2.txt",
       "lib/dicts/ba2.txt",
